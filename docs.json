@@ -370,6 +370,7 @@
                       "knowledgebase/financial/export-charges-to-sage-line-200",
                       "knowledgebase/financial/commercial-invoices",
                       "knowledgebase/financial/pick-charge-subtypes",
+                      "knowledgebase/financial/recurring-charges",
                       "knowledgebase/troubleshooting/no-charge-applied"
                     ],
                     "public": true
@@ -997,6 +998,7 @@
                       "knowledgebase/nl/financial/export-charges-to-sage-line-200",
                       "knowledgebase/nl/financial/commercial-invoices",
                       "knowledgebase/nl/financial/pick-charge-subtypes",
+                      "knowledgebase/nl/financial/recurring-charges",
                       "knowledgebase/nl/troubleshooting/no-charge-applied"
                     ],
                     "public": true
