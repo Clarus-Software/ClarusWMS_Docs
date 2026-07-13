@@ -1,0 +1,105 @@
+---
+title: "Terugkerende kosten op charge cards"
+description: "Configureer geautomatiseerde terugkerende kosten — zoals minimale palletafspraken of maandelijkse servicekosten — rechtstreeks op een charge card, zodat ze automatisch worden gefactureerd en op facturen verschijnen."
+sidebarTitle: "Terugkerende kosten"
+---
+
+Met terugkerende kosten kunt u vaste, tijdgebonden vergoedingen automatisch factureren — bijvoorbeeld een minimale palletafspraak of een maandelijkse servicevergoeding. Zodra ze zijn geconfigureerd op een charge card, worden deze kosten volgens een schema aangemaakt en verschijnen ze op facturen naast uw andere charge types, waardoor handmatig werk en het risico op gemiste facturering worden weggenomen.
+
+In tegenstelling tot operationele kosten (picken, ontvangsten, huur) zijn terugkerende kosten niet gekoppeld aan voorraadbewegingen of saldi. Ze herhalen zich puur volgens het schema dat u definieert.
+
+## Een terugkerende kost instellen
+
+U voegt terugkerende kosten rechtstreeks toe vanaf een charge card.
+
+<Steps>
+  <Step title="Open de charge card">
+    Ga in het linkermenu naar **Charges** en vervolgens **Charge Card**, en selecteer de relevante charge card.
+  </Step>
+  <Step title="Voeg een terugkerende charge-regel toe">
+    Scroll naar het paneel **Recurring Charges** en klik op **Add Line**.
+
+    <Frame>
+      <img src="/images/knowledgebase/recurring-charges-1.png" alt="Het paneel Recurring Charges op een charge card zonder toegevoegde kosten" />
+    </Frame>
+  </Step>
+  <Step title="Vul de charge-details in">
+    Vul de velden voor de kost in (zie [Verplichte velden](#verplichte-velden) hieronder), inclusief de **Initial Charge Date** en **Frequency** die het schema bepalen.
+
+    <Frame>
+      <img src="/images/knowledgebase/recurring-charges-2.png" alt="Een nieuwe terugkerende charge-regel klaar voor invoer, met de velden Code, Name, Description en Initial Charge Date" />
+    </Frame>
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Save** om de terugkerende kost te activeren. Kosten worden automatisch aangemaakt vanaf de volgende geplande datum.
+  </Step>
+</Steps>
+
+### Verplichte velden
+
+| Veld | Beschrijving |
+| --- | --- |
+| **Code** & **Name of Charge** | Identificatoren voor de specifieke vergoeding. |
+| **Description** | Duidelijke tekst die uitlegt waarvoor de kost dient, voor intern of klantgebruik. |
+| **Quantity** | Optioneel. Laat het leeg als u dat wilt — de charge-regel toont dan een quantity van **1**. |
+| **Price** | De monetaire waarde van de kost. |
+| **Nominal Code** | Voor financiële en boekhoudkundige routering. |
+| **Initial Charge Date** | De startdatum voor het schema — de eerste datum waarop de kost kan worden aangemaakt. |
+| **Frequency** | Hoe vaak de kost zich herhaalt (zie hieronder). |
+
+<Note>
+De **Initial Charge Date** moet in de toekomst worden ingesteld. Kosten worden 's nachts aangemaakt door een automatisch proces, dus als u de datum op vandaag instelt, wordt er vandaag geen kost aangemaakt.
+</Note>
+
+## Beschikbare frequenties
+
+Clarus ondersteunt vier frequentie-opties, die de herhalingen berekenen vanaf de gekozen **Initial Charge Date**:
+
+| Frequentie | Gedrag |
+| --- | --- |
+| **Daily** | Herhaalt elke dag vanaf de initiële charge date. |
+| **Weekly** | Herhaalt elke week op dezelfde weekdag als de initiële charge date (bijv. als de initiële datum een dinsdag is, herhaalt het elke dinsdag). |
+| **Monthly** | Herhaalt op dezelfde kalenderdag van elke maand. |
+| **End of Charge Window** | Maakt de kost aan op de laatste dag van elk actief [charge window](/knowledgebase/nl/financial/charge-window-and-create-one). |
+
+<Tip>
+**Korte maanden en schrikkeljaren:** als u een maandelijkse kost instelt voor de 29e, 30e of 31e, past Clarus dit automatisch aan voor kortere maanden. Een kost die is ingesteld voor de 31e wordt bijvoorbeeld aangemaakt op de laatste dag van februari.
+</Tip>
+
+## Hoe terugkerende kosten in charge windows verschijnen
+
+Zodra ze zijn aangemaakt, gedragen terugkerende kosten zich als elk ander charge type. Ze verschijnen op uw charge lines, duidelijk gemarkeerd als een **Scheduled Recurring Charge**, en worden opgepikt door het normale factureringsproces.
+
+Hoe vaak een kost verschijnt, hangt af van hoe de frequentie aansluit op het [charge window](/knowledgebase/nl/financial/charge-window-and-create-one) van het account:
+
+- **Meerdere kosten in één window:** een terugkerende kost kan meerdere keren binnen één charge window verschijnen als de frequentie dat toelaat. Een wekelijkse kost kan bijvoorbeeld vijf keer binnen een maandelijks charge window vallen.
+- **Overgeslagen windows:** als er geen geplande herhalingsdatum binnen een bepaald charge window valt, wordt er voor die periode geen kost aangemaakt. Een maandelijkse kost waarvan de datum buiten een kort wekelijks window valt, wordt bijvoorbeeld overgeslagen.
+
+## Bepalen hoe terugkerende kosten op facturen verschijnen
+
+U bepaalt hoe terugkerende kosten op een factuur worden weergegeven via het paneel **Charges Appearance on Invoice** op het account. Selecteer een optie voor het terugkerende charge type:
+
+| Optie | Beschrijving |
+| --- | --- |
+| **Detailed Lines** | Toon elke terugkerende charge-regel afzonderlijk. |
+| **Summary** | Toon één regel met het gecombineerde totaal. |
+| **Hidden** | Toon terugkerende kosten helemaal niet op de factuur — gebruik dit wanneer de kost intern wordt gedragen of apart wordt gefactureerd. |
+
+Zie [Kosten instellen voor accounts](/knowledgebase/nl/financial/set-charges-to-accounts) voor meer over instellingen voor factuurweergave.
+
+## Veelgestelde vragen
+
+<AccordionGroup>
+  <Accordion title="Wat gebeurt er als ik een terugkerende kost wijzig of uitschakel?">
+    Wijzigingen of deactiveringen gelden alleen voor **toekomstige** geplande kosten. Kosten die al zijn aangemaakt, worden niet beïnvloed.
+  </Accordion>
+  <Accordion title="Wat gebeurt er als een charge card inactief wordt of wordt verwijderd?">
+    Als een charge card inactief wordt gemaakt of van een account wordt verwijderd, stoppen de terugkerende kosten met genereren. Eerder aangemaakte charge lines en factuurhistorie blijven intact.
+  </Accordion>
+</AccordionGroup>
+
+## Gerelateerde pagina's
+
+- [Kosten instellen voor accounts](/knowledgebase/nl/financial/set-charges-to-accounts)
+- [Charge Windows](/knowledgebase/nl/financial/charge-window-and-create-one)
+- [Pick Charge Subtypes](/knowledgebase/nl/financial/pick-charge-subtypes)
