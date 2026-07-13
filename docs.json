@@ -156,6 +156,7 @@
                         "pages": [
                           "knowledgebase/warehouse-setup/create-pickface",
                           "knowledgebase/warehouse-setup/enforcing-pick-types",
+                          "knowledgebase/warehouse-setup/mixed-uom-picking",
                           "knowledgebase/warehouse-setup/stock-consolidation",
                           {
                             "group": "Replenishment",
@@ -784,6 +785,7 @@
                         "pages": [
                           "knowledgebase/nl/warehouse-setup/create-pickface",
                           "knowledgebase/nl/warehouse-setup/enforcing-pick-types",
+                          "knowledgebase/nl/warehouse-setup/mixed-uom-picking",
                           "knowledgebase/nl/warehouse-setup/stock-consolidation",
                           {
                             "group": "Aanvulling",
