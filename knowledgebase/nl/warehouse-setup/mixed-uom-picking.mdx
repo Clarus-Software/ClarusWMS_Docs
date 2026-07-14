@@ -1,0 +1,86 @@
+---
+title: "Gemengde UOM-picking"
+description: "Kies welke eenheden per productpickface mogen worden gepickt, zodat grote orders dozen, inners en outers uit de stelling halen in plaats van de pickface leeg te trekken."
+sidebarTitle: "Gemengde UOM-picking"
+---
+
+Met gemengde UOM-picking bepaalt u per productpickface **welke eenheden vanuit die locatie mogen worden gepickt**. Clarus splitst elke orderregel in de grootst mogelijke blokken — outers, inners, dozen en dan units — en stuurt de eenheden die u heeft toegestaan naar de pickface, terwijl de rest vanuit de stelling wordt gepickt.
+
+Zo voorkomt u dat kleine pickfaces door grote orders worden leeggetrokken en beperkt u herhaalde aanvullingen, zonder dat u elke pick via de pickface hoeft af te dwingen.
+
+## Hoe het werkt
+
+Voor elke productpickface stelt u een **Allowed Configurations**-lijst in — een willekeurige combinatie van **Unit**, **Case**, **Inner** en **Outer**. Wanneer een order wordt verwerkt, doet Clarus het volgende:
+
+1. De orderhoeveelheid wordt opgesplitst in blokken, grootste eerst: **Outer → Inner → Case → Unit**. Elk niveau dat niet op het product is ingesteld, wordt overgeslagen.
+2. Elk blok wordt gemarkeerd als **Allowed** (de eenheid staat in de Allowed Configurations van de pickface) of **Restricted** (de eenheid staat niet in de Allowed Configurations).
+3. Alle **Allowed**-blokken worden gecombineerd in één picktaak naar de pickface.
+4. Alle **Restricted**-blokken worden gecombineerd in een picktaak naar een stellinglocatie als een deelpick.
+
+<Info>
+De eenheden komen rechtstreeks uit de productconfiguratie: **Unit** gebruikt **Output Quantity**, en **Case**, **Inner** en **Outer** gebruiken **Units Per Case**, **Units Per Inner** en **Units Per Outer**. Een eenheid zonder waarde op het product kan niet op een pickface worden toegestaan.
+</Info>
+
+### Voorbeeld
+
+Een product is als volgt geconfigureerd:
+
+| Eenheid | Aantal |
+| ------- | ------ |
+| Unit    | 1      |
+| Case    | 5      |
+| Inner   | 10     |
+| Outer   | 20     |
+
+De pickface heeft **Unit** en **Case** toegestaan. Een order voor **55** wordt zo gesplitst:
+
+| Blok      | Aantal | Toegestaan? | Gepickt vanuit |
+| --------- | ------ | ----------- | -------------- |
+| 2 Outers  | 40     | Nee         | Stelling       |
+| 1 Inner   | 10     | Nee         | Stelling       |
+| 1 Case    | 5      | Ja          | Pickface       |
+
+Clarus genereert **twee picktaken**: 50 uit de stelling (een deelpick van de 2 outers en 1 inner) en 5 uit de pickface (1 case).
+
+## Allowed Configurations instellen
+
+<Steps>
+<Step title="Controleer de productconfiguratie">
+Open het product en controleer of de relevante hoeveelheden zijn ingesteld: **Output Quantity** voor units, en **Units Per Case**, **Units Per Inner** of **Units Per Outer** voor de verpakkingsniveaus die u wilt toestaan. Alleen eenheden met een waarde hier kunnen op een pickface worden geselecteerd.
+</Step>
+<Step title="Wijs een pickface toe aan het product">
+Voeg op het **Pickface**-paneel van het product de locatie of [locatiegroep](/knowledgebase/nl/warehouse-setup/location-groups) toe waaruit u wilt picken. Zie [Een Pickface instellen](/knowledgebase/nl/warehouse-setup/create-pickface) voor de volledige setup.
+</Step>
+<Step title="Stel de Allowed Configurations in">
+Selecteer in de kolom **Allowed Configurations** de eenheden die vanuit die pickface moeten worden gepickt. U kunt dit op een locatiegroep instellen om het op elke locatie in de groep toe te passen, of op een locatie binnen de groep klikken om het voor die locatie te overschrijven.
+</Step>
+</Steps>
+
+<Tip>
+Ziet u de kolom **Allowed Configurations** niet op het pickface-raster? Voeg deze toe via de kolommanager.
+</Tip>
+
+## Achterwaartse compatibiliteit
+
+De functie inschakelen verandert op zichzelf niets aan het bestaande gedrag. Als een pickface **geen** allowed configurations heeft, blijft Clarus picks precies zoals voorheen routeren — volledige pallets uit de stelling en de rest uit de pickface.
+
+<Warning>
+Gemengde UOM-picking kan niet worden gecombineerd met **Enforce Picking from Pickface**. Als handhaving aanstaat, negeert Clarus de eenheidsinstellingen en stuurt het elke pick — inclusief volledige pallets — naar de pickface. Handhaving inschakelen op een product dat al allowed configurations heeft, vraagt om bevestiging en wist ze vervolgens. Zie [Alle picktypen uit een Pickface afdwingen](/knowledgebase/nl/warehouse-setup/enforcing-pick-types).
+</Warning>
+
+<Note>
+Het verwijderen van een eenheid uit de productconfiguratie (bijvoorbeeld het wissen van **Units Per Case**) verwijdert deze uit de Allowed Configurations van elke pickface voor dat product. Clarus waarschuwt u voordat u opslaat.
+</Note>
+
+## Belangrijk om te weten
+
+- **Volledige pallets komen altijd uit de stelling.** Het picken van een volledige voorraadrecord (een volle pallet) wordt door deze functie nooit naar de pickface gerouteerd.
+- **Houd de pickfaces van een product consistent.** Wijs dezelfde Allowed Configurations toe aan elke pickface voor een product. Het verdelen van verschillende eenheden over verschillende pickfaces voor hetzelfde product wordt nog niet ondersteund.
+- **Pickface-rotatie blijft van toepassing.** Als meer dan één pickface de toegestane eenheden kan leveren, selecteert Clarus de volgende locatie in de rotatie, net als bij standaard pickface-picks.
+- **Productgegevens moeten kloppen.** De routering is afhankelijk van de case-, inner- en outer-hoeveelheden op het product, dus houd deze up-to-date.
+
+## Volgende stappen
+
+- **[Een Pickface instellen](/knowledgebase/nl/warehouse-setup/create-pickface)** — schakel een locatie in als pickface en wijs deze toe aan een product.
+- **[Alle picktypen uit een Pickface afdwingen](/knowledgebase/nl/warehouse-setup/enforcing-pick-types)** — stuur elke pick, inclusief volledige pallets, naar de pickface.
+- **[Pickface-aanvulling](/knowledgebase/nl/warehouse-setup/replenishment/overview)** — bepaal hoe en wanneer pickfaces worden bijgevuld.

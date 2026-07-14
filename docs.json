@@ -150,29 +150,6 @@
                         ],
                         "public": true
                       },
-                      {
-                        "group": "Pickfaces",
-                        "expanded": false,
-                        "pages": [
-                          "knowledgebase/warehouse-setup/create-pickface",
-                          "knowledgebase/warehouse-setup/enforcing-pick-types",
-                          "knowledgebase/warehouse-setup/stock-consolidation",
-                          {
-                            "group": "Replenishment",
-                            "expanded": false,
-                            "pages": [
-                              "knowledgebase/warehouse-setup/replenishment/overview",
-                              "knowledgebase/warehouse-setup/replenishment/continuous",
-                              "knowledgebase/warehouse-setup/replenishment/demand",
-                              "knowledgebase/warehouse-setup/replenishment/order-volume",
-                              "knowledgebase/warehouse-setup/replenishment/combining-strategies",
-                              "knowledgebase/warehouse-setup/replenishment/on-hold-picks"
-                            ],
-                            "public": true
-                          }
-                        ],
-                        "public": true
-                      },
                       "knowledgebase/warehouse-setup/create-carrier",
                       "knowledgebase/warehouse-setup/create-trailer"
                     ],
@@ -237,6 +214,30 @@
                       "knowledgebase/products-and-stock/merge-split-pallets",
                       "knowledgebase/products-and-stock/reusing-dispatched-storage-units",
                       "knowledgebase/troubleshooting/attrup-meaning"
+                    ],
+                    "public": true
+                  },
+                  {
+                    "group": "Pickfaces",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/warehouse-setup/create-pickface",
+                      "knowledgebase/warehouse-setup/enforcing-pick-types",
+                      "knowledgebase/warehouse-setup/mixed-uom-picking",
+                      "knowledgebase/warehouse-setup/stock-consolidation",
+                      {
+                        "group": "Replenishment",
+                        "expanded": false,
+                        "pages": [
+                          "knowledgebase/warehouse-setup/replenishment/overview",
+                          "knowledgebase/warehouse-setup/replenishment/continuous",
+                          "knowledgebase/warehouse-setup/replenishment/demand",
+                          "knowledgebase/warehouse-setup/replenishment/order-volume",
+                          "knowledgebase/warehouse-setup/replenishment/combining-strategies",
+                          "knowledgebase/warehouse-setup/replenishment/on-hold-picks"
+                        ],
+                        "public": true
+                      }
                     ],
                     "public": true
                   }
@@ -778,29 +779,6 @@
                         ],
                         "public": true
                       },
-                      {
-                        "group": "Pickfaces",
-                        "expanded": false,
-                        "pages": [
-                          "knowledgebase/nl/warehouse-setup/create-pickface",
-                          "knowledgebase/nl/warehouse-setup/enforcing-pick-types",
-                          "knowledgebase/nl/warehouse-setup/stock-consolidation",
-                          {
-                            "group": "Aanvulling",
-                            "expanded": false,
-                            "pages": [
-                              "knowledgebase/nl/warehouse-setup/replenishment/overview",
-                              "knowledgebase/nl/warehouse-setup/replenishment/continuous",
-                              "knowledgebase/nl/warehouse-setup/replenishment/demand",
-                              "knowledgebase/nl/warehouse-setup/replenishment/order-volume",
-                              "knowledgebase/nl/warehouse-setup/replenishment/combining-strategies",
-                              "knowledgebase/nl/warehouse-setup/replenishment/on-hold-picks"
-                            ],
-                            "public": true
-                          }
-                        ],
-                        "public": true
-                      },
                       "knowledgebase/nl/warehouse-setup/create-carrier",
                       "knowledgebase/nl/warehouse-setup/create-trailer"
                     ],
@@ -865,6 +843,30 @@
                       "knowledgebase/nl/products-and-stock/merge-split-pallets",
                       "knowledgebase/nl/products-and-stock/reusing-dispatched-storage-units",
                       "knowledgebase/nl/troubleshooting/attrup-meaning"
+                    ],
+                    "public": true
+                  },
+                  {
+                    "group": "Pickfaces",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/nl/warehouse-setup/create-pickface",
+                      "knowledgebase/nl/warehouse-setup/enforcing-pick-types",
+                      "knowledgebase/nl/warehouse-setup/mixed-uom-picking",
+                      "knowledgebase/nl/warehouse-setup/stock-consolidation",
+                      {
+                        "group": "Aanvulling",
+                        "expanded": false,
+                        "pages": [
+                          "knowledgebase/nl/warehouse-setup/replenishment/overview",
+                          "knowledgebase/nl/warehouse-setup/replenishment/continuous",
+                          "knowledgebase/nl/warehouse-setup/replenishment/demand",
+                          "knowledgebase/nl/warehouse-setup/replenishment/order-volume",
+                          "knowledgebase/nl/warehouse-setup/replenishment/combining-strategies",
+                          "knowledgebase/nl/warehouse-setup/replenishment/on-hold-picks"
+                        ],
+                        "public": true
+                      }
                     ],
                     "public": true
                   }
