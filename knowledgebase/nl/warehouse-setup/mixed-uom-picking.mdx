@@ -13,7 +13,7 @@ Zo voorkomt u dat kleine pickfaces door grote orders worden leeggetrokken en bep
 Voor elke productpickface stelt u een **Allowed Configurations**-lijst in — een willekeurige combinatie van **Unit**, **Case**, **Inner** en **Outer**. Wanneer een order wordt verwerkt, doet Clarus het volgende:
 
 1. De orderhoeveelheid wordt opgesplitst in blokken, grootste eerst: **Outer → Inner → Case → Unit**. Elk niveau dat niet op het product is ingesteld, wordt overgeslagen.
-2. Elk blok wordt gemarkeerd als **Allowed** (de eenheid staat in de Allowed Configurations van de pickface) of **Restricted** (de eenheid staat er niet in).
+2. Elk blok wordt gemarkeerd als **Allowed** (de eenheid staat in de Allowed Configurations van de pickface) of **Restricted** (de eenheid staat niet in de Allowed Configurations).
 3. Alle **Allowed**-blokken worden gecombineerd in één picktaak naar de pickface.
 4. Alle **Restricted**-blokken worden gecombineerd in een picktaak naar een stellinglocatie als een deelpick.
 

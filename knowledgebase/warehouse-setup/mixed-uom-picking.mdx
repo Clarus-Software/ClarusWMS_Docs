@@ -13,7 +13,7 @@ This keeps small pickfaces from being drained by large orders and cuts down on r
 For each product pickface you set an **Allowed Configurations** list — any combination of **Unit**, **Case**, **Inner**, and **Outer**. When an order is processed, Clarus:
 
 1. Breaks the order quantity into blocks, largest first: **Outer → Inner → Case → Unit**. Any level that isn't set up on the product is skipped.
-2. Marks each block **Allowed** (its unit of measure is in the pickface's Allowed Configurations) or **Restricted** (it isn't).
+2. Marks each block **Allowed** (its unit of measure is in the pickface's Allowed Configurations) or **Restricted** (its unit of measure isn't in the Allowed Configurations).
 3. Combines all **Allowed** blocks into a single pick task sent to the pickface.
 4. Combines all **Restricted** blocks into a pick task sent to a racking location as a part pick.
 
