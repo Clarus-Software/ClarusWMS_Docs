@@ -52,7 +52,8 @@
                       "knowledgebase/security/mfa-login-prompt",
                       "knowledgebase/security/set-up-mfa",
                       "knowledgebase/security/enable-mfa",
-                      "knowledgebase/security/disable-mfa"
+                      "knowledgebase/security/disable-mfa",
+                      "knowledgebase/security/reset-user-mfa"
                     ],
                     "public": true
                   },
@@ -681,7 +682,8 @@
                       "knowledgebase/nl/security/mfa-login-prompt",
                       "knowledgebase/nl/security/set-up-mfa",
                       "knowledgebase/nl/security/enable-mfa",
-                      "knowledgebase/nl/security/disable-mfa"
+                      "knowledgebase/nl/security/disable-mfa",
+                      "knowledgebase/nl/security/reset-user-mfa"
                     ],
                     "public": true
                   },

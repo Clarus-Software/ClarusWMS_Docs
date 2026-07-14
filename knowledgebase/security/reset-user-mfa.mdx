@@ -1,0 +1,64 @@
+---
+title: "Reset a User's MFA"
+description: "How an admin resets another user's multi-factor authentication from the Users screen when they lose access to their authenticator."
+sidebarTitle: "Reset a User's MFA"
+---
+
+import MfaRollout from '/snippets/mfa-rollout.mdx';
+
+If someone in your organisation loses access to their authenticator app — a lost, broken, or replaced phone — an authorised admin can reset their multi-factor authentication (MFA) from the **Users** screen. Resetting clears the user's current MFA setup so they can register a new device the next time they sign in.
+
+<MfaRollout />
+
+## Before you start
+
+- You need the **MFA reset** privilege, which is granted to the **Admin** role by default. See [Who can reset MFA](#who-can-reset-mfa) below.
+- Resetting is only needed when the user's MFA status is **Enabled** or **Declined**. If their status is already **Not Set**, there's nothing to reset and the button is disabled.
+
+## Reset a user's MFA
+
+<Steps>
+  <Step title="Open the Users screen">
+    From the left-hand navigation, go to the **Users** screen and open the user whose MFA you need to reset.
+  </Step>
+  <Step title="Click Reset MFA">
+    Select **Reset MFA** at the top right of the user's screen.
+  </Step>
+  <Step title="Confirm the reset">
+    Clarus WMS asks you to confirm. Click **Yes** to reset the user's MFA, or **No** to cancel. If you cancel, nothing changes.
+  </Step>
+  <Step title="Reset complete">
+    On success, you'll see a confirmation that the user's MFA has been reset. Their MFA status returns to **Not Set**, and their existing authenticator setup is cleared.
+  </Step>
+</Steps>
+
+<Note>The next time the user signs in, they'll be taken through the standard [MFA setup flow](/knowledgebase/security/set-up-mfa) so they can register a new device.</Note>
+
+## What happens when you reset
+
+A reset only succeeds when both parts complete together:
+
+- The user's MFA status in Clarus WMS is set back to **Not Set**.
+- Their existing authenticator (TOTP) enrolment is cleared.
+
+If either part can't be completed, the reset fails, the user's MFA status is left unchanged, and you'll see an error message. In that case, try again, and contact the Clarus WMS support team if the problem persists.
+
+<Warning>Don't use this action to reset your **own** MFA. Resetting your own MFA from the Users screen signs you out without resetting it. To change your own MFA, use [Security Settings](/knowledgebase/security/disable-mfa) instead.</Warning>
+
+## Who can reset MFA
+
+The **Reset MFA** action is controlled by the **MFA reset** privilege, which is enabled on the **Admin** role by default.
+
+- A user whose role **doesn't** have the privilege can still see the **Reset MFA** button, but selecting it shows a permissions message and nothing is reset.
+- To grant the privilege to another role, whoever manages roles in your organisation can add it to that role. See the [Admin role](/knowledgebase/users-and-roles/admin-role) and [user roles guide](/knowledgebase/users-and-roles/user-roles-guide).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Set up MFA" icon="qrcode" href="/knowledgebase/security/set-up-mfa">
+    What the user sees when they register a new device after a reset.
+  </Card>
+  <Card title="MFA issues" icon="circle-question" href="/knowledgebase/troubleshooting/mfa-issues">
+    Troubleshooting lost devices, rejected codes, and more.
+  </Card>
+</CardGroup>
