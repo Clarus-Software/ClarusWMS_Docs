@@ -1,0 +1,64 @@
+---
+title: "MFA van een gebruiker resetten"
+description: "Hoe een beheerder de multi-factor authenticatie van een andere gebruiker reset vanuit het scherm Users wanneer die geen toegang meer heeft tot de authenticator."
+sidebarTitle: "MFA van gebruiker resetten"
+---
+
+import MfaRollout from '/snippets/nl/mfa-rollout.mdx';
+
+Als iemand in je organisatie geen toegang meer heeft tot de authenticator-app — een verloren, kapotte of vervangen telefoon — kan een geautoriseerde beheerder hun multi-factor authenticatie (MFA) resetten vanuit het scherm **Users**. Bij het resetten wordt de huidige MFA-instelling van de gebruiker gewist, zodat zij de volgende keer dat ze inloggen een nieuw apparaat kunnen registreren.
+
+<MfaRollout />
+
+## Voordat je begint
+
+- Je hebt het **MFA-reset**-privilege nodig, dat standaard wordt toegekend aan de rol **Admin**. Zie [Wie kan MFA resetten](#wie-kan-mfa-resetten) hieronder.
+- Resetten is alleen nodig wanneer de MFA-status van de gebruiker **Enabled** of **Declined** is. Als hun status al **Not Set** is, valt er niets te resetten en is de knop uitgeschakeld.
+
+## MFA van een gebruiker resetten
+
+<Steps>
+  <Step title="Open het scherm Users">
+    Ga vanuit de navigatie aan de linkerkant naar het scherm **Users** en open de gebruiker van wie je de MFA moet resetten.
+  </Step>
+  <Step title="Klik op Reset MFA">
+    Selecteer **Reset MFA** rechtsboven op het scherm van de gebruiker.
+  </Step>
+  <Step title="Bevestig de reset">
+    Clarus WMS vraagt je om te bevestigen. Klik op **Yes** om de MFA van de gebruiker te resetten, of op **No** om te annuleren. Als je annuleert, verandert er niets.
+  </Step>
+  <Step title="Reset voltooid">
+    Bij succes zie je een bevestiging dat de MFA van de gebruiker is gereset. Hun MFA-status keert terug naar **Not Set** en hun bestaande authenticator-instelling wordt gewist.
+  </Step>
+</Steps>
+
+<Note>De volgende keer dat de gebruiker inlogt, wordt zij door de standaard [MFA-instelling](/knowledgebase/nl/security/set-up-mfa) geleid zodat ze een nieuw apparaat kunnen registreren.</Note>
+
+## Wat er gebeurt bij een reset
+
+Een reset slaagt alleen wanneer beide onderdelen samen worden voltooid:
+
+- De MFA-status van de gebruiker in Clarus WMS wordt teruggezet naar **Not Set**.
+- Hun bestaande authenticator-registratie (TOTP) wordt gewist.
+
+Als een van beide onderdelen niet kan worden voltooid, mislukt de reset, blijft de MFA-status van de gebruiker ongewijzigd en zie je een foutmelding. Probeer het in dat geval opnieuw en neem contact op met het Clarus WMS-supportteam als het probleem zich blijft voordoen.
+
+<Warning>Gebruik deze actie niet om je **eigen** MFA te resetten. Het resetten van je eigen MFA vanuit het scherm Users logt je uit zonder deze te resetten. Gebruik [Security Settings](/knowledgebase/nl/security/disable-mfa) om je eigen MFA te wijzigen.</Warning>
+
+## Wie kan MFA resetten
+
+De actie **Reset MFA** wordt bepaald door het **MFA-reset**-privilege, dat standaard is ingeschakeld op de rol **Admin**.
+
+- Een gebruiker met een rol die het privilege **niet** heeft, ziet de knop **Reset MFA** nog steeds, maar bij het selecteren verschijnt een melding over rechten en wordt er niets gereset.
+- Om het privilege aan een andere rol toe te kennen, kan degene die de rollen in je organisatie beheert dit aan die rol toevoegen. Zie de [Admin-rol](/knowledgebase/nl/users-and-roles/admin-role) en de [gids voor gebruikersrollen](/knowledgebase/nl/users-and-roles/user-roles-guide).
+
+## Gerelateerd
+
+<CardGroup cols={2}>
+  <Card title="MFA instellen" icon="qrcode" href="/knowledgebase/nl/security/set-up-mfa">
+    Wat de gebruiker ziet wanneer zij na een reset een nieuw apparaat registreren.
+  </Card>
+  <Card title="Problemen met MFA" icon="circle-question" href="/knowledgebase/nl/troubleshooting/mfa-issues">
+    Problemen oplossen met verloren apparaten, geweigerde codes en meer.
+  </Card>
+</CardGroup>
