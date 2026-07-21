@@ -112,13 +112,17 @@ claruswms-{prefix}-agents/
     graphql-schema/                    # Parsed GraphQL schema files
     rest-schema/                       # Parsed REST API schema files
   context/                             # Context files for Lambda runtime
-  agent-sessions/                      # Agent conversation state (1-day TTL)
+  agent-sessions/                      # Agent conversation state (181-day TTL)
 ```
 
 - **Versioning**: Enabled
 - **Encryption**: AES256 with bucket key
-- **Lifecycle**: Old versions cleaned after 30 days; `agent-sessions/` prefix expires after 1 day
+- **Lifecycle**: Old versions cleaned after 30 days; `agent-sessions/` prefix expires after 181 days (one day beyond the 180-day Postgres metadata purge, so message content always outlives its session index row)
 - **Public access**: All blocked
+
+<Note>
+  The agents Postgres database also holds a derived, maintenance-only roster, `public.agent_subdomains` — every subdomain observed on the agent layer, trigger-populated from `public.sessions`. It exists so FORCE-RLS-bound maintenance jobs (e.g. the 180-day session purge) can iterate tenants; it is **not** a tenant registry and is never consulted for access or tenant validity.
+</Note>
 
 ### Generated Files Bucket: `claruswms-{prefix}-mcp-generated`
 
