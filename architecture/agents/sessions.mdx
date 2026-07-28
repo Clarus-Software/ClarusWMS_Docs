@@ -16,7 +16,7 @@ The client and runtime share responsibility for session management through a sim
 | Provide the session ID on every request | Client | `X-Amzn-Bedrock-AgentCore-Runtime-Session-Id` header |
 | Persist conversation state | Runtime | Auto-save to S3 after every event |
 | Restore state on cold start | Runtime | Auto-load from S3 when session ID matches |
-| Expire old sessions | S3 lifecycle | 1-day TTL on `agent-sessions/` prefix |
+| Expire old sessions | S3 lifecycle + Postgres purge | ~180-day retention on `agent-sessions/` prefix, matched by a metadata purge |
 
 The runtime **never** generates session IDs. Same session ID = continued conversation; new session ID = fresh conversation.
 
@@ -27,7 +27,7 @@ Conversation state is persisted in the unified agents bucket:
 - **Bucket**: `claruswms-{prefix}-agents`
 - **Prefix**: `agent-sessions/`
 - **Key format**: `agent-sessions/{session_id}`
-- **TTL**: 1-day expiration via S3 lifecycle rule
+- **TTL**: ~180-day retention via S3 lifecycle rule (181 days, held one day beyond the metadata purge below)
 
 The `S3SessionManager` (as of March 2026) handles low-level persistence. It auto-persists the full conversation state to S3 after every agent event and auto-restores on cold start when the same session ID is provided. The session ID comes from the Bedrock AgentCore context, falling back to `"default"` if unavailable.
 
@@ -43,7 +43,11 @@ The agent uses a two-tier memory system that balances conversation context limit
 
 ### Tier 1 — Session Persistence
 
-Every agent event triggers an automatic save of the full conversation state to S3. On cold start (or container recycle), the session is restored transparently. This provides durable persistence within the 1-day S3 lifecycle TTL.
+Every agent event triggers an automatic save of the full conversation state to S3. On cold start (or container recycle), the session is restored transparently. This provides durable persistence within the ~180-day S3 lifecycle retention window.
+
+### Metadata Retention
+
+Session **metadata** lives in Postgres (`public.sessions`), separate from the message content in S3. A daily `pg_cron` job (`purge_expired_sessions`) deletes session rows once their last activity is older than **180 days**, keyed on `updated_at`. This matches the S3 message retention so the session index and its conversation content expire together — the list no longer outlives its content. S3 is deliberately held one day longer (181 days) so the metadata row is always removed *before* its messages, never left pointing at deleted objects. Credit/usage history (`public.agent_costs`) is unaffected — it has no foreign key to `sessions` and is retained independently.
 
 ### Tier 2 — Semantic Recall
 
