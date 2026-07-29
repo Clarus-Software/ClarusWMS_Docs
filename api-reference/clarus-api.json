@@ -27816,7 +27816,7 @@
       }
     },
     "/api/stocks/{id}": {
-      "put": {
+      "patch": {
         "tags": [
           "Stocks"
         ],
