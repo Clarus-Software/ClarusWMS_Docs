@@ -1,0 +1,115 @@
+---
+title: "EDI Quality Stock Hold & Release"
+description: "Automatically place stock on hold or release it from hold by uploading an EDI QALITY message via SFTP, matching on product code, batch, and goods-in reference."
+sidebarTitle: "EDI Quality Hold/Release"
+---
+
+## Overview
+
+The **EDI Quality** import lets a customer place stock on hold or release it from hold by uploading an EDI **QALITY** message to their SFTP account — no manual intervention in the web app is needed.
+
+It is designed for quality assurance (QA) workflows where a supplier holds stock while checks are carried out and releases it once they pass. Instead of asking your warehouse to hold and release stock by hand, the supplier sends the instruction as a file and Clarus actions it automatically.
+
+A typical QA flow looks like this:
+
+<Steps>
+  <Step title="Stock is received">
+    The supplier sends a pre-advice, the warehouse completes the receipt, and a receipt confirmation is returned.
+  </Step>
+  <Step title="Stock is placed on hold">
+    The supplier uploads a QALITY file with a **hold** instruction. Clarus places the matching stock on hold, keeping it out of allocation and picking while QA checks run.
+  </Step>
+  <Step title="Stock is released">
+    Once checks pass, the supplier uploads a QALITY file with a **release** instruction. Clarus returns the matching stock to available.
+  </Step>
+</Steps>
+
+<Info>This is a bespoke, per-customer interface. Clarus configures which uploaded files are treated as QALITY messages, based on the message type and the sender. Contact your implementation consultant to enable it for an account.</Info>
+
+## How Clarus identifies the file
+
+The file is recognised as a QALITY message from the **UNH** segment (message type `QALITY`) together with the sender configured for your account. When a matching file lands on your **upload** SFTP account, Clarus processes it automatically — you do not need to select a template each time.
+
+## What each line does
+
+Every stock line in the file is read independently. Clarus extracts the following from each line:
+
+| EDI segment | What it holds | How Clarus uses it |
+|---|---|---|
+| `LIN` | Product code (item number) | Matched to the product in Clarus |
+| `PIA` (qualifier `NB`) | Batch number | Matched to the stock batch |
+| `PIA` (qualifier `SA`) | Customer product ID | Supplier reference |
+| `QTY` (qualifier `346`) | Quantity | Included in the file for reference |
+| `FTX` | Hold or release instruction | `1` = place on hold, `0` = release |
+| `RFF` (qualifier `DQ`) | Goods-in reference (purchase order number) | Matched to the receipt |
+
+### Matching stock
+
+Clarus finds stock to action by matching on three values together:
+
+- **Product code** — from the `LIN` segment
+- **Batch** — from the `PIA+NB` segment
+- **Goods-in reference** — from the `RFF+DQ` segment
+
+<Tip>If the product code in the file is shorter than 14 digits, Clarus pads it with leading zeros to 14 characters before matching — so codes such as `1001050012` still match a stored code of `00001001050012`.</Tip>
+
+### Whole-batch hold and release
+
+Clarus actions **every** stock line that matches the product code, batch, and goods-in reference — the entire batch on that receipt — regardless of the quantity shown in the file. The quantity field is not used to hold or release a partial amount.
+
+## Hold and release instruction
+
+The `FTX` segment decides the operation:
+
+- **Hold** (`FTX` value `1`) — matching stock is set to **On Hold**. Held stock is excluded from allocation and picking.
+- **Release** (`FTX` value `0`) — matching stock is returned to **Available**.
+
+Each operation is recorded against the stock as a transaction, with a note showing it came from the imported file (for example, `Placed on hold via import of <filename>`).
+
+## Example file
+
+A QALITY hold message for one product batch looks like this:
+
+```text
+UNA:+.? '
+UNB+UNOC:3+5039364000000:14:5060196050000+14+240905:1610+240900033+++++EANCOMREF52'
+UNH+240900033+QALITY:D:01B:UN:EAN005'
+BGM+351::9+240900033+9'
+DTM+137:20240721:102'
+NAD+OB+5060196050000::9'
+LIN+1++1001050012:EN::9'
+PIA+5+1001050012:SA'
+PIA+1+419421:NB'
+QTY+346:648:PCE'
+FTX+ACL+++1'
+RFF+DQ:PO24-0556'
+UNT+11+240900033'
+UNZ+1+240900033'
+```
+
+Changing `FTX+ACL+++1` to `FTX+ACL+++0` turns the same file into a **release** instruction for that batch.
+
+## Checking the result
+
+After a file is processed, go to **System Logs** in the web app to see the outcome:
+
+- A **success** entry shows how many stock lines were held or released.
+- A **failure** entry shows an error for any line that could not be actioned, including the product code, batch, and receipt reference so you can trace it back to the file.
+
+Each line is processed on its own, so one failing line does not stop the rest of the file from being actioned.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Stock could not be found">
+    Clarus logs a "not found" error when no stock matches the product code, batch, and goods-in reference together. Check that all three values in the file match a stock record on that receipt, and that the product code corresponds to a product in Clarus.
+  </Accordion>
+  <Accordion title="Release instruction on stock that isn't on hold">
+    A release only applies to stock that is currently on hold. If the matching stock is already available, the release is rejected and an error is written to System Logs.
+  </Accordion>
+  <Accordion title="The whole batch was held, not just the quantity in the file">
+    This is expected. The import holds or releases every matching line for the product code, batch, and receipt, regardless of the quantity in the file.
+  </Accordion>
+</AccordionGroup>
+
+<Note>To upload the file, connect to your **upload** SFTP account as described in the [SFTP Overview](/knowledgebase/integrations/use-sftp-for-imports).</Note>

@@ -1,0 +1,115 @@
+---
+title: "EDI Quality Voorraad Blokkeren & Vrijgeven"
+description: "Blokkeer voorraad of geef deze vrij door een EDI QALITY-bericht via SFTP te uploaden, met matching op productcode, batch en goods-in-referentie."
+sidebarTitle: "EDI Quality Blokkeren/Vrijgeven"
+---
+
+## Overzicht
+
+Met de **EDI Quality**-import kan een klant voorraad blokkeren of vrijgeven door een EDI **QALITY**-bericht te uploaden naar zijn SFTP-account — zonder handmatige handelingen in de web app.
+
+Het is bedoeld voor kwaliteitscontrole (QA)-workflows waarbij een leverancier voorraad blokkeert terwijl controles worden uitgevoerd en deze vrijgeeft zodra ze zijn geslaagd. In plaats van uw magazijn te vragen voorraad handmatig te blokkeren en vrij te geven, stuurt de leverancier de instructie als een bestand en voert Clarus deze automatisch uit.
+
+Een typische QA-flow ziet er zo uit:
+
+<Steps>
+  <Step title="Voorraad wordt ontvangen">
+    De leverancier stuurt een pre-advice, het magazijn voltooit de ontvangst en er wordt een ontvangstbevestiging teruggestuurd.
+  </Step>
+  <Step title="Voorraad wordt geblokkeerd">
+    De leverancier uploadt een QALITY-bestand met een **hold**-instructie. Clarus blokkeert de bijbehorende voorraad, zodat deze buiten allocatie en picking blijft terwijl QA-controles lopen.
+  </Step>
+  <Step title="Voorraad wordt vrijgegeven">
+    Zodra de controles slagen, uploadt de leverancier een QALITY-bestand met een **release**-instructie. Clarus zet de bijbehorende voorraad terug op beschikbaar.
+  </Step>
+</Steps>
+
+<Info>Dit is een maatwerkinterface per klant. Clarus configureert welke geüploade bestanden als QALITY-berichten worden behandeld, op basis van het berichttype en de afzender. Neem contact op met uw implementatieconsultant om het voor een account in te schakelen.</Info>
+
+## Hoe Clarus het bestand herkent
+
+Het bestand wordt herkend als een QALITY-bericht aan de hand van het **UNH**-segment (berichttype `QALITY`) samen met de voor uw account geconfigureerde afzender. Wanneer een overeenkomend bestand op uw **upload**-SFTP-account binnenkomt, verwerkt Clarus het automatisch — u hoeft niet elke keer een template te selecteren.
+
+## Wat elke regel doet
+
+Elke voorraadregel in het bestand wordt afzonderlijk gelezen. Clarus haalt het volgende uit elke regel:
+
+| EDI-segment | Wat het bevat | Hoe Clarus het gebruikt |
+|---|---|---|
+| `LIN` | Productcode (artikelnummer) | Gematcht aan het product in Clarus |
+| `PIA` (qualifier `NB`) | Batchnummer | Gematcht aan de voorraadbatch |
+| `PIA` (qualifier `SA`) | Klant-product-ID | Leveranciersreferentie |
+| `QTY` (qualifier `346`) | Aantal | Ter referentie opgenomen in het bestand |
+| `FTX` | Hold- of release-instructie | `1` = blokkeren, `0` = vrijgeven |
+| `RFF` (qualifier `DQ`) | Goods-in-referentie (inkoopordernummer) | Gematcht aan de ontvangst |
+
+### Voorraad matchen
+
+Clarus vindt de te verwerken voorraad door op drie waarden samen te matchen:
+
+- **Productcode** — uit het `LIN`-segment
+- **Batch** — uit het `PIA+NB`-segment
+- **Goods-in-referentie** — uit het `RFF+DQ`-segment
+
+<Tip>Als de productcode in het bestand korter is dan 14 cijfers, vult Clarus deze met voorloopnullen aan tot 14 tekens vóór het matchen — zodat codes zoals `1001050012` alsnog overeenkomen met een opgeslagen code `00001001050012`.</Tip>
+
+### Volledige batch blokkeren en vrijgeven
+
+Clarus verwerkt **elke** voorraadregel die overeenkomt met de productcode, batch en goods-in-referentie — de volledige batch op die ontvangst — ongeacht het aantal dat in het bestand staat. Het aantalveld wordt niet gebruikt om een gedeeltelijke hoeveelheid te blokkeren of vrij te geven.
+
+## Hold- en release-instructie
+
+Het `FTX`-segment bepaalt de bewerking:
+
+- **Hold** (`FTX`-waarde `1`) — bijbehorende voorraad wordt op **On Hold** gezet. Geblokkeerde voorraad wordt uitgesloten van allocatie en picking.
+- **Release** (`FTX`-waarde `0`) — bijbehorende voorraad wordt teruggezet op **Available**.
+
+Elke bewerking wordt als transactie op de voorraad vastgelegd, met een notitie waaruit blijkt dat deze uit het geïmporteerde bestand komt (bijvoorbeeld `Placed on hold via import of <bestandsnaam>`).
+
+## Voorbeeldbestand
+
+Een QALITY-hold-bericht voor één productbatch ziet er zo uit:
+
+```text
+UNA:+.? '
+UNB+UNOC:3+5039364000000:14:5060196050000+14+240905:1610+240900033+++++EANCOMREF52'
+UNH+240900033+QALITY:D:01B:UN:EAN005'
+BGM+351::9+240900033+9'
+DTM+137:20240721:102'
+NAD+OB+5060196050000::9'
+LIN+1++1001050012:EN::9'
+PIA+5+1001050012:SA'
+PIA+1+419421:NB'
+QTY+346:648:PCE'
+FTX+ACL+++1'
+RFF+DQ:PO24-0556'
+UNT+11+240900033'
+UNZ+1+240900033'
+```
+
+Door `FTX+ACL+++1` te wijzigen in `FTX+ACL+++0` wordt hetzelfde bestand een **release**-instructie voor die batch.
+
+## Het resultaat controleren
+
+Nadat een bestand is verwerkt, gaat u naar **System Logs** in de web app om de uitkomst te zien:
+
+- Een **success**-item toont hoeveel voorraadregels zijn geblokkeerd of vrijgegeven.
+- Een **failure**-item toont een fout voor elke regel die niet kon worden verwerkt, inclusief de productcode, batch en ontvangstreferentie zodat u deze naar het bestand kunt herleiden.
+
+Elke regel wordt afzonderlijk verwerkt, dus één mislukte regel houdt de verwerking van de rest van het bestand niet tegen.
+
+## Probleemoplossing
+
+<AccordionGroup>
+  <Accordion title="Voorraad kon niet worden gevonden">
+    Clarus logt een "not found"-fout wanneer geen enkele voorraad overeenkomt met de productcode, batch en goods-in-referentie samen. Controleer of alle drie de waarden in het bestand overeenkomen met een voorraadrecord op die ontvangst, en of de productcode overeenkomt met een product in Clarus.
+  </Accordion>
+  <Accordion title="Release-instructie op voorraad die niet geblokkeerd is">
+    Een release geldt alleen voor voorraad die momenteel geblokkeerd is. Als de bijbehorende voorraad al beschikbaar is, wordt de release afgewezen en wordt er een fout naar System Logs geschreven.
+  </Accordion>
+  <Accordion title="De hele batch werd geblokkeerd, niet alleen het aantal in het bestand">
+    Dit is het verwachte gedrag. De import blokkeert of geeft elke overeenkomende regel voor de productcode, batch en ontvangst vrij, ongeacht het aantal in het bestand.
+  </Accordion>
+</AccordionGroup>
+
+<Note>Om het bestand te uploaden, maakt u verbinding met uw **upload**-SFTP-account zoals beschreven in het [SFTP-overzicht](/knowledgebase/nl/integrations/use-sftp-for-imports).</Note>

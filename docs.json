@@ -428,6 +428,7 @@
                       "knowledgebase/accounts/account-assignments",
                       "knowledgebase/warehouse-setup/location-import",
                       "knowledgebase/outbound/address-import",
+                      "knowledgebase/integrations/edi-quality-stock-hold",
                       "knowledgebase/integrations/bespoke-imports"
                     ],
                     "public": true
@@ -1058,6 +1059,7 @@
                       "knowledgebase/nl/accounts/account-assignments",
                       "knowledgebase/nl/warehouse-setup/location-import",
                       "knowledgebase/nl/outbound/address-import",
+                      "knowledgebase/nl/integrations/edi-quality-stock-hold",
                       "knowledgebase/nl/integrations/bespoke-imports"
                     ],
                     "public": true
