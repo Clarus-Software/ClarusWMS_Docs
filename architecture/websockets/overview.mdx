@@ -12,10 +12,10 @@ The design goal is that **Rails never validates the WebSocket token itself**. By
 
 <Steps>
   <Step title="Client opens the socket">
-    The browser connects to `wss://ws.<cognito_domain>/cable?token=<jwt>`, passing the user's Cognito JWT as a `token` query-string parameter. This hostname is a CloudFront distribution created specifically for WebSocket traffic.
+    The browser connects to `wss://ws.<domain>/cable?token=<jwt>`, passing the user's Cognito JWT as a `token` query-string parameter. This hostname is a CloudFront distribution created specifically for WebSocket traffic.
   </Step>
   <Step title="DNS resolves to CloudFront">
-    Route 53 points `ws.<cognito_domain>` at the CloudFront distribution (`aws_route53_record.websocket_cf`).
+    Route 53 points `ws.<domain>` at the CloudFront distribution (`aws_route53_record.websocket_cf`).
   </Step>
   <Step title="Lambda@Edge authorizes the request">
     On CloudFront's **origin-request** event, a Lambda@Edge authorizer validates the JWT. If validation fails, the request is rejected at the edge and never reaches the origin. On success it injects the trusted identity header and strips the token from the query string.
@@ -44,9 +44,9 @@ sequenceDiagram
     participant ALB as API ALB
     participant AC as Rails / ActionCable
 
-    C->>R53: resolve ws.<cognito_domain>
+    C->>R53: resolve ws.<domain>
     R53-->>C: CloudFront distribution
-    C->>CF: wss://ws.<cognito_domain>/cable?token=<jwt>
+    C->>CF: wss://ws.<domain>/cable?token=<jwt>
     CF->>LE: origin-request event
     Note over LE: validate path == /cable<br/>verify JWT signature (JWKS)<br/>check exp / iss / aud
     alt JWT invalid
@@ -113,14 +113,7 @@ How the connection resolves a user:
 
 ### Origin checks and pub/sub
 
-ActionCable applies its own allowed-origin check per environment (`config.action_cable.allowed_request_origins`):
-
-| Environment | Allowed origins |
-|---|---|
-| Production | `https://*.clarus.ws` |
-| Staging | `http(s)://*.clarussoftware.co.uk` |
-| Mirror | `https://*.clarus-mirror.co.uk` |
-| Development | `http(s)://*.lvh.me:<port>` |
+ActionCable applies its own allowed-origin check, configured per environment via `config.action_cable.allowed_request_origins`. Each environment restricts connections to that environment's own domains; the exact patterns live in the environment configs (`config/environments/*.rb`) rather than being duplicated here.
 
 Broadcasts are fanned out across API tasks through the **Redis** ActionCable adapter (`config/cable.yml`), so a message published on one ECS task reaches subscribers connected to any other.
 
@@ -131,7 +124,7 @@ The edge and network components are defined in the infrastructure repository (`a
 | Component | Source |
 |---|---|
 | CloudFront distribution, DNS alias, Lambda@Edge association, shared secret | `api/websocket.tf` |
-| Route 53 record for `ws.<cognito_domain>` (`aws_route53_record.websocket_cf`) | `api/websocket.tf` |
+| Route 53 record for `ws.<domain>` (`aws_route53_record.websocket_cf`) | `api/websocket.tf` |
 | Wildcard `*.api.<domain>` → ALB (origin resolution) | `api/modules/route53-api-domain/route53.tf` |
 | Lambda@Edge authorizer implementation | `api/lambdas/websocket-authorizer/index.mjs` |
 | WAF identity-header rules on the public ALB | `api/api-gateway.tf` |
