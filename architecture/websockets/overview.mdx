@@ -100,48 +100,16 @@ The security of this scheme rests on the `X-CF-Secret` value staying secret to C
 
 ## Rails / ActionCable side
 
-Everything above happens before the request reaches the application. On the Rails side the connection logic is intentionally thin — it trusts the header the edge stamped.
+Everything above happens before the request reaches the application. On the Rails side the connection logic is intentionally thin — it trusts the header the edge stamped. The ActionCable server is mounted at `/cable`, and the connection identifies the user from the injected header, which arrives in the Rack environment as `HTTP_X_USER_SUB`.
 
-`config/routes.rb` mounts the server:
+How the connection resolves a user:
 
-```ruby
-mount ActionCable.server, at: "/cable"
-```
-
-`ApplicationCable::Connection` identifies the user from the injected header. The `X-User-Sub` header arrives in the Rack environment as `HTTP_X_USER_SUB` (referenced as `Devise::Strategies::ApiDesktop::COGNITO_USER_SUB_HEADER`):
-
-```ruby
-module ApplicationCable
-  class Connection < ActionCable::Connection::Base
-    identified_by :current_user, :subdomain
-
-    def connect
-      self.current_user = find_verified_user
-      self.subdomain = request.params[:subdomain].presence || request.subdomain
-    end
-
-    private
-
-    def find_verified_user
-      find_cognito_user || find_legacy_user || reject_unauthorized_connection
-    end
-
-    def find_cognito_user
-      cognito_sub = request.get_header(Devise::Strategies::ApiDesktop::COGNITO_USER_SUB_HEADER)
-      return if cognito_sub.blank?
-
-      User.find_by(cognito_sub: cognito_sub)
-    end
-  end
-end
-```
-
-Key points:
-
-- **Cognito is the primary path.** `find_cognito_user` reads the trusted `X-User-Sub` header and looks up the `User` by `cognito_sub`. This is the path the edge chain feeds.
-- **A legacy token path still exists.** `find_legacy_user` matches on `authentication_token` + `email` from the `token` param, for older clients that authenticate directly rather than through the Cognito/CloudFront chain. New clients should use the Cognito path.
-- **Unauthorized connections are rejected.** If neither path resolves a user, `reject_unauthorized_connection` closes the socket.
-- **The token is scrubbed from notifications.** `notification_payload` removes the `token` key so JWTs/auth tokens don't leak into ActionCable instrumentation logs.
+| Behaviour | Detail |
+|---|---|
+| **Cognito is the primary path** | The connection reads the trusted `X-User-Sub` header and looks up the user by their Cognito subject (`cognito_sub`). This is the path the edge chain feeds. |
+| **A legacy token path still exists** | For older clients that authenticate directly rather than through the Cognito/CloudFront chain, the connection falls back to matching an authentication token and email from the `token` parameter. New clients should use the Cognito path. |
+| **Unauthorized connections are rejected** | If neither path resolves a user, the socket is closed with an unauthorized rejection. |
+| **The token is scrubbed from notifications** | The `token` key is removed from ActionCable notification payloads so JWTs/auth tokens don't leak into instrumentation logs. |
 
 ### Origin checks and pub/sub
 
