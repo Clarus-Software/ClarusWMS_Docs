@@ -15,7 +15,7 @@ The design goal is that **Rails never validates the WebSocket token itself**. By
     The browser connects to `wss://ws.<domain>/cable?token=<jwt>`, passing the user's Cognito JWT as a `token` query-string parameter. This hostname is a CloudFront distribution created specifically for WebSocket traffic.
   </Step>
   <Step title="DNS resolves to CloudFront">
-    Route 53 points `ws.<domain>` at the CloudFront distribution (`aws_route53_record.websocket_cf`).
+    Route 53 points `ws.<domain>` at the CloudFront distribution.
   </Step>
   <Step title="Lambda@Edge authorizes the request">
     On CloudFront's **origin-request** event, a Lambda@Edge authorizer validates the JWT. If validation fails, the request is rejected at the edge and never reaches the origin. On success it injects the trusted identity header and strips the token from the query string.
@@ -117,18 +117,9 @@ ActionCable applies its own allowed-origin check, configured per environment via
 
 Broadcasts are fanned out across API tasks through the **Redis** ActionCable adapter (`config/cable.yml`), so a message published on one ECS task reaches subscribers connected to any other.
 
-## Reference: infrastructure sources
+## Reference: where this lives
 
-The edge and network components are defined in the infrastructure repository (`api/`):
-
-| Component | Source |
-|---|---|
-| CloudFront distribution, DNS alias, Lambda@Edge association, shared secret | `api/websocket.tf` |
-| Route 53 record for `ws.<domain>` (`aws_route53_record.websocket_cf`) | `api/websocket.tf` |
-| Wildcard `*.api.<domain>` → ALB (origin resolution) | `api/modules/route53-api-domain/route53.tf` |
-| Lambda@Edge authorizer implementation | `api/lambdas/websocket-authorizer/index.mjs` |
-| WAF identity-header rules on the public ALB | `api/api-gateway.tf` |
-| `/cable` listener rule → WebSocket target group (`aws_lb_listener_rule.api-websocket`) | `api/modules/lb-api/lb.tf` |
+The edge and network components — the CloudFront distribution and its DNS alias, the Lambda@Edge authorizer, the CloudFront shared secret, the wildcard DNS that resolves the origin to the ALB, the WAF identity-header rules, and the `/cable` listener rule that routes to the WebSocket target group — are provisioned as infrastructure-as-code in the API infrastructure repository. Refer to that repository for the current resource definitions.
 
 The application-side connection logic lives in the backend repository:
 
