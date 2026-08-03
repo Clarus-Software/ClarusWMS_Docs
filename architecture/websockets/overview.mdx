@@ -113,20 +113,6 @@ How the connection resolves a user:
 
 ### Origin checks and pub/sub
 
-ActionCable applies its own allowed-origin check, configured per environment via `config.action_cable.allowed_request_origins`. Each environment restricts connections to that environment's own domains; the exact patterns live in the environment configs (`config/environments/*.rb`) rather than being duplicated here.
+ActionCable applies its own allowed-origin check: each environment restricts connections to that environment's own domains, rejecting handshakes from any other origin.
 
-Broadcasts are fanned out across API tasks through the **Redis** ActionCable adapter (`config/cable.yml`), so a message published on one ECS task reaches subscribers connected to any other.
-
-## Reference: where this lives
-
-The edge and network components — the CloudFront distribution and its DNS alias, the Lambda@Edge authorizer, the CloudFront shared secret, the wildcard DNS that resolves the origin to the ALB, the WAF identity-header rules, and the `/cable` listener rule that routes to the WebSocket target group — are provisioned as infrastructure-as-code in the API infrastructure repository. Refer to that repository for the current resource definitions.
-
-The application-side connection logic lives in the backend repository:
-
-| Component | Source |
-|---|---|
-| ActionCable mount | `config/routes.rb` |
-| Connection / user identification | `app/channels/application_cable/connection.rb` |
-| Cognito sub header constant | `lib/devise/strategies/api_desktop.rb` |
-| Redis pub/sub adapter | `config/cable.yml` |
-| Allowed request origins | `config/environments/*.rb` |
+Broadcasts are fanned out across API tasks through a **Redis** ActionCable adapter, so a message published on one ECS task reaches subscribers connected to any other.
