@@ -654,6 +654,12 @@
                 ]
               },
               {
+                "group": "WebSockets",
+                "pages": [
+                  "architecture/websockets/overview"
+                ]
+              },
+              {
                 "group": "Deployment",
                 "pages": [
                   "architecture/deployment/index",
