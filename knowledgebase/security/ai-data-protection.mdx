@@ -1,0 +1,73 @@
+---
+title: "AI Assistant data protection"
+description: "How the Clarus AI Assistant handles your data — what reaches the model, personal data, where processing happens, retention, and the subprocessors involved."
+sidebarTitle: "AI data protection"
+---
+
+This page explains how the AI Assistant handles your data: what is sent to the model, whether it can include personal data, where processing happens, what is retained, and who is involved. For what the assistant can do and the permissions around it, see [Access & controls](/knowledgebase/ai-assistant/access-and-controls).
+
+## What data reaches the model
+
+When you ask a question, two things reach the model:
+
+1. **The conversation** — your question and the earlier turns of that session.
+2. **Data retrieved to answer it** — when a question needs system data, the assistant retrieves the specific records required and uses them to form the response.
+
+Only the data returned for that specific request is used. There is **no bulk export** and **no background synchronisation** of your database to any model provider.
+
+<Note>
+  To keep track of a long conversation, the assistant briefly remembers recent parts of the session using an AWS-operated model. This runs inside AWS on the same terms as everything else described here.
+</Note>
+
+## Can it include personal data?
+
+Yes — where answering your question requires it. A warehouse system holds less personal data than most business systems, but not none. The categories that can appear are:
+
+- Consignee and company names
+- Delivery address lines, postcode, and country
+- Contact email address
+- Contact telephone number
+- Carrier and carrier-service records (organisational, not individual drivers)
+- Free-text fields that may contain anything written into them — delivery, packing, and picking notes, and reference fields
+
+Two categories we are often asked about, for the avoidance of doubt: we do **not** hold recipient **date of birth** (including for age-restricted goods), and we do **not** hold proof-of-delivery **signature images** in the data the assistant can reach. Neither exists in the schema.
+
+Data retrieved to answer a question is used only to generate that response and is not shared with the model provider.
+
+<Info>
+  The assistant only ever sees data your own account is entitled to see, so it can't surface anything you couldn't already access — this permission scope is the control we rely on. We don't additionally mask or redact individual field values before they reach the model. See [Access & controls](/knowledgebase/ai-assistant/access-and-controls).
+</Info>
+
+## Where your data is processed
+
+The AI infrastructure runs in **AWS Europe (London)**, and inference is **confined to the European Union**. A given request may be served by an EU location other than London for capacity and speed, but **processing never leaves the EU** — it is not routed to the United States or any other region.
+
+## Retention and model training by providers
+
+**Model providers receive none of your data.** The assistant reaches the models through Amazon Bedrock, an AWS-managed service that runs the models inside AWS infrastructure. The companies that create the models have no access to that infrastructure, and therefore no access to your prompts or the assistant's responses.
+
+- **No training on your data.** Your inputs and outputs are not shared with model providers and are not used to train their models.
+- **Zero data retention.** Our production AWS account is configured so that prompts and responses are not written to durable storage by AWS.
+- **Abuse detection.** AWS runs automated abuse detection, which may hold content transiently for safety purposes with no human access. Where this applies, content stays **within the EU**.
+
+<Note>
+  Because our account is pinned to zero data retention, any future third-party model that would require your data to be retained and shared with its provider is **refused automatically** — enabling it would take a deliberate, auditable change on our side, not a quiet configuration tweak.
+</Note>
+
+## What Clarus retains, and logging
+
+**Conversations.** We keep your conversations so you can return to an earlier thread.
+
+- **Retention: 180 days.** Conversation content is deleted after 180 days of inactivity.
+- **Storage location:** AWS Europe (London).
+- **Encryption:** encrypted in transit and at rest.
+- **Tenant isolation:** conversation records are isolated per subdomain, enforced in the database.
+- **Configurability:** the 180-day period is currently fixed platform-wide — we can't yet offer a shorter period or opt-out on a per-customer basis.
+
+**Operational logs.** For troubleshooting, our tooling writes short-lived diagnostic logs (stored in AWS Europe, London). These can contain the personal data categories listed above, are kept only briefly (around a day for the AI components), and are restricted to our engineering team under our normal access controls.
+
+**Actions in the system** are recorded as normal Clarus transactions with full audit history — see [Access & controls](/knowledgebase/ai-assistant/access-and-controls).
+
+## Subprocessors
+
+**Amazon Web Services is the subprocessor** for AI inference. The companies whose models are used are licensed to AWS; they have no contractual relationship with Clarus, are not subprocessors to us, and receive none of your data. For the full list of Clarus subprocessors, see [Subprocessors](/knowledgebase/security/subprocessors).

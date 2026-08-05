@@ -1,0 +1,61 @@
+---
+title: "AI Assistant-toegang en -controles"
+description: "Wat de Clarus AI Assistant kan bereiken, hoe hij acties uitvoert, de controles die hem binnen uw rechten houden en hoe u hem in- of uitschakelt."
+sidebarTitle: "Toegang en controles"
+---
+
+De AI Assistant werkt volledig binnen uw bestaande rechten. Deze pagina legt uit wat hij kan bereiken, hoe de acties die hij uitvoert worden gecontroleerd en geaudit, en hoe u hem in- of uitschakelt.
+
+## Wat de assistent kan bereiken
+
+**Precies wat u kunt bereiken, en niets meer.**
+
+Wanneer de assistent gegevens opzoekt of een actie uitvoert, doet hij dat als *u*. Clarus controleert elk verzoek tegen de rechten van uw eigen account, net zoals wanneer u door de interface klikt. De assistent kan zichzelf geen extra toegang geven, en een verzoek om iets buiten uw rechten wordt geweigerd.
+
+<Info>
+  Uw inloggegevens worden nooit met het AI-model gedeeld. De assistent werkt binnen uw rechten, maar het model zelf ziet of bewaart uw login nooit — dus niets wat hem wordt gevraagd kan hem laten optreden als een andere gebruiker of bij de gegevens van een andere klant laten komen.
+</Info>
+
+## Acties die de assistent uitvoert
+
+Wanneer de assistent iets doet — voorraad in de wacht zetten, een order bijwerken — maakt hij een normale Clarus-transactie aan, met **dezelfde validatie en hetzelfde volledige auditspoor** als de gelijkwaardige actie vanuit de standaardinterface. Er is geen apart, minder geaudit pad voor wijzigingen via de assistent.
+
+Elke actie wordt toegewezen:
+
+- aan **u**, wanneer die uit uw sessie komt, of
+- aan het **AI-agentaccount**, wanneer die uit een automatisering komt (zie hieronder).
+
+Er gelden twee soorten controles:
+
+- **Afgedwongen controles** — de assistent kan geen bewerking uitvoeren waarvoor u geen recht heeft. Dit is een harde grens, door Clarus gecontroleerd bij elk verzoek.
+- **Sturingscontroles** — u kunt de assistent aangepaste instructies voor uw subdomein geven, zoals hem om bevestiging vragen vóór bepaalde bewerkingen. Dit stuurt hoe hij zich in normaal gebruik gedraagt.
+
+## Automatiseringen en het AI-agentaccount
+
+Sommige AI-acties worden getriggerd door automatiseringen in plaats van door een persoon — er is dan geen ingelogde gebruiker. Deze draaien onder een speciaal **AI-agentaccount**, waarvan u de rechten precies zoals bij elk ander gebruikersaccount beheert. Wat u dat account toestaat, is de grens van wat uw automatiseringen kunnen doen.
+
+Twee dingen om te weten:
+
+- Het agentaccount wordt **gedeeld** door alle AI-automatiseringen op uw subdomein, dus geautomatiseerde acties worden aan dat account toegewezen en niet aan een individuele persoon.
+- Automatiseringen draaien **onbeheerd**, zonder dat iemand elke actie beoordeelt op het moment dat die gebeurt.
+
+<Tip>
+  Beperk het AI-agentaccount tot de **minimale rechten** die uw automatiseringen daadwerkelijk nodig hebben, en houd het **alleen-lezen** tenzij een specifieke automatisering wijzigingen moet maken.
+</Tip>
+
+## Hoe uw gegevens beschermd blijven wanneer de assistent tekst leest
+
+Om vragen te beantwoorden leest de assistent soms vrije tekst die andere mensen of systemen in uw records hebben geschreven — ordernotities, inkomende documenten, referentievelden. Verschillende controles houden dat veilig:
+
+- **Rechten worden door Clarus afgedwongen, niet door de assistent.** Wat er ook in een record staat, de assistent kan nog steeds alleen bij gegevens en acties die uw account is toegestaan — dus niets in een record kan zijn toegang verbreden.
+- **Uw inloggegevens zijn nooit binnen bereik van het model**, dus niets kan de assistent laten authenticeren als iemand anders of naar de gegevens van een andere klant laten overstappen.
+- **Elke actie wordt geaudit en is omkeerbaar** via de normale Clarus-transactiegeschiedenis, dus iets onverwachts is traceerbaar en kan ongedaan worden gemaakt.
+- **Least privilege op automatiseringsaccounts** houdt het bereik van onbeheerde acties tot het minimum dat u heeft toegestaan.
+
+## De AI Assistant in- of uitschakelen
+
+| Niveau | Beschikbaarheid |
+|---|---|
+| Per subdomein | Nu beschikbaar — neem contact op met onze supportdesk |
+| Per klant | Nu beschikbaar — neem contact op met onze supportdesk |
+| Per gebruikersrol | In ontwikkeling |
