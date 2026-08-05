@@ -1,0 +1,51 @@
+---
+title: "AI Assistant"
+description: "Wat de Clarus AI Assistant is, hoe hij uw vragen beantwoordt, welke modellen hij gebruikt en waar hij draait."
+sidebarTitle: "Overzicht"
+---
+
+De AI Assistant is ingebouwd in Clarus. U stelt vragen in gewone taal — "welke orders voor deze klant zijn nog niet gepickt?", "zet deze voorraad in de wacht" — en hij beantwoordt ze met uw actuele magazijngegevens, of voert de actie voor u uit.
+
+## Hoe het werkt
+
+<Steps>
+  <Step title="U stelt een vraag">
+    Typ uw vraag zoals u die zou uitspreken. U hoeft geen veldnamen, filters of de locatie van de gegevens te kennen.
+  </Step>
+  <Step title="Hij haalt alleen op wat nodig is">
+    Om te antwoorden zoekt de assistent alleen de gegevens op die voor die vraag nodig zijn — dezelfde gegevens die u zelf in Clarus zou zien. Er wordt geen bulkkopie van uw database gemaakt en er draait niets op de achtergrond dat uw gegevens elders exporteert of synchroniseert.
+  </Step>
+  <Step title="Hij stelt een antwoord op">
+    De assistent gebruikt het opgehaalde om zijn antwoord te schrijven, of om de door u gevraagde actie uit te voeren.
+  </Step>
+</Steps>
+
+<Info>
+  De assistent werkt altijd binnen **uw eigen rechten**. Als uw account iets niet kan zien of doen in Clarus, dan kan de assistent dat namens u ook niet. Zie [Toegang en controles](/knowledgebase/nl/ai-assistant/access-and-controls).
+</Info>
+
+## Welke modellen hij gebruikt
+
+De assistent is gebouwd op de **Claude**-modellen van Anthropic, geleverd via **Amazon Web Services (AWS)**:
+
+- **Claude Sonnet** — de standaard en de aanbevolen keuze voor dagelijks gebruik.
+- **Claude Haiku** en **Claude Opus** — te selecteren als u voor een bepaalde taak een sneller of krachtiger model wilt.
+
+Voor de volledigheid worden in de modelkeuze ook enkele door AWS gehoste open-weight-modellen aangeboden. Elk model — Claude of anderszins — draait **binnen AWS**; de bedrijven die de modellen maken, ontvangen geen van uw gegevens.
+
+De set beschikbare modellen wordt door Clarus vastgelegd en verandert alleen via ons normale releaseproces. Een eindgebruiker of beheerder kan die niet uitbreiden.
+
+## Waar hij draait
+
+De assistent draait binnen AWS in **Europa (Londen)** en alle verwerking blijft **binnen de Europese Unie**. Voor het volledige beeld van welke gegevens betrokken zijn, waar ze worden verwerkt en wat er wordt bewaard, zie [AI Assistant-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
+
+## Meer informatie
+
+<CardGroup cols={2}>
+  <Card title="Toegang en controles" icon="lock" href="/knowledgebase/nl/ai-assistant/access-and-controls">
+    Wat de assistent kan bereiken, hoe acties worden geaudit en hoe u hem in- of uitschakelt.
+  </Card>
+  <Card title="AI Assistant-gegevensbescherming" icon="shield-halved" href="/knowledgebase/nl/security/ai-data-protection">
+    Gegevensverwerking, verwerkingslocatie, bewaring en subverwerkers.
+  </Card>
+</CardGroup>

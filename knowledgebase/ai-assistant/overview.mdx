@@ -1,0 +1,51 @@
+---
+title: "AI Assistant"
+description: "What the Clarus AI Assistant is, how it answers your questions, the models it uses, and where it runs."
+sidebarTitle: "Overview"
+---
+
+The AI Assistant is built into Clarus. You ask questions in plain language — "which orders for this customer are still unpicked?", "put this stock on hold" — and it answers using your live warehouse data, or carries out the action for you.
+
+## How it works
+
+<Steps>
+  <Step title="You ask a question">
+    Type your question the way you'd say it. You don't need to know field names, filters, or where the data lives.
+  </Step>
+  <Step title="It retrieves only what it needs">
+    To answer, the assistant looks up the specific data required for that question — the same data you would see if you navigated to it yourself in Clarus. There's no bulk copy of your database and nothing runs in the background exporting or syncing your data elsewhere.
+  </Step>
+  <Step title="It forms a response">
+    The assistant uses what it retrieved to write its answer, or to carry out the action you asked for.
+  </Step>
+</Steps>
+
+<Info>
+  The assistant only ever works within **your own permissions**. If your account can't see or do something in Clarus, neither can the assistant on your behalf. See [Access & controls](/knowledgebase/ai-assistant/access-and-controls).
+</Info>
+
+## Which models it uses
+
+The assistant is built on **Anthropic's Claude** models, delivered through **Amazon Web Services (AWS)**:
+
+- **Claude Sonnet** — the default, and the recommended choice for everyday use.
+- **Claude Haiku** and **Claude Opus** — selectable if you prefer a faster or a more capable model for a given task.
+
+A small number of AWS-hosted open-weight models are also offered in the model picker for completeness. Every model — Claude and otherwise — runs **inside AWS**; the companies that create the models receive none of your data.
+
+The set of available models is fixed by Clarus and changes only through our normal release process. It isn't something an end user or administrator can widen.
+
+## Where it runs
+
+The assistant runs within AWS in **Europe (London)**, and all processing stays **within the European Union**. For the full picture of what data is involved, where it's processed, and what's retained, see [AI Assistant data protection](/knowledgebase/security/ai-data-protection).
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Access & controls" icon="lock" href="/knowledgebase/ai-assistant/access-and-controls">
+    What the assistant can reach, how actions are audited, and how to turn it on or off.
+  </Card>
+  <Card title="AI Assistant data protection" icon="shield-halved" href="/knowledgebase/security/ai-data-protection">
+    Data handling, processing location, retention, and subprocessors.
+  </Card>
+</CardGroup>

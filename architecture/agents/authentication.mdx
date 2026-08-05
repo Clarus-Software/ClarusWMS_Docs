@@ -102,7 +102,7 @@ There are two access patterns into the AI layer — pick the one relevant to you
 
 ## Key Authentication Details
 
-- **Region**: AI infrastructure in **us-east-1** (service availability); Cognito user pool in **eu-west-2** (shared organisational resource)
+- **Region**: AI infrastructure in **eu-west-2** (London); Cognito user pool in **eu-west-2** (shared organisational resource)
 - **JWT claim**: Validation uses `client_id` claim (not `aud`) — this is Cognito access token behavior
 - **OAuth scopes**: `openid`, `claruswms/full`
 - **PKCE**: S256 method required for authorization code flow

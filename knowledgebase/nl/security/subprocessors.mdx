@@ -1,49 +1,90 @@
 ---
-title: "Wat zijn de subverwerkers vooren hoe gaan ze om met beveiliging, privacy en compliance?"
-description: "Clarus WMS maakt gebruik van verschillende externe bedrijven, bekend als subverwerkers, om haar diensten te leveren. Deze subverwerkers helpen bij ver"
-sidebarTitle: "Wat zijn de subverwerkers vooren..."
+title: "Subverwerkers"
+description: "De externe subverwerkers die Clarus WMS gebruikt om zijn dienst te leveren, waarvoor elke wordt gebruikt, welke gegevens worden verwerkt en waar."
+needs_review: true
 ---
 
-## Inzicht in Clarus WMS Subverwerkers
+## Overzicht van subverwerkers
 
-Clarus WMS maakt gebruik van verschillende externe bedrijven, bekend als subverwerkers, om haar diensten te leveren. Deze subverwerkers helpen bij verschillende functies, van het opslaan van bestanden en het beheren van applicaties tot het bieden van klantenondersteuning.
+Clarus WMS maakt gebruik van een aantal vertrouwde externe bedrijven (subverwerkers) om zijn dienst te leveren. Deze verzorgen functies variërend van cloudhosting en e-mailbezorging tot monitoring, ondersteuning en optionele functies zoals cloudafdrukken en koeriersverzending.
 
-## Stapsgewijze handleiding
+## Hoe we subverwerkers indelen
 
-### 1. Meer informatie over toepassingssubverwerkers
+### Applicatiesubverwerkers
 
-Deze subverwerkers behandelen persoonsgegevens voor gebruikers van het Clarus WMS-platform. Ze zijn essentieel voor kerndiensten.
+Essentieel voor het kernplatform. Deze verwerken persoonsgegevens van gebruikers van het platform.
 
- **Herinnering:** Deze subverwerkers behandelen uw persoonsgegevens.
+<Warning>Deze subverwerkers verwerken uw persoonsgegevens.</Warning>
 
-### 2. Ontdek Optionele functies Subverwerkers
+### Operationele subverwerkers
 
-Deze subverwerkers behandelen geen persoonlijke informatie en zijn bedoeld voor functies die u binnen Clarus WMS kunt gebruiken, zoals cloudafdrukken of verbinding maken met koeriersdiensten.
+Gebruikt om het platform te draaien, te monitoren en te ondersteunen — observability, feature management, in-app support en productanalyse. Sommige verwerken beperkte persoonsgegevens (zoals de naam en het e-mailadres van een gebruiker) zodat we de dienst kunnen leveren en u kunnen helpen.
 
- **Herinnering:** Deze subverwerkers behandelen geen persoonsgegevens.
+### Optionele functie-subverwerkers
 
-### 3. Onderverwerkers van interne systemen begrijpen
+Ondersteunen optionele functies die u kunt inschakelen, zoals cloudafdrukken, koeriersverzending of de chatkanalen van de AI-assistent. Afhankelijk van de functie kunnen deze persoonsgegevens verwerken (bijvoorbeeld bezorgadressen op verzendlabels).
 
-Deze subverwerkers worden door Clarus WMS intern gebruikt om haar systemen te beheren en ondersteuning te bieden. Ze kunnen gegevens opslaan of verwerken voor specifieke klantverzoeken, maar maken geen deel uit van de levering van het hoofdplatform.
+<Info>Optionele functies kunnen naar behoefte worden in- of uitgeschakeld.</Info>
 
-## FAQs
+## Applicatiesubverwerkers
 
-### Wat is een subprocessor?
+| Subverwerker | Waarvoor gebruikt | Verwerkte gegevens | Verwerkingslocatie |
+|---|---|---|---|
+| **Amazon Web Services (AWS)** | Cloudhosting, bestandsopslag, database, authenticatie (Amazon Cognito), event streaming en de language models van de AI-assistent — de Anthropic Claude-modellen draaien binnen AWS via Amazon Bedrock, zodat uw gegevens binnen AWS blijven en niet naar de eigen systemen van Anthropic worden gestuurd of worden gebruikt om hun modellen te trainen | Alle applicatie- en klantgegevens, inclusief gespreksinhoud die met de AI-assistent wordt gedeeld | Verenigd Koninkrijk (Londen); AI-inferentie binnen de Europese Unie |
+| **Mandrill (Mailchimp Transactional Email)** | Transactionele e-mail — registratie, wachtwoordherstel, account ontgrendelen, geplande rapporten en levering van CSV-exports | E-mailadres van ontvanger en e-mailinhoud/bijlagen | Verenigde Staten |
 
-Een subverwerker is een extern bedrijf dat gegevens verwerkt namens Clarus WMS. Ze behandelen vaak diensten zoals bestandsopslag, e-mailbezorging of klantenondersteuning.
+## Operationele subverwerkers
 
-### Behandelen alle subverwerkers met persoonlijk identificeerbare gegevens?
+| Subverwerker | Waarvoor gebruikt | Verwerkte gegevens | Verwerkingslocatie |
+|---|---|---|---|
+| **Datadog** | Applicatiemonitoring, performance tracing en foutregistratie | Request traces en foutlogs, die de naam, het e-mailadres en de tenant van een gebruiker kunnen bevatten | Europese Unie |
+| **LaunchDarkly** | Feature flag management | Gebruikers-/tenantidentificatie om flags te evalueren | Verenigde Staten |
+| **Gleap** | In-app support- en feedbackwidget | Gebruikersnaam, e-mailadres en tenant wanneer u feedback of een ticket indient | Europese Unie |
+| **Microsoft Clarity** | Sessieanalyse en heatmaps om het product te verbeteren | Geanonimiseerde sessie- en interactiegegevens | Verenigde Staten |
+| **Usetiful** | In-app onboarding tours en begeleiding | Voortgang van tours per gebruiker | Europese Unie |
 
-Nee, alleen bepaalde subverwerkers, voornamelijk binnen de kernapplicatie, behandelen persoonlijk identificeerbare gegevens. Anderen, vooral degenen die optionele functies bieden, doen dat niet.
+## Optionele functie-subverwerkers
 
-### Waar worden klantgegevens opgeslagen?
+| Subverwerker | Waarvoor gebruikt | Verwerkte gegevens | Verwerkingslocatie |
+|---|---|---|---|
+| **PrintNode** | Cloudafdrukken van labels en documenten | Printtaken (label-/documentinhoud) en printeridentificaties | Verenigd Koninkrijk |
+| **Courier API / Voila (Despatch Company)** | Koeriers- en verzendaggregatie | Zending- en verzendgegevens, inclusief bezorgadressen, en koeriersgegevens | Verenigd Koninkrijk |
+| **Neuro** | App voor verzend- en voorraadanalyse | Voorraadsaldi en verzendgebeurtenissen | Verenigd Koninkrijk |
+| **Maxoptra** | Route- en transportoptimalisatie | Order- en bezorgadresgegevens | Europese Unie |
+| **Versori** | Integratieplatform (iPaaS) dat e-commerceverbindingen zoals Shopify en WooCommerce koppelt | Order-, product- en voorraadgegevens die tussen Clarus en uw winkel worden gerouteerd | Verenigd Koninkrijk |
+| **Zapier** | Automatiseringsplatform (iPaaS) dat Clarus via configureerbare workflows met andere apps verbindt | Gegevens die door uw geconfigureerde workflows worden gerouteerd (bijv. order-, product- en voorraadgegevens) | Verenigde Staten |
+| **Slack** | Chatkanaal voor de AI-assistent — praat met de Clarus AI-agent vanuit Slack | Chatberichten uitgewisseld met de AI-agent | Verenigde Staten |
+| **Meta (WhatsApp Cloud API)** | Chatkanaal voor de AI-assistent — praat met de Clarus AI-agent vanuit WhatsApp | Chatberichten en telefoonnummer van de afzender | Verenigde Staten |
 
-Gegevens worden voornamelijk opgeslagen op locaties zoals het Verenigd Koninkrijk, Duitsland, Ierland en de Verenigde Staten, afhankelijk van de betrokken subverwerker.
+## Door de klant verbonden systemen
 
-### Kunnen klanten kiezen welke subverwerkers ze gebruiken?
+Sommige zaken die u met Clarus verbindt, worden door **u** beheerd, onder uw eigen overeenkomsten — deze fungeren als uw eigen verwerkers, niet als subverwerkers van Clarus:
 
-Optionele subverwerkers zoals die voor cloudafdrukken of koeriersintegratie kunnen worden ingeschakeld of uitgeschakeld op basis van de behoeften van de klant.
+- **Uw eigen AI-assistent** — wanneer u **Claude** of **ChatGPT** met Clarus verbindt via MCP, wordt die assistent aan u geleverd door Anthropic of OpenAI onder uw eigen voorwaarden. (De *eigen* ingebouwde AI-assistent van Clarus draait Anthropic Claude-modellen via Amazon Bedrock, gedekt door het AWS-item hierboven.)
+- **Uw eigen e-commerce- of ERP-systemen** — integraties zoals **Shopify**, **Brightpearl** en **WooCommerce** maken verbinding met accounts die u bezit en beheert. (Het **Versori**-integratieplatform dat sommige van deze verbindingen koppelt, is een subverwerker en staat hierboven vermeld.)
 
-### Hoe worden mijn gegevens beschermd bij het gebruik van subverwerkers?
+## Verwerkingslocaties van gegevens
 
-Clarus WMS werkt samen met vertrouwde subverwerkers die voldoen aan de voorschriften inzake gegevensprivacy om de veiligheid en vertrouwelijkheid van uw gegevens te waarborgen.
+Het eigen platform van Clarus WMS — applicatiehosting, bestands- en documentopslag, de database, back-ups en AI-verwerking — draait in het **Verenigd Koninkrijk** (AWS-regio Londen). Afzonderlijke subverwerkers kunnen gegevens in andere regio's verwerken, zoals weergegeven in de bovenstaande tabellen; raadpleeg de documentatie van elke provider voor volledige details.
+
+<Accordion title="FAQ">
+  **Wat is een subverwerker?**
+
+  Een subverwerker is een extern bedrijf dat gegevens verwerkt namens Clarus WMS — bijvoorbeeld cloudhosting, e-mailbezorging, monitoring of klantenondersteuning.
+
+  **Verwerken alle subverwerkers persoonlijk identificeerbare gegevens?**
+
+  Nee. De applicatie- en operationele subverwerkers kunnen persoonsgegevens verwerken (zoals uw naam en e-mailadres). Optionele functie-subverwerkers verwerken alleen gegevens die relevant zijn voor de functie die u inschakelt — sommige verwerken persoonsgegevens (zoals bezorgadressen), andere niet.
+
+  **Kunnen we kiezen welke subverwerkers worden gebruikt?**
+
+  Optionele functie-subverwerkers kunnen naar behoefte worden in- of uitgeschakeld. Applicatie- en operationele subverwerkers zijn vereist om de dienst te laten functioneren.
+
+  **Waar worden onze gegevens opgeslagen?**
+
+  Het eigen platform en de gegevens van Clarus WMS worden gehost in het Verenigd Koninkrijk (AWS-regio Londen). Sommige subverwerkers verwerken gegevens in de EU, de VS of wereldwijd — zie de verwerkingslocatie voor elk in de bovenstaande tabellen.
+
+  **Hoe worden onze gegevens beschermd?**
+
+  Clarus WMS werkt uitsluitend samen met vertrouwde subverwerkers die voldoen aan de toepasselijke regelgeving inzake gegevensprivacy om de veiligheid en vertrouwelijkheid van uw gegevens te waarborgen.
+</Accordion>

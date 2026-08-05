@@ -1,0 +1,46 @@
+---
+title: "AI Assistant credits & usage"
+description: "How AI Assistant usage is measured in credits, the monthly allowance included with your contract, what happens when it runs out, and what affects how quickly credits are used."
+sidebarTitle: "Credits & usage"
+needs_review: true
+---
+
+Use of the AI Assistant is measured in **credits**. This page explains where your credits come from, what happens when they run out, and what affects how quickly they're used — so you can plan usage across your team.
+
+## Your credit allowance
+
+Your AI credits are a **monthly allowance shared across your subdomain**. Everyone on your subdomain draws from the same pool — questions asked from the interface and actions triggered by automations both count against it — and the allowance **refreshes at the start of each calendar month**.
+
+Every subdomain includes a **default allowance**. Your contract can set a **higher recurring allowance**, and your allowance can be **topped up** if you need more within a month.
+
+<Info>
+  Your allowance is managed by Clarus. To move to a higher monthly tier or add more credits, talk to your account manager.
+</Info>
+
+## What happens when credits run out
+
+If your subdomain uses up its monthly allowance, the assistant **pauses new requests** until the allowance refreshes at the start of the next month, or until it's increased. This includes actions triggered by automations.
+
+<Note>
+  The check happens **before** any request is sent to a model, so you can't accidentally run over your allowance — the assistant simply stops until there are credits available again.
+</Note>
+
+## What uses credits
+
+Credits reflect how much work each request involves — specifically the amount of text the assistant has to read in and generate back. The main factors:
+
+- **Which model you choose** — this is the biggest lever. More capable models (such as Claude Opus) use considerably more per request than lighter, faster ones (such as Claude Haiku). The model picker shows a **cost indicator** for each option so you can choose with that in mind.
+- **How much data a question needs** — questions that make the assistant retrieve and read a lot of records use more than a quick, narrow lookup.
+- **The length and complexity of a conversation** — longer threads carry more context, so a long back-and-forth uses more than a single focused question.
+- **How much you use it** — the total number of conversations and actions across your team.
+- **Automations** — unattended AI actions draw on the same monthly allowance as people do, and can add up if they run frequently.
+
+<Tip>
+  You can see usage as you go: the **model picker** shows each model's relative cost, and each answer includes a short footer with the tokens it used. That makes it easy to spot which kinds of question are heavier.
+</Tip>
+
+## Getting the most from your allowance
+
+- **Match the model to the task** — use a lighter model (such as Claude Haiku) for routine, everyday questions, and reserve the most capable model for genuinely complex analysis. See [Overview](/knowledgebase/ai-assistant/overview) for the options.
+- **Ask focused questions** rather than open-ended ones that pull in more data than you need.
+- **Scope automations** to what they actually need, so scheduled or high-volume runs don't consume more than intended. See [Access & controls](/knowledgebase/ai-assistant/access-and-controls).

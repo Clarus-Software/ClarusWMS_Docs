@@ -1,0 +1,61 @@
+---
+title: "AI Assistant access & controls"
+description: "What the Clarus AI Assistant can access, how it takes actions, the controls that keep it within your permissions, and how to turn it on or off."
+sidebarTitle: "Access & controls"
+---
+
+The AI Assistant works entirely within your existing permissions. This page explains what it can reach, how the actions it takes are controlled and audited, and how to enable or disable it.
+
+## What the assistant can access
+
+**Exactly what you can access, and nothing more.**
+
+When the assistant looks up data or performs an action, it does so as *you*. Clarus checks every request against your own account's permissions, just as it does when you click through the interface. The assistant can't grant itself extra access, and a request for anything outside your permissions is refused.
+
+<Info>
+  Your sign-in credentials are never shared with the AI model. The assistant works within your permissions, but the model itself never sees or holds your login — so nothing it's asked to do can make it act as another user or reach another customer's data.
+</Info>
+
+## Actions the assistant takes
+
+When the assistant does something — placing stock on hold, updating an order — it creates a normal Clarus transaction, with the **same validation and the same full audit record** as the equivalent action from the standard interface. There is no separate, less-audited path for changes made through the assistant.
+
+Every action is attributed:
+
+- to **you**, when it comes from your session, or
+- to the **AI agent account**, when it comes from an automation (see below).
+
+Two kinds of control apply:
+
+- **Enforced controls** — the assistant cannot perform an operation you don't have permission for. This is a hard boundary, checked by Clarus on every request.
+- **Guidance controls** — you can give the assistant custom instructions for your subdomain, such as asking it to confirm before certain operations. This shapes how it behaves in normal use.
+
+## Automations and the AI agent account
+
+Some AI actions are triggered by automations rather than a person — so there's no signed-in user behind them. These run under a dedicated **AI agent account**, whose permissions you control exactly like any other user account. Whatever you allow that account to do is the limit of what your automations can do.
+
+Two things worth knowing:
+
+- The agent account is **shared** across all AI automations on your subdomain, so automated actions are attributed to that account rather than to an individual person.
+- Automations run **unattended**, with no person reviewing each action as it happens.
+
+<Tip>
+  Scope the AI agent account to the **minimum permissions** your automations actually need, and keep it **read-only** unless a specific automation needs to make changes.
+</Tip>
+
+## How your data stays protected when the assistant reads text
+
+To answer questions the assistant sometimes reads free-text that other people or systems have written into your records — order notes, inbound documents, reference fields. Several controls keep that safe:
+
+- **Permissions are enforced by Clarus, not by the assistant.** Whatever is written in a record, the assistant still can only reach data and actions your account is allowed — so nothing in a record can widen its access.
+- **Your credentials are never in reach of the model**, so nothing can make the assistant authenticate as someone else or cross into another customer's data.
+- **Every action is audited and reversible** through normal Clarus transaction history, so anything unexpected is traceable and can be undone.
+- **Least privilege on automation accounts** keeps the reach of unattended actions to the minimum you've allowed.
+
+## Turning the AI Assistant on or off
+
+| Level | Availability |
+|---|---|
+| Per subdomain | Available now — contact our support desk |
+| Per customer | Available now — contact our support desk |
+| Per user role | In development |

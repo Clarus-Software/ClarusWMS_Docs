@@ -1,48 +1,90 @@
 ---
 title: "Subprocessors"
-description: "Overview of the third-party subprocessors used by Clarus WMS, including how they handle security, privacy, and data compliance."
+description: "The third-party subprocessors Clarus WMS uses to deliver its service, what each one is used for, the data it processes, and where."
+needs_review: true
 ---
 
 ## Subprocessors overview
 
-Clarus WMS uses various third-party companies (subprocessors) to deliver its services. These subprocessors help with functions ranging from file storage and application management to customer support.
+Clarus WMS uses a number of trusted third-party companies (subprocessors) to deliver its service. These handle functions ranging from cloud hosting and email delivery to monitoring, support, and optional features such as cloud printing and carrier despatch.
 
-## Types of subprocessors
+## How we categorise subprocessors
 
 ### Application subprocessors
 
-These subprocessors handle personal information for users of the platform. They are essential for core services.
+Essential to the core platform. These process personal data belonging to users of the platform.
 
-<Warning>These subprocessors deal with your personal data.</Warning>
+<Warning>These subprocessors process your personal data.</Warning>
 
-### Optional features subprocessors
+### Operational subprocessors
 
-These subprocessors do **not** handle personal information. They support optional features you can choose to enable, such as cloud printing or courier service integrations.
+Used to run, monitor, and support the platform — observability, feature management, in-app support, and product analytics. Some process limited personal data (such as a user's name and email) so we can operate the service and help you.
 
-<Info>Optional subprocessors like cloud printing or courier integration can be enabled or disabled based on your needs.</Info>
+### Optional feature subprocessors
 
-### Internal systems subprocessors
+Support optional features you choose to enable, such as cloud printing, carrier despatch, or the AI assistant's chat channels. Depending on the feature, these may process personal data (for example, delivery addresses on shipping labels).
 
-These subprocessors are used internally to manage systems and provide support. They may store or process data for specific customer requests but are not part of the main platform delivery.
+<Info>Optional features can be enabled or disabled based on your needs.</Info>
 
-## Data storage locations
+## Application subprocessors
 
-Data is primarily stored in the **United Kingdom**, **Germany**, **Ireland**, and the **United States**, depending on the subprocessor involved.
+| Subprocessor | Used for | Data processed | Processing location |
+|---|---|---|---|
+| **Amazon Web Services (AWS)** | Cloud hosting, file storage, database, authentication (Amazon Cognito), event streaming, and the AI assistant's language models — the Anthropic Claude models run within AWS via Amazon Bedrock, so your data stays inside AWS and is not sent to Anthropic's own systems or used to train its models | All application and customer data, including conversation content shared with the AI assistant | United Kingdom (London); AI inference within the European Union |
+| **Mandrill (Mailchimp Transactional Email)** | Transactional email — registration, password reset, account unlock, scheduled reports, and CSV export delivery | Recipient email address and email content/attachments | United States |
+
+## Operational subprocessors
+
+| Subprocessor | Used for | Data processed | Processing location |
+|---|---|---|---|
+| **Datadog** | Application monitoring, performance tracing, and error logging | Request traces and error logs, which can include a user's name, email, and tenant | European Union |
+| **LaunchDarkly** | Feature flag management | User/tenant identifier used to evaluate flags | United States |
+| **Gleap** | In-app support and feedback widget | User name, email, and tenant when you raise feedback or a ticket | European Union |
+| **Microsoft Clarity** | Session analytics and heatmaps to improve the product | Anonymised session and interaction data | United States |
+| **Usetiful** | In-app onboarding tours and guidance | Per-user tour progress | European Union |
+
+## Optional feature subprocessors
+
+| Subprocessor | Used for | Data processed | Processing location |
+|---|---|---|---|
+| **PrintNode** | Cloud printing of labels and documents | Print jobs (label/document content) and printer identifiers | United Kingdom |
+| **Courier API / Voila (Despatch Company)** | Carrier and despatch aggregation | Shipment and despatch data, including delivery addresses, and carrier credentials | United Kingdom |
+| **Neuro** | Despatch and stock analytics app | Stock balances and dispatch events | United Kingdom |
+| **Maxoptra** | Route and transport optimisation | Order and delivery-address data | European Union |
+| **Versori** | Integration platform (iPaaS) that brokers e-commerce connections such as Shopify and WooCommerce | Order, product, and inventory data routed between Clarus and your store | United Kingdom |
+| **Zapier** | Automation platform (iPaaS) that connects Clarus to other apps via configurable workflows | Data routed by your configured workflows (e.g. order, product, and stock data) | United States |
+| **Slack** | AI assistant chat channel — talk to the Clarus AI agent from Slack | Chat messages exchanged with the AI agent | United States |
+| **Meta (WhatsApp Cloud API)** | AI assistant chat channel — talk to the Clarus AI agent from WhatsApp | Chat messages and sender phone number | United States |
+
+## Customer-connected systems
+
+Some things you connect to Clarus are operated by **you**, under your own agreements — they act as your own processors, not as Clarus subprocessors:
+
+- **Your own AI assistant** — when you connect **Claude** or **ChatGPT** to Clarus using MCP, that assistant is provided to you by Anthropic or OpenAI under your own terms. (Clarus's *own* built-in AI assistant runs Anthropic's Claude models via Amazon Bedrock, covered by the AWS entry above.)
+- **Your own e-commerce or ERP systems** — integrations such as **Shopify**, **Brightpearl**, and **WooCommerce** connect to accounts you own and control. (The **Versori** integration platform that brokers some of these connections is a subprocessor, listed above.)
+
+## Data processing locations
+
+Clarus WMS's own platform — application hosting, file and document storage, the database, backups, and AI processing — runs in the **United Kingdom** (AWS London region). Individual subprocessors may process data in other regions, as shown in the tables above; refer to each provider's own documentation for full detail.
 
 <Accordion title="FAQ">
   **What is a subprocessor?**
 
-  A subprocessor is a third-party company that processes data on behalf of Clarus WMS. They typically handle services like file storage, email delivery, or customer support.
+  A subprocessor is a third-party company that processes data on behalf of Clarus WMS — for example cloud hosting, email delivery, monitoring, or customer support.
 
-  **Do all subprocessors handle personally identifiable data?**
+  **Do all subprocessors process personally identifiable data?**
 
-  No. Only certain subprocessors within the core application handle personally identifiable data. Others, especially those offering optional features, do not.
+  No. The application and operational subprocessors may process personal data (such as your name and email). Optional feature subprocessors only process data relevant to the feature you enable — some involve personal data (such as delivery addresses), others do not.
 
-  **Can customers choose which subprocessors to use?**
+  **Can we choose which subprocessors are used?**
 
-  Optional subprocessors can be enabled or disabled based on customer needs. Core application subprocessors are required for the service to function.
+  Optional feature subprocessors can be enabled or disabled based on your needs. Application and operational subprocessors are required for the service to function.
 
-  **How is my data protected?**
+  **Where is our data stored?**
 
-  Clarus WMS partners with trusted subprocessors that comply with data privacy regulations to ensure the security and confidentiality of your data.
+  Clarus WMS's own platform and data are hosted in the United Kingdom (AWS London region). Some subprocessors process data in the EU, the US, or globally — see the processing location for each in the tables above.
+
+  **How is our data protected?**
+
+  Clarus WMS works only with trusted subprocessors that comply with applicable data-privacy regulations to protect the security and confidentiality of your data.
 </Accordion>

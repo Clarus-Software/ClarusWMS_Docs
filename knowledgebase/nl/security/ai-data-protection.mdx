@@ -1,0 +1,73 @@
+---
+title: "AI Assistant-gegevensbescherming"
+description: "Hoe de Clarus AI Assistant met uw gegevens omgaat — wat het model bereikt, persoonsgegevens, waar verwerking plaatsvindt, bewaring en de betrokken subverwerkers."
+sidebarTitle: "AI-gegevensbescherming"
+---
+
+Deze pagina legt uit hoe de AI Assistant met uw gegevens omgaat: wat naar het model wordt gestuurd, of het persoonsgegevens kan bevatten, waar verwerking plaatsvindt, wat wordt bewaard en wie erbij betrokken is. Voor wat de assistent kan doen en de rechten daaromheen, zie [Toegang en controles](/knowledgebase/nl/ai-assistant/access-and-controls).
+
+## Welke gegevens het model bereiken
+
+Wanneer u een vraag stelt, bereiken twee dingen het model:
+
+1. **Het gesprek** — uw vraag en de eerdere beurten van die sessie.
+2. **Gegevens die zijn opgehaald om te antwoorden** — wanneer een vraag systeemgegevens nodig heeft, haalt de assistent de specifieke records op die nodig zijn en gebruikt die om het antwoord op te stellen.
+
+Alleen de gegevens die voor dat specifieke verzoek worden teruggegeven, worden gebruikt. Er is **geen bulkexport** en **geen achtergrondsynchronisatie** van uw database naar een modelaanbieder.
+
+<Note>
+  Om een lang gesprek bij te houden, onthoudt de assistent kort recente delen van de sessie met behulp van een door AWS beheerd model. Dit draait binnen AWS onder dezelfde voorwaarden als al het andere dat hier wordt beschreven.
+</Note>
+
+## Kan het persoonsgegevens bevatten?
+
+Ja — waar het beantwoorden van uw vraag dat vereist. Een magazijnsysteem bevat minder persoonsgegevens dan de meeste bedrijfssystemen, maar niet geen. De categorieën die kunnen voorkomen zijn:
+
+- Consignee- en bedrijfsnamen
+- Bezorgadresregels, postcode en land
+- Contact-e-mailadres
+- Contacttelefoonnummer
+- Vervoerder- en vervoerdersservice-records (organisatorisch, geen individuele chauffeurs)
+- Vrije-tekstvelden die alles kunnen bevatten wat erin is geschreven — bezorg-, inpak- en picknotities, en referentievelden
+
+Twee categorieën waar we vaak naar worden gevraagd, voor alle duidelijkheid: we bewaren **geen** **geboortedatum** van de ontvanger (ook niet voor leeftijdsgebonden goederen), en we bewaren **geen** **handtekeningafbeeldingen** als leveringsbewijs in de gegevens die de assistent kan bereiken. Geen van beide bestaat in het schema.
+
+Gegevens die worden opgehaald om een vraag te beantwoorden, worden alleen gebruikt om dat antwoord te genereren en worden niet met de modelaanbieder gedeeld.
+
+<Info>
+  De assistent ziet altijd alleen gegevens waartoe uw eigen account gerechtigd is, dus hij kan niets naar voren halen wat u niet al kon inzien — deze rechtenafbakening is de controle waarop we vertrouwen. We maskeren of anonimiseren afzonderlijke veldwaarden niet extra voordat ze het model bereiken. Zie [Toegang en controles](/knowledgebase/nl/ai-assistant/access-and-controls).
+</Info>
+
+## Waar uw gegevens worden verwerkt
+
+De AI-infrastructuur draait in **AWS Europa (Londen)** en inferentie is **beperkt tot de Europese Unie**. Een bepaald verzoek kan voor capaciteit en snelheid worden bediend door een andere EU-locatie dan Londen, maar de **verwerking verlaat de EU nooit** — het wordt niet naar de Verenigde Staten of een andere regio gerouteerd.
+
+## Bewaring en modeltraining door aanbieders
+
+**Modelaanbieders ontvangen geen van uw gegevens.** De assistent bereikt de modellen via Amazon Bedrock, een door AWS beheerde dienst die de modellen binnen AWS-infrastructuur draait. De bedrijven die de modellen maken, hebben geen toegang tot die infrastructuur en dus geen toegang tot uw prompts of de antwoorden van de assistent.
+
+- **Geen training op uw gegevens.** Uw invoer en uitvoer worden niet met modelaanbieders gedeeld en niet gebruikt om hun modellen te trainen.
+- **Nul gegevensbewaring.** Ons productie-AWS-account is zo geconfigureerd dat prompts en antwoorden niet door AWS naar duurzame opslag worden geschreven.
+- **Misbruikdetectie.** AWS voert geautomatiseerde misbruikdetectie uit, die inhoud tijdelijk kan vasthouden voor veiligheidsdoeleinden zonder menselijke toegang. Waar dit van toepassing is, blijft inhoud **binnen de EU**.
+
+<Note>
+  Omdat ons account is vastgezet op nul gegevensbewaring, wordt elk toekomstig model van derden dat zou vereisen dat uw gegevens worden bewaard en met de aanbieder gedeeld, **automatisch geweigerd** — het inschakelen ervan zou een bewuste, controleerbare wijziging aan onze kant vergen, geen stille configuratieaanpassing.
+</Note>
+
+## Wat Clarus bewaart, en logging
+
+**Gesprekken.** We bewaren uw gesprekken zodat u naar een eerdere thread kunt terugkeren.
+
+- **Bewaring: 180 dagen.** Gespreksinhoud wordt na 180 dagen inactiviteit verwijderd.
+- **Opslaglocatie:** AWS Europa (Londen).
+- **Versleuteling:** versleuteld tijdens verzending en in rust.
+- **Tenant-isolatie:** gespreksrecords zijn per subdomein geïsoleerd, afgedwongen in de database.
+- **Configureerbaarheid:** de periode van 180 dagen is momenteel platformbreed vast — we kunnen nog geen kortere periode of opt-out per klant aanbieden.
+
+**Operationele logs.** Voor probleemoplossing schrijft onze tooling kortlevende diagnostische logs (opgeslagen in AWS Europa, Londen). Deze kunnen de hierboven genoemde categorieën persoonsgegevens bevatten, worden slechts kort bewaard (ongeveer een dag voor de AI-componenten) en zijn beperkt tot ons engineeringteam onder onze normale toegangscontroles.
+
+**Acties in het systeem** worden vastgelegd als normale Clarus-transacties met volledige audithistorie — zie [Toegang en controles](/knowledgebase/nl/ai-assistant/access-and-controls).
+
+## Subverwerkers
+
+**Amazon Web Services is de subverwerker** voor AI-inferentie. De bedrijven wier modellen worden gebruikt, zijn gelicentieerd aan AWS; zij hebben geen contractuele relatie met Clarus, zijn geen subverwerkers van ons en ontvangen geen van uw gegevens. Voor de volledige lijst met Clarus-subverwerkers, zie [Subverwerkers](/knowledgebase/nl/security/subprocessors).

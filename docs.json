@@ -533,9 +533,19 @@
                 "public": true
               },
               {
+                "group": "🤖 AI Assistant",
+                "pages": [
+                  "knowledgebase/ai-assistant/overview",
+                  "knowledgebase/ai-assistant/access-and-controls",
+                  "knowledgebase/ai-assistant/credits-and-usage"
+                ],
+                "public": true
+              },
+              {
                 "group": "🛡️ Compliance",
                 "pages": [
                   "knowledgebase/security/subprocessors",
+                  "knowledgebase/security/ai-data-protection",
                   "knowledgebase/security/database-backup"
                 ],
                 "public": true
@@ -1175,9 +1185,19 @@
                 "public": true
               },
               {
+                "group": "🤖 AI Assistant",
+                "pages": [
+                  "knowledgebase/nl/ai-assistant/overview",
+                  "knowledgebase/nl/ai-assistant/access-and-controls",
+                  "knowledgebase/nl/ai-assistant/credits-and-usage"
+                ],
+                "public": true
+              },
+              {
                 "group": "🛡️ Compliance",
                 "pages": [
                   "knowledgebase/nl/security/subprocessors",
+                  "knowledgebase/nl/security/ai-data-protection",
                   "knowledgebase/nl/security/database-backup"
                 ],
                 "public": true
