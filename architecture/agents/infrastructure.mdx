@@ -28,7 +28,7 @@ All AI services authenticate against the same **Cognito user pool** — an exist
 | **Key config** | PKCE support, `openid` + `claruswms/full` scopes |
 | **Connects to** | CloudFront (via origin), all gateways and runtime (JWT validation) |
 
-The AI infrastructure runs in **us-east-1** because several required services (Bedrock AgentCore, MCP gateway support) are not yet available in eu-west-2, our preferred region. The Cognito user pool remains in eu-west-2 as a shared organisational resource — the cross-region latency on token operations is negligible.
+The AI infrastructure runs in **eu-west-2** (London), the same region as the rest of the ClarusWMS AWS estate. The Cognito user pool it authenticates against is a shared organisational resource in the same region.
 
 ## Lambda@Edge Functions
 

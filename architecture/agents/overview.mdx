@@ -14,7 +14,7 @@ Several **clients** drive the agent through natural language, all authenticating
 
 Other internal services — such as backend automations — drive the runtime the same way; the pages in this section describe the platform from the perspective of any client.
 
-A **CloudFront distribution** provides a unified custom domain with path-based routing and Lambda@Edge functions that bridge Cognito's OAuth implementation with the MCP protocol's requirements. The platform runs in **us-east-1** as several required services aren't yet available in our preferred eu-west-2 region.
+A **CloudFront distribution** provides a unified custom domain with path-based routing and Lambda@Edge functions that bridge Cognito's OAuth implementation with the MCP protocol's requirements. The platform runs in **eu-west-2** (London), alongside the rest of the ClarusWMS AWS estate.
 
 <Note>
 The agent platform's code lives in **ClarusWMS_Agents**; its clients live in **ClarusWMS_AI** (the AI App) and **ClarusWMS_AI_Messaging**; and **ClarusWMS_OPS** contains the Terraform infrastructure for all of them.
