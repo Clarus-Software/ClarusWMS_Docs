@@ -535,7 +535,8 @@
                 "group": "🤖 AI Assistant",
                 "pages": [
                   "knowledgebase/ai-assistant/overview",
-                  "knowledgebase/ai-assistant/access-and-controls"
+                  "knowledgebase/ai-assistant/access-and-controls",
+                  "knowledgebase/ai-assistant/credits-and-usage"
                 ],
                 "public": true
               },
@@ -1185,7 +1186,8 @@
                 "group": "🤖 AI Assistant",
                 "pages": [
                   "knowledgebase/nl/ai-assistant/overview",
-                  "knowledgebase/nl/ai-assistant/access-and-controls"
+                  "knowledgebase/nl/ai-assistant/access-and-controls",
+                  "knowledgebase/nl/ai-assistant/credits-and-usage"
                 ],
                 "public": true
               },
