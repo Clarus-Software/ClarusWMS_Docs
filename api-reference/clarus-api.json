@@ -27815,6 +27815,92 @@
         }
       }
     },
+    "/api/stocks/{id}": {
+      "patch": {
+        "tags": [
+          "Stocks"
+        ],
+        "summary": "Update stock details",
+        "description": "Update the details of an existing stock record. Covers descriptive fields, packaging configuration, physical dimensions (including weight, via the nested `unit_dimensions` object), and the tenant-configurable custom fields. This endpoint does not move stock or change quantity — use the dedicated move, transfer, hold and negative adjustment actions for those. Creates an attributes-updated (ATTRUP) transaction for audit purposes.",
+        "x-mint": {
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"description\": \"Repackaged pallet\",\n      \"string1\": \"REF-00821\",\n      \"unit_dimensions\": {\n        \"weight\": 15.5,\n        \"weight_unit_of_measure\": \"kilogram\"\n      }\n    }\n  }\n}\n```\n\nAll attributes are optional — send only the fields you want to change.\n\n## Key Fields\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `description` | string | Free-text description of the stock line |\n| `stock_configuration` | string | Packaging configuration: `unit`, `case`, `inner`, `outer` |\n| `unit_of_measure` | string | Dimension unit: `centimetre`, `metre`, `inch`, `foot`, `millimetre` |\n| `height`, `width`, `depth` | number | Physical dimensions of the stock line (>= 0) |\n| `units_per_layer`, `configurations_per_layer`, `units_per_configuration` | number | Layout/packing quantities (>= 0) |\n| `unit_dimensions` | object | Nested dimensions record where **weight** and other physical measurements are held — see below |\n| `string1`–`string5` | string | Tenant-configurable custom text fields |\n| `integer1`–`integer5` | integer | Tenant-configurable custom number fields |\n| `datetime1`–`datetime5` | string (date-time) | Tenant-configurable custom date/time fields |\n| `boolean1`–`boolean5` | boolean | Tenant-configurable custom flag fields |\n\n## Setting Weight\n\nWeight is stored on the stock's associated dimensions record, not directly on the stock. Set it via the nested `unit_dimensions` object:\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `weight` | number | Weight of a single unit (>= 0) |\n| `weight_unit_of_measure` | string | `gram` or `kilogram` |\n| `packing_weight` | number | Packaging weight of a single unit (>= 0) |\n| `packing_weight_unit_of_measure` | string | `gram` or `kilogram` |\n| `volume` | number | Volume of a single unit (>= 0) |\n| `volume_unit_of_measure` | string | `millilitre`, `litre`, `hectolitre`, `gallon`, `pint` |\n| `cube` | number | Cubic measurement (>= 0) |\n| `height`, `length`, `width` | number | Physical dimensions (>= 0) |\n| `value` | number | Monetary/assessed value (>= 0) |\n| `unit_of_measure` | string | Dimension unit for the measurements above |\n| `stock_configuration` | string | Configuration the dimensions apply to |\n| `packing_description` | string | Free-text packing description |"
+        },
+        "operationId": "updateStock",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the stock record to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockUpdateRequest"
+              },
+              "example": {
+                "data": {
+                  "type": "stocks",
+                  "attributes": {
+                    "description": "Repackaged pallet",
+                    "string1": "REF-00821",
+                    "integer1": 12,
+                    "unit_dimensions": {
+                      "weight": 15.5,
+                      "weight_unit_of_measure": "kilogram",
+                      "height": 20,
+                      "width": 30,
+                      "length": 40,
+                      "unit_of_measure": "centimetre"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stock updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse"
+                },
+                "example": {
+                  "data": {
+                    "type": "stocks",
+                    "id": 123,
+                    "attributes": {
+                      "status": "available",
+                      "quantity": 100,
+                      "description": "Repackaged pallet",
+                      "string1": "REF-00821",
+                      "integer1": 12,
+                      "height": 20,
+                      "width": 30,
+                      "depth": 40
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
     "/api/stocks/hold": {
       "post": {
         "tags": [
@@ -38728,6 +38814,113 @@
           "reason_code_id": 5
         }
       },
+      "StockDimensions": {
+        "type": "object",
+        "description": "Physical dimensions of a stock line, including weight. Sent as the nested `unit_dimensions` object when updating stock. All properties are optional.",
+        "properties": {
+          "cube": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Cubic measurement"
+          },
+          "height": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Height, in the given unit_of_measure"
+          },
+          "length": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Length, in the given unit_of_measure"
+          },
+          "packing_description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Free-text description of the packing"
+          },
+          "packing_weight": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Weight of the packaging for a single unit"
+          },
+          "packing_weight_unit_of_measure": {
+            "type": "string",
+            "enum": [
+              "gram",
+              "kilogram"
+            ],
+            "description": "Unit for packing_weight"
+          },
+          "stock_configuration": {
+            "type": "string",
+            "enum": [
+              "unit",
+              "case",
+              "inner",
+              "outer"
+            ],
+            "description": "Packaging configuration the dimensions apply to"
+          },
+          "unit_of_measure": {
+            "type": "string",
+            "enum": [
+              "centimetre",
+              "metre",
+              "inch",
+              "foot",
+              "millimetre"
+            ],
+            "description": "Unit for the height, length and width measurements"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Monetary/assessed value"
+          },
+          "volume": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Volume of a single unit"
+          },
+          "volume_unit_of_measure": {
+            "type": "string",
+            "enum": [
+              "millilitre",
+              "litre",
+              "hectolitre",
+              "gallon",
+              "pint"
+            ],
+            "description": "Unit for volume"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Weight of a single unit"
+          },
+          "weight_unit_of_measure": {
+            "type": "string",
+            "enum": [
+              "gram",
+              "kilogram"
+            ],
+            "description": "Unit for weight"
+          },
+          "width": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Width, in the given unit_of_measure"
+          }
+        },
+        "example": {
+          "weight": 15.5,
+          "weight_unit_of_measure": "kilogram",
+          "height": 20,
+          "width": 30,
+          "length": 40,
+          "unit_of_measure": "centimetre"
+        }
+      },
       "StockHoldRequest": {
         "type": "object",
         "description": "Request body for placing stocks on hold",
@@ -38933,6 +39126,224 @@
                     "description": "Reason code ID for the transfer"
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "StockUpdateRequest": {
+        "type": "object",
+        "description": "Request body for updating the details of a stock record. All attributes are optional — send only the fields to change.",
+        "required": [
+          "data"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "type",
+              "attributes"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "stocks"
+                ],
+                "description": "Resource type identifier"
+              },
+              "attributes": {
+                "type": "object",
+                "description": "The stock detail fields to update",
+                "properties": {
+                  "boolean1": {
+                    "type": "boolean",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom flag field"
+                  },
+                  "boolean2": {
+                    "type": "boolean",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom flag field"
+                  },
+                  "boolean3": {
+                    "type": "boolean",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom flag field"
+                  },
+                  "boolean4": {
+                    "type": "boolean",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom flag field"
+                  },
+                  "boolean5": {
+                    "type": "boolean",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom flag field"
+                  },
+                  "configurations_per_layer": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Number of configurations per layer"
+                  },
+                  "datetime1": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom date/time field"
+                  },
+                  "datetime2": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom date/time field"
+                  },
+                  "datetime3": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom date/time field"
+                  },
+                  "datetime4": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom date/time field"
+                  },
+                  "datetime5": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom date/time field"
+                  },
+                  "depth": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Depth of the stock line, in the given unit_of_measure"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Free-text description of the stock line"
+                  },
+                  "height": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Height of the stock line, in the given unit_of_measure"
+                  },
+                  "integer1": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom number field"
+                  },
+                  "integer2": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom number field"
+                  },
+                  "integer3": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom number field"
+                  },
+                  "integer4": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom number field"
+                  },
+                  "integer5": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom number field"
+                  },
+                  "stock_configuration": {
+                    "type": "string",
+                    "enum": [
+                      "unit",
+                      "case",
+                      "inner",
+                      "outer"
+                    ],
+                    "description": "Packaging configuration of the stock line"
+                  },
+                  "string1": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom text field"
+                  },
+                  "string2": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom text field"
+                  },
+                  "string3": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom text field"
+                  },
+                  "string4": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom text field"
+                  },
+                  "string5": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Tenant-configurable custom text field"
+                  },
+                  "unit_dimensions": {
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/StockDimensions"
+                      }
+                    ],
+                    "description": "Nested physical dimensions record where weight and other measurements are set"
+                  },
+                  "unit_of_measure": {
+                    "type": "string",
+                    "enum": [
+                      "centimetre",
+                      "metre",
+                      "inch",
+                      "foot",
+                      "millimetre"
+                    ],
+                    "description": "Unit for the height, width and depth measurements"
+                  },
+                  "units_per_configuration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Number of units per configuration"
+                  },
+                  "units_per_layer": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Number of units per layer"
+                  },
+                  "width": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Width of the stock line, in the given unit_of_measure"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "data": {
+            "type": "stocks",
+            "attributes": {
+              "description": "Repackaged pallet",
+              "string1": "REF-00821",
+              "integer1": 12,
+              "unit_dimensions": {
+                "weight": 15.5,
+                "weight_unit_of_measure": "kilogram",
+                "height": 20,
+                "width": 30,
+                "length": 40,
+                "unit_of_measure": "centimetre"
               }
             }
           }
