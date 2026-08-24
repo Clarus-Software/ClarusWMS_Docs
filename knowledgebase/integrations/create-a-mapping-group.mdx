@@ -1,0 +1,105 @@
+---
+title: "Create a Mapping Group"
+description: "Create a mapping group in Clarus WMS, add mappings to translate external codes into Clarus records, and edit or delete them later."
+sidebarTitle: "Create a mapping group"
+---
+
+## Overview
+
+Creating a mapping group is two jobs: create the **group**, then add the **mappings** inside it. The group decides what kind of translation it performs; the mappings are the individual rules.
+
+You need the **Mapping Groups Manage** ability on your role.
+
+<Info>If you are setting up Shopify, WooCommerce, or Brightpearl, skip this page. Those mapping groups are created automatically when the integration is added — see [Mapping groups for integrations](/knowledgebase/integrations/mapping-groups-for-integrations).</Info>
+
+## Create the group
+
+<Steps>
+  <Step title="Open Mapping Groups">
+    Go to **Settings → Mapping Groups**, then click **New**.
+  </Step>
+  <Step title="Name the group">
+    Enter a **Name** (up to 50 characters) and a **Description** (up to 150 characters).
+
+    Use a name that says who and what — `Acme Orders` is easier to pick from a list later than `Mapping 1`.
+  </Step>
+  <Step title="Choose the operation type">
+    Select the **Operation Type**. For SFTP import files, choose **SFTP Import/Export**.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The group opens ready for you to add mappings.
+  </Step>
+</Steps>
+
+<Warning>The operation type is locked once the group is saved. It is greyed out when you reopen the group. If you chose the wrong type, create a new group and delete the old one.</Warning>
+
+## Add a mapping
+
+Each mapping is one translation rule.
+
+<Steps>
+  <Step title="Open the Mappings panel">
+    On the mapping group, find the **Mappings** panel and click **Add Line**, or open an existing mapping to edit it.
+  </Step>
+  <Step title="Fill in the match values">
+    The first section asks the question — for a file import it is headed **If all values below match those in the file**. Enter the codes exactly as they appear in the incoming data.
+
+    Leave a field **blank** to mean "any value". See [Blank fields and precedence](#blank-fields-and-precedence) below.
+  </Step>
+  <Step title="Choose the Clarus records">
+    The next section is headed **Then assume the following values**. Pick the Clarus account, customer, address, product, carrier, or warehouse to use when the rule matches.
+  </Step>
+  <Step title="Set any custom field values">
+    If the group has custom fields, a **Then set the following field values** section appears. Fill in the values that apply to this mapping.
+  </Step>
+  <Step title="Save">
+    Save the mapping. It takes effect on the next file or message processed.
+  </Step>
+</Steps>
+
+### Worked example
+
+A customer sends order files using their own account and delivery point codes. In Clarus the account is `ACME` and the delivery address is `ACME-MAN`.
+
+| Section | Field | Value |
+|---|---|---|
+| If all values below match those in the file | Account in File | `ACME-UK` |
+| | Delivery Address in File | `MCR01` |
+| Then assume the following values | Account in Clarus | `ACME` |
+| | Delivery Address in Clarus | `ACME-MAN` |
+
+When a file arrives with `ACME-UK` and `MCR01`, Clarus creates the order against account `ACME` delivering to `ACME-MAN`.
+
+## Blank fields and precedence
+
+A blank match field means **any value**, but only as a fallback. Clarus looks for an exact match across all values first, and only then re-checks treating blanks as wildcards.
+
+That gives you a simple way to layer rules from specific to general:
+
+| Account in File | Delivery Address in File | Assume account | Behaviour |
+|---|---|---|---|
+| `ACME-UK` | `MCR01` | `ACME` | Used when both values match. Most specific, wins. |
+| `ACME-UK` | *(blank)* | `ACME` | Used for any other `ACME-UK` line. |
+| *(blank)* | *(blank)* | `HOUSE` | Catch-all for everything else. |
+
+<Warning>Avoid two mappings that could both match the same line equally well — for example two rules that differ only in a field left blank on both. When more than one mapping is an equally good match, which one Clarus picks is not guaranteed. Make each rule specific enough to be unambiguous.</Warning>
+
+## Edit or delete
+
+- **Edit a mapping** — open it from the Mappings panel, change the values, and save.
+- **Delete a mapping** — use the delete button on its row in the Mappings panel and confirm.
+- **Rename the group** — the Name and Description can be edited at any time from the group's General panel.
+- **Delete the group** — use the delete option on the mapping group. Anything that relies on it, such as an import template, stops translating, so check what is linked to it first.
+
+<Tip>The Mappings panel is a standard data grid — you can filter, sort, choose columns, and export it. See the **Using Clarus** section for how data grids work.</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Use with SFTP imports" icon="file-import" href="/knowledgebase/integrations/mapping-groups-for-sftp-imports">
+    Attach the group to an import template.
+  </Card>
+  <Card title="Add custom fields" icon="list" href="/knowledgebase/integrations/mapping-group-fields">
+    Store your own extra values against each mapping.
+  </Card>
+</CardGroup>

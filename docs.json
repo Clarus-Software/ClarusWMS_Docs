@@ -184,6 +184,18 @@
                       "knowledgebase/financial/export-supplier-data"
                     ],
                     "public": true
+                  },
+                  {
+                    "group": "Mapping Groups",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/integrations/mapping-groups-overview",
+                      "knowledgebase/integrations/create-a-mapping-group",
+                      "knowledgebase/integrations/mapping-groups-for-sftp-imports",
+                      "knowledgebase/integrations/mapping-groups-for-integrations",
+                      "knowledgebase/integrations/mapping-group-fields"
+                    ],
+                    "public": true
                   }
                 ],
                 "public": true
@@ -429,7 +441,8 @@
                       "knowledgebase/warehouse-setup/location-import",
                       "knowledgebase/outbound/address-import",
                       "knowledgebase/integrations/edi-quality-stock-hold",
-                      "knowledgebase/integrations/bespoke-imports"
+                      "knowledgebase/integrations/bespoke-imports",
+                      "knowledgebase/integrations/mapping-groups-for-sftp-imports"
                     ],
                     "public": true
                   },
@@ -493,6 +506,7 @@
                 "group": "🔌 Integration",
                 "pages": [
                   "knowledgebase/integrations/marketplace-integrations",
+                  "knowledgebase/integrations/mapping-groups-for-integrations",
                   {
                     "group": "AI assistants",
                     "expanded": false,
@@ -825,6 +839,18 @@
                       "knowledgebase/nl/financial/export-supplier-data"
                     ],
                     "public": true
+                  },
+                  {
+                    "group": "Mapping Groups",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/nl/integrations/mapping-groups-overview",
+                      "knowledgebase/nl/integrations/create-a-mapping-group",
+                      "knowledgebase/nl/integrations/mapping-groups-for-sftp-imports",
+                      "knowledgebase/nl/integrations/mapping-groups-for-integrations",
+                      "knowledgebase/nl/integrations/mapping-group-fields"
+                    ],
+                    "public": true
                   }
                 ],
                 "public": true
@@ -1070,7 +1096,8 @@
                       "knowledgebase/nl/warehouse-setup/location-import",
                       "knowledgebase/nl/outbound/address-import",
                       "knowledgebase/nl/integrations/edi-quality-stock-hold",
-                      "knowledgebase/nl/integrations/bespoke-imports"
+                      "knowledgebase/nl/integrations/bespoke-imports",
+                      "knowledgebase/nl/integrations/mapping-groups-for-sftp-imports"
                     ],
                     "public": true
                   },
@@ -1145,6 +1172,7 @@
                 "group": "🔌 Integratie",
                 "pages": [
                   "knowledgebase/nl/integrations/marketplace-integrations",
+                  "knowledgebase/nl/integrations/mapping-groups-for-integrations",
                   {
                     "group": "AI-assistenten",
                     "expanded": false,

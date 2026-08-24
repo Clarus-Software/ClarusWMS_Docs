@@ -1,0 +1,94 @@
+---
+title: "Mapping Groups voor SFTP-imports"
+description: "Koppel een mapping group aan een import template zodat Clarus WMS de account-, klant- en adrescodes in een SFTP-importbestand kan vertalen naar uw eigen records."
+sidebarTitle: "Gebruik bij SFTP-imports"
+---
+
+## Overzicht
+
+Wanneer een partner u een order- of pre-receiptbestand stuurt, gebruikt dat bestand **zijn** codes. Een mapping group die aan de import template is gekoppeld, vertaalt die codes tijdens de verwerking naar uw Clarus-accounts, -klanten en -adressen.
+
+Zonder mapping group moet elke code in het bestand exact overeenkomen met een Clarus-code, anders mislukt de import.
+
+<Info>Deze pagina behandelt de mappingkant van een import. Voor het uploaden van bestanden en het controleren of een import is geslaagd, zie [SFTP-overzicht](/knowledgebase/nl/integrations/use-sftp-for-imports).</Info>
+
+## Wat kan worden gemapt
+
+Bij bestandsimports vertaalt een mapping vier waarden:
+
+| Waarde in het bestand | Wordt |
+|---|---|
+| **Account in File** | Account in Clarus |
+| **Customer in File** | Customer in Clarus |
+| **Collection Address in File** | Collection Address in Clarus |
+| **Delivery Address in File** | Delivery Address in Clarus |
+
+Welke hiervan daadwerkelijk in uw bestand voorkomen, hangt af van het importtype. Een orderimport leest de account-, klant- en afleveradresreferenties; een pre-receiptimport leest ook de ophaaladresreferentie.
+
+## Een mapping group aan een import template koppelen
+
+<Steps>
+  <Step title="Maak eerst de groep aan">
+    Maak een mapping group aan met operation type **SFTP Import/Export** en voeg uw mappings toe. Zie [Een mapping group aanmaken](/knowledgebase/nl/integrations/create-a-mapping-group).
+  </Step>
+  <Step title="Open de import template">
+    Ga naar **Settings → FTP Users**, open de SFTP-gebruiker die het bestand ontvangt en open de betreffende **Import Template**.
+  </Step>
+  <Step title="Selecteer de mapping group">
+    Kies uw groep in het veld **Mapping Group** en sla op.
+  </Step>
+  <Step title="Test met een echt bestand">
+    Upload een voorbeeldbestand en controleer **System Logs**. Een geslaagde import bevestigt dat de mapping is toegepast; een fout geeft aan welke waarde niet kon worden opgelost.
+  </Step>
+</Steps>
+
+<Warning>De keuzelijst **Mapping Group** op een import template toont alleen groepen met het operation type **SFTP Import/Export**. Staat uw groep er niet bij, controleer dan het operation type — en let erop dat het type niet kan worden gewijzigd nadat de groep is opgeslagen.</Warning>
+
+## Hoe Clarus elke waarde oplost
+
+Voor elke regel in het bestand lost Clarus elke waarde in deze volgorde op:
+
+<Steps>
+  <Step title="De code rechtstreeks opzoeken">
+    Komt de code in het bestand overeen met de code van een Clarus-record, dan wordt dat record gebruikt en wordt de mapping group voor die waarde niet geraadpleegd.
+  </Step>
+  <Step title="Terugvallen op de mapping group">
+    Is er geen directe match, dan zoekt Clarus de passende mapping en gebruikt het record dat daar is aangenomen.
+  </Step>
+  <Step title="Een fout melden">
+    Levert geen van beide een resultaat, dan mislukt de import voor die regel en verschijnt de reden in System Logs.
+  </Step>
+</Steps>
+
+Dit is belangrijk om te weten, want het betekent dat **een mapping group nooit een code overschrijft die al geldig is in Clarus**. Hij vult alleen de gaten. U heeft dus alleen mappings nodig voor codes die afwijken.
+
+<Note>Het koppelen van een mapping group verandert hoe adres*referenties* worden verwerkt bij pre-receiptimports: ophaaladressen worden dan opgelost via de code of via de mapping group, en niet meer door te zoeken op een overeenkomende externe referentie. Map de benodigde ophaaladressen dus expliciet.</Note>
+
+### De mapping matchen
+
+Clarus matcht de waarden uit het bestand in twee stappen tegen uw mappings — eerst exact, daarna met lege velden als wildcard. Een specifieke regel wint altijd van een algemene. Zie [Lege velden en voorrang](/knowledgebase/nl/integrations/create-a-mapping-group#lege-velden-en-voorrang).
+
+## Een groep gebruiken als set standaardwaarden
+
+Sommige maatwerkimports bevatten helemaal geen partnercodes. Maak hiervoor een mapping group met **één mapping waarbij alle matchvelden leeg zijn** en de gewenste Clarus-records ingevuld. Elke regel krijgt dan dezelfde standaardwaarden.
+
+Dit is een gangbaar patroon voor site transfers en feeds met één account, waarbij het account en de adressen nooit variëren.
+
+## Problemen oplossen
+
+<AccordionGroup>
+  <Accordion title="De import mislukte met de melding dat een account of adres niet gevonden kon worden">
+    De code in het bestand kwam niet overeen met een Clarus-record én niet met een mapping. Vergelijk de code in het bestand met de waarde **Account in File** op uw mapping — deze moet exact overeenkomen, inclusief hoofdletters, spaties en voorloopnullen.
+  </Accordion>
+  <Accordion title="Orders worden op het verkeerde account geïmporteerd">
+    De code in het bestand is waarschijnlijk al een geldige Clarus-accountcode, waardoor deze direct wordt gebruikt en uw mapping nooit wordt bereikt. Mapping groups vullen alleen gaten — ze overschrijven geen geldige codes.
+  </Accordion>
+  <Accordion title="Mijn mapping group staat niet in de keuzelijst van de import template">
+    Het operation type van de groep is niet **SFTP Import/Export**. Maak een nieuwe groep aan met het juiste type; het type kan op een bestaande groep niet worden gewijzigd.
+  </Accordion>
+  <Accordion title="Er wordt een algemene regel gebruikt in plaats van mijn specifieke regel">
+    Controleer of de specifieke mapping matcht op **elke** waarde die in de bestandsregel aanwezig is. Een mapping wint de exacte-matchronde alleen als al zijn ingevulde velden overeenkomen.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>Voor importfouten die niets met mapping te maken hebben, zie [Importfouten](/knowledgebase/nl/troubleshooting/import-errors).</Tip>

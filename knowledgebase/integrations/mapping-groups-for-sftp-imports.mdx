@@ -1,0 +1,94 @@
+---
+title: "Mapping Groups for SFTP Imports"
+description: "Attach a mapping group to an import template so Clarus WMS can translate the account, customer, and address codes in an SFTP import file into your own records."
+sidebarTitle: "Use with SFTP imports"
+---
+
+## Overview
+
+When a partner sends you an order or pre-receipt file, the file uses **their** codes. A mapping group attached to the import template translates those codes into your Clarus accounts, customers, and addresses as the file is processed.
+
+Without a mapping group, every code in the file has to match a Clarus code exactly or the import fails.
+
+<Info>This page covers the mapping side of an import. For how to upload files and check whether an import succeeded, see [SFTP Overview](/knowledgebase/integrations/use-sftp-for-imports).</Info>
+
+## What can be mapped
+
+For file imports, a mapping translates four values:
+
+| Value in the file | Becomes |
+|---|---|
+| **Account in File** | Account in Clarus |
+| **Customer in File** | Customer in Clarus |
+| **Collection Address in File** | Collection Address in Clarus |
+| **Delivery Address in File** | Delivery Address in Clarus |
+
+Which of these actually appear in your file depends on the import type. An order import reads the account, customer, and delivery address references; a pre-receipt import also reads the collection address reference.
+
+## Attach a mapping group to an import template
+
+<Steps>
+  <Step title="Create the group first">
+    Create a mapping group with the operation type **SFTP Import/Export** and add your mappings. See [Create a mapping group](/knowledgebase/integrations/create-a-mapping-group).
+  </Step>
+  <Step title="Open the import template">
+    Go to **Settings → FTP Users**, open the SFTP user that receives the file, and open the relevant **Import Template**.
+  </Step>
+  <Step title="Select the mapping group">
+    In the **Mapping Group** field, choose your group and save.
+  </Step>
+  <Step title="Test with a real file">
+    Upload a sample file and check **System Logs**. A successful import confirms the mapping resolved; a failure explains which value could not be resolved.
+  </Step>
+</Steps>
+
+<Warning>The **Mapping Group** dropdown on an import template only lists groups with the **SFTP Import/Export** operation type. If your group is missing from the list, check its operation type — and remember the type cannot be changed after the group is saved.</Warning>
+
+## How Clarus resolves each value
+
+For every line in the file, Clarus resolves each value in this order:
+
+<Steps>
+  <Step title="Look the code up directly">
+    If the code in the file matches a Clarus record's code, that record is used and the mapping group is not consulted for that value.
+  </Step>
+  <Step title="Fall back to the mapping group">
+    If there is no direct match, Clarus finds the matching mapping and uses the record it assumes.
+  </Step>
+  <Step title="Report an error">
+    If neither resolves the value, the import fails for that line and the reason appears in System Logs.
+  </Step>
+</Steps>
+
+This is worth understanding, because it means **a mapping group never overrides a code that is already valid in Clarus**. It only fills the gaps. You therefore only need mappings for the codes that differ.
+
+<Note>Attaching a mapping group changes how address *references* are handled on pre-receipt imports: collection addresses are then resolved by code or by the mapping group, rather than by searching for a matching external reference. Map the collection addresses you need explicitly.</Note>
+
+### Matching the mapping
+
+Clarus matches the values from the file against your mappings in two passes — exact first, then treating blank fields as wildcards. A specific rule always beats a general one. See [Blank fields and precedence](/knowledgebase/integrations/create-a-mapping-group#blank-fields-and-precedence).
+
+## Using a group as a set of defaults
+
+Some bespoke imports carry no partner codes at all. For these, create a mapping group containing a **single mapping with all match fields left blank** and the Clarus records you want filled in. Every line then picks up the same defaults.
+
+This is a common pattern for site transfer and single-account feeds where the account and addresses never vary.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The import failed saying an account or address could not be found">
+    The code in the file matched neither a Clarus record nor a mapping. Check the code in the file against the **Account in File** value on your mapping — it must match exactly, including case, spacing, and any leading zeros.
+  </Accordion>
+  <Accordion title="Orders are importing against the wrong account">
+    The code in the file is probably a valid Clarus account code already, so it is being used directly and your mapping is never reached. Mapping groups only fill gaps — they do not override valid codes.
+  </Accordion>
+  <Accordion title="My mapping group is not in the import template dropdown">
+    The group's operation type is not **SFTP Import/Export**. Create a new group with the correct type; the type cannot be changed on an existing group.
+  </Accordion>
+  <Accordion title="A general rule is being used instead of my specific one">
+    Check the specific mapping matches on **every** value present in the file line. A mapping only wins the exact-match pass if all of its populated fields match.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>For import failures unrelated to mapping, see [Import errors](/knowledgebase/troubleshooting/import-errors).</Tip>

@@ -1,0 +1,103 @@
+---
+title: "Mapping Groups for Integrations"
+description: "Map products, carriers, shipping rates, and warehouses from Shopify, WooCommerce, Brightpearl, and other connected systems to the matching records in Clarus WMS."
+sidebarTitle: "Use with integrations"
+---
+
+## Overview
+
+When you connect a sales channel or ERP to Clarus, the two systems describe the same things differently. Shopify has its own product IDs; Brightpearl has its own warehouse IDs; a WooCommerce order carries a shipping method name rather than a carrier and service. Mapping groups hold those translations.
+
+The important difference from file imports: **integration mapping groups are created for you**. When the integration is added, Clarus creates the groups it needs and links them to it. Your job is to fill them in, not to create them.
+
+## What gets created
+
+Adding an integration creates one group per thing that needs mapping, named after the integration:
+
+| Integration | Groups created |
+|---|---|
+| **Shopify** | Product, Carrier, Warehouse |
+| **WooCommerce** | Product, Carrier |
+| **Brightpearl** | Product, Carrier, Warehouse |
+
+You will find them under **Settings → Mapping Groups** with names such as `Versori Shopify - 12 - Product Mappings`, and linked from the integration itself.
+
+<Warning>Do not create these groups by hand. A group created manually is not linked to the integration and will be ignored. Always work with the groups the integration created.</Warning>
+
+## What each type maps
+
+<AccordionGroup>
+  <Accordion title="Product mappings">
+    Match a product in the connected system to a **Product in Clarus**, so stock levels and order lines line up.
+
+    - **Shopify** — matches on **Product ID in Shopify**, and optionally **Product Variant ID in Shopify** where a product has variants.
+    - **WooCommerce** — matches on **Product ID in WooCommerce**.
+    - **Brightpearl** — matches on **Product ID in Brightpearl**.
+  </Accordion>
+  <Accordion title="Carrier mappings">
+    Match the delivery option on an incoming order to a **Carrier in Clarus** and a **Carrier Service in Clarus**, so orders are dispatched on the right service.
+
+    - **Shopify** — matches on **Shipping Rate Name in Shopify**, and sets the **Tracking Company in Shopify** used when tracking is sent back.
+    - **WooCommerce** — matches on **Shipping Method ID in WooCommerce**, and sets the **Tracking Provider in WooCommerce**.
+    - **Brightpearl** — matches on **Shipping Method ID in Brightpearl**.
+
+    The carrier service list is filtered by the carrier you choose, so pick the carrier first.
+  </Accordion>
+  <Accordion title="Warehouse mappings">
+    Match a location in the connected system to a **Warehouse in Clarus** and the **Goods Out Bay in Clarus** that orders for it should be dispatched from.
+
+    - **Shopify** — matches on **Fulfillment Service ID in Shopify** and **Location ID in Shopify**.
+    - **Brightpearl** — matches on **Warehouse ID in Brightpearl**.
+
+    Only goods out bay locations are offered, filtered to the warehouse you selected.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>Shopify, WooCommerce, and Brightpearl mappings also have a **Comments** box. Use it to record why a mapping exists — it saves guesswork when someone revisits it months later.</Tip>
+
+## Fill in a mapping
+
+<Steps>
+  <Step title="Get the ID from the connected system">
+    Find the product, shipping rate, or location ID in Shopify, WooCommerce, or Brightpearl. These are the values the integration sends, so they must be entered exactly.
+  </Step>
+  <Step title="Open the mapping group">
+    Go to **Settings → Mapping Groups** and open the group the integration created, or reach it from the integration.
+  </Step>
+  <Step title="Add a mapping">
+    Click **Add Line**. Enter the external ID under **If value below matches this in Shopify** (or WooCommerce, or Brightpearl), then choose the Clarus record under **Then assume the following values**.
+  </Step>
+  <Step title="Save">
+    Save the mapping. It applies to the next order or message the integration processes.
+  </Step>
+</Steps>
+
+## External entities
+
+Some integrations discover values as they go rather than requiring everything up front. The first time an unrecognised carrier, shipping rate, or product arrives, Clarus records it as an **external entity** — a note that "this thing exists in the other system and is not mapped yet".
+
+You then map it by adding a mapping that selects that external entity on the match side and the Clarus record on the assume side. The dropdown lists the entities the integration has seen, showing their code and description, so you do not have to hunt IDs down manually.
+
+<Note>Orders that arrive before their shipping rate or product has been mapped may not be able to resolve a carrier or product. Check for unmapped external entities after going live, and again whenever the connected system adds a new product or delivery option.</Note>
+
+## Keeping mappings current
+
+Mappings do not maintain themselves. Review them whenever:
+
+- A new product is added in the connected system.
+- A new delivery option or shipping rate is offered.
+- A carrier or service changes in Clarus.
+- A new location or warehouse is added at either end.
+
+<Tip>If an integration starts failing to resolve products or carriers shortly after a change in the connected system, an unmapped new value is the usual cause.</Tip>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Mapping groups overview" icon="circle-info" href="/knowledgebase/integrations/mapping-groups-overview">
+    How mapping groups work and when you need one.
+  </Card>
+  <Card title="Marketplace integrations" icon="store" href="/knowledgebase/integrations/marketplace-integrations">
+    Connecting sales channels to Clarus.
+  </Card>
+</CardGroup>

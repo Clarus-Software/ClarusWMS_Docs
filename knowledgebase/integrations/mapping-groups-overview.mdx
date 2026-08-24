@@ -1,0 +1,116 @@
+---
+title: "Mapping Groups"
+description: "Mapping groups translate the codes used by your customers, suppliers, and sales channels into the accounts, customers, addresses, products, and carriers that exist in Clarus WMS."
+sidebarTitle: "Overview"
+---
+
+## Overview
+
+A **mapping group** is a translation table. It tells Clarus what an outside code means.
+
+Everyone you exchange data with uses their own codes. Your customer's order file calls an account `ACME-UK`, but in Clarus that account is `ACME`. Shopify sends a shipping rate called `Next Day Delivery`, but your carrier record is `DPD` with the service `NEXTDAY`. Rather than asking every partner to change their data, you record the translation once in a mapping group and Clarus applies it automatically.
+
+Each mapping group holds a list of **mappings**. Every mapping is one rule, and every rule reads the same way:
+
+> **If** these values match — **then** assume these Clarus records.
+
+Find them under **Settings → Mapping Groups**.
+
+## When you need one
+
+You need a mapping group whenever data arriving in Clarus does not already use your Clarus codes:
+
+- **SFTP imports** — an order or pre-receipt file uses the sender's account, customer, or address references instead of yours.
+- **Marketplace and ERP integrations** — Shopify, WooCommerce, or Brightpearl products, carriers, and warehouses need to line up with your Clarus records.
+- **Bespoke interfaces** — a per-customer EDI or file interface that needs a lookup table maintained by your team rather than by Clarus.
+
+If the codes in the incoming data already match your Clarus codes exactly, you do not need a mapping group.
+
+## The parts of a mapping group
+
+<AccordionGroup>
+  <Accordion title="The group">
+    A named container with an **operation type**. The operation type decides what the group is for and which fields its mappings offer. It is fixed once the group is saved.
+  </Accordion>
+  <Accordion title="The mappings">
+    The rules themselves. Each has a **match** side (the incoming values) and an **assume** side (the Clarus records to use when it matches).
+  </Accordion>
+  <Accordion title="The fields (optional)">
+    Extra values of your own that you can attach to every mapping in the group — a customer's own reference, a routing code, a depot number. See [Add custom fields](/knowledgebase/integrations/mapping-group-fields).
+  </Accordion>
+</AccordionGroup>
+
+## Operation types
+
+The operation type is chosen when you create the group and **cannot be changed afterwards**. If you pick the wrong one, create a new group.
+
+| Operation type | Used for |
+|---|---|
+| **SFTP Import/Export** | Order, pre-receipt, and other file imports arriving over SFTP. This is the type used by import templates. |
+| **Integration Product** | Matching a product in a connected system to a product in Clarus. |
+| **Integration Carrier** | Matching a carrier in a connected system to a carrier and service in Clarus. |
+| **Integration Shipping Rate** | Matching a shipping rate or delivery option to a carrier and service in Clarus. |
+| **Integration Warehouse** | Matching a location or warehouse in a connected system to a Clarus warehouse and goods out bay. |
+| **Integration Shopify Product / Carrier / Warehouse** | Shopify-specific equivalents, matching on Shopify IDs. |
+| **Integration WooCommerce Product / Carrier** | WooCommerce-specific equivalents. |
+| **Integration Brightpearl Product / Carrier / Warehouse** | Brightpearl-specific equivalents. |
+| **Stock Hold / Stock Release** | Bespoke quality-hold interfaces. |
+
+<Warning>**FTP Import** is a retired operation type. It still appears on older groups, but new groups cannot use it — choose **SFTP Import/Export** instead.</Warning>
+
+<Info>Mapping groups for Shopify, WooCommerce, and Brightpearl are **created for you** when the integration is added. Do not create them by hand — open the integration and use the groups already linked to it. See [Mapping groups for integrations](/knowledgebase/integrations/mapping-groups-for-integrations).</Info>
+
+## How a mapping is matched
+
+For file imports, Clarus works through two passes:
+
+<Steps>
+  <Step title="Exact match">
+    Clarus looks for a mapping where **every** value in the file matches the mapping exactly.
+  </Step>
+  <Step title="Match with blanks as wildcards">
+    If nothing matched exactly, Clarus looks again — this time a **blank** field on a mapping counts as "matches anything".
+  </Step>
+</Steps>
+
+This means a specific rule always beats a general one. You can safely add a catch-all mapping with most fields left blank, knowing your precise rules still take priority.
+
+<Tip>A mapping with **every** match field left blank acts as a default for the whole group — it is used whenever nothing more specific fits.</Tip>
+
+## Codes in the file still come first
+
+A mapping group is a **fallback**, not an override. When importing a file, Clarus first tries to find the record directly from the code in the file. Only if that fails does it fall back to the mapping group.
+
+So for each value, in order:
+
+1. The code in the file matches a Clarus record → that record is used.
+2. Otherwise, the matching mapping supplies the record.
+3. Otherwise, the value is left unresolved and the import reports an error.
+
+<Note>You do not need a mapping for partners who already send your Clarus codes. Add mappings only for the codes that need translating.</Note>
+
+## Permissions
+
+Two abilities control access, set on the user's role:
+
+- **Mapping Groups** — view mapping groups and their mappings.
+- **Mapping Groups Manage** — create, edit, and delete them.
+
+Without the manage ability the screens are read-only.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create a mapping group" icon="plus" href="/knowledgebase/integrations/create-a-mapping-group">
+    Set up a group and add your first mappings.
+  </Card>
+  <Card title="Use with SFTP imports" icon="file-import" href="/knowledgebase/integrations/mapping-groups-for-sftp-imports">
+    Attach a group to an import template.
+  </Card>
+  <Card title="Use with integrations" icon="plug" href="/knowledgebase/integrations/mapping-groups-for-integrations">
+    Map products, carriers, and warehouses from connected systems.
+  </Card>
+  <Card title="Add custom fields" icon="list" href="/knowledgebase/integrations/mapping-group-fields">
+    Store your own extra values against each mapping.
+  </Card>
+</CardGroup>

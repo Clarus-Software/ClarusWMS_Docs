@@ -1,0 +1,65 @@
+---
+title: "Aangepaste velden voor Mapping Groups"
+description: "Voeg eigen aangepaste velden toe aan een mapping group in Clarus WMS zodat elke mapping extra waarden kan meedragen, zoals een partnerreferentie of routecode."
+sidebarTitle: "Aangepaste velden"
+---
+
+## Overzicht
+
+Behalve het vertalen van codes naar Clarus-records kan een mapping group ook **uw eigen extra waarden** meedragen. U definieert de velden één keer op de groep en vult ze daarna per mapping in.
+
+Dit is handig wanneer een partner een waarde nodig heeft die nergens anders in Clarus thuishoort — een routecode, een depotnummer, een eigen contractreferentie — en die waarde afhangt van welke mapping heeft gematcht.
+
+<Info>Aangepaste velden zijn optioneel. De meeste mapping groups hebben ze niet nodig. Voeg ze alleen toe wanneer iets verderop in het proces, zoals een automation of een maatwerkexport, de waarde nodig heeft.</Info>
+
+## Een veld aan een groep toevoegen
+
+<Steps>
+  <Step title="Open de groep">
+    Ga naar **Settings → Mapping Groups** en open de mapping group.
+  </Step>
+  <Step title="Open het Fields-paneel">
+    Zoek het paneel **Fields** en klik op **Add Line**.
+  </Step>
+  <Step title="Geef het veld een naam">
+    Vul een **Field Name** in. Gebruik alleen letters, cijfers en underscores — geen spaties of leestekens — tot maximaal 50 tekens. Bijvoorbeeld `routing_code` of `depot_ref`.
+  </Step>
+  <Step title="Kies het veldtype">
+    Selecteer het **Field Type**. **String** is momenteel het enige type, dus elke waarde wordt als tekst opgeslagen.
+  </Step>
+  <Step title="Opslaan">
+    Sla het veld op. Het verschijnt nu op elke mapping in de groep.
+  </Step>
+</Steps>
+
+<Warning>Veldnamen accepteren geen spaties of leestekens. `routing code` en `routing-code` zijn ongeldig; `routing_code` is geldig.</Warning>
+
+## Waarden per mapping invullen
+
+Zodra een groep aangepaste velden heeft, krijgt elke mapping erin een onderdeel **Then set the following field values**. Open een mapping, vul de waarden in die voor die regel gelden en sla op.
+
+Waarden gelden per mapping, dus verschillende partners of afleverpunten kunnen verschillende waarden hebben voor hetzelfde veld.
+
+<Tip>Laat een veld leeg op een mapping waar het niet van toepassing is. Een leeg aangepast veld draagt eenvoudigweg geen waarde — het heeft geen invloed op de vraag of de mapping matcht.</Tip>
+
+## Waar de waarden worden gebruikt
+
+Waarden van aangepaste velden worden gekoppeld aan wat de mapping oplevert en zijn beschikbaar voor automations die door de gematchte operatie worden getriggerd. Omdat ze door automations en maatwerkkoppelingen worden gebruikt en niet op standaardschermen worden getoond, stemt u de veldnamen af met uw implementatieconsultant voordat u ze toevoegt — de automation of koppeling moet exact de naam zoeken die u gebruikt.
+
+<Note>Het toevoegen van een veld verandert op zichzelf niets aan het gedrag. Iets verderop in het proces moet het uitlezen.</Note>
+
+## Bewerken en verwijderen
+
+- **Een waarde wijzigen** — open de mapping en bewerk deze in het onderdeel **Then set the following field values**.
+- **Een veld hernoemen** — bewerk het in het paneel **Fields**. Alles wat naar de oude naam verwijst, vindt deze daarna niet meer; werk de automation of koppeling gelijktijdig bij.
+
+## Gerelateerd
+
+<CardGroup cols={2}>
+  <Card title="Een mapping group aanmaken" icon="plus" href="/knowledgebase/nl/integrations/create-a-mapping-group">
+    Maak een groep aan en voeg mappings toe.
+  </Card>
+  <Card title="Mapping groups overzicht" icon="circle-info" href="/knowledgebase/nl/integrations/mapping-groups-overview">
+    Hoe mapping groups werken en wanneer u ze nodig heeft.
+  </Card>
+</CardGroup>

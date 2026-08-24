@@ -1,0 +1,103 @@
+---
+title: "Mapping Groups voor integraties"
+description: "Koppel producten, vervoerders, verzendtarieven en magazijnen uit Shopify, WooCommerce, Brightpearl en andere gekoppelde systemen aan de bijbehorende records in Clarus WMS."
+sidebarTitle: "Gebruik bij integraties"
+---
+
+## Overzicht
+
+Wanneer u een verkoopkanaal of ERP aan Clarus koppelt, beschrijven beide systemen dezelfde dingen anders. Shopify heeft eigen product-ID's, Brightpearl eigen magazijn-ID's, en een WooCommerce-order bevat een verzendmethodenaam in plaats van een vervoerder en service. Mapping groups bevatten die vertalingen.
+
+Het belangrijke verschil met bestandsimports: **mapping groups voor integraties worden voor u aangemaakt**. Bij het toevoegen van de integratie maakt Clarus de benodigde groepen aan en koppelt ze eraan. Uw taak is ze invullen, niet aanmaken.
+
+## Wat er wordt aangemaakt
+
+Bij het toevoegen van een integratie wordt één groep aangemaakt per onderdeel dat gemapt moet worden, vernoemd naar de integratie:
+
+| Integratie | Aangemaakte groepen |
+|---|---|
+| **Shopify** | Product, Carrier, Warehouse |
+| **WooCommerce** | Product, Carrier |
+| **Brightpearl** | Product, Carrier, Warehouse |
+
+U vindt ze onder **Settings → Mapping Groups** met namen als `Versori Shopify - 12 - Product Mappings`, en ze zijn gekoppeld vanuit de integratie zelf.
+
+<Warning>Maak deze groepen niet handmatig aan. Een handmatig aangemaakte groep is niet aan de integratie gekoppeld en wordt genegeerd. Werk altijd met de groepen die de integratie heeft aangemaakt.</Warning>
+
+## Wat elk type mapt
+
+<AccordionGroup>
+  <Accordion title="Productmappings">
+    Koppelt een product in het gekoppelde systeem aan een **Product in Clarus**, zodat voorraadstanden en orderregels overeenkomen.
+
+    - **Shopify** — matcht op **Product ID in Shopify** en optioneel **Product Variant ID in Shopify** wanneer een product varianten heeft.
+    - **WooCommerce** — matcht op **Product ID in WooCommerce**.
+    - **Brightpearl** — matcht op **Product ID in Brightpearl**.
+  </Accordion>
+  <Accordion title="Vervoerdermappings">
+    Koppelt de bezorgoptie op een binnenkomende order aan een **Carrier in Clarus** en een **Carrier Service in Clarus**, zodat orders op de juiste service worden verzonden.
+
+    - **Shopify** — matcht op **Shipping Rate Name in Shopify** en stelt de **Tracking Company in Shopify** in die bij terugkoppeling van tracking wordt gebruikt.
+    - **WooCommerce** — matcht op **Shipping Method ID in WooCommerce** en stelt de **Tracking Provider in WooCommerce** in.
+    - **Brightpearl** — matcht op **Shipping Method ID in Brightpearl**.
+
+    De lijst met carrier services wordt gefilterd op de gekozen vervoerder; kies dus eerst de vervoerder.
+  </Accordion>
+  <Accordion title="Magazijnmappings">
+    Koppelt een locatie in het gekoppelde systeem aan een **Warehouse in Clarus** en de **Goods Out Bay in Clarus** vanwaar orders daarvoor verzonden moeten worden.
+
+    - **Shopify** — matcht op **Fulfillment Service ID in Shopify** en **Location ID in Shopify**.
+    - **Brightpearl** — matcht op **Warehouse ID in Brightpearl**.
+
+    Alleen GOBAY-locaties worden getoond, gefilterd op het gekozen magazijn.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>Shopify-, WooCommerce- en Brightpearl-mappings hebben ook een veld **Comments**. Leg daarin vast waarom een mapping bestaat — dat scheelt zoekwerk wanneer iemand er maanden later naar kijkt.</Tip>
+
+## Een mapping invullen
+
+<Steps>
+  <Step title="Haal het ID op uit het gekoppelde systeem">
+    Zoek het product-, verzendtarief- of locatie-ID op in Shopify, WooCommerce of Brightpearl. Dit zijn de waarden die de integratie verstuurt, dus ze moeten exact worden ingevoerd.
+  </Step>
+  <Step title="Open de mapping group">
+    Ga naar **Settings → Mapping Groups** en open de groep die de integratie heeft aangemaakt, of open deze vanuit de integratie.
+  </Step>
+  <Step title="Voeg een mapping toe">
+    Klik op **Add Line**. Voer het externe ID in onder **If value below matches this in Shopify** (of WooCommerce, of Brightpearl) en kies het Clarus-record onder **Then assume the following values**.
+  </Step>
+  <Step title="Opslaan">
+    Sla de mapping op. Deze geldt vanaf de volgende order of het volgende bericht dat de integratie verwerkt.
+  </Step>
+</Steps>
+
+## External entities
+
+Sommige integraties ontdekken waarden gaandeweg in plaats van dat alles vooraf bekend moet zijn. De eerste keer dat een onbekende vervoerder, verzendtarief of product binnenkomt, legt Clarus dit vast als een **external entity** — een notitie dat "dit bestaat in het andere systeem en is nog niet gemapt".
+
+U mapt het vervolgens door een mapping toe te voegen die die external entity aan de matchzijde selecteert en het Clarus-record aan de assume-zijde. De keuzelijst toont de entiteiten die de integratie heeft gezien, met code en omschrijving, zodat u niet handmatig naar ID's hoeft te zoeken.
+
+<Note>Orders die binnenkomen voordat hun verzendtarief of product is gemapt, kunnen mogelijk geen vervoerder of product oplossen. Controleer na livegang op niet-gemapte external entities, en opnieuw telkens wanneer het gekoppelde systeem een nieuw product of een nieuwe bezorgoptie toevoegt.</Note>
+
+## Mappings actueel houden
+
+Mappings onderhouden zichzelf niet. Controleer ze wanneer:
+
+- Een nieuw product wordt toegevoegd in het gekoppelde systeem.
+- Een nieuwe bezorgoptie of verzendtarief wordt aangeboden.
+- Een vervoerder of service in Clarus wijzigt.
+- Een nieuwe locatie of magazijn aan een van beide kanten wordt toegevoegd.
+
+<Tip>Gaat een integratie kort na een wijziging in het gekoppelde systeem producten of vervoerders niet meer oplossen, dan is een niet-gemapte nieuwe waarde meestal de oorzaak.</Tip>
+
+## Gerelateerd
+
+<CardGroup cols={2}>
+  <Card title="Mapping groups overzicht" icon="circle-info" href="/knowledgebase/nl/integrations/mapping-groups-overview">
+    Hoe mapping groups werken en wanneer u ze nodig heeft.
+  </Card>
+  <Card title="Marketplace-integraties" icon="store" href="/knowledgebase/nl/integrations/marketplace-integrations">
+    Verkoopkanalen koppelen aan Clarus.
+  </Card>
+</CardGroup>

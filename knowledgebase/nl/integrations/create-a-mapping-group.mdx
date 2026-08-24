@@ -1,0 +1,105 @@
+---
+title: "Een Mapping Group aanmaken"
+description: "Maak een mapping group aan in Clarus WMS, voeg mappings toe om externe codes te vertalen naar Clarus-records, en bewerk of verwijder ze later."
+sidebarTitle: "Mapping group aanmaken"
+---
+
+## Overzicht
+
+Een mapping group aanmaken bestaat uit twee taken: de **groep** aanmaken en vervolgens de **mappings** erin toevoegen. De groep bepaalt welk soort vertaling wordt uitgevoerd; de mappings zijn de afzonderlijke regels.
+
+U heeft de ability **Mapping Groups Manage** op uw rol nodig.
+
+<Info>Stelt u Shopify, WooCommerce of Brightpearl in, sla deze pagina dan over. Die mapping groups worden automatisch aangemaakt wanneer de integratie wordt toegevoegd — zie [Mapping groups voor integraties](/knowledgebase/nl/integrations/mapping-groups-for-integrations).</Info>
+
+## De groep aanmaken
+
+<Steps>
+  <Step title="Open Mapping Groups">
+    Ga naar **Settings → Mapping Groups** en klik op **New**.
+  </Step>
+  <Step title="Geef de groep een naam">
+    Vul een **Name** in (maximaal 50 tekens) en een **Description** (maximaal 150 tekens).
+
+    Gebruik een naam die aangeeft voor wie en waarvoor — `Acme Orders` is later makkelijker te kiezen uit een lijst dan `Mapping 1`.
+  </Step>
+  <Step title="Kies het operation type">
+    Selecteer het **Operation Type**. Voor SFTP-importbestanden kiest u **SFTP Import/Export**.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Save**. De groep opent zodat u mappings kunt toevoegen.
+  </Step>
+</Steps>
+
+<Warning>Het operation type ligt vast zodra de groep is opgeslagen. Het is grijs weergegeven wanneer u de groep opnieuw opent. Heeft u het verkeerde type gekozen, maak dan een nieuwe groep aan en verwijder de oude.</Warning>
+
+## Een mapping toevoegen
+
+Elke mapping is één vertaalregel.
+
+<Steps>
+  <Step title="Open het Mappings-paneel">
+    Zoek op de mapping group het paneel **Mappings** en klik op **Add Line**, of open een bestaande mapping om deze te bewerken.
+  </Step>
+  <Step title="Vul de matchwaarden in">
+    Het eerste onderdeel stelt de vraag — bij een bestandsimport heet dit **If all values below match those in the file**. Voer de codes exact in zoals ze in de binnenkomende gegevens staan.
+
+    Laat een veld **leeg** om "elke waarde" te bedoelen. Zie [Lege velden en voorrang](#lege-velden-en-voorrang) hieronder.
+  </Step>
+  <Step title="Kies de Clarus-records">
+    Het volgende onderdeel heet **Then assume the following values**. Kies het Clarus-account, de klant, het adres, het product, de vervoerder of het magazijn dat wordt gebruikt bij een match.
+  </Step>
+  <Step title="Vul eventuele aangepaste veldwaarden in">
+    Heeft de groep aangepaste velden, dan verschijnt een onderdeel **Then set the following field values**. Vul de waarden in die voor deze mapping gelden.
+  </Step>
+  <Step title="Opslaan">
+    Sla de mapping op. Deze werkt vanaf het volgende verwerkte bestand of bericht.
+  </Step>
+</Steps>
+
+### Uitgewerkt voorbeeld
+
+Een klant stuurt orderbestanden met eigen account- en afleverpuntcodes. In Clarus is het account `ACME` en het afleveradres `ACME-MAN`.
+
+| Onderdeel | Veld | Waarde |
+|---|---|---|
+| If all values below match those in the file | Account in File | `ACME-UK` |
+| | Delivery Address in File | `MCR01` |
+| Then assume the following values | Account in Clarus | `ACME` |
+| | Delivery Address in Clarus | `ACME-MAN` |
+
+Komt er een bestand binnen met `ACME-UK` en `MCR01`, dan maakt Clarus de order aan op account `ACME` met levering op `ACME-MAN`.
+
+## Lege velden en voorrang
+
+Een leeg matchveld betekent **elke waarde**, maar alleen als terugvaloptie. Clarus zoekt eerst een exacte match op alle waarden en controleert pas daarna opnieuw, waarbij lege velden als wildcard gelden.
+
+Zo kunt u regels eenvoudig gelaagd opbouwen, van specifiek naar algemeen:
+
+| Account in File | Delivery Address in File | Assume account | Gedrag |
+|---|---|---|---|
+| `ACME-UK` | `MCR01` | `ACME` | Gebruikt wanneer beide waarden overeenkomen. Meest specifiek, wint. |
+| `ACME-UK` | *(leeg)* | `ACME` | Gebruikt voor elke andere `ACME-UK`-regel. |
+| *(leeg)* | *(leeg)* | `HOUSE` | Vangnet voor al het overige. |
+
+<Warning>Vermijd twee mappings die even goed op dezelfde regel kunnen matchen — bijvoorbeeld twee regels die alleen verschillen in een veld dat bij beide leeg is. Matchen meerdere mappings even goed, dan staat niet vast welke Clarus kiest. Maak elke regel specifiek genoeg om eenduidig te zijn.</Warning>
+
+## Bewerken of verwijderen
+
+- **Een mapping bewerken** — open deze vanuit het Mappings-paneel, wijzig de waarden en sla op.
+- **Een mapping verwijderen** — gebruik de verwijderknop op de regel in het Mappings-paneel en bevestig.
+- **De groep hernoemen** — Name en Description kunnen altijd worden aangepast via het General-paneel van de groep.
+- **De groep verwijderen** — gebruik de verwijderoptie op de mapping group. Alles wat ervan afhankelijk is, zoals een import template, stopt met vertalen; controleer dus eerst wat eraan gekoppeld is.
+
+<Tip>Het Mappings-paneel is een standaard data grid — u kunt filteren, sorteren, kolommen kiezen en exporteren. Zie het onderdeel **Clarus gebruiken** voor de werking van data grids.</Tip>
+
+## Volgende stappen
+
+<CardGroup cols={2}>
+  <Card title="Gebruik bij SFTP-imports" icon="file-import" href="/knowledgebase/nl/integrations/mapping-groups-for-sftp-imports">
+    Koppel de groep aan een import template.
+  </Card>
+  <Card title="Aangepaste velden toevoegen" icon="list" href="/knowledgebase/nl/integrations/mapping-group-fields">
+    Sla eigen extra waarden op bij elke mapping.
+  </Card>
+</CardGroup>

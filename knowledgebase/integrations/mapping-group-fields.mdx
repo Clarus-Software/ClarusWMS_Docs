@@ -1,0 +1,65 @@
+---
+title: "Mapping Group Custom Fields"
+description: "Add your own custom fields to a mapping group in Clarus WMS so each mapping can carry extra values, such as a partner reference or routing code."
+sidebarTitle: "Custom fields"
+---
+
+## Overview
+
+Beyond translating codes into Clarus records, a mapping group can carry **your own extra values**. You define the fields once on the group, then fill them in per mapping.
+
+This is useful when a partner needs a value that has no home elsewhere in Clarus — a routing code, a depot number, their own contract reference — and that value depends on which mapping matched.
+
+<Info>Custom fields are optional. Most mapping groups do not need them. Add them only when something downstream, such as an automation or a bespoke export, needs the value.</Info>
+
+## Add a field to a group
+
+<Steps>
+  <Step title="Open the group">
+    Go to **Settings → Mapping Groups** and open the mapping group.
+  </Step>
+  <Step title="Open the Fields panel">
+    Find the **Fields** panel and click **Add Line**.
+  </Step>
+  <Step title="Name the field">
+    Enter a **Field Name**. Use letters, numbers, and underscores only — no spaces or punctuation — up to 50 characters. For example `routing_code` or `depot_ref`.
+  </Step>
+  <Step title="Choose the field type">
+    Select the **Field Type**. **String** is currently the only type, so any value is stored as text.
+  </Step>
+  <Step title="Save">
+    Save the field. It now appears on every mapping in the group.
+  </Step>
+</Steps>
+
+<Warning>Field names reject spaces and punctuation. `routing code` and `routing-code` are invalid; `routing_code` is valid.</Warning>
+
+## Fill in values per mapping
+
+Once a group has custom fields, every mapping in it gains a section headed **Then set the following field values**. Open a mapping, enter the values that apply to that rule, and save.
+
+Values are per mapping, so different partners or delivery points can carry different values for the same field.
+
+<Tip>Leave a field blank on a mapping where it does not apply. A blank custom field simply carries no value — it does not affect whether the mapping matches.</Tip>
+
+## Where the values are used
+
+Custom field values are attached to whatever the mapping resolves, and are available to automations triggered by the matching operation. Because they are used by automations and bespoke interfaces rather than shown on standard screens, agree the field names with your implementation consultant before adding them — the automation or interface has to look for the exact name you use.
+
+<Note>Adding a field does not by itself change any behaviour. Something downstream has to read it.</Note>
+
+## Editing and removing
+
+- **Change a value** — open the mapping and edit it in the **Then set the following field values** section.
+- **Rename a field** — edit it in the **Fields** panel. Anything referring to the old name stops finding it, so update the automation or interface at the same time.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Create a mapping group" icon="plus" href="/knowledgebase/integrations/create-a-mapping-group">
+    Set up a group and add mappings.
+  </Card>
+  <Card title="Mapping groups overview" icon="circle-info" href="/knowledgebase/integrations/mapping-groups-overview">
+    How mapping groups work and when you need one.
+  </Card>
+</CardGroup>

@@ -1,0 +1,116 @@
+---
+title: "Mapping Groups"
+description: "Mapping groups vertalen de codes van uw klanten, leveranciers en verkoopkanalen naar de accounts, klanten, adressen, producten en vervoerders die in Clarus WMS bestaan."
+sidebarTitle: "Overzicht"
+---
+
+## Overzicht
+
+Een **mapping group** is een vertaaltabel. Deze vertelt Clarus wat een externe code betekent.
+
+Iedereen met wie u gegevens uitwisselt, gebruikt eigen codes. Het orderbestand van uw klant noemt een account `ACME-UK`, maar in Clarus heet dat account `ACME`. Shopify stuurt een verzendtarief `Next Day Delivery`, terwijl uw vervoerder `DPD` heet met service `NEXTDAY`. In plaats van elke partner te vragen zijn gegevens aan te passen, legt u de vertaling één keer vast in een mapping group en past Clarus deze automatisch toe.
+
+Elke mapping group bevat een lijst met **mappings**. Elke mapping is één regel, en elke regel leest hetzelfde:
+
+> **Als** deze waarden overeenkomen — **dan** worden deze Clarus-records aangenomen.
+
+U vindt ze onder **Settings → Mapping Groups**.
+
+## Wanneer heeft u er een nodig
+
+U heeft een mapping group nodig wanneer gegevens die in Clarus binnenkomen niet al uw Clarus-codes gebruiken:
+
+- **SFTP-imports** — een order- of pre-receiptbestand gebruikt de account-, klant- of adresreferenties van de afzender in plaats van die van u.
+- **Marketplace- en ERP-integraties** — producten, vervoerders en magazijnen uit Shopify, WooCommerce of Brightpearl moeten aansluiten op uw Clarus-records.
+- **Maatwerkkoppelingen** — een klantspecifieke EDI- of bestandskoppeling die een opzoektabel nodig heeft die door uw team wordt beheerd.
+
+Als de codes in de binnenkomende gegevens al exact overeenkomen met uw Clarus-codes, heeft u geen mapping group nodig.
+
+## De onderdelen van een mapping group
+
+<AccordionGroup>
+  <Accordion title="De groep">
+    Een benoemde container met een **operation type**. Het operation type bepaalt waarvoor de groep dient en welke velden de mappings bieden. Het ligt vast zodra de groep is opgeslagen.
+  </Accordion>
+  <Accordion title="De mappings">
+    De regels zelf. Elke regel heeft een **match**-zijde (de binnenkomende waarden) en een **assume**-zijde (de Clarus-records die worden gebruikt bij een match).
+  </Accordion>
+  <Accordion title="De velden (optioneel)">
+    Eigen extra waarden die u aan elke mapping in de groep kunt koppelen — een klantreferentie, een routecode, een depotnummer. Zie [Aangepaste velden toevoegen](/knowledgebase/nl/integrations/mapping-group-fields).
+  </Accordion>
+</AccordionGroup>
+
+## Operation types
+
+Het operation type wordt gekozen bij het aanmaken van de groep en **kan daarna niet meer worden gewijzigd**. Kiest u het verkeerde type, maak dan een nieuwe groep aan.
+
+| Operation type | Gebruikt voor |
+|---|---|
+| **SFTP Import/Export** | Order-, pre-receipt- en andere bestandsimports via SFTP. Dit is het type dat import templates gebruiken. |
+| **Integration Product** | Een product in een gekoppeld systeem koppelen aan een product in Clarus. |
+| **Integration Carrier** | Een vervoerder in een gekoppeld systeem koppelen aan een vervoerder en service in Clarus. |
+| **Integration Shipping Rate** | Een verzendtarief of bezorgoptie koppelen aan een vervoerder en service in Clarus. |
+| **Integration Warehouse** | Een locatie of magazijn in een gekoppeld systeem koppelen aan een Clarus-magazijn en GOBAY. |
+| **Integration Shopify Product / Carrier / Warehouse** | Shopify-specifieke varianten, gematcht op Shopify-ID's. |
+| **Integration WooCommerce Product / Carrier** | WooCommerce-specifieke varianten. |
+| **Integration Brightpearl Product / Carrier / Warehouse** | Brightpearl-specifieke varianten. |
+| **Stock Hold / Stock Release** | Maatwerkkoppelingen voor kwaliteitsblokkades. |
+
+<Warning>**FTP Import** is een vervallen operation type. Het staat nog op oudere groepen, maar nieuwe groepen kunnen het niet gebruiken — kies in plaats daarvan **SFTP Import/Export**.</Warning>
+
+<Info>Mapping groups voor Shopify, WooCommerce en Brightpearl worden **voor u aangemaakt** wanneer de integratie wordt toegevoegd. Maak ze niet handmatig aan — open de integratie en gebruik de groepen die er al aan gekoppeld zijn. Zie [Mapping groups voor integraties](/knowledgebase/nl/integrations/mapping-groups-for-integrations).</Info>
+
+## Hoe een mapping wordt gematcht
+
+Bij bestandsimports werkt Clarus in twee stappen:
+
+<Steps>
+  <Step title="Exacte match">
+    Clarus zoekt een mapping waarbij **elke** waarde in het bestand exact overeenkomt met de mapping.
+  </Step>
+  <Step title="Match met lege velden als wildcard">
+    Is er geen exacte match, dan zoekt Clarus opnieuw — nu telt een **leeg** veld op een mapping als "komt met alles overeen".
+  </Step>
+</Steps>
+
+Een specifieke regel wint dus altijd van een algemene. U kunt veilig een vangnet-mapping toevoegen met de meeste velden leeg, in de wetenschap dat uw precieze regels voorrang houden.
+
+<Tip>Een mapping waarbij **alle** matchvelden leeg zijn, werkt als standaard voor de hele groep — deze wordt gebruikt wanneer niets specifiekers past.</Tip>
+
+## Codes in het bestand gaan voor
+
+Een mapping group is een **terugvaloptie**, geen overschrijving. Bij het importeren van een bestand probeert Clarus eerst het record rechtstreeks te vinden op basis van de code in het bestand. Pas als dat mislukt, wordt de mapping group geraadpleegd.
+
+Per waarde geldt dus, in volgorde:
+
+1. De code in het bestand komt overeen met een Clarus-record → dat record wordt gebruikt.
+2. Anders levert de gematchte mapping het record.
+3. Anders blijft de waarde onopgelost en meldt de import een fout.
+
+<Note>U heeft geen mapping nodig voor partners die al uw Clarus-codes sturen. Voeg alleen mappings toe voor codes die vertaald moeten worden.</Note>
+
+## Rechten
+
+Twee abilities regelen de toegang, in te stellen op de rol van de gebruiker:
+
+- **Mapping Groups** — mapping groups en hun mappings bekijken.
+- **Mapping Groups Manage** — aanmaken, bewerken en verwijderen.
+
+Zonder de manage ability zijn de schermen alleen-lezen.
+
+## Volgende stappen
+
+<CardGroup cols={2}>
+  <Card title="Een mapping group aanmaken" icon="plus" href="/knowledgebase/nl/integrations/create-a-mapping-group">
+    Maak een groep aan en voeg uw eerste mappings toe.
+  </Card>
+  <Card title="Gebruik bij SFTP-imports" icon="file-import" href="/knowledgebase/nl/integrations/mapping-groups-for-sftp-imports">
+    Koppel een groep aan een import template.
+  </Card>
+  <Card title="Gebruik bij integraties" icon="plug" href="/knowledgebase/nl/integrations/mapping-groups-for-integrations">
+    Koppel producten, vervoerders en magazijnen uit gekoppelde systemen.
+  </Card>
+  <Card title="Aangepaste velden toevoegen" icon="list" href="/knowledgebase/nl/integrations/mapping-group-fields">
+    Sla eigen extra waarden op bij elke mapping.
+  </Card>
+</CardGroup>
