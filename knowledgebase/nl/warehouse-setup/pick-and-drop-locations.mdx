@@ -1,0 +1,144 @@
+---
+title: "Pick and Drop Locaties"
+description: "Gebruik PICKANDDROP locaties om een putaway, aanvulling of pick in twee delen te splitsen, zodat één operator voorraad kan parkeren en een ander de verplaatsing kan afronden."
+sidebarTitle: "Pick and Drop"
+---
+
+Een **pick and drop** locatie is een tussenstop. Wanneer een operator een putaway-, aanvullings- of picktaak voltooit naar een pick and drop locatie in plaats van naar de echte bestemming, verplaatst Clarus de voorraad daarheen en creëert een **vervolgtaak** die de rest van de verplaatsing uitvoert. De eerste operator is direct vrij; iedereen kan het tweede deel oppakken.
+
+Gebruik dit overal waar één persoon, één truck of één shift een verplaatsing niet redelijkerwijs in één keer kan afronden.
+
+## Hoe het werkt
+
+<Steps>
+<Step title="Een taak wordt normaal gegenereerd">
+Clarus creëert een putaway-, aanvullings- of picktaak met de bedoelde bestemming — een stellinglocatie, een pickface, een goods-out bay.
+</Step>
+<Step title="De operator voltooit naar een pick and drop locatie">
+In plaats van de bedoelde bestemming scant (of selecteert) de operator een locatie met het type **PICKANDDROP**. Clarus accepteert dit en verplaatst de voorraad fysiek daarheen.
+</Step>
+<Step title="Clarus genereert de droptaak">
+Er wordt automatisch een tweede taak van hetzelfde type aangemaakt:
+
+- **Van** de pick and drop locatie
+- **Naar** de bestemming waar de eerste taak oorspronkelijk naartoe ging
+- Status **Available**, zonder toegewezen gebruiker, zodat elke operator hem kan oppakken
+- Walk sequence overgenomen van de pick and drop locatie, zodat de taak in het juiste gangpad wordt gesorteerd
+- Gekoppeld aan de eerste taak, zodat u het paar kunt traceren
+
+De oorspronkelijke taak krijgt de status **Completed**.
+</Step>
+<Step title="Een operator voltooit de droptaak">
+Het tweede deel gedraagt zich als elke gewone taak van dat type. Pas wanneer deze is voltooid, beschouwt Clarus de verplaatsing als afgerond.
+</Step>
+</Steps>
+
+<Info>
+De twee taken zijn van hetzelfde taaktype. Een putaway die bij een pick and drop wordt gesplitst levert een tweede **PWAY** taak op, een aanvulling een tweede **REPLEN**, en een pick een tweede **PICK**.
+</Info>
+
+## Waar u ze kunt gebruiken
+
+| Taaktype | Eerste deel | Tweede deel | Typische reden |
+|---|---|---|---|
+| **Putaway (PWAY)** | Goods-in bay → pick and drop | Pick and drop → stelling | De ontvangende truck komt niet bij hoge stellingen |
+| **Aanvulling (REPLEN)** | Bulkstelling → pick and drop | Pick and drop → pickface | De pickface is nog bezet of wordt gepickt |
+| **Picken (PICK)** | Stelling of pickface → pick and drop | Pick and drop → goods-out bay | Verzamelen voordat een bay of trailer bekend is |
+
+<Note>
+Voor aanvullingstaken is een pick and drop locatie de **enige** bestemming die Clarus accepteert in plaats van de doelpickface. Elke andere bestemming wordt afgewezen met "Aanvulling kan niet worden voltooid naar een andere locatie dan pick and drop."
+</Note>
+
+## Wat wel en niet wordt vastgelegd bij het eerste deel
+
+Dit is het belangrijkste punt: voorraad parkeren op een pick and drop locatie legt alleen de **verplaatsing** vast. Al het vervolg wacht op de droptaak.
+
+**Clarus legt wel vast:**
+
+- De nieuwe locatie en storage unit van de voorraad
+- Een verplaatsingstransactie (**TRAN** voor putaway en picken, **TRANSFER_COMPLETED** voor aanvulling), toegeschreven aan de operator die het deel voltooide en gekoppeld aan de taak
+- Een herberekening van de location usage voor zowel de bronlocatie als de pick and drop locatie, zodat de bezetting juist blijft
+
+**Clarus doet niet, totdat de droptaak is voltooid:**
+
+- **Putaway:** de voorraad wordt niet als opgeslagen beschouwd en de opgeslagen hoeveelheid op de goods-in receiptregel wordt niet verhoogd
+- **Picken:** de voorraad wordt niet als gepickt gemarkeerd, de gepickte hoeveelheid op de verkooporderregel verandert niet, en er wordt geen pack-, dispatch- of loadtaak aangemaakt. De picklijst wordt niet afgerond
+- **Voorraadbalansen:** er verschuift niets tussen de allocated, picked of pickable posten — de voorraad blijft in de post waarin hij al zat
+
+<Tip>
+Omdat de pick of putaway bewust onafgerond blijft, kan een order niet vooruitlopen op de fysieke voorraad. Een pallet die in een pick and drop baan staat, verschijnt niet als verzendklaar.
+</Tip>
+
+<Info>
+Aanvullingsvraag wordt **niet** vertraagd door het tweede deel. Wanneer een pick op een pick and drop locatie wordt geparkeerd, herbeoordeelt Clarus direct de aanvulling voor de locatie waar de voorraad uit kwam, zodat een pickface kan worden bijgevuld terwijl de droptaak nog openstaat.
+</Info>
+
+## Een pick and drop locatie instellen
+
+Maak de locatie zoals gebruikelijk aan (zie [Een locatie maken](/knowledgebase/nl/warehouse-setup/create-a-location)) en kies **PICKANDDROP** als locatietype.
+
+Aanbevolen instellingen:
+
+- **Allow Picking: No.** Voorraad die op een pick and drop locatie staat is al aan een taak toegewezen. Picken uitzetten houdt deze voorraad buiten de pool waaruit nieuwe picks worden gealloceerd.
+- **Geef de locatie een walk sequence.** De droptaak neemt deze over, waardoor het tweede deel logisch in de takenlijst van een operator wordt gesorteerd.
+- **Stel capaciteitslimieten in** (maximaal aantal storage units, gewicht, volume) zodat u ziet wanneer een baan vol raakt. De location usage wordt bij elke pick and drop verplaatsing herberekend.
+- **Gebruik een duidelijke codeconventie** zoals `PD-A01`, zodat operators een tussenstop direct van stelling kunnen onderscheiden.
+
+<Tip>
+Plaats pick and drop locaties daar waar de overdracht fysiek gebeurt — aan het eind van een gangpad, bij de ingang van een bay, naast een pickface — in plaats van één algemene baan voor het hele magazijn. De walk sequence helpt alleen als deze weergeeft waar de voorraad werkelijk staat.
+</Tip>
+
+## Toepassingen
+
+### Diepe of hoge stellingen overdragen aan de juiste truck
+
+Een pallet wordt ontvangen met een tegengewichttruck, maar de putaway-locatie zit bovenin smalle-gangpadstelling die alleen een reachtruck kan bereiken. De bestuurder van de tegengewichttruck voltooit de putaway naar een pick and drop locatie aan het begin van het gangpad. De reachtruckbestuurder pakt de vervolgtaak op en zet de pallet in de stelling. Geen van beiden wacht op de ander, en de receiptregel toont pas als opgeslagen wanneer de pallet echt op zijn plek staat.
+
+### Een pickface aanvullen die nog niet vrij is
+
+Een aanvullingstaak wil een volledige pallet uit bulkstelling naar een pickface verplaatsen waar een picker nog werkt. De heftruckbestuurder voltooit de aanvulling naar een pick and drop locatie naast de pickface. Wanneer de face leeg is, voltooit de picker (of de volgende beschikbare operator) de droptaak en landt de voorraad in de face. De heftruck staat niet stil te wachten en het gangpad wordt niet geblokkeerd.
+
+### Picks verzamelen voordat de bay bekend is
+
+Picks voor een grote order gaan naar een goods-out bay die nog niet aan een trailer is toegewezen. Pickers voltooien hun picks naar een pick and drop baan bij het dock. Zodra de laadbay bekend is, werkt een dockoperator de droptaken af om de voorraad naar de juiste goods-out bay te verplaatsen. Omdat de picks tot dat moment niet definitief zijn, gaat de order niet te vroeg door naar packing, dispatch of loading.
+
+### Werk overdragen aan het eind van een shift
+
+Een operator met een pallet komt aan het eind van zijn shift, of wordt op een prioriteitsklus gezet. Voltooien naar een pick and drop locatie parkeert de voorraad op een bekende, vastgelegde locatie en laat een **Available**, niet-toegewezen taak achter voor wie erna komt. Er blijft niets op een truck of in een gangpad staan zonder systeemregistratie.
+
+## Regels en beperkingen
+
+<Warning>
+Een pick and drop locatie kan nooit de **eind**bestemming van een taak zijn. Als een taak al naar een pick and drop locatie gaat, kunt u hem niet omleiden naar een andere — Clarus wijst dit af met "A pick and drop task's final destination cannot be another pick and drop location." Pick and drop is altijd een tussenstop op weg naar een echte bestemming, nooit het eindpunt.
+</Warning>
+
+- **Geen kettingen.** Door bovenstaande regel kan een verplaatsing één pick and drop deel hebben, geen reeks ervan.
+- **Kit jobs zijn uitgesloten.** Een pick die bij een kit job hoort kan niet naar een pick and drop locatie worden voltooid ("Kit job picks cannot be completed into a pick and drop location").
+- **Deelhoeveelheden worden ondersteund.** Bevestigt een operator minder dan de volledige taakhoeveelheid, dan splitst Clarus het restant af in een aparte taak tegen de oorspronkelijke bronlocatie voordat de bevestigde hoeveelheid wordt geparkeerd.
+
+### Een pick and drop verplaatsing terugdraaien
+
+Het ongedaan maken van het eerste deel draait de hele tussenstop terug: Clarus verwijdert de openstaande droptaak, zet de voorraad terug op de locatie en storage unit waar hij uit kwam, en voegt een afgesplitst restant weer samen met de oorspronkelijke taak, die terugkeert naar **Available** (of **Allocated**, als er nog een gebruiker aan hing) met de oorspronkelijke bestemming.
+
+Dit kan alleen zolang de droptaak onaangeroerd is. Is de droptaak al aan een gebruiker toegewezen of voltooid, dan wordt het terugdraaien afgewezen — handel eerst de droptaak af.
+
+<Info>
+Het annuleren van een openstaande droptaak heeft hetzelfde effect: Clarus draait de tussenstop terug en zet de voorraad terug naar het beginpunt van het eerste deel, in plaats van hem in de pick and drop locatie achter te laten.
+</Info>
+
+## Veelgestelde vragen
+
+<AccordionGroup>
+<Accordion title="Wie krijgt de vervolgtaak?">
+Standaard niemand. De droptaak wordt niet-toegewezen aangemaakt met status **Available**, zodat hij in de takenlijst verschijnt van elke operator die in dat gebied werkt. Wijs hem handmatig toe als een specifieke persoon of truck hem moet uitvoeren.
+</Accordion>
+<Accordion title="Kan ik zien welke taken uit een pick and drop komen?">
+Ja. De droptaak is gekoppeld aan de taak die hem genereerde, en de **van**-locatie is de pick and drop locatie. Filteren op die locatie toont dus alles wat er nog openstaat in de baan.
+</Accordion>
+<Accordion title="Telt voorraad op een pick and drop locatie nog mee als voorraad?">
+Ja. De voorraad staat op een echte locatie met een echte hoeveelheid en is zichtbaar in voorraadoverzichten en transacties. Wat niet verandert is de status — ontvangen voorraad is nog niet opgeslagen, en gealloceerde voorraad is nog niet gepickt.
+</Accordion>
+<Accordion title="Kunnen twee operators verschillende pallets op dezelfde pick and drop locatie parkeren?">
+Ja, binnen de mix- en capaciteitsinstellingen van de locatie zelf, die zich gedragen zoals bij elke andere locatie. Elke pallet krijgt zijn eigen droptaak.
+</Accordion>
+</AccordionGroup>
