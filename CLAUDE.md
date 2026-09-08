@@ -191,11 +191,12 @@ The changelog says **what changed and when**; the knowledgebase says **how to us
 The exception, which stays in the changelog because it would age badly in a guide:
 
 - What the feature **replaces**, and the old way of doing it.
-- **Rollout state** — coming out from behind a feature flag, or reaching all customers after a test group.
+- **Rollout state** — a feature moving from select beta to general availability.
 - **Migration notes** and differences between versions of a feature.
 
 ### Wording rules
 
+- **Never write "feature flag" in customer-facing content.** Internally a feature is gated by a flag and released to a test group; to customers it was in **select beta** and has now reached **general availability**. Say "has completed its select beta and is now generally available", not "has come out from behind its feature flag" or "enabled for all customers". The point is that the reader can tell a feature is newly GA rather than long-established. ("Feature flag" is fine in the Architecture tab and in the subprocessors table, which are not customer-facing release notes.)
 - **Configurable features — especially HHD/handheld flows — are "possible to add", not automatic.** HHD flows are configured per customer, so a change makes something *available to configure*; it does not turn up on anyone's device. Write "can now be configured to show…", not "the handheld now shows…".
 - **Performance and scale work gets benefit wording, not before-and-after.** "More efficient pick processing" — not "pick processing now scales up so orders no longer queue", which implies it was broken. Avoid "instead of timing out", "no longer fails", "no longer queues".
 - Fixes: describe the corrected behaviour, not the depth of the defect. Never imply a customer's data was at risk.
@@ -243,3 +244,4 @@ Also compile changed pages as MDX before pushing — a Mintlify build failure is
 - NEVER describe an HHD/handheld change as automatic — those flows are configured, so the change makes something possible to configure
 - NEVER write performance work as a before-and-after that implies the product was previously broken
 - NEVER assume a completed ticket is customer-facing — internal-only features (e.g. task targets) must stay out of the changelog
+- NEVER say "feature flag" or "test group" in the changelog — customers see "select beta" and "generally available"
