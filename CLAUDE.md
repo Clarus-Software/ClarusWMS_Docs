@@ -173,8 +173,8 @@ The CLI sometimes reports "Error: Export failed" even on success — verify by c
 
 ### Structure
 
-- **One `<Update>` per calendar month**, newest first. Label is the month (`September 2026`), `description` is the date range covered.
-- Inside an entry: named `##` sections for that month's significant features, then `## New`, `## Improved`, `## Fixed` lists.
+- **One `<Update>` per release period**, newest first — usually about a month, but do not force it. Combine a quiet spell into one entry, split a busy month into two, and skip a period with nothing customer-facing in it. The label names the period the entry covers (`September 2026`), and `description` gives the exact date range, so an irregular cadence still reads clearly.
+- Inside an entry: named `##` sections for that period's significant features, then `## New`, `## Improved`, `## Fixed` lists.
 - Group related tickets into one feature story. Lead with the user-visible outcome, never the ticket title.
 
 ### Mintlify mechanics
