@@ -28,6 +28,33 @@ Keep all delivery addresses in one central place so you can select them for sale
   </Step>
 </Steps>
 
+### Setting an Expected Dispatch Time
+
+Each delivery address can hold a single **expected dispatch time** — the time of day that loads for that destination are normally expected to leave. Because it lives on the address, you maintain it once per customer and delivery address combination rather than entering it on every order.
+
+<Steps>
+  <Step title="Open the delivery address">
+    In the left-hand menu, click **Delivery Addresses** and select the address you want to set a time against.
+  </Step>
+  <Step title="Enter the expected dispatch time">
+    Set the **Expected Dispatch Time** as a time of day, for example `13:00`. Click **Save**.
+  </Step>
+</Steps>
+
+When a sales order is created for that address, the expected dispatch time is carried onto the order's address, so orders inherit the right target without anyone keying it in.
+
+<Warning>The address must be linked to a customer before a time can be saved. If it is not, Clarus rejects the change with *"A customer must be selected before setting an expected dispatch time."* Assign the address to an account first, as described below.</Warning>
+
+<Note>Expected dispatch time can only be set on **delivery** addresses. Setting it on a [collection address](/knowledgebase/outbound/collection-addresses) is rejected, because a collection address describes where goods are picked up rather than where a load is going.</Note>
+
+You can also:
+
+- **Sort and filter** by expected dispatch time on the delivery addresses grid. It behaves like the other date and time fields, so you can match an exact time or search a range. See [Customising data grids](/knowledgebase/reporting/customise-data-grids).
+- **Load times in bulk** through the address import, using an `expected_dispatch_time` column. See [Address import](/knowledgebase/outbound/address-import).
+- **Set it over the API**, as an attribute on the delivery address.
+
+<Tip>If your dispatch windows are driven by the account rather than the destination, set them with [dispatch strategies](/knowledgebase/accounts/dispatch-strategies) instead. Expected dispatch time is the right tool when the timing depends on *where* the load is going.</Tip>
+
 ### Assigning a Delivery Address to an Account
 
 <Steps>

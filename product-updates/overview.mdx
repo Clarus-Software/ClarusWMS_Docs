@@ -16,20 +16,28 @@ Everything we ship to ClarusWMS is recorded in the [changelog](/product-updates/
   </Card>
 </CardGroup>
 
-## Two kinds of entry
+## One entry a month
 
-Not every release fits a calendar. We publish both:
+The changelog carries **one entry per calendar month**, newest first. Inside each entry:
 
-- **Monthly round-ups** — labelled by month, grouping that month's smaller additions, improvements and fixes into one entry.
-- **Feature releases** — a larger piece of work gets its own entry, dated when it landed. These are the ones worth reading properly: a new pickface routing engine or a security settings page needs more than a bullet point.
+- **Named sections** for the month's significant features — what changed, what it replaces, and a link to the guide.
+- **New**, **Improved** and **Fixed** lists for everything else that shipped.
 
-A feature release is never repeated in that month's round-up, so nothing is double-counted.
+## Where the detail lives
+
+The changelog tells you *what changed and when*. The [knowledgebase](/) tells you *how to use it*, and that is where the detail belongs — one place to maintain, and the place you will actually be looking when you come to use the feature. So every feature here links to its guide rather than repeating it.
+
+The exception is anything that only matters at the time of the release and would age badly in a guide:
+
+- What the feature **replaces**, and the old way of doing it.
+- **Rollout state** — a feature coming out from behind a flag, or reaching all customers after a test group.
+- **Migration notes** and differences between versions of a feature.
+
+That kind of context stays in the changelog entry, because in six months it is history rather than instruction.
 
 ## Finding a specific release
 
-The contents panel on the right of the changelog lists every entry — each month and each named feature — so you can jump straight to a release instead of scrolling for it.
-
-Each entry also has its own address. Right-click a contents link to copy it, and you can send someone directly to the release you mean rather than to the top of the page.
+The contents panel on the right of the changelog lists each month, so you can jump straight to a period instead of scrolling for it. Each entry has its own address — right-click a contents link to copy it, and you can send someone directly to the month you mean rather than to the top of the page.
 
 <Tip>Looking for a change in a particular area? The changelog is one page, so your browser's find (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>F</kbd>) searches the whole history at once — "pickface" or "invoice" will land you in the right entries.</Tip>
 
