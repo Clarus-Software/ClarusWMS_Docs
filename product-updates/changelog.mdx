@@ -5,7 +5,7 @@ rss: true
 public: true
 ---
 
-<Update label="September 2026" description="1–8 September 2026" tags={["New","Improved","Fixed","Reporting","Picking","Integrations","Handheld"]} rss={{ title: "September 2026 — role-based dashboards, attachments on task grids", description: "Assign home screen dashboards to a role, see attachments and pick types on task grids, and more Liquid template fields." }}>
+<Update label="September 2026" description="1–8 September 2026" rss={{ title: "September 2026 — role-based dashboards, attachments on task grids", description: "Assign home screen dashboards to a role, see attachments and pick types on task grids, and more Liquid template fields." }}>
 
   ## Dashboards you can assign to a role
 
@@ -33,7 +33,7 @@ public: true
 
 </Update>
 
-<Update label="August 2026" description="3–28 August 2026" tags={["New","Improved","Fixed","Financial","Inbound","Handheld","Stock & Products","API","Platform","Security"]} rss={{ title: "August 2026 — interface refresh, more template fields, timezone fixes", description: "A refreshed interface with real record counts, a much larger set of Liquid template fields, bulk import for alternative product codes, and a batch of fixes." }}>
+<Update label="August 2026" description="3–28 August 2026" rss={{ title: "August 2026 — interface refresh, more template fields, timezone fixes", description: "A refreshed interface with real record counts, a much larger set of Liquid template fields, bulk import for alternative product codes, and a batch of fixes." }}>
 
   ## A refreshed interface, and record counts that mean something
 
@@ -89,7 +89,7 @@ public: true
 
 </Update>
 
-<Update label="Import tool: route files by their contents" description="26 August 2026 · Import tool, phase 1" tags={["New","Improved","Integrations"]} rss={{ title: "Import tool phase 1 — route files by their contents", description: "Import configurations can now be selected from values inside the file, plus multiple date formats, EDIFACT segment handling and automatic ANSI conversion." }}>
+<Update label="Import tool: routing by file contents" description="26 August 2026 · Import tool, phase 1" rss={{ title: "Import tool phase 1 — route files by their contents", description: "Import configurations can now be selected from values inside the file, plus multiple date formats, EDIFACT segment handling and automatic ANSI conversion." }}>
 
   Until now, an inbound file could only be matched to its import configuration by filename pattern or by the SFTP folder it landed in. That breaks down for EDI senders who cannot control either — EDIFACT files that arrive under any filename, with every message type dropped into the same folder.
 
@@ -109,7 +109,7 @@ public: true
 
 </Update>
 
-<Update label="Packing desk: fix it at the point of packing" description="20 August 2026" tags={["New","Improved","Fixed","Packing & Dispatch"]} rss={{ title: "Packing desk — change carrier, address and quantity while packing", description: "Packers can now correct the carrier, service, recipient address and quantity to pack without unwinding the pick." }}>
+<Update label="Packing desk: carrier, address and quantity" description="20 August 2026" rss={{ title: "Packing desk — change carrier, address and quantity while packing", description: "Packers can now correct the carrier, service, recipient address and quantity to pack without unwinding the pick." }}>
 
   Packers used to have to unwind a whole pick to correct a detail that only became obvious at the packing bench. To change a carrier they had to uncomplete the pick, cancel the pick list, edit the sales order and start again.
 
@@ -126,7 +126,7 @@ public: true
 
 </Update>
 
-<Update label="July 2026" description="1–30 July 2026" tags={["New","Improved","Fixed","Reporting","Automations","Picking","Handheld","Platform"]} rss={{ title: "July 2026 — activity report, pickface protection, faster load times", description: "A new activity report, protection against decommissioning a pickface in use, customer filters on dispatch automations, and faster first load." }}>
+<Update label="July 2026" description="1–30 July 2026" rss={{ title: "July 2026 — activity report, pickface protection, faster load times", description: "A new activity report, protection against decommissioning a pickface in use, customer filters on dispatch automations, and faster first load." }}>
 
   ## New
 
@@ -153,7 +153,7 @@ public: true
 
 </Update>
 
-<Update label="AI Assistant on its own page" description="28 July 2026" tags={["New","Improved","AI Assistant","Security"]} rss={{ title: "AI Assistant moves to a full page, with plans and credits", description: "The assistant now runs on a dedicated page rather than in a modal, with AI plans, longer session history and tenant-level usage limits." }}>
+<Update label="AI Assistant on its own page" description="28 July 2026" rss={{ title: "AI Assistant moves to a full page, with plans and credits", description: "The assistant now runs on a dedicated page rather than in a modal, with AI plans, longer session history and tenant-level usage limits." }}>
 
   The AI Assistant has moved **out of the modal and onto its own page**, with the standard Clarus menu and header still around it. You get the full width of the screen for a conversation, and you keep your navigation context while you work.
 
@@ -169,7 +169,7 @@ public: true
 
 </Update>
 
-<Update label="Expected dispatch times per delivery address" description="20 July 2026" tags={["New","Packing & Dispatch"]} rss={{ title: "Expected dispatch times per delivery address", description: "Set an expected dispatch time for each customer and delivery address combination, and have it applied automatically to new orders." }}>
+<Update label="Expected dispatch times" description="20 July 2026 · Per customer and delivery address" rss={{ title: "Expected dispatch times per delivery address", description: "Set an expected dispatch time for each customer and delivery address combination, and have it applied automatically to new orders." }}>
 
   Pick urgency should reflect when a load actually leaves, and that varies by where it is going. You can now hold **one expected dispatch time for each customer and delivery address combination**, maintained in one place rather than entered per order.
 
@@ -182,7 +182,7 @@ public: true
 
 </Update>
 
-<Update label="Security settings with self-service MFA" description="14 July 2026" tags={["New","Security"]} rss={{ title: "Security settings page with self-service MFA", description: "One place to change your password and turn multi-factor authentication on or off, plus MFA reset from the users screen." }}>
+<Update label="Security settings and self-service MFA" description="14 July 2026" rss={{ title: "Security settings page with self-service MFA", description: "One place to change your password and turn multi-factor authentication on or off, plus MFA reset from the users screen." }}>
 
   There is now a single **Security Settings** page, reached from your user profile in the bottom left of the navigation, covering both your password and your multi-factor authentication.
 
@@ -197,7 +197,7 @@ public: true
 
 </Update>
 
-<Update label="Mixed UOM picking" description="1 July 2026" tags={["New","Picking"]} rss={{ title: "Mixed UOM picking — split an order line across pickface and racking", description: "Pick processing now breaks a quantity into unit-of-measure blocks and routes each block to the pickface or to racking based on your pickface configuration." }}>
+<Update label="Mixed UOM picking" description="1 July 2026" rss={{ title: "Mixed UOM picking — split an order line across pickface and racking", description: "Pick processing now breaks a quantity into unit-of-measure blocks and routes each block to the pickface or to racking based on your pickface configuration." }}>
 
   Previously, full-pallet picks all went to racking unless you forced picks from the pickface. Now pick processing works out the sensible split for you.
 
@@ -216,7 +216,7 @@ public: true
 
 </Update>
 
-<Update label="June 2026" description="2–29 June 2026" tags={["New","Improved","Fixed","Financial","Automations","Integrations","Inbound"]} rss={{ title: "June 2026 — Northern Ireland shipments, picking automations, pickfaces for everyone", description: "UKIMS references for Windsor Framework shipments, a new automation action to process orders for picking, and continuous pickface replenishment for all customers." }}>
+<Update label="June 2026" description="2–29 June 2026" rss={{ title: "June 2026 — Northern Ireland shipments, picking automations, pickfaces for everyone", description: "UKIMS references for Windsor Framework shipments, a new automation action to process orders for picking, and continuous pickface replenishment for all customers." }}>
 
   ## Northern Ireland shipments under the Windsor Framework
 
@@ -259,7 +259,7 @@ public: true
 
 </Update>
 
-<Update label="Continuous pickface replenishment for every customer" description="29 June 2026" tags={["New","Picking"]} rss={{ title: "Continuous pickface replenishment enabled for all customers", description: "Continuous replenishment came out from behind its feature flag and is now available to every customer." }}>
+<Update label="Continuous pickface replenishment" description="29 June 2026 · Now available to all customers" rss={{ title: "Continuous pickface replenishment enabled for all customers", description: "Continuous replenishment came out from behind its feature flag and is now available to every customer." }}>
 
   Continuous pickface replenishment has come out from behind its feature flag and is **available to every customer**, after a period with a test group.
 
@@ -269,7 +269,7 @@ public: true
 
 </Update>
 
-<Update label="Scheduled recurring charges" description="24 June 2026" tags={["New","Financial"]} rss={{ title: "Scheduled recurring charges on charge cards", description: "Configure contractual time-based fees on a charge card and have them raised automatically on a daily, weekly, monthly or charge-window schedule." }}>
+<Update label="Scheduled recurring charges" description="24 June 2026" rss={{ title: "Scheduled recurring charges on charge cards", description: "Configure contractual time-based fees on a charge card and have them raised automatically on a daily, weekly, monthly or charge-window schedule." }}>
 
   Contractual fees that repeat — a minimum pallet agreement, a monthly service charge — had to be added by hand as sundry charges every period. That is admin effort, and a missed period is missed revenue.
 
