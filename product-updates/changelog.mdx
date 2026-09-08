@@ -45,7 +45,7 @@ public: true
 
   An inbound file could previously only be matched to its import configuration by filename pattern or by the SFTP folder it landed in. Neither works for EDI senders who control neither — EDIFACT files arriving under any filename, with every message type in one folder.
 
-  A configuration can now be selected on **values read from inside the file**, such as the message type in the `UNH` segment or the sender ID in the `UNB` segment, with several criteria applying together. This replaces what used to be bespoke, hard-coded development for each customer on this pattern, so the implementation team can onboard an EDIFACT sender without a developer.
+  A configuration can now be selected on **values read from inside the file**, such as the message type in the `UNH` segment or the sender ID in the `UNB` segment, with several criteria applying together. This pattern is now standard configuration rather than bespoke work, so a new EDIFACT sender can be set up without a code change.
 
   Shipped alongside it across July and August: multiple date formats in one configuration, EDIFACT segment concatenation and duplicate named fields, matching start and end segment points, QALITY stock status messages through the standard tool, and automatic ANSI to UTF-8 conversion.
 
@@ -76,13 +76,13 @@ public: true
   - **Fewer confirmations on pickface picks.** Storage unit confirmation is skipped when picking from a pickface, where scanning the unit adds nothing. See [Mixed UOM picking](/knowledgebase/warehouse-setup/mixed-uom-picking).
   - **Nominal codes on invoice automations.** The invoice automation query exposes the nominal code against document lines, for finance exports that need it. See [Export charges to Sage Line 200](/knowledgebase/financial/export-charges-to-sage-line-200).
   - **API documentation for stock updates.** Stock update endpoints are documented in the OpenAPI specification, alongside automations, import configurations, RF flows and templates added over the same period.
-  - **Security hardening.** Session tokens are destroyed on logout, closing a finding from our most recent penetration test, and an explicit organisation-level opt-out from AI model training is in place at our cloud provider. See [AI data protection](/knowledgebase/security/ai-data-protection).
+  - **AI model training opt-out.** An explicit, organisation-wide opt-out from AI model training is in place. See [AI data protection](/knowledgebase/security/ai-data-protection).
 
   ## Fixed
 
-  - Dates and times on goods in records and sales orders respect your subdomain's timezone rather than defaulting to server time.
+  - Dates and times on goods in records and sales orders respect your site's configured timezone.
   - Short receipt lines on goods in are handled correctly. See [Book goods in](/knowledgebase/inbound/book-goods-in).
-  - Intermittent logouts affecting users across multiple domains are resolved. See [Problems signing in](/knowledgebase/troubleshooting/signing-in).
+  - Intermittent logouts are resolved. See [Problems signing in](/knowledgebase/troubleshooting/signing-in).
   - Receipting against a pickface proximity putaway rule no longer fails. See [Guided putaway rules](/knowledgebase/inbound/guided-putaway-rules).
   - Auto dispatch fires on final pick tasks. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads).
   - Header and footer images upload correctly on templates, and multi-page dispatch notes keep their formatting. See [Using templates](/knowledgebase/advanced/use-templates).
@@ -109,9 +109,9 @@ public: true
 
   The assistant has moved **out of the modal and onto a dedicated page**, with the standard Clarus menu and header around it, so you get the full width of the screen for a conversation without losing your navigation context.
 
-  The commercial and safety plumbing landed in the same month: AI plans can be set per tenant, which is what makes credits and entitlement work; assistant session history is retained for 180 days; and token limits are enforced per subdomain so one busy tenant cannot exhaust shared capacity.
+  Conversation history is also kept for longer, so you can return to an earlier conversation rather than starting again.
 
-  <Info>Start at the [AI Assistant overview](/knowledgebase/ai-assistant/overview), then [Credits and usage](/knowledgebase/ai-assistant/credits-and-usage). Your data is not used to train models — see [AI data protection](/knowledgebase/security/ai-data-protection).</Info>
+  <Info>Start at the [AI Assistant overview](/knowledgebase/ai-assistant/overview). Your data is not used to train models — see [AI data protection](/knowledgebase/security/ai-data-protection).</Info>
 
   ## Expected dispatch times per delivery address
 
@@ -138,7 +138,7 @@ public: true
 
   - **You can no longer decommission a pickface that is still in use.** A pickface cannot be removed from a product while it has outstanding tasks or holds stock of that product, and removing one now clears the "enforce pickface" flags with it. See [Create a pickface](/knowledgebase/warehouse-setup/create-pickface).
   - **Pick processing scales up**, so large batches of orders no longer queue behind each other. See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).
-  - **Faster first load.** The front end is split into smaller bundles, so the application starts faster.
+  - **Faster first load.** The application starts faster.
   - **Higher receipt quantity limit** for high-volume receipts. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - **Phone number is optional on shipments**, so a shipment is not blocked when a consignee has not supplied one. See [Pre-requisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).
 
@@ -188,7 +188,7 @@ public: true
   - **Company name on shipments**, for consignees where it is required.
   - **Groups filters on the Tasks screen**, for warehouses that organise work that way. See [Create and use groups](/knowledgebase/accounts/create-and-use-groups).
   - **Order volume charge subtype** on the charge card. See [Pick charge subtypes](/knowledgebase/financial/pick-charge-subtypes).
-  - **In-app help and feedback.** The help widget is delivered through a dedicated SDK, which makes it more reliable and lets you raise feedback without leaving Clarus.
+  - **In-app help and feedback.** The help and feedback widget is more reliable, and you can raise feedback without leaving Clarus.
 
   ## Improved
 

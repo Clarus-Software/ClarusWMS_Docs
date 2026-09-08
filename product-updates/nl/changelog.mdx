@@ -45,7 +45,7 @@ public: true
 
   Een binnenkomend bestand kon voorheen alleen aan zijn importconfiguratie worden gekoppeld via een bestandsnaampatroon of via de SFTP-map waarin het terechtkwam. Geen van beide werkt voor EDI-verzenders die geen van beide bepalen — EDIFACT-bestanden die onder willekeurige namen binnenkomen, met elk berichttype in één map.
 
-  Een configuratie kan nu worden geselecteerd op **waarden die uit het bestand zelf worden gelezen**, zoals het berichttype in het `UNH`-segment of de sender ID in het `UNB`-segment, waarbij meerdere criteria samen gelden. Dit vervangt wat voorheen maatwerk, hard-coded ontwikkelwerk per klant was, zodat het implementatieteam een EDIFACT-verzender kan aansluiten zonder ontwikkelaar.
+  Een configuratie kan nu worden geselecteerd op **waarden die uit het bestand zelf worden gelezen**, zoals het berichttype in het `UNH`-segment of de sender ID in het `UNB`-segment, waarbij meerdere criteria samen gelden. Dit patroon is nu standaardconfiguratie in plaats van maatwerk, zodat een nieuwe EDIFACT-verzender kan worden ingericht zonder codewijziging.
 
   In juli en augustus is dit samen met het volgende opgeleverd: meerdere datumformaten in één configuratie, EDIFACT-segmenten samenvoegen en dubbel benoemde velden, gelijke start- en eindsegmentpunten, QALITY stock status-berichten via de standaardtool, en automatische ANSI-naar-UTF-8-conversie.
 
@@ -76,13 +76,13 @@ public: true
   - **Minder bevestigingen bij pickface-picks.** De storage unit-bevestiging wordt overgeslagen bij picken vanaf een pickface, waar het scannen van de unit niets toevoegt. Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).
   - **Nominal codes op factuurautomatiseringen.** De factuurautomatiseringsquery stelt de nominal code beschikbaar op documentregels, voor financiële exports die deze nodig hebben. Zie [Kosten exporteren naar Sage Line 200](/knowledgebase/nl/financial/export-charges-to-sage-line-200).
   - **API-documentatie voor voorraadupdates.** Endpoints voor voorraadupdates zijn gedocumenteerd in de OpenAPI-specificatie, samen met automatiseringen, importconfiguraties, RF flows en templates die in dezelfde periode zijn toegevoegd. Zie [OpenAPI-specificatie](/knowledgebase/nl/integrations/openapi-spec).
-  - **Beveiligingsversterking.** Sessietokens worden bij het uitloggen vernietigd, waarmee een bevinding uit onze meest recente penetratietest is afgehandeld, en er is een expliciete opt-out op organisatieniveau voor het trainen van AI-modellen bij onze cloudprovider. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
+  - **Opt-out voor het trainen van AI-modellen.** Er is een expliciete opt-out op organisatieniveau voor het trainen van AI-modellen. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
 
   ## Opgelost
 
-  - Datums en tijden op goederenontvangsten en verkooporders respecteren de tijdzone van uw subdomein in plaats van terug te vallen op de servertijd.
+  - Datums en tijden op goederenontvangsten en verkooporders respecteren de ingestelde tijdzone van uw site.
   - Short receipt lines op goods in worden correct verwerkt. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
-  - Intermitterende uitlogsessies die gebruikers op meerdere domeinen troffen, zijn verholpen. Zie [Problemen met inloggen](/knowledgebase/nl/troubleshooting/signing-in).
+  - Intermitterende uitlogsessies zijn verholpen. Zie [Problemen met inloggen](/knowledgebase/nl/troubleshooting/signing-in).
   - Ontvangen tegen een pickface proximity putaway rule faalt niet langer. Zie [Guided putaway rules](/knowledgebase/nl/inbound/guided-putaway-rules).
   - Auto dispatch wordt geactiveerd op de laatste picktaken. Zie [Loads dispatchen](/knowledgebase/nl/outbound/dispatching-loads).
   - Header- en footerafbeeldingen worden correct geüpload op templates, en dispatch notes over meerdere pagina's behouden hun opmaak. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
@@ -109,9 +109,9 @@ public: true
 
   De assistant is **uit de modal en naar een eigen pagina** verhuisd, met het standaard Clarus-menu en de header er om heen, zodat u de volledige schermbreedte voor een gesprek hebt zonder uw navigatiecontext te verliezen.
 
-  De commerciële en veiligheidstechnische inrichting is in dezelfde maand opgeleverd: AI-plannen kunnen per tenant worden ingesteld, wat credits en rechten mogelijk maakt; de sessiehistorie van de assistant wordt 180 dagen bewaard; en tokenlimieten worden per subdomein gehandhaafd zodat één drukke tenant de gedeelde capaciteit niet kan opmaken.
+  De gespreksgeschiedenis wordt ook langer bewaard, zodat u naar een eerder gesprek kunt terugkeren in plaats van opnieuw te beginnen.
 
-  <Info>Begin bij het [AI Assistant-overzicht](/knowledgebase/nl/ai-assistant/overview) en daarna [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage). Uw data wordt niet gebruikt om modellen te trainen — zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).</Info>
+  <Info>Begin bij het [AI Assistant-overzicht](/knowledgebase/nl/ai-assistant/overview). Uw data wordt niet gebruikt om modellen te trainen — zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).</Info>
 
   ## Verwachte verzendtijden per bezorgadres
 
@@ -138,7 +138,7 @@ public: true
 
   - **U kunt een pickface die nog in gebruik is niet meer buiten gebruik stellen.** Een pickface kan niet van een product worden verwijderd zolang er openstaande taken zijn of er nog voorraad van dat product ligt, en bij het verwijderen worden de "enforce pickface"-vlaggen nu meegewist. Zie [Een pickface aanmaken](/knowledgebase/nl/warehouse-setup/create-pickface).
   - **Pick processing schaalt op**, zodat grote batches orders niet meer achter elkaar in de wachtrij komen. Zie [Een pick list aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
-  - **Sneller eerste laden.** De front-end is opgesplitst in kleinere bundels, waardoor de applicatie sneller start.
+  - **Sneller eerste laden.** De applicatie start sneller.
   - **Hogere limiet voor ontvangsthoeveelheden** bij ontvangsten met grote volumes. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
   - **Telefoonnummer is optioneel op zendingen**, zodat een zending niet wordt geblokkeerd wanneer een geadresseerde er geen heeft opgegeven. Zie [Vereisten voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).
 
@@ -188,7 +188,7 @@ public: true
   - **Bedrijfsnaam op zendingen**, voor geadresseerden waar dat vereist is.
   - **Groups-filters op het Tasks-scherm**, voor magazijnen die het werk zo organiseren. Zie [Groepen aanmaken en gebruiken](/knowledgebase/nl/accounts/create-and-use-groups).
   - **Charge subtype voor ordervolume** op de charge card. Zie [Pick charge subtypes](/knowledgebase/nl/financial/pick-charge-subtypes).
-  - **Hulp en feedback in de applicatie.** De help-widget wordt via een eigen SDK geleverd, wat betrouwbaarder is en waarmee u feedback kunt geven zonder Clarus te verlaten.
+  - **Hulp en feedback in de applicatie.** De help- en feedbackwidget is betrouwbaarder, en u kunt feedback geven zonder Clarus te verlaten.
 
   ## Verbeterd
 
