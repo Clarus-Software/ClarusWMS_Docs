@@ -23,7 +23,7 @@ public: true
 
   ## Opgelost
 
-  - Conditionele headers in handheld-flows werken zoals bedoeld. Visibility conditions die tegen boolean-velden op een **Retrieve Single Record**-stap waren ingesteld, werden nooit als true geëvalueerd, waardoor een conditionele header zoals "PDI Required" nooit verscheen. Zie [HHD-condities](/knowledgebase/nl/hardware/hhd-conditions).
+  - Visibility conditions in handheld-flows worden nu correct geëvalueerd tegen boolean-velden op een **Retrieve Single Record**-stap, zodat een conditionele header die u hebt geconfigureerd — bijvoorbeeld een "PDI Required"-prompt — verschijnt wanneer dat hoort. Zie [HHD-condities](/knowledgebase/nl/hardware/hhd-conditions).
   - Marketplace-orders blijven niet langer hangen in de status **Updated** wanneer de order na import wordt gewijzigd. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
   - Template tags die uit de template-editor waren verdwenen, worden weer weergegeven. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
 
@@ -71,9 +71,9 @@ public: true
 
   ## Verbeterd
 
-  - **Gewijzigde hoeveelheden op de handheld.** Waar een verwachte hoeveelheid is gewijzigd, toont de handheld het gewijzigde aantal apart van het originele, zodat ontvangers zien wat er is veranderd. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
+  - **Gewijzigde hoeveelheden beschikbaar op de handheld.** Een ontvangstflow kan nu worden geconfigureerd om een gewijzigde verwachte hoeveelheid apart van het origineel te tonen, zodat ontvangers zien wat er is veranderd. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
   - **Consistente handheld-styling.** Logged time en andere handheld-schermen sluiten aan op de styling van de hoofdapplicatie.
-  - **Minder bevestigingen bij pickface-picks.** De storage unit-bevestiging wordt overgeslagen bij picken vanaf een pickface, waar het scannen van de unit niets toevoegt. Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).
+  - **Minder bevestigingen bij pickface-picks.** Bij picken vanaf een pickface wordt niet langer om storage unit-bevestiging gevraagd, wat de flow voor pickfacewerk verkort. Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).
   - **Nominal codes op factuurautomatiseringen.** De factuurautomatiseringsquery stelt de nominal code beschikbaar op documentregels, voor financiële exports die deze nodig hebben. Zie [Kosten exporteren naar Sage Line 200](/knowledgebase/nl/financial/export-charges-to-sage-line-200).
   - **API-documentatie voor voorraadupdates.** Endpoints voor voorraadupdates zijn gedocumenteerd in de OpenAPI-specificatie, samen met automatiseringen, importconfiguraties, RF flows en templates die in dezelfde periode zijn toegevoegd. Zie [OpenAPI-specificatie](/knowledgebase/nl/integrations/openapi-spec).
   - **Opt-out voor het trainen van AI-modellen.** Er is een expliciete opt-out op organisatieniveau voor het trainen van AI-modellen. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
@@ -131,14 +131,14 @@ public: true
 
   - **Activiteitenrapport.** Een nieuw rapport over magazijnactiviteit. Zie [Rapporten gebruiken](/knowledgebase/nl/reporting/use-reports).
   - **Dispatch load-automatiseringen kunnen filteren op klant**, in plaats van overal te gelden. Zie [Loads dispatchen](/knowledgebase/nl/outbound/dispatching-loads).
-  - **Toegewezen productgroepen op de handheld.** Handheld-flows tonen de groepen waaraan een product is toegewezen. Zie [Productgroepen gebruiken](/knowledgebase/nl/products-and-stock/use-product-groups).
+  - **Toegewezen productgroepen beschikbaar op de handheld.** Handheld-flows kunnen nu worden geconfigureerd om de groepen te tonen waaraan een product is toegewezen. Zie [Productgroepen gebruiken](/knowledgebase/nl/products-and-stock/use-product-groups).
   - **Dubbele productcodes bij BOM-imports**, voor bills of materials die een component legitiem herhalen. Zie [BOM-import](/knowledgebase/nl/products-and-stock/bom-import).
 
   ## Verbeterd
 
   - **U kunt een pickface die nog in gebruik is niet meer buiten gebruik stellen.** Een pickface kan niet van een product worden verwijderd zolang er openstaande taken zijn of er nog voorraad van dat product ligt, en bij het verwijderen worden de "enforce pickface"-vlaggen nu meegewist. Zie [Een pickface aanmaken](/knowledgebase/nl/warehouse-setup/create-pickface).
-  - **Pick processing schaalt op**, zodat grote batches orders niet meer achter elkaar in de wachtrij komen. Zie [Een pick list aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
-  - **Sneller eerste laden.** De applicatie start sneller.
+  - **Efficiëntere pick processing**, zodat grote batches orders sneller worden doorlopen. Zie [Een pick list aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
+  - **Sneller eerste laden**, zodat de applicatie eerder klaar is om in te werken.
   - **Hogere limiet voor ontvangsthoeveelheden** bij ontvangsten met grote volumes. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
   - **Telefoonnummer is optioneel op zendingen**, zodat een zending niet wordt geblokkeerd wanneer een geadresseerde er geen heeft opgegeven. Zie [Vereisten voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).
 
@@ -192,7 +192,7 @@ public: true
 
   ## Verbeterd
 
-  - **Grote labelprintopdrachten worden opgedeeld** in batches in plaats van te verlopen. Zie [Pre-receipt putaway labels](/knowledgebase/nl/inbound/pre-receipt-putaway-labels).
+  - **Betrouwbaardere grote labelprintopdrachten.** Grote series ontvangstlabels worden in batches verwerkt, zodat ze betrouwbaar worden voltooid. Zie [Pre-receipt putaway labels](/knowledgebase/nl/inbound/pre-receipt-putaway-labels).
   - **Obsolete producten kunnen niet worden ontvangen**, zodat uitgefaseerde artikelen niet per ongeluk terug in de voorraad komen. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
   - **Marketplace-mapping.** Meerdere marketplace-SKU's kunnen aan één product worden gekoppeld, en carrier mapping op group operation type kreeg filters en algemene verbeteringen. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
 

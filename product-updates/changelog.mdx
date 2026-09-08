@@ -23,7 +23,7 @@ public: true
 
   ## Fixed
 
-  - Conditional headers on handheld flows work as intended. Visibility conditions set against boolean fields on a **Retrieve Single Record** step never evaluated as true, so a conditional header such as "PDI Required" would never appear. See [HHD conditions](/knowledgebase/hardware/hhd-conditions).
+  - Visibility conditions on handheld flows now evaluate correctly against boolean fields on a **Retrieve Single Record** step, so a conditional header you have configured — a "PDI Required" prompt, for example — appears when it should. See [HHD conditions](/knowledgebase/hardware/hhd-conditions).
   - Marketplace orders no longer get stranded in **Updated** status when the order is amended after import. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
   - Template tags that had gone missing from the template editor are listed again. See [Using templates](/knowledgebase/advanced/use-templates).
 
@@ -71,9 +71,9 @@ public: true
 
   ## Improved
 
-  - **Amended quantities on the handheld.** Where an expected quantity has been amended, the handheld shows the amended figure separately from the original, so receivers can see what changed. See [Book goods in](/knowledgebase/inbound/book-goods-in).
+  - **Amended quantities available on the handheld.** A receiving flow can now be configured to show an amended expected quantity separately from the original, so receivers can see what changed. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - **Consistent handheld styling.** Logged time and other handheld screens match the styling of the main application.
-  - **Fewer confirmations on pickface picks.** Storage unit confirmation is skipped when picking from a pickface, where scanning the unit adds nothing. See [Mixed UOM picking](/knowledgebase/warehouse-setup/mixed-uom-picking).
+  - **Fewer confirmations on pickface picks.** Picking from a pickface no longer asks for storage unit confirmation, which shortens the flow for pickface work. See [Mixed UOM picking](/knowledgebase/warehouse-setup/mixed-uom-picking).
   - **Nominal codes on invoice automations.** The invoice automation query exposes the nominal code against document lines, for finance exports that need it. See [Export charges to Sage Line 200](/knowledgebase/financial/export-charges-to-sage-line-200).
   - **API documentation for stock updates.** Stock update endpoints are documented in the OpenAPI specification, alongside automations, import configurations, RF flows and templates added over the same period.
   - **AI model training opt-out.** An explicit, organisation-wide opt-out from AI model training is in place. See [AI data protection](/knowledgebase/security/ai-data-protection).
@@ -131,14 +131,14 @@ public: true
 
   - **Activity report.** A new report covering warehouse activity. See [Using reports](/knowledgebase/reporting/use-reports).
   - **Dispatch load automations can filter by customer**, instead of applying across the board. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads).
-  - **Assigned product groups on the handheld.** Handheld flows display the groups a product is assigned to. See [Using product groups](/knowledgebase/products-and-stock/use-product-groups).
+  - **Assigned product groups available on the handheld.** Handheld flows can now be configured to display the groups a product is assigned to. See [Using product groups](/knowledgebase/products-and-stock/use-product-groups).
   - **Duplicate product codes on BOM imports**, for bills of materials that legitimately repeat a component. See [BOM import](/knowledgebase/products-and-stock/bom-import).
 
   ## Improved
 
   - **You can no longer decommission a pickface that is still in use.** A pickface cannot be removed from a product while it has outstanding tasks or holds stock of that product, and removing one now clears the "enforce pickface" flags with it. See [Create a pickface](/knowledgebase/warehouse-setup/create-pickface).
-  - **Pick processing scales up**, so large batches of orders no longer queue behind each other. See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).
-  - **Faster first load.** The application starts faster.
+  - **More efficient pick processing**, so large batches of orders are worked through more quickly. See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).
+  - **Faster first load**, so the application is ready to work in sooner.
   - **Higher receipt quantity limit** for high-volume receipts. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - **Phone number is optional on shipments**, so a shipment is not blocked when a consignee has not supplied one. See [Pre-requisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).
 
@@ -192,7 +192,7 @@ public: true
 
   ## Improved
 
-  - **Large label print runs are chunked** into batches instead of timing out. See [Pre-receipt putaway labels](/knowledgebase/inbound/pre-receipt-putaway-labels).
+  - **More reliable large label print runs.** Big receipt label runs are processed in batches, so they complete dependably. See [Pre-receipt putaway labels](/knowledgebase/inbound/pre-receipt-putaway-labels).
   - **Obsolete products cannot be received**, so discontinued lines do not come back into stock by accident. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - **Marketplace mapping.** Multiple marketplace SKUs can map to one product, and carrier mapping by group operation type gained filters and general improvements. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
 
