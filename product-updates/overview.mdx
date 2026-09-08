@@ -1,0 +1,70 @@
+---
+title: "Product Updates"
+description: "What's new in ClarusWMS — how we publish product updates, how to filter the changelog by the areas you care about, and how to subscribe."
+sidebarTitle: "Overview"
+public: true
+---
+
+Everything we ship to ClarusWMS is recorded in the [changelog](/product-updates/changelog), newest first. Each entry explains what changed, why it matters, and links to the guide that shows you how to use it.
+
+<CardGroup cols={2}>
+  <Card title="Read the changelog" icon="clock-rotate-left" href="/product-updates/changelog">
+    Every release, newest first, filterable by area.
+  </Card>
+  <Card title="Subscribe" icon="rss" href="/product-updates/changelog">
+    Use the RSS button on the changelog to get new entries in Slack, email, or your feed reader.
+  </Card>
+</CardGroup>
+
+## Two kinds of entry
+
+Not every release fits a calendar. We publish both:
+
+- **Monthly round-ups** — labelled by month, grouping that month's smaller additions, improvements and fixes into one entry.
+- **Feature releases** — a larger piece of work gets its own entry, dated when it landed. These are the ones worth reading properly: a new pickface routing engine or a security settings page needs more than a bullet point.
+
+A feature release is never repeated in that month's round-up, so nothing is double-counted.
+
+## Filtering by what you care about
+
+Every entry is tagged, and the tags appear as filters in the right-hand panel of the changelog. Select more than one and you will see only the entries carrying **all** of them, so `Financial` plus `New` gets you new financial features and nothing else.
+
+| Tag type | Tags |
+| --- | --- |
+| What kind of change | `New`, `Improved`, `Fixed` |
+| Which part of Clarus | `Picking`, `Packing & Dispatch`, `Inbound`, `Stock & Products`, `Financial`, `Reporting`, `Automations`, `Integrations`, `Handheld`, `AI Assistant`, `Security`, `API`, `Platform` |
+
+<Tip>Filters are held in the page address, so a filtered view can be shared. [/product-updates/changelog?tags=Financial](/product-updates/changelog?tags=Financial) opens the changelog with the financial filter already applied.</Tip>
+
+## Subscribing to updates
+
+The changelog publishes an RSS feed at `/product-updates/changelog/rss.xml`. A new item appears when we add an entry, and when we add a section to an existing one.
+
+<Steps>
+  <Step title="Copy the feed address">
+    Open the [changelog](/product-updates/changelog) and use the RSS button at the top of the page, or take this site's address and append `/product-updates/changelog/rss.xml`.
+  </Step>
+  <Step title="Into Slack">
+    In any Slack channel, run `/feed subscribe` followed by the feed address. New releases are then posted to that channel automatically — useful for an internal operations or account management channel.
+  </Step>
+  <Step title="Into email or a feed reader">
+    Any RSS-to-email service works — point it at the same feed address. Feed readers take it directly.
+  </Step>
+</Steps>
+
+## What we include
+
+We write these for the people who use Clarus day to day, so the changelog covers what you can see and act on:
+
+- New features and settings.
+- Changes to how existing screens and processes behave.
+- Fixes for faults that affected customers generally.
+- Performance, security and compliance changes worth knowing about.
+
+We leave out internal engineering work with no user-visible effect — infrastructure moves, framework upgrades, refactoring — and one-off data corrections for a single account. If a fix you reported affected only your data, your Clarus contact will confirm it directly rather than it appearing here.
+
+<Info>Looking for how something works rather than when it changed? The [knowledgebase](/) is the reference; the changelog only tells you what moved and when.</Info>
+
+## Telling us what to build
+
+If something in these updates is close to what you need but not quite there, say so — most of what ships here started as a customer request. Raise it through the in-app help widget, or talk to your Clarus contact.

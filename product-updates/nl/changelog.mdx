@@ -1,0 +1,299 @@
+---
+title: "Changelog"
+description: "Alles wat we aan ClarusWMS hebben opgeleverd, nieuwste eerst — nieuwe functies, verbeteringen en oplossingen, met links naar de bijbehorende handleidingen."
+rss: true
+public: true
+---
+
+<Update label="September 2026" description="1–8 september 2026" tags={["Nieuw","Verbeterd","Opgelost","Rapportage","Picken","Integraties","Handheld"]} rss={{ title: "September 2026 — dashboards per rol, bijlagen op taakgrids", description: "Wijs dashboards voor het startscherm toe aan een rol, zie bijlagen en pick types op taakgrids, en meer Liquid-templatevelden." }}>
+
+  ## Dashboards die u aan een rol kunt toewijzen
+
+  Dashboards voor het startscherm worden nu beheerd via de pagina **Roles** in plaats van per gebruiker. Elke rol krijgt een dashboardpaneel waarin u elk actief dashboard toevoegt, en u bepaalt welk dashboard als eerste opent voor iedereen in die rol.
+
+  Gebruikers met die rol kunnen vrij wisselen tussen alle dashboards die u hun hebt gegeven, en ze komen uit op het standaarddashboard van de rol wanneer ze het startscherm openen. Als u het standaarddashboard later deactiveert of verwijdert, neemt het volgende dashboard in de lijst automatisch over — niemand komt op een leeg startscherm terecht.
+
+  Alleen dashboards die als actief zijn gemarkeerd kunnen worden toegewezen, en een dashboard kan niet uit een rol worden verwijderd zolang het nog als standaard voor die rol is ingesteld.
+
+  <Info>Dashboards worden net als voorheen gebouwd in **Dashboards & Reports → Dashboards**. Wat is veranderd, is hoe u mensen er toegang tot geeft. Zie [Gebruikersrollen](/knowledgebase/nl/users-and-roles/user-roles-guide) en [Verschillende gebruikersweergaven toewijzen](/knowledgebase/nl/users-and-roles/assigning-different-user-views).</Info>
+
+  ## Verbeterd
+
+  - **Bijlagen op elk taakgrid.** Bestanden die aan een taak zijn toegevoegd, zijn nu zichtbaar vanuit de taakgrids, dus u hoeft geen record meer te openen om te zien of er een foto of document is toegevoegd. Zie [Data grids aanpassen](/knowledgebase/nl/reporting/customise-data-grids).
+  - **Pick type op het taakgrid.** Taakgrids bevatten nu een kolom **Pick Type** die aangeeft of een taak een tote pick of een standard pick is, zodat u werk kunt filteren en groeperen op de manier waarop het gepickt moet worden. Zie [Data grid-kolommen](/knowledgebase/nl/reporting/data-grid-columns) en [Pick types verplichten](/knowledgebase/nl/warehouse-setup/enforcing-pick-types).
+  - **Meer Liquid-documentvelden.** Een tweede reeks Liquid-velden is beschikbaar voor documenttemplates, na de reeks die in augustus is toegevoegd. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
+  - **Land van fabricage op zendingen.** Het land van fabricage van het product wordt nu doorgegeven aan de vervoerder wanneer een zending wordt aangemaakt, zodat douanepapieren kunnen worden opgemaakt met productdata die u al hebt. Zie [Vereisten voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).
+  - **AI Assistant team-integraties.** De interface voor het verbinden van de assistant met de tools van uw team is opgeschoond en eenvoudiger te volgen gemaakt. Zie [AI Assistant toegang en beheer](/knowledgebase/nl/ai-assistant/access-and-controls).
+
+  ## Opgelost
+
+  - Conditionele headers in handheld-flows werken nu zoals bedoeld. Visibility conditions die tegen boolean-velden op een **Retrieve Single Record**-stap waren ingesteld, werden nooit als true geëvalueerd, waardoor conditionele headers zoals "PDI Required" nooit verschenen. Zie [HHD-condities](/knowledgebase/nl/hardware/hhd-conditions).
+  - Marketplace-orders blijven niet langer hangen in de status **Updated** wanneer de order na import wordt gewijzigd. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
+  - Template tags die uit de template-editor waren verdwenen, worden weer weergegeven. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
+
+</Update>
+
+<Update label="Augustus 2026" description="3–28 augustus 2026" tags={["Nieuw","Verbeterd","Opgelost","Financieel","Inbound","Handheld","Producten & Voorraad","API","Platform","Beveiliging"]} rss={{ title: "Augustus 2026 — vernieuwde interface, meer templatevelden, tijdzone-oplossingen", description: "Een vernieuwde interface met echte recordaantallen, een veel grotere set Liquid-templatevelden, bulkimport voor alternatieve productcodes en een reeks oplossingen." }}>
+
+  ## Een vernieuwde interface, en recordaantallen die iets zeggen
+
+  Iconen, navigatie, grids en panelen hebben een consistente, moderne behandeling gekregen in de hele applicatie, in zowel light als dark mode. De linkernavigatie is beter leesbaar, met duidelijkere hover-, active- en selected-states.
+
+  Grid-footers laten nu zien hoeveel records u daadwerkelijk bekijkt in plaats van alleen het totaal — bijvoorbeeld **1-50 of 1,240 records**. Bij zeer grote resultaatsets wordt nog steeds de melding "more than 10,000" weergegeven.
+
+  <Note>Er is niets veranderd aan de manier waarop de schermen werken. Dit was bewust een release voor uiterlijk en gebruiksgemak, geen gedragswijziging.</Note>
+
+  ## Meer velden voor documenttemplates
+
+  Liquid-documenttemplates kunnen nu een veel bredere set data bereiken, zodat het implementatieteam labels en packing lists kan bouwen zonder ontwikkelwerk:
+
+  - **Pick labels** — Sales Order Attribute-velden (Datetime 1–5, String 1–5, Integer 1–5).
+  - **Packing lists** — storage unit reference to en from op de pack task, storage unit type, height, width, length en weight, plus product unit weight, description en long description.
+  - **Custom carrier labels** — goods out line quantity. Voorheen was alleen de stock count quantity beschikbaar, wat het verkeerde totaal op een label opleverde wanneer een gedeelde storage unit hoeveelheden uit meerdere stock lines bevatte.
+  - **Dispatch notes en pick lists** — carrier name, carrier code, carrier service name en carrier service code.
+
+  Deze velden verschijnen allemaal in de sectie **Template Tags** van de template-editor. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
+
+  ## Nieuw
+
+  - **Bulkimport voor alternatieve productcodes.** Alternatieve codes kunnen in bulk worden geladen in plaats van product per product te worden toegevoegd. Zie [Productimport](/knowledgebase/nl/products-and-stock/product-import).
+  - **Een factuur printen vanuit een automatisering.** Een nieuwe automatiseringsactie print een factuur wanneer aan de triggervoorwaarden is voldaan. Zie [E-mailautomatiseringen](/knowledgebase/nl/integrations/email-automations).
+  - **Totalen van terugkerende kosten.** Het paneel met totale kosten bevat nu een totaal voor terugkerende kosten, zodat geplande kosten zichtbaar zijn naast operationele kosten. Zie [Terugkerende kosten](/knowledgebase/nl/financial/recurring-charges).
+  - **Task targets op pick-and-drop-workflows.** Task targets kunnen nu worden ingesteld op workflows van het pick-and-drop-locatietype.
+  - **Storage unit-aantallen in productstatistieken.** Productstatistieken bevatten nu een storage unit count.
+
+  ## Verbeterd
+
+  - **Imports verwerken ANSI-gecodeerde bestanden.** Bestanden die in ANSI-codering binnenkomen, worden bij import automatisch naar UTF-8 geconverteerd in plaats van te falen. Zie [Importfouten](/knowledgebase/nl/troubleshooting/import-errors).
+  - **Gewijzigde hoeveelheden op de handheld.** Waar een verwachte hoeveelheid is gewijzigd, toont de handheld nu het gewijzigde aantal apart van het originele, zodat ontvangers zien wat er is veranderd. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
+  - **Consistente handheld-styling.** Logged time en andere handheld-schermen sluiten nu aan op de styling van de hoofdapplicatie.
+  - **Minder bevestigingen bij pickface-picks.** De storage unit-bevestiging wordt overgeslagen bij picken vanaf een pickface, waar het scannen van de unit geen waarde toevoegt. Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).
+  - **Nominal codes op factuurautomatiseringen.** De factuurautomatiseringsquery stelt nu de nominal code beschikbaar op documentregels, voor financiële exports die deze nodig hebben. Zie [Kosten exporteren naar Sage Line 200](/knowledgebase/nl/financial/export-charges-to-sage-line-200).
+  - **API-documentatie voor voorraadupdates.** Endpoints voor voorraadupdates zijn nu gedocumenteerd in de OpenAPI-specificatie, samen met automatiseringen, importconfiguraties, RF flows en templates die in dezelfde periode zijn toegevoegd. Zie [OpenAPI-specificatie](/knowledgebase/nl/integrations/openapi-spec).
+  - **Beveiligingsversterking.** Sessietokens worden nu bij het uitloggen vernietigd, waarmee een bevinding uit onze meest recente penetratietest is afgehandeld, en er is een expliciete opt-out op organisatieniveau voor het trainen van AI-modellen bij onze cloudprovider. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
+
+  ## Opgelost
+
+  - Datums en tijden op goederenontvangsten en verkooporders respecteren nu de tijdzone van uw subdomein in plaats van terug te vallen op de servertijd.
+  - Short receipt lines op goods in worden correct verwerkt. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
+  - Intermitterende uitlogsessies die gebruikers op meerdere domeinen troffen, zijn verholpen. Zie [Problemen met inloggen](/knowledgebase/nl/troubleshooting/signing-in).
+  - Ontvangen tegen een pickface proximity putaway rule faalt niet langer. Zie [Guided putaway rules](/knowledgebase/nl/inbound/guided-putaway-rules).
+  - Auto dispatch wordt nu geactiveerd op de laatste picktaken. Zie [Loads dispatchen](/knowledgebase/nl/outbound/dispatching-loads).
+  - Header- en footerafbeeldingen worden correct geüpload op templates, en dispatch notes over meerdere pagina's verliezen hun opmaak niet meer. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
+  - Configuratieschermen voor vervoerders openen niet langer leeg. Zie [Vervoerdersintegraties](/knowledgebase/nl/integrations/carrier-integrations).
+  - Orderregelhoeveelheden kunnen worden gewijzigd wanneer er al conversies op een stock line zijn toegepast. Zie [Orderregelhoeveelheden wijzigen](/knowledgebase/nl/outbound/amend-order-line-quantities).
+  - Sorteren op **Short Order Reason Code** in het verkooporder-datagrid geeft geen foutmelding meer. Zie [Short order lines](/knowledgebase/nl/accounts/short-order-lines).
+  - Beschrijvingen met spaties blokkeren het factureren niet langer. Zie [Een factuur aanmaken](/knowledgebase/nl/financial/create-an-invoice).
+  - Wijzigingen in de mixed UOM-pickfaceconfiguratie worden nu direct doorgevoerd in plaats van een schermvernieuwing te vereisen.
+  - Externe referenties verschijnen nu op marketplace-orderregels. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
+
+</Update>
+
+<Update label="Import tool: bestanden routeren op basis van inhoud" description="26 augustus 2026 · Import tool, fase 1" tags={["Nieuw","Verbeterd","Integraties"]} rss={{ title: "Import tool fase 1 — bestanden routeren op basis van inhoud", description: "Importconfiguraties kunnen nu worden geselecteerd op waarden binnen het bestand, plus meerdere datumformaten, EDIFACT-segmentverwerking en automatische ANSI-conversie." }}>
+
+  Tot nu toe kon een inkomend bestand alleen aan zijn importconfiguratie worden gekoppeld via een bestandsnaampatroon of via de SFTP-map waarin het terechtkwam. Dat werkt niet voor EDI-verzenders die geen van beide kunnen bepalen — EDIFACT-bestanden die onder willekeurige namen aankomen, met elk berichttype in dezelfde map.
+
+  **Importconfiguraties kunnen nu worden gekoppeld op basis van de inhoud van het bestand zelf.** Een configuratie kan één of meer criteria definiëren tegen een opgegeven segment en elementpositie — berichttype uit het UNH-segment, sender ID uit het UNB-segment — en het bestand wordt gerouteerd op wat die waarden werkelijk bevatten. Wanneer meerdere criteria zijn gedefinieerd, gelden ze samen, zodat een bestand kan worden gematcht op berichttype *én* verzender tegelijk. Als er niets matcht, faalt het bestand met een logregel die de gelezen waarden toont, zodat u het kunt herleiden en de configuratie kunt corrigeren.
+
+  Dit vervangt wat voorheen maatwerk, hard-coded ontwikkelwerk per klant was voor dit patroon. Het implementatieteam kan nu een EDIFACT-verzender aansluiten zonder ontwikkelaar.
+
+  In juli en augustus is dit samen met het volgende opgeleverd:
+
+  - **Meerdere datumformaten** in één configuratie, in plaats van één vast formaat per import.
+  - **EDIFACT-segmentverwerking** — elementen samenvoegen, en dubbel benoemde velden binnen een segment benaderen.
+  - **Gelijke start- en eindsegmentpunten** zijn nu toegestaan in EDI-bestanden.
+  - **QALITY stock status-berichten** kunnen via de standaardtool worden geïmporteerd. Zie [EDI quality stock hold](/knowledgebase/nl/integrations/edi-quality-stock-hold).
+  - **Automatische ANSI-naar-UTF-8-conversie**, zodat een codeerverschil het bestand niet meer laat falen.
+
+  <Info>Begin met [Bespoke imports](/knowledgebase/nl/integrations/bespoke-imports) en [SFTP gebruiken voor imports](/knowledgebase/nl/integrations/use-sftp-for-imports). Als een bestand faalt, legt [Importfouten](/knowledgebase/nl/troubleshooting/import-errors) uit hoe u het log leest.</Info>
+
+</Update>
+
+<Update label="Packing desk: corrigeren tijdens het inpakken" description="20 augustus 2026" tags={["Nieuw","Verbeterd","Opgelost","Inpakken & Dispatch"]} rss={{ title: "Packing desk — vervoerder, adres en hoeveelheid wijzigen tijdens het inpakken", description: "Inpakkers kunnen nu de vervoerder, service, ontvangstadres en in te pakken hoeveelheid corrigeren zonder de pick terug te draaien." }}>
+
+  Inpakkers moesten voorheen een hele pick terugdraaien om een detail te corrigeren dat pas aan de inpaktafel duidelijk werd. Om een vervoerder te wijzigen moesten ze de pick oncompleten, de pick list annuleren, de verkooporder aanpassen en opnieuw beginnen.
+
+  **De packing desk laat u deze zaken nu corrigeren waar u ze aantreft.**
+
+  - **Vervoerder en service.** Selecteer een andere carrier of carrier service aan de desk. De verkooporder wordt automatisch bijgewerkt, de zending en het label worden op basis van de nieuwe selectie gegenereerd, en de packing list neemt het over. De wijziging wordt vastgelegd in de historie van de verkooporder, zodat er een audit trail is van wie wat heeft gewijzigd. Als er vóór het inpakken al een zending is aangemaakt, staat de vervoerder vast.
+  - **Verschillende vervoerders op één afleveradres.** Wanneer u een regel inpakt waarvan de vervoerder afwijkt van het pakket dat u samenstelt, krijgt u een waarschuwing in plaats van een stille mismatch — stop en pak het apart in, of ga verder en laat de regel de vervoerder van het pakket overnemen.
+  - **Ontvangstadres.** Corrigeer het ontvangstadres aan de desk in plaats van terug te gaan naar de order.
+  - **In te pakken hoeveelheid.** Wijzig de in te pakken hoeveelheid tijdens het inpakken (opgeleverd in juni).
+
+  In dezelfde periode zijn twee fouten in de packing desk opgelost: meerdere orders konden tegen dezelfde ship-to storage unit worden verzonden en zo een trackingnummer delen, en de modal **View packages** kon niet worden gesloten.
+
+  <Info>Zie [Packing desk](/knowledgebase/nl/outbound/packing-desk) en [Vervoerdersintegraties](/knowledgebase/nl/integrations/carrier-integrations).</Info>
+
+</Update>
+
+<Update label="Juli 2026" description="1–30 juli 2026" tags={["Nieuw","Verbeterd","Opgelost","Rapportage","Automatiseringen","Picken","Handheld","Platform"]} rss={{ title: "Juli 2026 — activiteitenrapport, pickface-bescherming, sneller laden", description: "Een nieuw activiteitenrapport, bescherming tegen het buiten gebruik stellen van een pickface die in gebruik is, klantfilters op dispatch-automatiseringen en sneller laden." }}>
+
+  ## Nieuw
+
+  - **Activiteitenrapport.** Een nieuw rapport over magazijnactiviteit. Zie [Rapporten gebruiken](/knowledgebase/nl/reporting/use-reports).
+  - **Dispatch load-automatiseringen kunnen filteren op klant.** Automatiseringen die loads dispatchen, kunnen nu worden beperkt tot een klant in plaats van overal te gelden. Zie [Loads dispatchen](/knowledgebase/nl/outbound/dispatching-loads).
+  - **Toegewezen productgroepen op de handheld.** Handheld-flows tonen nu de groepen waaraan een product is toegewezen. Zie [Productgroepen gebruiken](/knowledgebase/nl/products-and-stock/use-product-groups).
+  - **Dubbele productcodes bij BOM-imports.** Dezelfde productcode kan meer dan één keer worden toegewezen in een bill of materials-upload, voor BOM's die een component legitiem herhalen. Zie [BOM-import](/knowledgebase/nl/products-and-stock/bom-import).
+
+  ## Verbeterd
+
+  - **U kunt een pickface die nog in gebruik is niet meer buiten gebruik stellen.** Een pickface kan niet van een product worden verwijderd zolang er openstaande taken zijn of er nog voorraad van dat product ligt, en bij het verwijderen van een pickface worden de "enforce pickface"-vlaggen nu correct meegewist. Zie [Een pickface aanmaken](/knowledgebase/nl/warehouse-setup/create-pickface).
+  - **Pick processing schaalt op.** Pick processing kan nu opschalen onder belasting, zodat grote batches orders niet meer achter elkaar in de wachtrij komen. Zie [Een pick list aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
+  - **Sneller eerste laden.** De front-end is opgesplitst in kleinere bundels, waardoor de applicatie sneller start.
+  - **Hogere limiet voor ontvangsthoeveelheden.** De validatielimiet op inkomende ontvangsthoeveelheden is verhoogd voor ontvangsten met grote volumes. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
+  - **Telefoonnummer is optioneel op zendingen.** Het is geen verplicht veld meer, zodat zendingen niet worden geblokkeerd wanneer een geadresseerde er geen heeft opgegeven. Zie [Vereisten voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).
+
+  ## Opgelost
+
+  - Geautomatiseerde pick processing richt zich nu correct op gealloceerde orders. Zie [Allocatie van verkooporders](/knowledgebase/nl/troubleshooting/sales-order-allocation).
+  - Twee automatiseringen die tegelijk hetzelfde record bijwerken, veroorzaken geen deadlock meer, en een storing die FTP-getriggerde automatiseringen vertraagde is verholpen. Zie [E-mailautomatiseringen](/knowledgebase/nl/integrations/email-automations).
+  - Het wijzigen van een groepsnummer wist de velden met storage unit-hoeveelheden niet meer. Zie [Groepen aanmaken en gebruiken](/knowledgebase/nl/accounts/create-and-use-groups).
+  - Voorraadsaldi worden nu betrouwbaar doorgegeven aan Magento 2. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
+  - Handmatige kosten worden tegen de juiste charge basket geboekt in plaats van de eerstvolgende beschikbare. Zie [Geen kosten toegepast](/knowledgebase/nl/troubleshooting/no-charge-applied).
+
+</Update>
+
+<Update label="AI Assistant op een eigen pagina" description="28 juli 2026" tags={["Nieuw","Verbeterd","AI Assistant","Beveiliging"]} rss={{ title: "AI Assistant verhuist naar een volledige pagina, met plannen en credits", description: "De assistant draait nu op een eigen pagina in plaats van in een modal, met AI-plannen, langere sessiehistorie en gebruikslimieten per tenant." }}>
+
+  De AI Assistant is **uit de modal en naar een eigen pagina** verhuisd, met het standaard Clarus-menu en de header er nog steeds om heen. U hebt de volledige schermbreedte voor een gesprek, en u behoudt uw navigatiecontext tijdens het werken.
+
+  Daarachter is in dezelfde maand ook de commerciële en veiligheidstechnische inrichting opgeleverd:
+
+  - **AI-plannen.** Plannen kunnen per tenant worden ingesteld, wat credits en rechten mogelijk maakt. Zie [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage).
+  - **Langere sessiehistorie.** De sessiehistorie van de assistant wordt 180 dagen bewaard, aanzienlijk langer dan voorheen, zodat u naar een eerder gesprek kunt terugkeren.
+  - **Gebruikslimieten per tenant.** Tokenlimieten worden per subdomein gehandhaafd, zodat één drukke tenant de gedeelde capaciteit niet kan opmaken.
+
+  <Info>Nieuw met de assistant? Begin bij het [AI Assistant-overzicht](/knowledgebase/nl/ai-assistant/overview) en daarna [Toegang en beheer](/knowledgebase/nl/ai-assistant/access-and-controls). Wilt u Clarus-data juist vanuit ChatGPT of Claude benaderen, zie [Overzicht AI-assistenten](/knowledgebase/nl/integrations/ai-assistants-overview).</Info>
+
+  <Note>Uw data wordt niet gebruikt om modellen te trainen. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).</Note>
+
+</Update>
+
+<Update label="Verwachte dispatchtijden per afleveradres" description="20 juli 2026" tags={["Nieuw","Inpakken & Dispatch"]} rss={{ title: "Verwachte dispatchtijden per afleveradres", description: "Stel een verwachte dispatchtijd in voor elke combinatie van klant en afleveradres, en laat deze automatisch toepassen op nieuwe orders." }}>
+
+  De urgentie van een pick zou moeten aansluiten op het moment dat een load daadwerkelijk vertrekt, en dat verschilt per bestemming. U kunt nu **één verwachte dispatchtijd vastleggen voor elke combinatie van klant en afleveradres**, op één plek beheerd in plaats van per order ingevoerd.
+
+  - Stel de verwachte dispatchtijd in of wijzig deze op het afleveradres. Het adres moet aan een klant zijn gekoppeld voordat de tijd kan worden opgeslagen.
+  - Sorteer en filter op dispatchtijd in het grid met afleveradressen, met dezelfde operatoren als andere datumvelden.
+  - De waarde kan in bulk worden geladen via de adresimport, en is beschikbaar via de API.
+  - Verwachte laadtijden worden automatisch toegepast op de verwachte dispatch wanneer een order wordt aangemaakt, zodat orders de juiste streeftijd overnemen zonder dat iemand die intypt.
+
+  <Info>Zie [Afleveradressen](/knowledgebase/nl/outbound/delivery-addresses), [Adresimport](/knowledgebase/nl/outbound/address-import) en [Dispatchstrategieën](/knowledgebase/nl/accounts/dispatch-strategies).</Info>
+
+</Update>
+
+<Update label="Security settings met MFA in eigen beheer" description="14 juli 2026" tags={["Nieuw","Beveiliging"]} rss={{ title: "Security settings-pagina met MFA in eigen beheer", description: "Één plek om uw wachtwoord te wijzigen en multi-factor authenticatie aan of uit te zetten, plus MFA-reset vanaf het gebruikersscherm." }}>
+
+  Er is nu één pagina **Security Settings**, te bereiken via uw gebruikersprofiel linksonder in de navigatie, voor zowel uw wachtwoord als uw multi-factor authenticatie.
+
+  - **Wachtwoordwijzigingen zijn hierheen verhuisd.** Dezelfde velden als voorheen — huidig wachtwoord, nieuw wachtwoord, bevestigen — maar op de security-pagina in plaats van op een apart scherm. De oude optie in het profielmenu is verdwenen.
+  - **Bekijk uw MFA-status.** *Not set* betekent dat u er nog niet om is gevraagd, *Enabled* betekent dat het actief is, *Declined* betekent dat u ernaar is gevraagd en ervoor hebt gekozen het niet te doen, of om later gevraagd te worden.
+  - **Zet MFA zelf aan.** Als uw status *not set* of *declined* is, kunt u MFA op elk moment inschakelen en doorloopt u dezelfde setup als bij een eerste prompt.
+  - **Zet MFA veilig uit.** Uitschakelen vraagt om uw huidige wachtwoord *én* een MFA-challenge voordat het wordt doorgevoerd. Annuleert u of mislukt een van beide stappen, dan blijft MFA precies zoals het was.
+
+  Beheerders kregen daarnaast een actie **reset MFA** op het gebruikersscherm, voor het geval iemand zijn apparaat is verloren.
+
+  <Info>Zie [MFA-overzicht](/knowledgebase/nl/security/mfa-overview), [MFA instellen](/knowledgebase/nl/security/set-up-mfa), [MFA uitschakelen](/knowledgebase/nl/security/disable-mfa) en [MFA van een gebruiker resetten](/knowledgebase/nl/security/reset-user-mfa). Loopt u vast? [MFA-problemen](/knowledgebase/nl/troubleshooting/mfa-issues).</Info>
+
+</Update>
+
+<Update label="Mixed UOM picking" description="1 juli 2026" tags={["Nieuw","Picken"]} rss={{ title: "Mixed UOM picking — een orderregel splitsen over pickface en racking", description: "Pick processing splitst een hoeveelheid nu op in unit-of-measure-blokken en routeert elk blok naar de pickface of naar racking op basis van uw pickfaceconfiguratie." }}>
+
+  Voorheen gingen alle volle-palletpicks naar racking, tenzij u picks vanaf de pickface verplichtte. Nu bepaalt pick processing de zinnige splitsing voor u.
+
+  **Een besteld aantal wordt opgesplitst in de grootst mogelijke unit-of-measure-blokken** — eerst outers, dan inners, dan cases, dan units — waarbij elk niveau dat u niet op het product hebt geconfigureerd wordt overgeslagen. Elk blok wordt getoetst aan de toegestane units of measure van de pickface, en de taken worden daarop gegenereerd:
+
+  - Blokken waarvan de UOM op de pickface is toegestaan, worden samengevoegd tot één **pickface**-picktaak.
+  - Blokken waarvan de UOM niet is toegestaan, worden samengevoegd tot een **racking**-picktaak, aangemaakt als part picks.
+
+  Een voorbeeld: met units en cases toegestaan op de pickface en inners en outers beperkt, genereert een order van 55 twee taken: 50 vanuit racking (twee outers en één inner) en 5 vanaf de pickface (één case).
+
+  Wanneer meer dan één pickface aan alle toegestane units of measure kan voldoen, geldt de standaard pickface-cycling en wordt de volgende locatie in de rotatie gekozen. Volle-palletpicks gaan nog steeds naar racking.
+
+  <Warning>De pickfaceconfiguratie moet uniform zijn over de pickfaces die een product bevatten. Afwijkende instellingen voor toegestane UOM's op verschillende pickfaces voor hetzelfde product vallen niet onder deze release.</Warning>
+
+  <Info>Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking), [Een pickface aanmaken](/knowledgebase/nl/warehouse-setup/create-pickface) en [Pick types verplichten](/knowledgebase/nl/warehouse-setup/enforcing-pick-types).</Info>
+
+</Update>
+
+<Update label="Juni 2026" description="2–29 juni 2026" tags={["Nieuw","Verbeterd","Opgelost","Financieel","Automatiseringen","Integraties","Inbound"]} rss={{ title: "Juni 2026 — zendingen naar Noord-Ierland, pick-automatiseringen, pickfaces voor iedereen", description: "UKIMS-referenties voor Windsor Framework-zendingen, een nieuwe automatiseringsactie om orders voor picken te verwerken, en continuous pickface-replenishment voor alle klanten." }}>
+
+  ## Zendingen naar Noord-Ierland onder het Windsor Framework
+
+  Accounts die vanuit Groot-Brittannië naar Noord-Ierland verzenden, werden geblokkeerd wanneer de vervoerder een UKIMS-referentie vereiste, omdat er in Clarus geen plek was om die vast te leggen.
+
+  Het scherm **Account** bevat nu een veld voor de UKIMS-referentie, met een informatie-icoon dat het verwachte formaat uitlegt. U onderhoudt het eenmalig en het wordt automatisch meegestuurd in de payload bij het aanmaken van elke in aanmerking komende zending van Groot-Brittannië naar Noord-Ierland — niemand hoeft het per order in te typen. Het veld is beperkt tot gebruikers met de rechten voor accountbeheer, en afwijzingen door de vervoerder wegens een ontbrekende of ongeldige referentie worden vastgelegd in de event logs.
+
+  <Info>Zie [Accounts instellen](/knowledgebase/nl/accounts/set-up-accounts) en [Vereisten voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).</Info>
+
+  ## Orders voor picken verwerken zodra ze binnenkomen
+
+  Een nieuwe automatiseringsactie, **Process the order for picking**, kan worden gekoppeld aan de trigger **Sales Order created**, zodat in aanmerking komende orders hun magazijnproces starten zonder dat iemand ze aanraakt.
+
+  De actie komt met nieuwe voorwaardevelden om te bepalen welke orders in aanmerking komen:
+
+  - `lines_total_count`
+  - `lines_total_items_ordered`
+  - `lines_total_unit_weight_ordered`
+
+  Een bijbehorende automatisering verwerkt picks voor orders met de datum van vandaag en eventuele historische orders die nog openstaan. Zie [Een pick list aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
+
+  ## Nieuw
+
+  - **Automatische commerciële facturen.** De commerciële factuur kan automatisch worden geprint wanneer een zending wordt aangemaakt. Zie [Commerciële facturen](/knowledgebase/nl/financial/commercial-invoices).
+  - **Bedrijfsnaam op zendingen.** De bedrijfsnaam wordt vastgelegd en naar de vervoerder gestuurd, voor geadresseerden waar dat vereist is.
+  - **Groups-filters op het Tasks-scherm.** Filter taken op groep, voor magazijnen die het werk zo organiseren. Zie [Groepen aanmaken en gebruiken](/knowledgebase/nl/accounts/create-and-use-groups).
+  - **Charge subtype voor ordervolume.** Het ontbrekende subtype voor ordervolume is beschikbaar op de charge card. Zie [Pick charge subtypes](/knowledgebase/nl/financial/pick-charge-subtypes).
+  - **Hulp en feedback in de applicatie.** De help-widget wordt nu via een eigen SDK geleverd, wat betrouwbaarder is en waarmee u feedback kunt geven zonder Clarus te verlaten.
+
+  ## Verbeterd
+
+  - **Grote labelprintopdrachten worden opgedeeld.** Grote printopdrachten voor ontvangstlabels worden in batches verdeeld in plaats van te verlopen. Zie [Pre-receipt putaway labels](/knowledgebase/nl/inbound/pre-receipt-putaway-labels).
+  - **Obsolete producten kunnen niet worden ontvangen.** Ontvangen wordt geblokkeerd voor producten die als obsolete zijn gemarkeerd, zodat uitgefaseerde artikelen niet per ongeluk terug in de voorraad komen. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
+  - **Marketplace-mapping.** Meerdere marketplace-SKU's kunnen aan één product worden gekoppeld, en carrier mapping op group operation type kreeg filters en algemene verbeteringen. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
+
+  ## Opgelost
+
+  - Aangepaste dispatch notes worden niet meer geprint zonder hun regeldata. Zie [Templates gebruiken](/knowledgebase/nl/advanced/use-templates).
+  - Estimated pallets op een orderregel toonde het totaal voor de hele order.
+
+</Update>
+
+<Update label="Continuous pickface-replenishment voor elke klant" description="29 juni 2026" tags={["Nieuw","Picken"]} rss={{ title: "Continuous pickface-replenishment ingeschakeld voor alle klanten", description: "Continuous replenishment is uit de feature flag gekomen en is nu beschikbaar voor elke klant." }}>
+
+  Continuous pickface-replenishment is uit de feature flag gekomen en is **beschikbaar voor elke klant**, na een periode met een testgroep.
+
+  Continuous replenishment vult een pickface weer aan zodra deze onder het minimum komt, in plaats van te wachten tot de vraag een taak activeert. Het is één van de strategieën die u kunt gebruiken, en ze kunnen worden gecombineerd — op basis van vraag, op ordervolume, en continuous — waarbij on-hold picks in alle gevallen worden meegenomen.
+
+  <Info>Begin met het [Replenishment-overzicht](/knowledgebase/nl/warehouse-setup/replenishment/overview) en daarna [Continuous replenishment](/knowledgebase/nl/warehouse-setup/replenishment/continuous). Gebruikt u meer dan één strategie, zie [Strategieën combineren](/knowledgebase/nl/warehouse-setup/replenishment/combining-strategies) en [On-hold picks](/knowledgebase/nl/warehouse-setup/replenishment/on-hold-picks).</Info>
+
+</Update>
+
+<Update label="Geplande terugkerende kosten" description="24 juni 2026" tags={["Nieuw","Financieel"]} rss={{ title: "Geplande terugkerende kosten op charge cards", description: "Configureer contractuele tijdgebonden vergoedingen op een charge card en laat ze automatisch aanmaken op een dagelijks, wekelijks, maandelijks of charge window-schema." }}>
+
+  Contractuele vergoedingen die zich herhalen — een minimale palletafspraak, een maandelijkse servicevergoeding — moesten elke periode handmatig als sundry charges worden toegevoegd. Dat is handmatig werk, en een gemiste periode is gemiste omzet.
+
+  **Terugkerende kosten kunnen nu rechtstreeks op een charge card worden geconfigureerd** en worden automatisch aangemaakt volgens het schema dat u instelt.
+
+  Elke terugkerende kost heeft een code, naam, beschrijving, hoeveelheid, prijs, nominal code, initiële charge date en frequentie. De hoeveelheid mag leeg blijven als u liever een prijs zonder hoeveelheid toont. De ondersteunde frequenties zijn:
+
+  | Frequentie | Gedrag |
+  | --- | --- |
+  | Daily | Elke dag aangemaakt vanaf de initiële charge date |
+  | Weekly | Herhaalt op dezelfde weekdag als de initiële charge date |
+  | Monthly | Herhaalt op dezelfde dag van de maand |
+  | End of charge window | Aangemaakt op de laatste dag van elk charge window |
+
+  Een paar details die het waard zijn om te weten:
+
+  - Stelt u een maandelijkse kost in op de 29e, 30e of 31e, dan wordt deze in een kortere maand op de laatste dag van die maand aangemaakt.
+  - Een terugkerende kost kan meerdere keren in één charge window voorkomen als de frequentie dat toelaat, en kan een window volledig overslaan als er geen herhaling binnen die periode valt.
+  - Aangemaakte kosten verschijnen op charge lines naast elk ander charge type, herkenbaar aan hun charge type, en volgen de bestaande factureringslogica.
+  - Hoe ze op de factuur verschijnen, wordt per account bepaald in het paneel **Charges appearance on invoice** — detailregels, één samenvattende regel, of verborgen.
+  - Wijzigt u een terugkerende kost of schakelt u deze uit, dan worden alleen toekomstige kosten beïnvloed. Wordt de charge card inactief of van het account verwijderd, dan stopt het aanmaken.
+
+  <Note>Kosten worden aangemaakt door een job die om middernacht draait, dus als u de initiële charge date op vandaag zet, wordt er vandaag geen kost aangemaakt. Zet de datum in de toekomst.</Note>
+
+  <Info>Zie [Terugkerende kosten](/knowledgebase/nl/financial/recurring-charges), [Charge windows](/knowledgebase/nl/financial/charge-window-and-create-one) en [Kosten instellen op accounts](/knowledgebase/nl/financial/set-charges-to-accounts).</Info>
+
+</Update>

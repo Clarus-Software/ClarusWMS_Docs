@@ -1,0 +1,70 @@
+---
+title: "Productupdates"
+description: "Wat er nieuw is in ClarusWMS — hoe we productupdates publiceren, hoe u de changelog filtert op de onderdelen die u belangrijk vindt, en hoe u zich abonneert."
+sidebarTitle: "Overzicht"
+public: true
+---
+
+Alles wat we aan ClarusWMS opleveren, wordt vastgelegd in de [changelog](/product-updates/nl/changelog), nieuwste eerst. Elk item legt uit wat er is veranderd, waarom het uitmaakt, en linkt naar de handleiding die laat zien hoe u het gebruikt.
+
+<CardGroup cols={2}>
+  <Card title="Lees de changelog" icon="clock-rotate-left" href="/product-updates/nl/changelog">
+    Elke release, nieuwste eerst, te filteren op onderdeel.
+  </Card>
+  <Card title="Abonneren" icon="rss" href="/product-updates/nl/changelog">
+    Gebruik de RSS-knop op de changelog om nieuwe items in Slack, per e-mail of in uw feedreader te ontvangen.
+  </Card>
+</CardGroup>
+
+## Twee soorten items
+
+Niet elke release past in een kalender. We publiceren daarom beide:
+
+- **Maandoverzichten** — gelabeld per maand, waarin de kleinere toevoegingen, verbeteringen en oplossingen van die maand in één item zijn gebundeld.
+- **Feature releases** — een groter stuk werk krijgt een eigen item, gedateerd op het moment dat het live ging. Dit zijn de items die het waard zijn om echt te lezen: een nieuwe pickface-routeringsengine of een security settings-pagina heeft meer nodig dan een opsommingsteken.
+
+Een feature release wordt nooit herhaald in het maandoverzicht van die maand, dus niets wordt dubbel geteld.
+
+## Filteren op wat voor u relevant is
+
+Elk item is getagd, en de tags verschijnen als filters in het rechterpaneel van de changelog. Selecteert u meer dan één tag, dan ziet u alleen de items die **alle** geselecteerde tags hebben, dus `Financieel` plus `Nieuw` geeft u nieuwe financiële functies en niets anders.
+
+| Type tag | Tags |
+| --- | --- |
+| Wat voor wijziging | `Nieuw`, `Verbeterd`, `Opgelost` |
+| Welk onderdeel van Clarus | `Picken`, `Inpakken & Dispatch`, `Inbound`, `Producten & Voorraad`, `Financieel`, `Rapportage`, `Automatiseringen`, `Integraties`, `Handheld`, `AI Assistant`, `Beveiliging`, `API`, `Platform` |
+
+<Tip>Filters worden vastgehouden in het paginaadres, zodat u een gefilterde weergave kunt delen. [/product-updates/nl/changelog?tags=Financieel](/product-updates/nl/changelog?tags=Financieel) opent de changelog met het financiële filter al toegepast.</Tip>
+
+## Abonneren op updates
+
+De changelog publiceert een RSS-feed op `/product-updates/nl/changelog/rss.xml`. Er verschijnt een nieuw item wanneer we een item toevoegen, en wanneer we een sectie aan een bestaand item toevoegen.
+
+<Steps>
+  <Step title="Kopieer het feedadres">
+    Open de [changelog](/product-updates/nl/changelog) en gebruik de RSS-knop bovenaan de pagina, of neem het adres van deze site en voeg `/product-updates/nl/changelog/rss.xml` toe.
+  </Step>
+  <Step title="Naar Slack">
+    Voer in een Slack-kanaal `/feed subscribe` in, gevolgd door het feedadres. Nieuwe releases worden dan automatisch in dat kanaal geplaatst — handig voor een intern kanaal voor operations of accountmanagement.
+  </Step>
+  <Step title="Naar e-mail of een feedreader">
+    Elke RSS-naar-e-maildienst werkt — richt deze op hetzelfde feedadres. Feedreaders nemen het adres direct over.
+  </Step>
+</Steps>
+
+## Wat we opnemen
+
+We schrijven deze updates voor de mensen die dagelijks met Clarus werken, dus de changelog beschrijft wat u kunt zien en waar u iets mee kunt:
+
+- Nieuwe functies en instellingen.
+- Wijzigingen in de manier waarop bestaande schermen en processen werken.
+- Oplossingen voor storingen die klanten in het algemeen troffen.
+- Wijzigingen op het gebied van prestaties, beveiliging en compliance die het waard zijn om te weten.
+
+We laten intern technisch werk zonder zichtbaar effect voor gebruikers weg — infrastructuurwijzigingen, framework-upgrades, refactoring — en eenmalige datacorrecties voor één enkel account. Als een door u gemelde oplossing alleen uw eigen data betrof, bevestigt uw Clarus-contactpersoon dat direct aan u in plaats van dat het hier verschijnt.
+
+<Info>Zoekt u hoe iets werkt in plaats van wanneer het is veranderd? De [kennisbank](/knowledgebase/nl/security/mfa-overview) is de naslag; de changelog vertelt u alleen wat er is gewijzigd en wanneer.</Info>
+
+## Vertel ons wat we moeten bouwen
+
+Als iets in deze updates in de buurt komt van wat u nodig hebt maar er nog niet helemaal is, laat het weten — het meeste van wat hier wordt opgeleverd, begon als een klantverzoek. Meld het via de help-widget in de applicatie, of neem contact op met uw Clarus-contactpersoon.
