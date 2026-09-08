@@ -210,6 +210,7 @@ The exception, which stays in the changelog because it would age badly in a guid
 - **Internal delivery process** — "the implementation team can now…", "without a developer", "previously hard-coded per customer".
 - **Third-party vendors and implementation detail** — the SDK behind a widget, bundle splitting, cloud provider names, server time.
 - **Anything still behind a feature flag or not yet GA.** Check the ClickUp status and the Notion PRD status before writing an entry as generally available.
+- **Internal-only concepts.** Some things in the product exist for Clarus staff, not customers — **task targets** are one. A completed ticket is not evidence that a change is customer-facing. If only internal users configure or see it, leave it out; if you cannot tell from the ticket, ask.
 
 ### Checking facts before writing
 
@@ -241,3 +242,4 @@ Also compile changed pages as MDX before pushing — a Mintlify build failure is
 - NEVER name a customer, disclose a security finding, or expose tenant, capacity or commercial mechanics in the changelog
 - NEVER describe an HHD/handheld change as automatic — those flows are configured, so the change makes something possible to configure
 - NEVER write performance work as a before-and-after that implies the product was previously broken
+- NEVER assume a completed ticket is customer-facing — internal-only features (e.g. task targets) must stay out of the changelog
