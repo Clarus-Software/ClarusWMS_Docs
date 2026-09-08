@@ -41,11 +41,25 @@ Each delivery address can hold a single **expected dispatch time** — the time 
   </Step>
 </Steps>
 
-When a sales order is created for that address, the expected dispatch time is carried onto the order's address, so orders inherit the right target without anyone keying it in.
+#### How the address time is applied to an order
+
+The time on the address is a **default**, not a fixed rule. An individual sales order can still carry its own dispatch time, and when it does, the order wins.
+
+When an order is created, Clarus works out the expected dispatch as follows:
+
+| The order's expected date of dispatch | The address | Result |
+|---|---|---|
+| Date only | Has a time | The order's date, combined with the address time |
+| Date **and** a time | Has a time | The order's own date and time — the address default is not applied |
+| Date only | Has no time | The order's date, with no time applied |
+
+So the address saves you keying a time onto every order for that destination, while leaving you free to override it on any single order that needs a different one.
+
+<Note>If combining the order's date with the address time produces a moment that has already passed today, Clarus moves it to the same time the following day rather than setting a dispatch time in the past.</Note>
 
 <Warning>The address must be linked to a customer before a time can be saved. If it is not, Clarus rejects the change with *"A customer must be selected before setting an expected dispatch time."* Assign the address to an account first, as described below.</Warning>
 
-<Note>Expected dispatch time can only be set on **delivery** addresses. Setting it on a [collection address](/knowledgebase/outbound/collection-addresses) is rejected, because a collection address describes where goods are picked up rather than where a load is going.</Note>
+<Note>Of the two address types, only a **delivery** address can hold an expected dispatch time — setting one on a [collection address](/knowledgebase/outbound/collection-addresses) is rejected, because a collection address describes where goods are picked up rather than where a load is going. This is a restriction on collection addresses, not on where a dispatch time can come from: a sales order can carry its own time regardless.</Note>
 
 You can also:
 

@@ -39,11 +39,25 @@ Elk bezorgadres kan één **verwachte verzendtijd** bevatten — het tijdstip wa
   </Step>
 </Steps>
 
-Wanneer voor dat adres een verkooporder wordt aangemaakt, wordt de verwachte verzendtijd meegenomen naar het adres van de order, zodat orders de juiste streeftijd overnemen zonder dat iemand die intypt.
+### Hoe de adrestijd op een order wordt toegepast
+
+De tijd op het adres is een **standaardwaarde**, geen vaste regel. Een individuele verkooporder kan nog steeds zijn eigen verzendtijd hebben, en in dat geval gaat de order voor.
+
+Wanneer een order wordt aangemaakt, bepaalt Clarus de verwachte verzending als volgt:
+
+| Verwachte verzenddatum van de order | Het adres | Resultaat |
+|---|---|---|
+| Alleen een datum | Heeft een tijd | De datum van de order, gecombineerd met de adrestijd |
+| Datum **en** een tijd | Heeft een tijd | De eigen datum en tijd van de order — de standaardwaarde van het adres wordt niet toegepast |
+| Alleen een datum | Heeft geen tijd | De datum van de order, zonder tijd |
+
+Het adres voorkomt dus dat u bij elke order voor die bestemming een tijd moet invoeren, terwijl u die op elke afzonderlijke order die een andere tijd nodig heeft nog steeds kunt overschrijven.
+
+<Note>Als het combineren van de orderdatum met de adrestijd een moment oplevert dat vandaag al is verstreken, schuift Clarus het naar hetzelfde tijdstip de volgende dag in plaats van een verzendtijd in het verleden te zetten.</Note>
 
 <Warning>Het adres moet aan een klant zijn gekoppeld voordat een tijd kan worden opgeslagen. Is dat niet zo, dan wijst Clarus de wijziging af met *"Er moet een klant worden geselecteerd voordat een verwachte verzendtijd kan worden ingesteld."* Wijs het adres eerst aan een account toe.</Warning>
 
-<Note>De verwachte verzendtijd kan alleen worden ingesteld op **bezorgadressen**. Instellen op een [ophaaladres](/knowledgebase/nl/outbound/collection-addresses) wordt geweigerd, omdat een ophaaladres beschrijft waar goederen worden opgehaald en niet waar een load naartoe gaat.</Note>
+<Note>Van de twee adressoorten kan alleen een **bezorgadres** een verwachte verzendtijd bevatten — instellen op een [ophaaladres](/knowledgebase/nl/outbound/collection-addresses) wordt geweigerd, omdat een ophaaladres beschrijft waar goederen worden opgehaald en niet waar een load naartoe gaat. Dit is een beperking op ophaaladressen, niet op waar een verzendtijd vandaan kan komen: een verkooporder kan altijd zijn eigen tijd hebben.</Note>
 
 U kunt daarnaast:
 

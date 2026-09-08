@@ -114,7 +114,7 @@ public: true
 
   ## Expected dispatch times per delivery address
 
-  Each delivery address can hold an expected dispatch time — the time of day loads for that destination normally leave — maintained once per customer and delivery address rather than entered per order. It can be sorted and filtered on the grid, loaded in bulk through the address import, set over the API, and is carried onto an order's address when the order is created.
+  Each delivery address can hold an expected dispatch time — the time of day loads for that destination normally leave — maintained once per customer and delivery address rather than entered per order. It acts as a default: an order that supplies only a date picks up the address time, while an order carrying its own dispatch time keeps it. The value can be sorted and filtered on the grid, loaded in bulk through the address import, and set over the API.
 
   <Info>See [Delivery addresses](/knowledgebase/outbound/delivery-addresses).</Info>
 
