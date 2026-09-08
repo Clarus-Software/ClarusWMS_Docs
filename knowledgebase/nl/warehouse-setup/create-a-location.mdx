@@ -24,11 +24,11 @@ In deze gids wordt uitgelegd hoe je nieuwe locaties binnen Clarus WMS instelt. U
     - **May** - Dit is de goederen-in bay, voornamelijk gebruikt voor het ontvangen en tijdelijk houden van inkomende voorraad.
     - **Gobay** - Dit is de goods-out baai, vergelijkbaar met GIBAY, maar ontworpen voor voorraad die wordt verzonden.
     - **Rack** - Dit is een standaard stelling locatie, meestal gebruikt voor het opslaan van pallets in het magazijn.
-    - **Pickanddrop** - Dit type is voor het snel opslaan en ophalen van voorraad.
+    - **Pickanddrop** - Een tussenstop waar één operator voorraad kan parkeren en een ander de verplaatsing afrondt — zie [Pick and Drop Locaties](/knowledgebase/nl/warehouse-setup/pick-and-drop-locations).
     - **Work** - Dit is een locatie in het werkgebied. Dit type kan geen aandelen rechtstreeks ontvangen.
     - **Bay** - Dit is een veelzijdig type, vergelijkbaar met GIBAY en GOBAY, die kan worden gebruikt voor zowel inkomende als uitgaande voorraad.
 
-    <Warning>PICKANDDROP wordt niet aanbevolen voor inkomende voorraad die via goods-in worden ontvangen, omdat het transactieproblemen of dubbele stopplaatstaken kan veroorzaken.</Warning>
+    <Note>Wanneer een putaway wordt voltooid naar een PICKANDDROP locatie, maakt Clarus opzettelijk een tweede putawaytaak aan om de voorraad naar de bedoelde locatie te brengen. Die vervolgtaak is zo bedoeld en geen duplicaat — de receipt toont pas als opgeslagen wanneer deze is voltooid. Zie [Pick and Drop Locaties](/knowledgebase/nl/warehouse-setup/pick-and-drop-locations).</Note>
 
     <Info>Zodra u de locatie hebt gemaakt, wordt deze toegevoegd aan het magazijn dat u hebt geselecteerd en klaar voor gebruik, afhankelijk van het locatietype dat u hebt gekozen.</Info>
   </Step>
@@ -46,7 +46,7 @@ Nee, een WORK locatie is een werkgebied en kan geen voorraad ontvangen.
 <Accordion title="Wat is het verschil tussen May en GOBAY?">
 GIBAY is voor inkomende voorraad (ontvangen), terwijl GOBAY is voor uitgaande voorraad (verzending).
 </Accordion>
-<Accordion title="Waarom wordt PICKANDDROP niet aanbevolen voor inkomende voorraad?">
-Het gebruik van PICKANDDROP voor inkomende aandelen die via goods-in worden ontvangen, kan transactieproblemen veroorzaken of dubbele stopplaatstaken creëren.
+<Accordion title="Wanneer moet ik PICKANDDROP gebruiken?">
+Gebruik het als tussenstop wanneer één operator, truck of shift een verplaatsing niet in één keer kan afronden — bijvoorbeeld bij het overdragen van een pallet van een tegengewichttruck naar een reachtruck. Clarus splitst de verplaatsing dan in twee taken. Zie [Pick and Drop Locaties](/knowledgebase/nl/warehouse-setup/pick-and-drop-locations).
 </Accordion>
 </AccordionGroup>

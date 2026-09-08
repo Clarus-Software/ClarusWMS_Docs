@@ -133,6 +133,7 @@
                         "expanded": false,
                         "pages": [
                           "knowledgebase/warehouse-setup/create-a-location",
+                          "knowledgebase/warehouse-setup/pick-and-drop-locations",
                           "knowledgebase/warehouse-setup/location-import",
                           "knowledgebase/warehouse-setup/location-groups",
                           "knowledgebase/warehouse-setup/location-check-digits",
@@ -774,6 +775,7 @@
                         "expanded": false,
                         "pages": [
                           "knowledgebase/nl/warehouse-setup/create-a-location",
+                          "knowledgebase/nl/warehouse-setup/pick-and-drop-locations",
                           "knowledgebase/nl/warehouse-setup/location-import",
                           "knowledgebase/nl/warehouse-setup/location-groups",
                           "knowledgebase/nl/warehouse-setup/location-check-digits",

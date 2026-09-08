@@ -1,0 +1,144 @@
+---
+title: "Pick and Drop Locations"
+description: "Use PICKANDDROP locations to split a putaway, replenishment or pick into two legs so one operator can park stock and another can finish the move."
+sidebarTitle: "Pick and Drop"
+---
+
+A **pick and drop** location is a staging point. When an operator completes a putaway, replenishment or pick task into a pick and drop location instead of the task's real destination, Clarus moves the stock there and creates a **follow-on task** to carry it the rest of the way. The original operator is free immediately; anyone can pick up the second leg.
+
+Use it wherever one person, one truck or one shift cannot reasonably complete a move end to end.
+
+## How it works
+
+<Steps>
+<Step title="A task is generated as normal">
+Clarus creates a putaway, replenishment or pick task with its intended destination — a racking location, a pickface, a goods-out bay.
+</Step>
+<Step title="The operator completes into a pick and drop location">
+Instead of the intended destination, the operator scans (or selects) a location whose type is **PICKANDDROP**. Clarus accepts it and physically moves the stock there.
+</Step>
+<Step title="Clarus generates the drop task">
+A second task of the same type is created automatically:
+
+- **From** the pick and drop location
+- **To** the destination the first task was originally heading for
+- Status **Available**, with no user assigned, so any operator can take it
+- Walk sequence taken from the pick and drop location, so it sorts into the aisle where the stock is actually standing
+- Linked back to the first task, so you can trace the pair
+
+The original task is marked **Completed**.
+</Step>
+<Step title="An operator completes the drop task">
+The second leg behaves like any ordinary task of that type. Only when it completes does Clarus treat the move as finished.
+</Step>
+</Steps>
+
+<Info>
+The two tasks are the same task type. A putaway split at a pick and drop produces a second **PWAY** task, a replenishment produces a second **REPLEN**, and a pick produces a second **PICK**.
+</Info>
+
+## Where you can use them
+
+| Task type | First leg | Second leg | Typical reason |
+|---|---|---|---|
+| **Putaway (PWAY)** | Goods-in bay → pick and drop | Pick and drop → racking | The receiving truck cannot reach high racking |
+| **Replenishment (REPLEN)** | Bulk racking → pick and drop | Pick and drop → pickface | The pickface is still occupied or being picked |
+| **Picking (PICK)** | Racking or pickface → pick and drop | Pick and drop → goods-out bay | Marshalling before a bay or trailer is confirmed |
+
+<Note>
+For replenishment tasks, a pick and drop location is the **only** destination Clarus will accept in place of the target pickface. Any other substitute is rejected with "Replenishment can't be completed to a location other than pick and drop."
+</Note>
+
+## What is and isn't recorded on the first leg
+
+This is the important part: parking stock at a pick and drop location records the **movement only**. Everything downstream waits for the drop task.
+
+**Clarus does record:**
+
+- The stock's new location and storage unit
+- A movement transaction (**TRAN** for putaway and picking, **TRANSFER_COMPLETED** for replenishment), attributed to the operator who completed the leg and linked to the task
+- A location usage recalculation for both the source and the pick and drop location, so occupancy stays accurate
+
+**Clarus does not do until the drop task completes:**
+
+- **Putaway:** the stock is not treated as put away, and the quantity put away on the goods-in receipt line is not increased
+- **Picking:** the stock is not marked as picked, the sales order line's picked quantity does not move, and no pack, dispatch or load task is created. The pick list is not completed
+- **Stock balances:** nothing shifts between allocated, picked or pickable buckets — the stock stays in whatever bucket it was already in
+
+<Tip>
+Because the pick or putaway is deliberately left unfinished, an order cannot run ahead of the physical stock. A pallet sitting in a pick and drop lane will not appear as dispatchable.
+</Tip>
+
+<Info>
+Replenishment demand is **not** delayed by the second leg. When a pick is parked at a pick and drop location, Clarus immediately re-evaluates replenishment for the location the stock came from, so a pickface can be topped up while the drop task is still outstanding.
+</Info>
+
+## Setting one up
+
+Create the location as normal (see [Create a Location](/knowledgebase/warehouse-setup/create-a-location)) and choose **PICKANDDROP** as the location type.
+
+Recommended settings:
+
+- **Allow Picking: No.** Stock parked in a pick and drop location is already committed to a task. Leaving picking off keeps it out of the pool of stock that new picks can be allocated from.
+- **Give it a walk sequence.** The drop task inherits it, which is what makes the second leg sort sensibly into an operator's task list.
+- **Set capacity limits** (maximum storage units, weight, cube) so you can see when a lane is filling up. Location usage is recalculated on every pick and drop move.
+- **Use a clear code convention** such as `PD-A01`, so operators can tell a staging lane from racking at a glance.
+
+<Tip>
+Put pick and drop locations where the handover physically happens — the end of an aisle, the mouth of a bay, beside a pickface — rather than creating one generic lane for the whole warehouse. The walk sequence only helps if it reflects where the stock actually is.
+</Tip>
+
+## Use cases
+
+### Handing deep or high racking to the right truck
+
+A pallet is received on a counterbalance truck, but its putaway location is at the top of narrow-aisle racking that only a reach truck can service. The counterbalance driver completes the putaway into a pick and drop location at the head of the aisle. The reach truck driver takes the follow-on putaway task and lifts the pallet into the racking. Neither driver waits for the other, and the receipt line only shows as put away once the pallet is actually in its home location.
+
+### Replenishing a pickface that isn't clear yet
+
+A replenishment task wants a full pallet moved from bulk racking into a pickface that a picker is still working. The forklift driver completes the replenishment into a pick and drop location beside the pickface. When the face empties, the picker (or the next available operator) completes the drop task and the stock lands in the face. The forklift is not tied up waiting, and the aisle is not blocked.
+
+### Marshalling picks before the bay is confirmed
+
+Picks for a large order are heading for a goods-out bay that hasn't been allocated to a trailer yet. Pickers complete their picks into a pick and drop lane near the dock. Once the loading bay is confirmed, a dock operator works through the drop tasks to move the stock into the correct goods-out bay. Because the picks are not finalised until then, the order does not progress to packing, dispatch or loading early.
+
+### Handing work over at the end of a shift
+
+An operator carrying a pallet reaches the end of their shift, or is pulled onto a priority job. Completing into a pick and drop location parks the stock in a known, recorded location and leaves an **Available**, unassigned task for whoever comes next. Nothing is left on a truck or in an aisle with no system record of where it is.
+
+## Rules and limits
+
+<Warning>
+A pick and drop location can never be a task's **final** destination. If a task is already heading for a pick and drop location, you cannot redirect it into another one — Clarus rejects it with "A pick and drop task's final destination cannot be another pick and drop location." Pick and drop is always a stop on the way to a real destination, never the end of the journey.
+</Warning>
+
+- **No chaining.** Because of the rule above, a move can have one pick and drop leg, not a sequence of them.
+- **Kit jobs are excluded.** A pick that belongs to a kit job cannot be completed into a pick and drop location ("Kit job picks cannot be completed into a pick and drop location").
+- **Partial quantities are supported.** If an operator confirms less than the full task quantity, Clarus splits the remainder into a separate task against the original source location before staging the confirmed quantity.
+
+### Reversing a pick and drop move
+
+Uncompleting the first leg reverses the whole staging move: Clarus deletes the outstanding drop task, returns the stock to the location and storage unit it came from, and merges any split remainder back into the original task, which returns to **Available** (or **Allocated**, if it still had a user) with its original destination restored.
+
+This is only possible while the drop task is untouched. If the drop task has already been allocated to a user or completed, the reversal is rejected — deal with the drop task first.
+
+<Info>
+Cancelling an outstanding drop task has the same effect: Clarus reverses the staging move and returns the stock to where the first leg started, rather than abandoning it in the pick and drop location.
+</Info>
+
+## Frequently asked questions
+
+<AccordionGroup>
+<Accordion title="Who gets the follow-on task?">
+Nobody, by default. The drop task is created unassigned with a status of **Available**, so it appears in the task list for any operator working that area. Assign it manually if a specific person or truck should handle it.
+</Accordion>
+<Accordion title="Can I see which tasks came from a pick and drop?">
+Yes. The drop task is linked to the task that generated it, and its **from** location is the pick and drop location, so filtering tasks by that location shows everything currently outstanding in the lane.
+</Accordion>
+<Accordion title="Does stock in a pick and drop location still count as stock on hand?">
+Yes. The stock is in a real location with a real quantity and shows in stock enquiries and transactions. What does not change is its state — received stock is not yet put away, and allocated stock is not yet picked.
+</Accordion>
+<Accordion title="Can two operators park different pallets in the same pick and drop location?">
+Yes, subject to the location's own mixing and capacity settings, which behave the same as for any other location. Each pallet gets its own drop task.
+</Accordion>
+</AccordionGroup>

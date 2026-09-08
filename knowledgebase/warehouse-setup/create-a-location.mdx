@@ -21,15 +21,15 @@ There are six location types:
 - **GIBAY**: Goods-in bay for receiving and temporarily holding incoming stock
 - **GOBAY**: Goods-out bay for stock being shipped out
 - **RACK**: Standard racking location, most commonly used for storing pallets
-- **PICKANDDROP**: For quickly storing and picking up stock
+- **PICKANDDROP**: A staging point where one operator can park stock and another completes the move — see [Pick and Drop Locations](/knowledgebase/warehouse-setup/pick-and-drop-locations)
 - **WORK**: Working area location that cannot receive stock directly
 - **BAY**: Versatile type that can be used for both incoming and outgoing stock
 </Step>
 </Steps>
 
-<Warning>
-PICKANDDROP is not recommended for inbound stock received via goods-in, as it may cause transaction issues or duplicate putaway tasks.
-</Warning>
+<Note>
+When a putaway is completed into a PICKANDDROP location, Clarus deliberately creates a second putaway task to carry the stock on to its intended location. That follow-on task is by design, not a duplicate — the receipt is only shown as put away once it completes. See [Pick and Drop Locations](/knowledgebase/warehouse-setup/pick-and-drop-locations).
+</Note>
 
 <Info>
 Once you have created the location, it will be added to the warehouse you selected and will be ready for use.
@@ -46,5 +46,8 @@ No, a WORK location is a working area and cannot receive stock.
 </Accordion>
 <Accordion title="What is the difference between GIBAY and GOBAY?">
 GIBAY is for inbound stock (receiving), while GOBAY is for outbound stock (shipping).
+</Accordion>
+<Accordion title="When should I use PICKANDDROP?">
+Use it as a staging point when one operator, truck or shift cannot complete a move end to end — for example handing a pallet from a counterbalance truck to a reach truck. Clarus splits the move into two tasks. See [Pick and Drop Locations](/knowledgebase/warehouse-setup/pick-and-drop-locations).
 </Accordion>
 </AccordionGroup>
