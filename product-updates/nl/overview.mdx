@@ -1,6 +1,6 @@
 ---
 title: "Productupdates"
-description: "Wat er nieuw is in ClarusWMS — hoe we productupdates publiceren, hoe u de changelog filtert op de onderdelen die u belangrijk vindt, en hoe u zich abonneert."
+description: "Wat er nieuw is in ClarusWMS — waar u elke release vindt, wat de changelog behandelt, en hoe u zich abonneert zodat nieuwe updates u bereiken."
 sidebarTitle: "Overzicht"
 public: true
 ---
@@ -16,24 +16,11 @@ Alles wat we aan ClarusWMS opleveren, wordt vastgelegd in de [changelog](/produc
   </Card>
 </CardGroup>
 
-## Eén item per maand
+## Wat u aantreft
 
-De changelog bevat **één item per kalendermaand**, nieuwste eerst. Binnen elk item:
+Er is één item per maand. Elk item begint met de belangrijkste features van die maand en somt daarna de kleinere toevoegingen, verbeteringen en oplossingen op die daarnaast zijn uitgebracht.
 
-- **Benoemde secties** voor de belangrijke features van die maand — wat er is veranderd, wat het vervangt, en een link naar de handleiding.
-- Lijsten met **Nieuw**, **Verbeterd** en **Opgelost** voor al het overige dat is opgeleverd.
-
-## Waar de details staan
-
-De changelog vertelt u *wat er is veranderd en wanneer*. De [kennisbank](/knowledgebase/nl/security/mfa-overview) vertelt u *hoe u het gebruikt*, en daar horen de details thuis — één plek om te onderhouden, en de plek waar u daadwerkelijk kijkt wanneer u de functie gaat gebruiken. Elke feature hier linkt daarom naar de handleiding in plaats van die te herhalen.
-
-De uitzondering is alles wat alleen op het moment van de release van belang is en in een handleiding slecht zou verouderen:
-
-- Wat de feature **vervangt**, en de oude manier van werken.
-- De **uitrolstatus** — een functie die van besloten bèta naar algemene beschikbaarheid gaat, zodat een lezer kan zien dat deze net beschikbaar is en niet al lang bestaat.
-- **Migratienotities** en verschillen tussen versies van een functie.
-
-Die context blijft in het changelog-item staan, omdat het over zes maanden geschiedenis is en geen instructie meer.
+Items blijven bewust kort. Waar een feature een handleiding heeft, linkt het item daarnaartoe, zodat u de aankondiging kunt lezen en vervolgens direct naar de instructies kunt gaan.
 
 ## Een specifieke release vinden
 
@@ -43,30 +30,30 @@ Het inhoudspaneel rechts op de changelog toont elke maand, zodat u direct naar e
 
 ## Abonneren op updates
 
-De changelog publiceert een RSS-feed op `/product-updates/nl/changelog/rss.xml`. Er verschijnt een nieuw item wanneer we een item toevoegen, en wanneer we een sectie aan een bestaand item toevoegen.
+De changelog publiceert een RSS-feed op `/product-updates/nl/changelog/rss.xml`, zodat nieuwe releases u bereiken zonder dat u de pagina hoeft te controleren.
 
 <Steps>
   <Step title="Kopieer het feedadres">
     Open de [changelog](/product-updates/nl/changelog) en gebruik de RSS-knop bovenaan de pagina, of neem het adres van deze site en voeg `/product-updates/nl/changelog/rss.xml` toe.
   </Step>
   <Step title="Naar Slack">
-    Voer in een Slack-kanaal `/feed subscribe` in, gevolgd door het feedadres. Nieuwe releases worden dan automatisch in dat kanaal geplaatst — handig voor een intern kanaal voor operations of accountmanagement.
+    Voer in een Slack-kanaal `/feed subscribe` in, gevolgd door het feedadres. Nieuwe releases worden dan automatisch in dat kanaal geplaatst — handig voor een kanaal voor operations of accountmanagement.
   </Step>
   <Step title="Naar e-mail of een feedreader">
     Elke RSS-naar-e-maildienst werkt — richt deze op hetzelfde feedadres. Feedreaders nemen het adres direct over.
   </Step>
 </Steps>
 
-## Wat we opnemen
+## Wat er wordt behandeld
 
-We schrijven deze updates voor de mensen die dagelijks met Clarus werken, dus de changelog beschrijft wat u kunt zien en waar u iets mee kunt:
+De changelog behandelt wijzigingen die u kunt zien en waar u iets mee kunt:
 
 - Nieuwe functies en instellingen.
 - Wijzigingen in de manier waarop bestaande schermen en processen werken.
 - Oplossingen voor storingen die klanten in het algemeen troffen.
 - Wijzigingen op het gebied van prestaties, beveiliging en compliance die het waard zijn om te weten.
 
-We laten intern technisch werk zonder zichtbaar effect voor gebruikers weg — infrastructuurwijzigingen, framework-upgrades, refactoring — en eenmalige datacorrecties voor één enkel account. Als een door u gemelde oplossing alleen uw eigen data betrof, bevestigt uw Clarus-contactpersoon dat direct aan u in plaats van dat het hier verschijnt.
+<Info>Niet elke oplossing verschijnt hier. Als iets dat u hebt gemeld alleen uw eigen data of configuratie betrof, bevestigt uw Clarus-contactpersoon dat direct aan u in plaats van dat het als productwijziging wordt vermeld.</Info>
 
 <Info>Zoekt u hoe iets werkt in plaats van wanneer het is veranderd? De [kennisbank](/knowledgebase/nl/security/mfa-overview) is de naslag; de changelog vertelt u alleen wat er is gewijzigd en wanneer.</Info>
 
