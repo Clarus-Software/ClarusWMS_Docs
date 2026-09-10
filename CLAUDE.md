@@ -36,7 +36,7 @@ knowledgebase/     # Support knowledgebase articles (English)
   security/        # Subprocessors, backup
   troubleshooting/ # Error guides, diagnostic articles
   nl/              # Dutch translations (mirrors EN structure, same slugs)
-drafts/            # Non-KB articles (announcements, policies) — NOT in navigation
+drafts/            # Non-KB articles (announcements, policies) — excluded via .mintignore
 product-updates/   # Changelog / product updates (public tab)
   nl/              # Dutch mirror, same slugs
 snippets/          # Reusable MDX snippets
@@ -71,6 +71,16 @@ Every draw.io diagram follows this pattern in MDX:
 
 <sub><a href="/images/diagrams/diagram-name.drawio.svg" download="diagram-name.drawio.svg">Download SVG</a> · <a href="/images/diagrams/diagram-name.drawio" download="diagram-name.drawio">Download draw.io source</a></sub>
 ```
+
+### What Gets Published
+
+**Every `.md` and `.mdx` file in the repo is built and served, whether or not it is in `docs.json`.** Leaving a page out of the navigation only removes it from the sidebar — per Mintlify's own docs, *"Hidden pages are not private. Anyone with the URL can view them."* `hidden: true` behaves the same way; it affects indexing, not access.
+
+The only mechanism that makes a file genuinely unreachable is **`.mintignore`** in the repo root, which uses `.gitignore` syntax and removes matching files from the build entirely.
+
+Mintlify already auto-ignores `.git`, `.github`, `.claude`, `.agents`, `.idea`, `.vscode`, `.cursor`, `node_modules`, `build`, `dist`, `coverage`, `.cache`, `tmp`, `temp`, `README.md`, `LICENSE.md`, `CHANGELOG.md` and `CONTRIBUTING.md`. **`CLAUDE.md` is not on that list** — without a `.mintignore` entry it is published at `/CLAUDE`, internal guidance and all. `drafts/` is not on the list either, despite the convention of keeping it out of navigation.
+
+Both are excluded in `.mintignore`. **Before adding any file that is not meant for customers — internal notes, planning docs, runbooks, scratch pages — add it to `.mintignore` in the same commit.** A file in a directory Mintlify auto-ignores (`.claude/`, for instance) is safe without one.
 
 ### File Naming
 
@@ -245,3 +255,4 @@ Also compile changed pages as MDX before pushing — a Mintlify build failure is
 - NEVER write performance work as a before-and-after that implies the product was previously broken
 - NEVER assume a completed ticket is customer-facing — internal-only features (e.g. task targets) must stay out of the changelog
 - NEVER say "feature flag" or "test group" in the changelog — customers see "select beta" and "generally available"
+- NEVER assume leaving a file out of docs.json keeps it private — every .md/.mdx is served by URL; use `.mintignore`
