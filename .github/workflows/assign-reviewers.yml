@@ -21,7 +21,7 @@ jobs:
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
-          REVIEWERS: billwilkins-hub elliotpercy-commits
+          REVIEWERS: billwilkins-hub elliotpercy-commits ToMoCoop
         run: |
           set -euo pipefail
 

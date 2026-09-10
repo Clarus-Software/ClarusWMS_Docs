@@ -5,4 +5,4 @@
 # Enable "Require review from Code Owners" in the branch protection
 # rules for `main` if these reviews should also be mandatory to merge.
 
-*   @billwilkins-hub @elliotpercy-commits
+*   @billwilkins-hub @elliotpercy-commits @ToMoCoop
