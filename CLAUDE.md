@@ -7,18 +7,36 @@ Mintlify documentation site for ClarusWMS — warehouse management platform docs
 - Dev server: `mintlify dev`
 - Export draw.io to SVG: `/Applications/draw.io.app/Contents/MacOS/draw.io --export --format svg --output <output.drawio.svg> <input.drawio>`
 
+### Adding a knowledgebase page — the full checklist
+
+**A KB page is not finished until all four of these are done.** Every knowledgebase page is bilingual; there is no "English-only" KB page.
+
+1. Create the English page at `knowledgebase/{category}/{slug}.mdx`.
+2. Create the Dutch page at `knowledgebase/nl/{category}/{slug}.mdx` — **the same slug**, translated content (light-touch: see i18n below).
+3. Register **both** in `docs.json`, each with `"public": true`:
+   - the English path under `navigation.languages[]` → `language: "en"` → tab `Knowledgebase`
+   - the Dutch path under `language: "nl"` → tab `Kennisbank`
+
+   The EN and NL group structures mirror each other, so find the matching group in each. Nested groups also need their own `"public": true`.
+4. Share one set of images under `images/knowledgebase/` — never duplicate images per language.
+
+Only the `Knowledgebase` and `Kennisbank` tabs are published publicly. The `API Reference` and `Architecture` tabs carry no `"public": true` and are internal, so pages added there are EN-only and need no Dutch mirror.
+
 ## Directory Structure
 
 ```
-architecture/       # Architecture documentation (MDX)
-  ai/              # AI layer architecture pages
+architecture/       # Architecture documentation (MDX) — internal, not published
+  agents/          # Agent runtime, gateways, tools, sessions, subgraph
+  ai-app/          # AI app architecture
+  ai-messaging/    # Slack/WhatsApp/Teams relay, incl. platforms/
+  gateway/         # Federated GraphQL gateway
   deployment/      # CI/CD and deployment pages
 api-reference/     # API docs and OpenAPI spec
-essentials/        # Mintlify framework guide pages
 images/            # Static images
   diagrams/        # Draw.io sources (.drawio) and SVG exports (.drawio.svg)
   knowledgebase/   # KB article screenshots (shared EN/NL)
-integrations/      # Integration guides
+    integrations/  # Integration and AI-connector screenshots
+  templates/       # Template assets
 knowledgebase/     # Support knowledgebase articles (English)
   getting-started/ # Login, password reset, booking diary
   users-and-roles/ # User creation, role guides, visibility
@@ -33,11 +51,11 @@ knowledgebase/     # Support knowledgebase articles (English)
   cloud-print/     # Cloud Print setup and usage
   hardware/        # HHD configuration
   advanced/        # Serial numbers, kits, works orders
-  security/        # Subprocessors, backup
+  ai-assistant/    # AI Assistant + Slack/WhatsApp/Teams messaging channels
+  security/        # Subprocessors, backup, AI data protection
   troubleshooting/ # Error guides, diagnostic articles
   nl/              # Dutch translations (mirrors EN structure, same slugs)
-drafts/            # Non-KB articles (announcements, policies) — NOT in navigation
-snippets/          # Reusable MDX snippets
+snippets/          # Reusable MDX snippets (nl/ mirrors for Dutch pages)
 ```
 
 ## Tech Stack

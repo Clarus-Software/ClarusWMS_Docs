@@ -1,0 +1,99 @@
+---
+title: "Messaging channels"
+description: "Talk to your warehouse from Slack, WhatsApp, or Microsoft Teams — ask the Clarus AI Assistant questions and get answers without leaving the app your team already uses."
+sidebarTitle: "Overview"
+---
+
+Bring the AI Assistant into the apps your team already has open. Connect **Slack**, **WhatsApp**, or **Microsoft Teams** and anyone in the conversation can ask about stock, orders, or receipts and get an answer in seconds — no Clarus tab, no login, no context switch.
+
+Ask "how many pallets of `WIDGET-RED-500` are left?" in a Slack channel, or message the Clarus number on WhatsApp from the warehouse floor, and the reply comes back in the same thread.
+
+<Warning>
+**AI accuracy:** AI-generated responses can sometimes be inaccurate, incomplete, or misleading. Always verify the assistant's output before acting on it — especially for stock movements, order changes, or any actions that affect your live warehouse data. The assistant is a tool to help you, not a replacement for your own judgement.
+</Warning>
+
+## Choose a channel
+
+<CardGroup cols={3}>
+  <Card title="Slack" icon="slack" href="/knowledgebase/ai-assistant/connect-slack">
+    The quickest to set up. Approve the app once and your whole workspace can use it.
+  </Card>
+  <Card title="WhatsApp" icon="whatsapp" href="/knowledgebase/ai-assistant/connect-whatsapp">
+    Best for people on the move. You choose exactly which phone numbers are allowed.
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft" href="/knowledgebase/ai-assistant/connect-teams">
+    Add the ClarusWMS app to Teams, then link it to your Clarus account.
+  </Card>
+</CardGroup>
+
+## Where you set them up
+
+All three are managed in one place in the AI app:
+
+1. Open the AI Assistant and click the **Settings** cog at the bottom of the conversation list.
+2. Choose **Integrations**.
+
+<Frame>
+  <img src="/images/knowledgebase/integrations/ai-settings-integrations.png" alt="The Settings Integrations page showing cards for Slack, WhatsApp, and Microsoft Teams" />
+</Frame>
+
+Each channel appears as a card with a button to connect it. Once connected, the card shows an **Installed** badge and the details of the connection.
+
+<Info>
+**Integrations is administrator-only.** If you don't see the Settings cog or the Integrations section, your Clarus role doesn't include settings management — ask an administrator to set the channel up for you.
+</Info>
+
+## What each channel can do
+
+| | Slack | WhatsApp | Microsoft Teams |
+|---|---|---|---|
+| Direct messages to the assistant | Yes | Yes | Yes |
+| Channels and group chats | Yes, when you **@mention** it | Not supported | Yes, when you **@mention** it |
+| Threaded replies | Yes | — | Yes |
+| Send files and images | Yes | Yes | Not yet |
+| Proactive alerts from Clarus | Yes, to a channel you choose | Not yet | Only in conversations it has already seen |
+| Restrict who can use it | No — anyone in the workspace | **Yes** — an approved list of phone numbers | No — anyone in your Microsoft organisation |
+| Disconnect from the app | Yes | Remove individual users instead | Yes |
+
+Everywhere it's supported, you can send images (PNG, JPEG, GIF, WebP up to 3 MB) and documents (PDF, CSV, text, Markdown, HTML, DOCX, XLSX up to 10 MB), up to 10 files in one message.
+
+Replies aren't streamed word by word as they are in the AI app — the assistant thinks, then posts its answer. A long answer may arrive as more than one message.
+
+## Settings shared by every channel
+
+Whichever channel you connect, you'll be asked for:
+
+- **Description** — a short label for the connection, so you can tell your integrations apart. Required.
+- **Default model** — which Claude model answers messages on this channel. **Sonnet** is the default and the right choice for everyday use. See [Overview](/knowledgebase/ai-assistant/overview) for what the others are for.
+- **Agent** — optional. Route this channel's messages to a specific agent you've set up, instead of the default assistant.
+
+<Warning>
+**Anyone who can message the bot gets your organisation's full assistant access.** Unlike the AI app — where the assistant works within *your* individual Clarus permissions — a messaging channel isn't tied to a particular Clarus user. The assistant can't tell who is asking, so every person in that Slack workspace, Teams organisation, or on your approved WhatsApp list can see and change whatever your organisation's assistant can.
+
+Bear that in mind when choosing which channels to invite the bot into, and prefer WhatsApp's approved-number list where you need tighter control.
+</Warning>
+
+## One Clarus account per workspace
+
+A Slack workspace, or a Microsoft organisation, can be connected to **one** Clarus account at a time. If you try to connect one that's already linked elsewhere, you'll be told so — whoever set it up first needs to disconnect before you can claim it.
+
+## Credits
+
+Messages sent through Slack, WhatsApp, and Teams draw on the same monthly credit allowance as the AI app. Answers to chat messages aren't billed differently — but a channel that's open to a whole workspace can use credits faster than you'd expect. See [Credits and usage](/knowledgebase/ai-assistant/credits-and-usage).
+
+## Before you start
+
+- The AI Assistant enabled on your Clarus account.
+- A Clarus login with **administrator** rights, to reach Settings → Integrations.
+- Admin rights in the channel you're connecting: permission to add apps to your Slack workspace, or to upload and approve apps in Microsoft Teams. WhatsApp needs no third-party admin access.
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Access & controls" icon="lock" href="/knowledgebase/ai-assistant/access-and-controls">
+    What the assistant can reach, how actions are audited, and how to turn it on or off.
+  </Card>
+  <Card title="AI Assistant data protection" icon="shield-halved" href="/knowledgebase/security/ai-data-protection">
+    Data handling, processing location, retention, and subprocessors.
+  </Card>
+</CardGroup>

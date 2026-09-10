@@ -1,0 +1,123 @@
+---
+title: "Slack verbinden met Clarus"
+description: "Installeer de ClarusWMS-app in uw Slack-workspace zodat uw team de AI Assistant rechtstreeks vanuit Slack kan vragen over voorraad, orders en ontvangsten."
+sidebarTitle: "Slack verbinden"
+---
+
+Slack is het snelste kanaal om te verbinden. U keurt de app één keer goed en iedereen in uw Slack-workspace kan de assistent een bericht sturen — in een direct bericht, of door hem in een kanaal te **@mentionen**.
+
+<Warning>
+**AI-nauwkeurigheid:** door AI gegenereerde antwoorden kunnen soms onnauwkeurig, onvolledig of misleidend zijn. Controleer de uitvoer van de assistent altijd voordat u ernaar handelt — vooral bij voorraadmutaties, orderwijzigingen of andere acties die uw actuele magazijngegevens raken. De assistent is een hulpmiddel, geen vervanging van uw eigen oordeel.
+</Warning>
+
+## Voordat u begint
+
+- Een Clarus-login met **beheerdersrechten**.
+- Toestemming om apps toe te voegen aan uw Slack-workspace. Beperkt uw workspace het installeren van apps, dan moet een Slack-beheerder de aanvraag goedkeuren.
+
+## De app installeren
+
+<Steps>
+  <Step title="Open Integrations">
+    Klik in de AI Assistant op het tandwiel **Settings** onderaan de gesprekkenlijst en kies **Integrations**.
+  </Step>
+  <Step title="Klik op Install Slack">
+    Klik op de kaart **Slack** op **Install Slack**. Hiermee opent de Clarus-installatiepagina in een nieuw tabblad, met uw Clarus-account al ingevuld.
+    <Frame>
+      <img src="/images/knowledgebase/integrations/ai-settings-integrations.png" alt="De pagina Integrations met de Slack-kaart en de knop Install Slack" />
+    </Frame>
+  </Step>
+  <Step title="Beschrijf de verbinding">
+    Vul het installatieformulier in:
+
+    - **ClarusWMS Subdomain** — al voor u ingevuld. Controleer of het klopt (het is de naam waarmee u Clarus bereikt, zoals `acme`.clarus.ws).
+    - **Description** — verplicht. Beschrijf waarvoor deze workspace is en welke kanalen beschikbaar zijn, bijvoorbeeld `Stock ops Slack — channels: #stock-management, #ops-alerts`. Dit is niet alleen een label: de assistent leest het om te bepalen naar welk kanaal hij een melding stuurt, dus wees specifiek.
+    - **Default Model** — laat op **Claude Sonnet** staan tenzij u een reden hebt om dit te wijzigen.
+    - **Agent** — optioneel. Laat leeg om de ingebouwde assistent te gebruiken.
+    - **Default alert channel** — optioneel. Waar Clarus meldingen plaatst die geen kanaal noemen, bijvoorbeeld `#warehouse-alerts`.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/slack-install-form.png" alt="Het Clarus-installatieformulier voor Slack met de velden description, default model, agent en alert channel" />
+    </Frame>
+  </Step>
+  <Step title="Keur het goed in Slack">
+    Klik op **Add to Slack**. Slack laat zien wat de app zal kunnen doen — controleer of de workspace bovenaan de juiste is, bekijk de rechten en klik op **Allow**.
+    <Frame>
+      <img src="/images/knowledgebase/integrations/slack-install-approval.png" alt="Het rechtenscherm van Slack voor de ClarusWMS AI-app, met de workspace-keuze, de informatie die hij kan zien, de acties die hij kan uitvoeren en de knop Allow" />
+    </Frame>
+  </Step>
+  <Step title="Nodig de bot uit waar u hem nodig hebt">
+    De bevestigingspagina vermeldt de naam van de bot in uw workspace. Om hem in een kanaal te gebruiken, opent u dat kanaal en typt u:
+
+    ```text
+    /invite @ClarusWMS AI
+    ```
+
+    Gebruik de naam die op de bevestigingspagina staat — een Slack-beheerder kan de app tijdens de installatie hernoemen, dus het is misschien niet exact `@ClarusWMS AI`.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/slack-install-success.png" alt="De Clarus-bevestigingspagina met de workspace-instellingen en hoe u de bot bericht, inclusief het /invite-commando met de naam van de bot" />
+    </Frame>
+
+    Voor directe berichten hoeft u hem nergens uit te nodigen — u kunt de bot direct een bericht sturen.
+  </Step>
+</Steps>
+
+Terug in **Settings → Integrations** toont de Slack-kaart nu het label **Installed**, met daarbij de naam van uw workspace, de bot-gebruiker, het meldingenkanaal en de installatiedatum.
+
+<Frame>
+  <img src="/images/knowledgebase/integrations/slack-integration-installed.png" alt="De geïnstalleerde Slack-kaart met teamnaam, bot-gebruiker, meldingenkanaal en installatiedatum" />
+</Frame>
+
+## Gebruik in Slack
+
+**In een direct bericht** gaat elk bericht dat u stuurt naar de assistent. Het hele DM-gesprek is één doorlopend gesprek, dus u kunt gewoon doorvragen:
+
+> **U:** hoeveel stuks WIDGET-RED-500 liggen er op voorraad?
+>
+> **U:** en op welke locaties liggen ze?
+
+**In een kanaal** reageert de assistent alleen als u hem **@mentiont** — zo blijft hij stil tijdens normaal teamoverleg:
+
+> `@ClarusWMS welke goods out-orders voor Acme zijn nog niet gepickt?`
+
+Antwoorden in kanalen komen terug **in een thread**. Elke thread is een eigen apart gesprek, dus twee mensen kunnen in hetzelfde kanaal over verschillende dingen vragen zonder dat de assistent ze door elkaar haalt. Stel vervolgvragen binnen de thread.
+
+**Bestanden.** Voeg afbeeldingen of documenten toe aan uw bericht en de assistent kan ze lezen — stuur bijvoorbeeld de PDF van een leverancier of een CSV en vraag wat erin staat. U kunt maximaal 10 bestanden per bericht toevoegen: afbeeldingen tot 3 MB, documenten tot 10 MB.
+
+**Terwijl hij bezig is** plaatst de assistent een 👀-reactie bij uw bericht, en haalt die weg zodra het antwoord er is. Lange antwoorden kunnen als meer dan één bericht aankomen.
+
+<Warning>
+Iedereen in uw Slack-workspace die de bot een bericht kan sturen of kan @mentionen, krijgt de volledige assistent-toegang van uw organisatie — die is niet beperkt tot de Clarus-rechten van één persoon, en hij kan gegevens ook wijzigen, niet alleen lezen. Denk na over in welke kanalen u hem uitnodigt.
+</Warning>
+
+## Uw instellingen wijzigen
+
+Om de description, het default model, de agent of het meldingenkanaal te wijzigen, klikt u op de Integrations-kaart opnieuw op **Install Slack**, klikt u op **Add to Slack** en kiest u **dezelfde** Slack-workspace. Clarus herkent hem en brengt u naar een instellingenpagina met uw huidige waarden ingevuld — pas aan wat u nodig hebt en sla op. Uw subdomein en meldingsinstellingen blijven behouden.
+
+## Slack verbinding verbreken
+
+Klik op de Slack-kaart in **Settings → Integrations** op **Disconnect Slack** en bevestig. Hiermee wordt de app uit uw Slack-workspace verwijderd en kan uw team de assistent niet langer vanuit Slack bereiken. U kunt hem later opnieuw installeren.
+
+## Problemen oplossen
+
+<AccordionGroup>
+  <Accordion title="De bot negeert mij in een kanaal">
+    In kanalen antwoordt de assistent alleen als hij **@mentiont** wordt — dat is opzettelijk, zodat hij niet alles leest wat uw team zegt. Begin uw bericht met `@ClarusWMS AI`. Controleer ook of de bot echt in dat kanaal is uitgenodigd (`/invite @ClarusWMS AI`). Directe berichten werken altijd zonder mention.
+  </Accordion>
+  <Accordion title="Ik krijg 'already connected to another ClarusWMS account'">
+    Een Slack-workspace kan aan één Clarus-account tegelijk verbonden zijn. Iemand heeft deze workspace al aan een ander Clarus-account verbonden — daar moet de verbinding eerst worden verbroken, daarna kunt u hem hier verbinden.
+  </Accordion>
+  <Accordion title="Hij antwoordt in het kanaal, maar niet in de thread die ik verwachtte">
+    Antwoorden in kanalen komen in een thread onder het bericht waarin de bot werd gementiond. Stelt u een vervolgvraag als nieuw kanaalbericht in plaats van binnen de thread, dan wordt dat als een volledig nieuw gesprek behandeld zonder herinnering aan het eerdere. Antwoord binnen de thread om verder te gaan.
+  </Accordion>
+  <Accordion title="Mijn bestand is niet gelezen">
+    Controleer formaat en grootte: afbeeldingen moeten PNG, JPEG, GIF of WebP zijn tot 3 MB; documenten moeten PDF, CSV, tekst, Markdown, HTML, DOCX of XLSX zijn tot 10 MB. Er worden maximaal 10 bestanden per bericht gelezen en alles buiten die grenzen wordt stil overgeslagen. Worden bestanden structureel niet gelezen, installeer de app dan opnieuw via **Settings → Integrations** — dat vernieuwt de rechten die Slack aan Clarus heeft gegeven.
+  </Accordion>
+  <Accordion title="Na de installatie gebeurt er helemaal niets">
+    Controleer of de Slack-kaart in Settings → Integrations het label **Installed** toont. Is dat zo en blijven berichten onbeantwoord, controleer dan of uw organisatie niet zonder AI-credits zit — zie [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage).
+  </Accordion>
+  <Accordion title="Kan ik beperken wie hem in Slack mag gebruiken?">
+    Niet binnen Clarus — iedereen in de workspace die de bot kan bereiken, kan hem gebruiken. U kunt de toegang indirect regelen door de bot alleen in specifieke privékanalen uit te nodigen en uw Slack-beheerder te vragen te beperken wie apps direct kan berichten. Hebt u een echte goedgekeurde lijst per persoon nodig, gebruik dan [WhatsApp](/knowledgebase/nl/ai-assistant/connect-whatsapp).
+  </Accordion>
+</AccordionGroup>

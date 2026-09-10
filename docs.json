@@ -538,7 +538,18 @@
                 "pages": [
                   "knowledgebase/ai-assistant/overview",
                   "knowledgebase/ai-assistant/access-and-controls",
-                  "knowledgebase/ai-assistant/credits-and-usage"
+                  "knowledgebase/ai-assistant/credits-and-usage",
+                  {
+                    "group": "Messaging channels",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/ai-assistant/messaging-channels",
+                      "knowledgebase/ai-assistant/connect-slack",
+                      "knowledgebase/ai-assistant/connect-whatsapp",
+                      "knowledgebase/ai-assistant/connect-teams"
+                    ],
+                    "public": true
+                  }
                 ],
                 "public": true
               },
@@ -1191,7 +1202,18 @@
                 "pages": [
                   "knowledgebase/nl/ai-assistant/overview",
                   "knowledgebase/nl/ai-assistant/access-and-controls",
-                  "knowledgebase/nl/ai-assistant/credits-and-usage"
+                  "knowledgebase/nl/ai-assistant/credits-and-usage",
+                  {
+                    "group": "Berichtenkanalen",
+                    "expanded": false,
+                    "pages": [
+                      "knowledgebase/nl/ai-assistant/messaging-channels",
+                      "knowledgebase/nl/ai-assistant/connect-slack",
+                      "knowledgebase/nl/ai-assistant/connect-whatsapp",
+                      "knowledgebase/nl/ai-assistant/connect-teams"
+                    ],
+                    "public": true
+                  }
                 ],
                 "public": true
               },
