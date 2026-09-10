@@ -72,7 +72,7 @@ public: true
 
   - **Amended quantities available on the handheld.** A receiving flow can now be configured to show an amended expected quantity separately from the original, so receivers can see what changed. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - **Consistent handheld styling.** Logged time and other handheld screens match the styling of the main application.
-  - **Fewer confirmations on pickface picks.** Picking from a pickface no longer asks for storage unit confirmation, which shortens the flow for pickface work. See [Mixed UOM picking](/knowledgebase/warehouse-setup/mixed-uom-picking).
+  - **Fewer confirmations on pickface picks.** Picking from a pickface no longer asks for storage unit confirmation, which shortens the flow for pickface work. See [Create a pickface](/knowledgebase/warehouse-setup/create-pickface).
   - **Nominal codes on invoice automations.** The invoice automation query exposes the nominal code against document lines, for finance exports that need it. See [Export charges to Sage Line 200](/knowledgebase/financial/export-charges-to-sage-line-200).
   - **API documentation for stock updates.** Stock update endpoints are documented in the OpenAPI specification, alongside automations, import configurations, RF flows and templates added over the same period.
   - **AI model training opt-out.** An explicit, organisation-wide opt-out from AI model training is in place. See [AI data protection](/knowledgebase/security/ai-data-protection).
@@ -89,12 +89,11 @@ public: true
   - Order line quantities can be amended where conversions have already been applied to a stock line. See [Amend order line quantities](/knowledgebase/outbound/amend-order-line-quantities).
   - Sorting the sales order grid by **Short Order Reason Code** no longer errors. See [Short order lines](/knowledgebase/accounts/short-order-lines).
   - Descriptions containing spaces no longer block invoicing. See [Create an invoice](/knowledgebase/financial/create-an-invoice).
-  - Mixed UOM pickface configuration changes take effect immediately instead of needing a screen refresh.
   - External references appear against marketplace order lines. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
 
 </Update>
 
-<Update label="July 2026" description="1–30 July 2026" rss={{ title: "July 2026 — self-service MFA, AI Assistant page, mixed UOM picking", description: "A security settings page with MFA in your own hands, the AI Assistant on a full page, expected dispatch times per delivery address, and mixed UOM picking." }}>
+<Update label="July 2026" description="1–30 July 2026" rss={{ title: "July 2026 — self-service MFA, AI Assistant page, expected dispatch times", description: "A security settings page with MFA in your own hands, the AI Assistant on a full page, and expected dispatch times per customer and delivery address." }}>
 
   ## Security settings, with MFA in your own hands
 
@@ -117,14 +116,6 @@ public: true
   Each delivery address can hold an expected dispatch time — the time of day loads for that destination normally leave — maintained once per customer and delivery address rather than entered per order. It acts as a default: an order that supplies only a date picks up the address time, while an order carrying its own dispatch time keeps it. The value can be sorted and filtered on the grid, loaded in bulk through the address import, and set over the API.
 
   <Info>See [Delivery addresses](/knowledgebase/outbound/delivery-addresses).</Info>
-
-  ## Mixed UOM picking
-
-  Full-pallet picks previously all went to racking unless you forced picks from the pickface. Now pick processing breaks an ordered quantity into the largest possible unit-of-measure blocks — outers, then inners, cases and units — checks each block against the pickface's allowed units of measure, and generates a pickface task for what is allowed and a racking part pick for what is not.
-
-  <Warning>Pickface configuration needs to be uniform across the pickfaces holding a product. Divergent allowed-UOM settings on different pickfaces for the same product are not covered by this release.</Warning>
-
-  <Info>See [Mixed UOM picking](/knowledgebase/warehouse-setup/mixed-uom-picking) for the routing rules and a worked example.</Info>
 
   ## New
 

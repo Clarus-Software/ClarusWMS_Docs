@@ -72,7 +72,7 @@ public: true
 
   - **Gewijzigde hoeveelheden beschikbaar op de handheld.** Een ontvangstflow kan nu worden geconfigureerd om een gewijzigde verwachte hoeveelheid apart van het origineel te tonen, zodat ontvangers zien wat er is veranderd. Zie [Goederen inboeken](/knowledgebase/nl/inbound/book-goods-in).
   - **Consistente handheld-styling.** Logged time en andere handheld-schermen sluiten aan op de styling van de hoofdapplicatie.
-  - **Minder bevestigingen bij pickface-picks.** Bij picken vanaf een pickface wordt niet langer om storage unit-bevestiging gevraagd, wat de flow voor pickfacewerk verkort. Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).
+  - **Minder bevestigingen bij pickface-picks.** Bij picken vanaf een pickface wordt niet langer om storage unit-bevestiging gevraagd, wat de flow voor pickfacewerk verkort. Zie [Een pickface aanmaken](/knowledgebase/nl/warehouse-setup/create-pickface).
   - **Nominal codes op factuurautomatiseringen.** De factuurautomatiseringsquery stelt de nominal code beschikbaar op documentregels, voor financiële exports die deze nodig hebben. Zie [Kosten exporteren naar Sage Line 200](/knowledgebase/nl/financial/export-charges-to-sage-line-200).
   - **API-documentatie voor voorraadupdates.** Endpoints voor voorraadupdates zijn gedocumenteerd in de OpenAPI-specificatie, samen met automatiseringen, importconfiguraties, RF flows en templates die in dezelfde periode zijn toegevoegd. Zie [OpenAPI-specificatie](/knowledgebase/nl/integrations/openapi-spec).
   - **Opt-out voor het trainen van AI-modellen.** Er is een expliciete opt-out op organisatieniveau voor het trainen van AI-modellen. Zie [AI-gegevensbescherming](/knowledgebase/nl/security/ai-data-protection).
@@ -89,12 +89,11 @@ public: true
   - Orderregelhoeveelheden kunnen worden gewijzigd wanneer er al conversies op een stock line zijn toegepast. Zie [Orderregelhoeveelheden wijzigen](/knowledgebase/nl/outbound/amend-order-line-quantities).
   - Sorteren op **Short Order Reason Code** in het verkooporder-grid geeft geen foutmelding meer. Zie [Short order lines](/knowledgebase/nl/accounts/short-order-lines).
   - Beschrijvingen met spaties blokkeren het factureren niet langer. Zie [Een factuur aanmaken](/knowledgebase/nl/financial/create-an-invoice).
-  - Wijzigingen in de mixed UOM-pickfaceconfiguratie worden direct doorgevoerd in plaats van een schermvernieuwing te vereisen.
   - Externe referenties verschijnen op marketplace-orderregels. Zie [Marketplace-integraties](/knowledgebase/nl/integrations/marketplace-integrations).
 
 </Update>
 
-<Update label="Juli 2026" description="1–30 juli 2026" rss={{ title: "Juli 2026 — MFA in eigen beheer, AI Assistant-pagina, mixed UOM picking", description: "Een security settings-pagina met MFA in eigen beheer, de AI Assistant op een volledige pagina, verwachte verzendtijden per bezorgadres, en mixed UOM picking." }}>
+<Update label="Juli 2026" description="1–30 juli 2026" rss={{ title: "Juli 2026 — MFA in eigen beheer, AI Assistant-pagina, verwachte verzendtijden", description: "Een security settings-pagina met MFA in eigen beheer, de AI Assistant op een volledige pagina, en verwachte verzendtijden per klant en bezorgadres." }}>
 
   ## Security settings, met MFA in eigen beheer
 
@@ -117,14 +116,6 @@ public: true
   Elk bezorgadres kan een verwachte verzendtijd bevatten — het tijdstip waarop loads voor die bestemming normaal vertrekken — eenmalig onderhouden per combinatie van klant en bezorgadres in plaats van per order ingevoerd. De tijd werkt als standaardwaarde: een order met alleen een datum neemt de adrestijd over, terwijl een order met een eigen verzendtijd die behoudt. De waarde kan worden gesorteerd en gefilterd in het grid, in bulk geladen via de adresimport, en via de API worden ingesteld.
 
   <Info>Zie [Bezorgadressen](/knowledgebase/nl/outbound/delivery-addresses).</Info>
-
-  ## Mixed UOM picking
-
-  Volle-palletpicks gingen voorheen allemaal naar racking, tenzij u picks vanaf de pickface verplichtte. Nu splitst pick processing een besteld aantal op in de grootst mogelijke unit-of-measure-blokken — outers, dan inners, cases en units — toetst elk blok aan de toegestane units of measure van de pickface, en genereert een pickface-taak voor wat is toegestaan en een racking part pick voor wat niet is toegestaan.
-
-  <Warning>De pickfaceconfiguratie moet uniform zijn over de pickfaces die een product bevatten. Afwijkende instellingen voor toegestane UOM's op verschillende pickfaces voor hetzelfde product vallen niet onder deze release.</Warning>
-
-  <Info>Zie [Mixed UOM picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking) voor de routeringsregels en een uitgewerkt voorbeeld.</Info>
 
   ## Nieuw
 

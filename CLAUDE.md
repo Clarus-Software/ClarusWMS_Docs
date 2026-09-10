@@ -210,7 +210,7 @@ The exception, which stays in the changelog because it would age badly in a guid
 - **Commercial mechanics** — plans, credits, entitlement, quotas.
 - **Internal delivery process** — "the implementation team can now…", "without a developer", "previously hard-coded per customer".
 - **Third-party vendors and implementation detail** — the SDK behind a widget, bundle splitting, cloud provider names, server time.
-- **Anything still behind a feature flag or not yet GA.** Check the ClickUp status and the Notion PRD status before writing an entry as generally available.
+- **Anything still behind a feature flag or not yet GA.** Check the ClickUp status and the Notion PRD status before writing an entry as generally available — but note that neither is sufficient. Tickets can be complete, the PRD written and the code merged while the flag was never switched on for anyone, or was switched on and then pulled after an issue was found. Mixed UOM picking reached exactly that state. **Nothing in the ticket trail tells you a flag is live, so confirm the rollout state with the feature owner before announcing it.** When a feature is pulled, remember it is usually referenced in more than one place: its own section, the entry's `rss` title and description, and any related fix or improvement lines elsewhere.
 - **Internal-only concepts.** Some things in the product exist for Clarus staff, not customers — **task targets** are one. A completed ticket is not evidence that a change is customer-facing. If only internal users configure or see it, leave it out; if you cannot tell from the ticket, ask.
 
 ### Checking facts before writing
