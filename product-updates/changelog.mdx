@@ -1,0 +1,194 @@
+---
+title: "Changelog"
+description: "Everything we have shipped to ClarusWMS, newest first — new features, improvements and fixes, with links to the guides that explain them."
+rss: true
+public: true
+---
+
+<Update label="September 2026" description="1–8 September 2026" rss={{ title: "September 2026 — role-based dashboards, attachments on task grids", description: "Assign home screen dashboards to a role, see attachments and pick types on task grids, and a second round of Liquid template fields." }}>
+
+  ## Dashboards you can assign to a role
+
+  Home screen dashboards are now controlled from the **Roles** page rather than user by user. Each role gets a dashboard panel where you add any active dashboard and pick which one opens first for everyone in that role. Users can switch freely between the dashboards you have given them, and if you later deactivate or remove the default, the next dashboard in the list takes over automatically.
+
+  Dashboards are still built in **Dashboards & Reports → Dashboards**. What changed is how you give people access to them — see [User roles](/knowledgebase/users-and-roles/user-roles-guide) and [Assigning different user views](/knowledgebase/users-and-roles/assigning-different-user-views).
+
+  ## Improved
+
+  - **Attachments on every task data grid.** Files attached to a task are visible from the task grids, so you no longer have to open a record to find out whether a photo or document was added. See [Customising data grids](/knowledgebase/reporting/customise-data-grids).
+  - **Pick type on the tasks grid.** A **Pick Type** column shows whether a task is a tote or standard pick, so you can filter and group work by how it needs picking. See [Data grid columns](/knowledgebase/reporting/data-grid-columns) and [Enforcing pick types](/knowledgebase/warehouse-setup/enforcing-pick-types).
+  - **More Liquid document fields.** A second round of fields is available to document templates, following the batch added in August. See [Using templates](/knowledgebase/advanced/use-templates).
+  - **Country of manufacture on shipments.** The product's country of manufacture is passed to the carrier when a shipment is created, so customs paperwork can be completed from product data you already hold. See [Pre-requisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).
+  - **AI Assistant team integrations.** The interface for connecting the assistant to your team's tools is tidier and easier to follow. See [Access and controls](/knowledgebase/ai-assistant/access-and-controls).
+
+  ## Fixed
+
+  - Visibility conditions on handheld flows now evaluate correctly against boolean fields on a **Retrieve Single Record** step, so a conditional header you have configured — a "PDI Required" prompt, for example — appears when it should. See [HHD conditions](/knowledgebase/hardware/hhd-conditions).
+  - Marketplace orders no longer get stranded in **Updated** status when the order is amended after import. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
+  - Template tags that had gone missing from the template editor are listed again. See [Using templates](/knowledgebase/advanced/use-templates).
+
+</Update>
+
+<Update label="August 2026" description="3–28 August 2026" rss={{ title: "August 2026 — packing desk corrections, content-based import routing, refreshed interface", description: "Correct the carrier, address or quantity at the packing bench, route import files by their contents, and a refreshed interface with real record counts." }}>
+
+  ## Correct the carrier, address or quantity at the packing bench
+
+  Details sometimes only turn out to be wrong once the order is in front of you. Until now, changing a carrier meant uncompleting the pick, cancelling the pick list, editing the sales order and starting the pick again.
+
+  You can now change the **carrier and service**, the **recipient address** and the **quantity to pack** directly on the packing screen. Each change writes back to the affected sales orders — which the dialog lists before you confirm — regenerates the shipment and label, updates the packing list, and is recorded in the sales order history. If a shipment was already created before packing began, the carrier is locked.
+
+  Where several orders go to one address on different carriers, packing a line belonging to another carrier now raises a **Different Carrier** warning instead of silently mixing them.
+
+  <Info>Full walkthrough: [Packing desk](/knowledgebase/outbound/packing-desk).</Info>
+
+  ## Import tool: route files by their contents
+
+  An inbound file could previously only be matched to its import configuration by filename pattern or by the SFTP folder it landed in. Neither works for EDI senders who control neither — EDIFACT files arriving under any filename, with every message type in one folder.
+
+  A configuration can now be selected on **values read from inside the file**, such as the message type in the `UNH` segment or the sender ID in the `UNB` segment, with several criteria applying together. This pattern is now standard configuration rather than bespoke work, so a new EDIFACT sender can be set up without a code change.
+
+  Shipped alongside it across July and August: multiple date formats in one configuration, EDIFACT segment concatenation and duplicate named fields, matching start and end segment points, QALITY stock status messages through the standard tool, and automatic ANSI to UTF-8 conversion.
+
+  <Info>See [Bespoke imports](/knowledgebase/integrations/bespoke-imports) for how file matching works, and [Import errors](/knowledgebase/troubleshooting/import-errors) if a file fails.</Info>
+
+  ## A refreshed interface, and record counts that mean something
+
+  Icons, navigation, grids and panels have a consistent, modern treatment across the application in both light and dark mode, and the left-hand navigation is easier to read. Grid footers now tell you how many records you are looking at rather than just the total — for example **1-50 of 1,240 records** — while very large result sets still show the "more than 10,000" message.
+
+  <Note>Nothing about how the screens work changed. This was deliberately a look-and-feel release, not a behaviour change.</Note>
+
+  ## More fields for document templates
+
+  Liquid templates can reach a much wider set of data, so labels and packing lists can be built without development work: Sales Order Attribute fields on pick labels; storage unit and product dimensions, weights and descriptions on packing lists; goods out line quantity on custom carrier labels; and carrier name, code and service on dispatch notes and pick lists. All appear in the **Template Tags** section of the editor. See [Using templates](/knowledgebase/advanced/use-templates).
+
+  ## New
+
+  - **Bulk import for alternative product codes.** Load alternative codes in bulk instead of product by product. See [Product import](/knowledgebase/products-and-stock/product-import).
+  - **Print an invoice from an automation.** A new automation action prints an invoice when the trigger conditions are met. See [Email automations](/knowledgebase/integrations/email-automations).
+  - **Recurring charge totals.** The total charges panel includes a total for recurring charges, so scheduled fees sit alongside operational ones. See [Recurring charges](/knowledgebase/financial/recurring-charges).
+  - **Storage unit count on product statistics.** An additional field for reports and dashboards built on product statistics. See [Using reports](/knowledgebase/reporting/use-reports).
+
+  ## Improved
+
+  - **Amended quantities available on the handheld.** A receiving flow can now be configured to show an amended expected quantity separately from the original, so receivers can see what changed. See [Book goods in](/knowledgebase/inbound/book-goods-in).
+  - **Consistent handheld styling.** Logged time and other handheld screens match the styling of the main application.
+  - **Fewer confirmations on pickface picks.** Picking from a pickface no longer asks for storage unit confirmation, which shortens the flow for pickface work. See [Create a pickface](/knowledgebase/warehouse-setup/create-pickface).
+  - **Nominal codes on invoice automations.** The invoice automation query exposes the nominal code against document lines, for finance exports that need it. See [Export charges to Sage Line 200](/knowledgebase/financial/export-charges-to-sage-line-200).
+  - **API documentation for stock updates.** Stock update endpoints are documented in the OpenAPI specification, alongside automations, import configurations, RF flows and templates added over the same period.
+  - **AI model training opt-out.** An explicit, organisation-wide opt-out from AI model training is in place. See [AI data protection](/knowledgebase/security/ai-data-protection).
+
+  ## Fixed
+
+  - Dates and times on goods in records and sales orders respect your site's configured timezone.
+  - Short receipt lines on goods in are handled correctly. See [Book goods in](/knowledgebase/inbound/book-goods-in).
+  - Intermittent logouts are resolved. See [Problems signing in](/knowledgebase/troubleshooting/signing-in).
+  - Receipting against a pickface proximity putaway rule no longer fails. See [Guided putaway rules](/knowledgebase/inbound/guided-putaway-rules).
+  - Auto dispatch fires on final pick tasks. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads).
+  - Header and footer images upload correctly on templates, and multi-page dispatch notes keep their formatting. See [Using templates](/knowledgebase/advanced/use-templates).
+  - Carrier configuration screens no longer open empty. See [Carrier integrations](/knowledgebase/integrations/carrier-integrations).
+  - Order line quantities can be amended where conversions have already been applied to a stock line. See [Amend order line quantities](/knowledgebase/outbound/amend-order-line-quantities).
+  - Sorting the sales order grid by **Short Order Reason Code** no longer errors. See [Short order lines](/knowledgebase/accounts/short-order-lines).
+  - Descriptions containing spaces no longer block invoicing. See [Create an invoice](/knowledgebase/financial/create-an-invoice).
+  - External references appear against marketplace order lines. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
+
+</Update>
+
+<Update label="July 2026" description="1–30 July 2026" rss={{ title: "July 2026 — self-service MFA, AI Assistant page, expected dispatch times", description: "A security settings page with MFA in your own hands, the AI Assistant on a full page, and expected dispatch times per customer and delivery address." }}>
+
+  ## Security settings, with MFA in your own hands
+
+  There is now a single **Security Settings** page, reached from your user profile at the bottom of the navigation, covering both your password and your multi-factor authentication. You can see your MFA status, turn MFA on whenever you like, and turn it off — disabling asks for your current password *and* an MFA challenge before it takes effect. Administrators also gained a **reset MFA** action on the users screen, for when someone loses their device.
+
+  <Note>Password changes moved into this page. The separate change-password screen and its entry in the profile menu are gone — the fields themselves are unchanged.</Note>
+
+  <Info>See [MFA overview](/knowledgebase/security/mfa-overview), [Set up MFA](/knowledgebase/security/set-up-mfa), [Disable MFA](/knowledgebase/security/disable-mfa) and [Reset a user's MFA](/knowledgebase/security/reset-user-mfa).</Info>
+
+  ## The AI Assistant moves to its own page
+
+  The assistant has moved **out of the modal and onto a dedicated page**, with the standard Clarus menu and header around it, so you get the full width of the screen for a conversation without losing your navigation context.
+
+  Conversation history is also kept for longer, so you can return to an earlier conversation rather than starting again.
+
+  <Info>Start at the [AI Assistant overview](/knowledgebase/ai-assistant/overview). Your data is not used to train models — see [AI data protection](/knowledgebase/security/ai-data-protection).</Info>
+
+  ## Expected dispatch times per delivery address
+
+  Each delivery address can hold an expected dispatch time — the time of day loads for that destination normally leave — maintained once per customer and delivery address rather than entered per order. It acts as a default: an order that supplies only a date picks up the address time, while an order carrying its own dispatch time keeps it. The value can be sorted and filtered on the grid, loaded in bulk through the address import, and set over the API.
+
+  <Info>See [Delivery addresses](/knowledgebase/outbound/delivery-addresses).</Info>
+
+  ## New
+
+  - **Activity report.** A new report covering warehouse activity. See [Using reports](/knowledgebase/reporting/use-reports).
+  - **Dispatch load automations can filter by customer**, instead of applying across the board. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads).
+  - **Assigned product groups available on the handheld.** Handheld flows can now be configured to display the groups a product is assigned to. See [Using product groups](/knowledgebase/products-and-stock/use-product-groups).
+  - **Duplicate product codes on BOM imports**, for bills of materials that legitimately repeat a component. See [BOM import](/knowledgebase/products-and-stock/bom-import).
+
+  ## Improved
+
+  - **You can no longer decommission a pickface that is still in use.** A pickface cannot be removed from a product while it has outstanding tasks or holds stock of that product, and removing one now clears the "enforce pickface" flags with it. See [Create a pickface](/knowledgebase/warehouse-setup/create-pickface).
+  - **More efficient pick processing**, so large batches of orders are worked through more quickly. See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).
+  - **Faster first load**, so the application is ready to work in sooner.
+  - **Higher receipt quantity limit** for high-volume receipts. See [Book goods in](/knowledgebase/inbound/book-goods-in).
+  - **Phone number is optional on shipments**, so a shipment is not blocked when a consignee has not supplied one. See [Pre-requisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).
+
+  ## Fixed
+
+  - Automated pick processing correctly targets allocated orders. See [Sales order allocation](/knowledgebase/troubleshooting/sales-order-allocation).
+  - Two automations updating the same record at once no longer deadlock, and a service issue that delayed FTP-triggered automations is resolved. See [Email automations](/knowledgebase/integrations/email-automations).
+  - Amending a group number no longer wipes the storage unit quantity fields. See [Create and use groups](/knowledgebase/accounts/create-and-use-groups).
+  - Stock balances push through to Magento 2 reliably. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
+  - Manual charges are raised against the correct charge basket rather than the next available one. See [No charge applied](/knowledgebase/troubleshooting/no-charge-applied).
+
+</Update>
+
+<Update label="June 2026" description="2–29 June 2026" rss={{ title: "June 2026 — Northern Ireland shipments, recurring charges, continuous replenishment GA", description: "UKIMS references for Windsor Framework shipments, scheduled recurring charges on charge cards, and continuous pickface replenishment reaching general availability." }}>
+
+  ## Northern Ireland shipments under the Windsor Framework
+
+  Accounts shipping from Great Britain to Northern Ireland were blocked when the carrier required a UKIMS reference, because there was nowhere in Clarus to hold one.
+
+  The **Account** screen now carries a UKIMS reference field, with an information icon explaining the expected format. Maintain it once and it is included in the shipment payload automatically for every eligible Great Britain to Northern Ireland shipment. The field is restricted to users with account management permission, and carrier rejections for a missing or invalid reference are captured in the event logs.
+
+  <Info>See [Set up accounts](/knowledgebase/accounts/set-up-accounts) and [Pre-requisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).</Info>
+
+  ## Scheduled recurring charges
+
+  Contractual fees that repeat — a minimum pallet agreement, a monthly service charge — had to be added by hand as sundry charges every period, which is admin effort and a missed period is missed revenue.
+
+  Recurring charges can now be configured directly on a charge card and are raised automatically on a daily, weekly, monthly or end-of-charge-window schedule. They appear on charge lines alongside every other charge type and flow through existing invoicing logic, and how they show on the invoice is controlled per account.
+
+  <Info>See [Recurring charges](/knowledgebase/financial/recurring-charges) for the frequency rules, month-end behaviour and invoice presentation options.</Info>
+
+  ## Continuous pickface replenishment is now generally available
+
+  Continuous replenishment has completed its **select beta** and is now **generally available** to all customers. It tops a pickface back up as soon as it drops below its minimum, rather than waiting for demand to trigger a task, and can be combined with the demand and order volume strategies.
+
+  <Info>Start with the [Replenishment overview](/knowledgebase/warehouse-setup/replenishment/overview), then [Continuous replenishment](/knowledgebase/warehouse-setup/replenishment/continuous) and [Combining strategies](/knowledgebase/warehouse-setup/replenishment/combining-strategies).</Info>
+
+  ## Process orders for picking the moment they arrive
+
+  A new automation action, **Process the order for picking**, can be attached to the **Sales Order created** trigger, so eligible orders start their warehouse workflow without anyone touching them. New condition fields decide which orders qualify: `lines_total_count`, `lines_total_items_ordered` and `lines_total_unit_weight_ordered`. A companion automation covers orders dated today and any historical ones still outstanding.
+
+  <Info>See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).</Info>
+
+  ## New
+
+  - **Automatic commercial invoices.** The commercial invoice can be printed automatically when a shipment is created. See [Commercial invoices](/knowledgebase/financial/commercial-invoices).
+  - **Company name on shipments**, for consignees where it is required.
+  - **Groups filters on the Tasks screen**, for warehouses that organise work that way. See [Create and use groups](/knowledgebase/accounts/create-and-use-groups).
+  - **Order volume charge subtype** on the charge card. See [Pick charge subtypes](/knowledgebase/financial/pick-charge-subtypes).
+  - **In-app help and feedback.** The help and feedback widget is more reliable, and you can raise feedback without leaving Clarus.
+
+  ## Improved
+
+  - **More reliable large label print runs.** Big receipt label runs are processed in batches, so they complete dependably. See [Pre-receipt putaway labels](/knowledgebase/inbound/pre-receipt-putaway-labels).
+  - **Obsolete products cannot be received**, so discontinued lines do not come back into stock by accident. See [Book goods in](/knowledgebase/inbound/book-goods-in).
+  - **Marketplace mapping.** Multiple marketplace SKUs can map to one product, and carrier mapping by group operation type gained filters and general improvements. See [Marketplace integrations](/knowledgebase/integrations/marketplace-integrations).
+
+  ## Fixed
+
+  - Custom dispatch notes no longer print without their line data. See [Using templates](/knowledgebase/advanced/use-templates).
+  - Estimated pallets on an order line showed the total for the whole order.
+
+</Update>

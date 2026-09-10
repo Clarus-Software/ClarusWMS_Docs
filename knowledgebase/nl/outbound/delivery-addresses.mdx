@@ -26,6 +26,47 @@ Deze handleiding laat u zien hoe u afleveradressen toevoegt, beheert en toewijst
   </Step>
 </Steps>
 
+## Een verwachte verzendtijd instellen
+
+Elk bezorgadres kan één **verwachte verzendtijd** bevatten — het tijdstip waarop loads voor die bestemming normaal gesproken vertrekken. Omdat de tijd op het adres staat, onderhoudt u deze eenmalig per combinatie van klant en bezorgadres in plaats van bij elke order in te voeren.
+
+<Steps>
+  <Step title="Open het bezorgadres">
+    Klik in het linkermenu op **Delivery Addresses** en selecteer het adres waarvoor u een tijd wilt instellen.
+  </Step>
+  <Step title="Voer de verwachte verzendtijd in">
+    Stel **Verwachte verzendtijd** in als tijdstip, bijvoorbeeld `13:00`. Klik op **Save**.
+  </Step>
+</Steps>
+
+### Hoe de adrestijd op een order wordt toegepast
+
+De tijd op het adres is een **standaardwaarde**, geen vaste regel. Een individuele verkooporder kan nog steeds zijn eigen verzendtijd hebben, en in dat geval gaat de order voor.
+
+Wanneer een order wordt aangemaakt, bepaalt Clarus de verwachte verzending als volgt:
+
+| Verwachte verzenddatum van de order | Het adres | Resultaat |
+|---|---|---|
+| Alleen een datum | Heeft een tijd | De datum van de order, gecombineerd met de adrestijd |
+| Datum **en** een tijd | Heeft een tijd | De eigen datum en tijd van de order — de standaardwaarde van het adres wordt niet toegepast |
+| Alleen een datum | Heeft geen tijd | De datum van de order, zonder tijd |
+
+Het adres voorkomt dus dat u bij elke order voor die bestemming een tijd moet invoeren, terwijl u die op elke afzonderlijke order die een andere tijd nodig heeft nog steeds kunt overschrijven.
+
+<Note>Als het combineren van de orderdatum met de adrestijd een moment oplevert dat vandaag al is verstreken, schuift Clarus het naar hetzelfde tijdstip de volgende dag in plaats van een verzendtijd in het verleden te zetten.</Note>
+
+<Warning>Het adres moet aan een klant zijn gekoppeld voordat een tijd kan worden opgeslagen. Is dat niet zo, dan wijst Clarus de wijziging af met *"Er moet een klant worden geselecteerd voordat een verwachte verzendtijd kan worden ingesteld."* Wijs het adres eerst aan een account toe.</Warning>
+
+<Note>Van de twee adressoorten kan alleen een **bezorgadres** een verwachte verzendtijd bevatten — instellen op een [ophaaladres](/knowledgebase/nl/outbound/collection-addresses) wordt geweigerd, omdat een ophaaladres beschrijft waar goederen worden opgehaald en niet waar een load naartoe gaat. Dit is een beperking op ophaaladressen, niet op waar een verzendtijd vandaan kan komen: een verkooporder kan altijd zijn eigen tijd hebben.</Note>
+
+U kunt daarnaast:
+
+- **Sorteren en filteren** op verwachte verzendtijd in het grid met bezorgadressen. Het gedraagt zich als de andere datum- en tijdvelden, dus u kunt op een exacte tijd zoeken of op een bereik. Zie [Data grids aanpassen](/knowledgebase/nl/reporting/customise-data-grids).
+- **Tijden in bulk laden** via de adresimport, met een kolom `expected_dispatch_time`. Zie [Adresimport](/knowledgebase/nl/outbound/address-import).
+- **De tijd via de API instellen**, als attribuut op het bezorgadres.
+
+<Tip>Worden uw verzendvensters bepaald door het account en niet door de bestemming, stel deze dan in met [dispatchstrategieën](/knowledgebase/nl/accounts/dispatch-strategies). De verwachte verzendtijd is het juiste middel wanneer de timing afhangt van *waar* de load naartoe gaat.</Tip>
+
 ## Veelgestelde vragen
 
 <AccordionGroup>

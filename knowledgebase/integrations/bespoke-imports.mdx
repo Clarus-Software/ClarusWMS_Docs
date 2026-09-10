@@ -9,3 +9,23 @@ import Bespoke from '/snippets/sftp/bespoke.mdx';
 When the [standard import templates](/knowledgebase/integrations/use-sftp-for-imports) don't match the format your source system produces, Clarus can build a **bespoke import** tailored to it.
 
 <Bespoke />
+
+## How Clarus matches a file to its import
+
+However a file arrives, Clarus has to work out which import configuration should process it. There are three ways to identify a file, and a configuration can use them in combination:
+
+| Method | Matched on | Best for |
+|---|---|---|
+| **Filename pattern** | A pattern matched against the file's name | Senders who use a predictable naming convention, such as `ORDERS_20260901.csv` |
+| **SFTP folder** | The folder the file is dropped into | Senders who can separate message types into folders |
+| **File contents** | Values read from inside the file itself | Senders who control neither the filename nor the folder |
+
+### Matching on the contents of the file
+
+Content matching reads a value from a named position inside the file and uses it to select the configuration. For EDI, that means addressing a **segment** and the **element position** within it — for example the message type held in the `UNH` segment, or the sender ID in the `UNB` segment.
+
+Where a configuration defines more than one criterion, **all of them must match**, so a file can be identified by message type *and* sender together.
+
+<Info>This is what makes EDIFACT senders workable without bespoke development. EDIFACT files often arrive under an unpredictable filename, with every message type landing in the same folder — so neither the filename nor the folder can tell Clarus what the file is. Reading the message type out of the file itself can.</Info>
+
+<Warning>If no configuration matches an incoming file, the file fails rather than being processed by the wrong configuration. The log entry records the values that were read from the file, so you can compare them against the configuration and correct whichever is wrong. See [Import errors](/knowledgebase/troubleshooting/import-errors).</Warning>
