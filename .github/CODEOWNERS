@@ -1,6 +1,11 @@
 # Every change in this repository is owned by the docs reviewers.
-# GitHub automatically requests a review from these accounts when a
-# pull request is opened (or marked ready for review, for drafts).
+# GitHub requests a review from these accounts automatically once a pull
+# request is open for review — either opened directly as non-draft, or a
+# draft that has been marked ready for review. Drafts are deliberately
+# left alone until then.
+#
+# GitHub never requests a review from the account that opened the pull
+# request, so an owner raising a pull request themselves is skipped.
 #
 # Enable "Require review from Code Owners" in the branch protection
 # rules for `main` if these reviews should also be mandatory to merge.
