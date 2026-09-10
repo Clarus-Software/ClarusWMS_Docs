@@ -1,0 +1,8 @@
+# Every change in this repository is owned by the docs reviewers.
+# GitHub automatically requests a review from these accounts when a
+# pull request is opened (or marked ready for review, for drafts).
+#
+# Enable "Require review from Code Owners" in the branch protection
+# rules for `main` if these reviews should also be mandatory to merge.
+
+*   @billwilkins-hub @elliotpercy-commits
