@@ -36,7 +36,9 @@ knowledgebase/     # Support knowledgebase articles (English)
   security/        # Subprocessors, backup
   troubleshooting/ # Error guides, diagnostic articles
   nl/              # Dutch translations (mirrors EN structure, same slugs)
-drafts/            # Non-KB articles (announcements, policies) — NOT in navigation
+drafts/            # Non-KB articles (announcements, policies) — excluded via .mintignore
+product-updates/   # Changelog / product updates (public tab)
+  nl/              # Dutch mirror, same slugs
 snippets/          # Reusable MDX snippets
 ```
 
@@ -69,6 +71,16 @@ Every draw.io diagram follows this pattern in MDX:
 
 <sub><a href="/images/diagrams/diagram-name.drawio.svg" download="diagram-name.drawio.svg">Download SVG</a> · <a href="/images/diagrams/diagram-name.drawio" download="diagram-name.drawio">Download draw.io source</a></sub>
 ```
+
+### What Gets Published
+
+**Every `.md` and `.mdx` file in the repo is built and served, whether or not it is in `docs.json`.** Leaving a page out of the navigation only removes it from the sidebar — per Mintlify's own docs, *"Hidden pages are not private. Anyone with the URL can view them."* `hidden: true` behaves the same way; it affects indexing, not access.
+
+The only mechanism that makes a file genuinely unreachable is **`.mintignore`** in the repo root, which uses `.gitignore` syntax and removes matching files from the build entirely.
+
+Mintlify already auto-ignores `.git`, `.github`, `.claude`, `.agents`, `.idea`, `.vscode`, `.cursor`, `node_modules`, `build`, `dist`, `coverage`, `.cache`, `tmp`, `temp`, `README.md`, `LICENSE.md`, `CHANGELOG.md` and `CONTRIBUTING.md`. **`CLAUDE.md` is not on that list** — without a `.mintignore` entry it is published at `/CLAUDE`, internal guidance and all. `drafts/` is not on the list either, despite the convention of keeping it out of navigation.
+
+Both are excluded in `.mintignore`. **Before adding any file that is not meant for customers — internal notes, planning docs, runbooks, scratch pages — add it to `.mintignore` in the same commit.** A file in a directory Mintlify auto-ignores (`.claude/`, for instance) is safe without one.
 
 ### File Naming
 
@@ -165,6 +177,69 @@ The CLI sometimes reports "Error: Export failed" even on success — verify by c
 - Curly braces `{{ }}` in MDX are parsed as JSX expressions — wrap in backtick inline code or fenced code blocks to prevent parse errors
 - Always use ````text` or ````liquid` for template syntax examples containing `{{ }}`
 
+## Product Updates / Changelog
+
+`product-updates/` is a public tab holding an overview page and a running changelog, mirrored in Dutch under `product-updates/nl/` with the same slugs.
+
+### Structure
+
+- **One `<Update>` per release period**, newest first — usually about a month, but do not force it. Combine a quiet spell into one entry, split a busy month into two, and skip a period with nothing customer-facing in it. The label names the period the entry covers (`September 2026`), and `description` gives the exact date range, so an irregular cadence still reads clearly.
+- Inside an entry: named `##` sections for that period's significant features, then `## New`, `## Improved`, `## Fixed` lists.
+- Group related tickets into one feature story. Lead with the user-visible outcome, never the ticket title.
+
+### Mintlify mechanics
+
+- `rss: true` in frontmatter gives a subscribe button and a feed at `<page>/rss.xml`. **RSS only works on public docs**, so the tab and its groups need `"public": true`.
+- **Do NOT add `tags` to `<Update>`.** Tags replace the right-hand table of contents with tag filters — you get one or the other, and the per-entry jump links are more useful here. Entries without tags are also hidden whenever a filter is active.
+- Give every entry an explicit `rss={{ title, description }}`. RSS entries strip components, so without it a subscriber gets an entry gutted of its callouts and tables.
+- Labels become the anchor and the table-of-contents text, so keep them unique and short enough to read in a narrow panel.
+
+### Where the detail goes
+
+The changelog says **what changed and when**; the knowledgebase says **how to use it**. Link to the guide rather than repeating it — and if no guide covers the feature, write or extend one rather than leaving a dead end or explaining it only in the changelog.
+
+The exception, which stays in the changelog because it would age badly in a guide:
+
+- What the feature **replaces**, and the old way of doing it.
+- **Rollout state** — a feature moving from select beta to general availability.
+- **Migration notes** and differences between versions of a feature.
+
+### Wording rules
+
+- **Never write "feature flag" in customer-facing content.** Internally a feature is gated by a flag and released to a test group; to customers it was in **select beta** and has now reached **general availability**. Say "has completed its select beta and is now generally available", not "has come out from behind its feature flag" or "enabled for all customers". The point is that the reader can tell a feature is newly GA rather than long-established. ("Feature flag" is fine in the Architecture tab and in the subprocessors table, which are not customer-facing release notes.)
+- **Configurable features — especially HHD/handheld flows — are "possible to add", not automatic.** HHD flows are configured per customer, so a change makes something *available to configure*; it does not turn up on anyone's device. Write "can now be configured to show…", not "the handheld now shows…".
+- **Performance and scale work gets benefit wording, not before-and-after.** "More efficient pick processing" — not "pick processing now scales up so orders no longer queue", which implies it was broken. Avoid "instead of timing out", "no longer fails", "no longer queues".
+- Fixes: describe the corrected behaviour, not the depth of the defect. Never imply a customer's data was at risk.
+- UI element references → `**bold**`, using the product's exact wording (see below).
+
+### Never publish
+
+- **Customer or account names.** Genericise a customer-specific fix, or leave it out. Check against the account tags on the ClickUp task.
+- **Security specifics** — penetration test findings, the class of a vulnerability, or anything that dates one. A security fix framed as "closing a finding from our recent pen test" tells an attacker what to look for on unpatched versions. Leave security work out, or state the positive assurance only.
+- **Multi-tenancy and capacity internals** — tenants, shared capacity, per-subdomain limits, "one busy tenant cannot exhaust…", or that an incident affected several customers ("across multiple domains").
+- **Commercial mechanics** — plans, credits, entitlement, quotas.
+- **Internal delivery process** — "the implementation team can now…", "without a developer", "previously hard-coded per customer".
+- **Third-party vendors and implementation detail** — the SDK behind a widget, bundle splitting, cloud provider names, server time.
+- **Anything still behind a feature flag or not yet GA.** Check the ClickUp status and the Notion PRD status before writing an entry as generally available — but note that neither is sufficient. Tickets can be complete, the PRD written and the code merged while the flag was never switched on for anyone, or was switched on and then pulled after an issue was found. Mixed UOM picking reached exactly that state. **Nothing in the ticket trail tells you a flag is live, so confirm the rollout state with the feature owner before announcing it.** When a feature is pulled, remember it is usually referenced in more than one place: its own section, the entry's `rss` title and description, and any related fix or improvement lines elsewhere.
+- **Internal-only concepts.** Some things in the product exist for Clarus staff, not customers — **task targets** are one. A completed ticket is not evidence that a change is customer-facing. If only internal users configure or see it, leave it out; if you cannot tell from the ticket, ask.
+
+### Checking facts before writing
+
+Never write an entry from a ticket title alone. In rough order of authority:
+
+1. **ClickUp** — the full task description and acceptance criteria, not the name. Ticks and crosses against ACs show what actually shipped.
+2. **Notion** — PRDs under *Planning & PRDs*, and the sales enablement product-launch pages, which are already written at a customer-facing altitude. Check the PRD **Status**: an epic still `In progress` means the feature it feeds has not shipped, even if a child ticket is complete.
+3. **The product repos** — `claruswms_backend` and `claruswms_frontend` (attach with `add_repo`) for validations, constraints and guardrails the ticket only implies.
+4. **`claruswms_frontend/translations/en-gb.json` and `nl.json`** for the *exact* UI strings, including Dutch. Use these for Dutch pages rather than translating UI terms yourself.
+
+### Verification
+
+```bash
+mint broken-links          # whole site; must be clean
+```
+
+Also compile changed pages as MDX before pushing — a Mintlify build failure is slower to diagnose than a local parse error.
+
 ## What NOT to Do
 
 - NEVER add XML comments to .drawio files
@@ -174,3 +249,10 @@ The CLI sometimes reports "Error: Export failed" even on success — verify by c
 - NEVER create new MDX pages without adding them to `docs.json` navigation (both EN and NL if applicable)
 - NEVER repeat data grid customisation instructions on individual feature pages — link to the Using Clarus section instead
 - NEVER translate system/UI terms (field names, location types like GIBAY/GOBAY) in Dutch articles
+- NEVER add `tags` to a changelog `<Update>` — it replaces the table of contents with filters
+- NEVER name a customer, disclose a security finding, or expose tenant, capacity or commercial mechanics in the changelog
+- NEVER describe an HHD/handheld change as automatic — those flows are configured, so the change makes something possible to configure
+- NEVER write performance work as a before-and-after that implies the product was previously broken
+- NEVER assume a completed ticket is customer-facing — internal-only features (e.g. task targets) must stay out of the changelog
+- NEVER say "feature flag" or "test group" in the changelog — customers see "select beta" and "generally available"
+- NEVER assume leaving a file out of docs.json keeps it private — every .md/.mdx is served by URL; use `.mintignore`

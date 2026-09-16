@@ -9,3 +9,23 @@ import Bespoke from '/snippets/nl/sftp/bespoke.mdx';
 Wanneer de [standaard importtemplates](/knowledgebase/nl/integrations/use-sftp-for-imports) niet passen bij het formaat dat uw bronsysteem produceert, kan Clarus een **maatwerkimport** bouwen die daarop is afgestemd.
 
 <Bespoke />
+
+## Hoe Clarus een bestand aan zijn import koppelt
+
+Hoe een bestand ook binnenkomt, Clarus moet bepalen welke importconfiguratie het moet verwerken. Er zijn drie manieren om een bestand te identificeren, en een configuratie kan ze combineren:
+
+| Methode | Gekoppeld op | Geschikt voor |
+|---|---|---|
+| **Bestandsnaampatroon** | Een patroon dat op de bestandsnaam wordt toegepast | Verzenders met een voorspelbare naamgeving, zoals `ORDERS_20260901.csv` |
+| **SFTP-map** | De map waarin het bestand wordt geplaatst | Verzenders die berichttypen over verschillende mappen kunnen verdelen |
+| **Bestandsinhoud** | Waarden die uit het bestand zelf worden gelezen | Verzenders die noch de bestandsnaam noch de map bepalen |
+
+### Koppelen op de inhoud van het bestand
+
+Bij koppelen op inhoud wordt een waarde gelezen uit een benoemde positie in het bestand en gebruikt om de configuratie te selecteren. Voor EDI betekent dat het aanwijzen van een **segment** en de **elementpositie** daarbinnen — bijvoorbeeld het berichttype in het `UNH`-segment, of de sender ID in het `UNB`-segment.
+
+Wanneer een configuratie meer dan één criterium definieert, moeten **alle criteria overeenkomen**, zodat een bestand kan worden geïdentificeerd op berichttype *én* verzender samen.
+
+<Info>Dit maakt EDIFACT-verzenders werkbaar zonder maatwerkontwikkeling. EDIFACT-bestanden komen vaak binnen onder een onvoorspelbare bestandsnaam, waarbij elk berichttype in dezelfde map terechtkomt — dan kan noch de bestandsnaam noch de map Clarus vertellen wat het bestand is. Het berichttype uit het bestand zelf lezen kan dat wel.</Info>
+
+<Warning>Als geen enkele configuratie overeenkomt met een binnenkomend bestand, faalt het bestand in plaats van door de verkeerde configuratie te worden verwerkt. De logregel legt de waarden vast die uit het bestand zijn gelezen, zodat u ze kunt vergelijken met de configuratie en kunt corrigeren wat er niet klopt. Zie [Importfouten](/knowledgebase/nl/troubleshooting/import-errors).</Warning>

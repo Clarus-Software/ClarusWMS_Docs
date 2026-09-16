@@ -46,8 +46,45 @@ De verpakkingsbalie is een nieuwe functie, die de functionaliteit van de verpakk
   </Step>
 </Steps>
 
+## Vervoerder, adres en hoeveelheid corrigeren
+
+Soms blijkt pas aan de inpaktafel dat gegevens niet juist zijn. U kunt de vervoerder, het ontvangstadres en de hoeveelheid vanaf het verpakkingsscherm corrigeren, zonder de pick te annuleren of terug te gaan naar de verkooporder.
+
+<Info>Elk van deze wijzigingen werkt zowel het pakket bij **als** de verkooporders waarop de wijziging effect heeft. Het dialoogvenster toont de betrokken verkooporders voordat u bevestigt, zodat u de volledige impact van de wijziging kunt zien.</Info>
+
+### Vervoerder of service wijzigen
+
+Klik op **Vervoerder wijzigen** om het dialoogvenster **Vervoerder wijzigen** te openen, en kies vervolgens een **Carrier** en daarna een **Carrier Service**. De servicelijst bevat alleen services die bij de gekozen carrier horen, en als u een andere carrier kiest, wordt de service gewist zodat u een geldige service moet selecteren.
+
+Wanneer u bevestigt:
+
+- De verkooporder wordt bijgewerkt met de nieuwe carrier en carrier service.
+- De zending en het label worden op basis van de nieuwe selectie gegenereerd.
+- De packing list geeft de nieuwe carrier en carrier service weer.
+- De wijziging wordt vastgelegd in de historie van de verkooporder, zodat er een audit trail is van wie de wijziging heeft gemaakt en wanneer.
+
+<Warning>Als er vóór het inpakken al een zending voor de order is aangemaakt, kunnen de carrier en carrier service niet worden gewijzigd. De velden zijn dan vergrendeld, zodat de controle niet afhangt van iemand die de regel onthoudt. Dezelfde velden zijn vergrendeld zodra een packtaak is voltooid of geannuleerd, en voor gebruikers wier rol de order niet mag beheren.</Warning>
+
+### Ontvangstadres wijzigen
+
+Klik op **Bezorgadres wijzigen** om het dialoogvenster **Ontvangeradres wijzigen** te openen. Bevestigen werkt de ontvanger voor het pakket bij en, net als bij de vervoerder, automatisch de bijbehorende verkooporders die in het dialoogvenster worden vermeld.
+
+### In te pakken hoeveelheid wijzigen
+
+Gebruik **Hoeveelheid wijzigen** om een andere hoeveelheid in te pakken dan verwacht — bijvoorbeeld wanneer door een short pick minder artikelen fysiek aanwezig zijn. Clarus vraagt u te bevestigen dat de hoeveelheid correct is, toont de verwachte hoeveelheid ter vergelijking, en accepteert geen hoeveelheid die hoger is dan verwacht.
+
+### Een regel inpakken die aan een andere vervoerder is toegewezen
+
+Wanneer meerdere verkooporders naar hetzelfde afleveradres gaan met verschillende vervoerders, kunt u een regel scannen die bij een andere vervoerder hoort dan die van het pakket dat u samenstelt. Clarus stopt en toont de waarschuwing **Andere vervoerder** in plaats van ze stil te vermengen, en u kiest wat er gebeurt:
+
+- **Annuleren** — er verandert niets en u kunt die regel later apart inpakken. Dit is meestal het juiste antwoord.
+- **Doorgaan** — het artikel wordt aan het huidige pakket toegevoegd en de vervoerderstoewijzing wordt aangepast aan die van het pakket.
+
+In beide gevallen is de uitkomst een bewuste keuze, en de wijziging van de vervoerder wordt vastgelegd in de historie van de verkooporder.
+
 ## Belangrijke punten
 
 - Zorg ervoor dat alle bestelgegevens en picktaken voltooid zijn **voordat u begint** met verpakking.
 - Gebruik de **Samenvatting van verpakking** om gewichten, afmetingen en inhoud te verifieren.
+- Corrigeer de **vervoerder**, het **ontvangstadres** of de **hoeveelheid** aan de balie in plaats van de pick te annuleren — elke wijziging wordt teruggeschreven naar de betrokken verkooporders en vastgelegd in de historie van de verkooporder.
 - **Sluiten Pakket en Druk Etiketten** voltooid de zending en triggert het afdrukken van etiketten.
