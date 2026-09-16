@@ -93,7 +93,45 @@ Scan items to move them into the packing summary, or use the arrows next to item
 
 ---
 
-### 5. Finalising the Package
+### 5. Correcting Carrier, Address and Quantity
+
+Details sometimes only turn out to be wrong once the order is in front of you at the bench. You can correct the carrier, the recipient address and the quantity from the packing screen, without cancelling the pick or going back to the sales order.
+
+<Info>Each of these changes updates the package **and** writes back to the sales orders it affects. The modal lists the affected sales orders before you confirm, so you can see the full impact of the change.</Info>
+
+#### Changing the carrier or service
+
+Click **Change Carrier** to open the **Change Carrier** dialog, then choose a **Carrier** followed by a **Carrier Service**. The service list only offers services belonging to the carrier you picked, and choosing a different carrier clears the service so you have to select a valid one.
+
+When you confirm:
+
+- The sales order is updated with the new carrier and service.
+- The shipment and label are generated against the new selection.
+- The packing list reflects the new carrier and service.
+- The change is recorded in the sales order history, so there is an audit trail of who changed it and when.
+
+<Warning>If a shipment was already created for the order before packing began, the carrier and service cannot be changed. The fields are locked, so the guardrail does not depend on anyone remembering the rule. The same fields are locked once a pack task is completed or cancelled, and for users whose role cannot manage the order.</Warning>
+
+#### Changing the recipient address
+
+Click **Change Delivery Address** to open the **Change Recipient Address** dialog. Confirming updates the recipient for the package and, as with the carrier, automatically updates the associated sales orders listed in the dialog.
+
+#### Changing the quantity to pack
+
+Use **Change Quantity** to pack a different quantity from the one expected — for example where a short pick means fewer items are physically present. Clarus asks you to confirm the quantity is correct, shows the expected quantity for comparison, and will not accept a quantity higher than expected.
+
+#### Packing a line assigned to a different carrier
+
+Where several sales orders go to the same delivery address on different carriers, you may scan a line that belongs to a carrier other than the one on the package you are building. Clarus stops and shows a **Different Carrier** warning rather than silently mixing them, and you choose what happens:
+
+- **Cancel** — nothing changes, and you can pack that line separately later. This is usually the right answer.
+- **Continue** — the item joins the current package and its carrier assignment is updated to match the package.
+
+Either way the outcome is a deliberate choice, and the carrier change is recorded on the sales order history.
+
+---
+
+### 6. Finalising the Package
 
 Once all items are packed:
 
@@ -112,4 +150,5 @@ Once all items are packed:
 
 - Ensure all order details and pick tasks are complete **before starting** packing.
 - Use the **Packing Summary** to verify weights, dimensions, and contents.
+- Correct the **carrier**, **recipient address** or **quantity** at the desk rather than cancelling the pick — every change is written back to the affected sales orders and logged in the sales order history.
 - **Close Package and Print Labels** finalises the shipment and triggers label printing.

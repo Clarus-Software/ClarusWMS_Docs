@@ -1,0 +1,9 @@
+# Internal authoring guidance for Claude Code. Mintlify auto-ignores .claude/
+# and README.md, but NOT CLAUDE.md — without this it is built and served at
+# /CLAUDE, publicly reachable by anyone with the URL.
+CLAUDE.md
+
+# Non-KB articles kept in the repo but deliberately not in navigation.
+# Being absent from docs.json only removes a page from the sidebar; it stays
+# accessible by URL, so drafts must be excluded from the build explicitly.
+drafts/

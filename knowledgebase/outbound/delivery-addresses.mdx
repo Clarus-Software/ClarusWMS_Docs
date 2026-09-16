@@ -28,6 +28,47 @@ Keep all delivery addresses in one central place so you can select them for sale
   </Step>
 </Steps>
 
+### Setting an Expected Dispatch Time
+
+Each delivery address can hold a single **expected dispatch time** — the time of day that loads for that destination are normally expected to leave. Because it lives on the address, you maintain it once per customer and delivery address combination rather than entering it on every order.
+
+<Steps>
+  <Step title="Open the delivery address">
+    In the left-hand menu, click **Delivery Addresses** and select the address you want to set a time against.
+  </Step>
+  <Step title="Enter the expected dispatch time">
+    Set the **Expected Dispatch Time** as a time of day, for example `13:00`. Click **Save**.
+  </Step>
+</Steps>
+
+#### How the address time is applied to an order
+
+The time on the address is a **default**, not a fixed rule. An individual sales order can still carry its own dispatch time, and when it does, the order wins.
+
+When an order is created, Clarus works out the expected dispatch as follows:
+
+| The order's expected date of dispatch | The address | Result |
+|---|---|---|
+| Date only | Has a time | The order's date, combined with the address time |
+| Date **and** a time | Has a time | The order's own date and time — the address default is not applied |
+| Date only | Has no time | The order's date, with no time applied |
+
+So the address saves you keying a time onto every order for that destination, while leaving you free to override it on any single order that needs a different one.
+
+<Note>If combining the order's date with the address time produces a moment that has already passed today, Clarus moves it to the same time the following day rather than setting a dispatch time in the past.</Note>
+
+<Warning>The address must be linked to a customer before a time can be saved. If it is not, Clarus rejects the change with *"A customer must be selected before setting an expected dispatch time."* Assign the address to an account first, as described below.</Warning>
+
+<Note>Of the two address types, only a **delivery** address can hold an expected dispatch time — setting one on a [collection address](/knowledgebase/outbound/collection-addresses) is rejected, because a collection address describes where goods are picked up rather than where a load is going. This is a restriction on collection addresses, not on where a dispatch time can come from: a sales order can carry its own time regardless.</Note>
+
+You can also:
+
+- **Sort and filter** by expected dispatch time on the delivery addresses grid. It behaves like the other date and time fields, so you can match an exact time or search a range. See [Customising data grids](/knowledgebase/reporting/customise-data-grids).
+- **Load times in bulk** through the address import, using an `expected_dispatch_time` column. See [Address import](/knowledgebase/outbound/address-import).
+- **Set it over the API**, as an attribute on the delivery address.
+
+<Tip>If your dispatch windows are driven by the account rather than the destination, set them with [dispatch strategies](/knowledgebase/accounts/dispatch-strategies) instead. Expected dispatch time is the right tool when the timing depends on *where* the load is going.</Tip>
+
 ### Assigning a Delivery Address to an Account
 
 <Steps>

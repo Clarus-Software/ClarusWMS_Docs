@@ -565,6 +565,20 @@
             ]
           },
           {
+            "tab": "Product Updates",
+            "public": true,
+            "groups": [
+              {
+                "group": "🚀 Product Updates",
+                "pages": [
+                  "product-updates/overview",
+                  "product-updates/changelog"
+                ],
+                "public": true
+              }
+            ]
+          },
+          {
             "tab": "API Reference",
             "groups": [
               {
@@ -1223,6 +1237,20 @@
                   "knowledgebase/nl/security/subprocessors",
                   "knowledgebase/nl/security/ai-data-protection",
                   "knowledgebase/nl/security/database-backup"
+                ],
+                "public": true
+              }
+            ]
+          },
+          {
+            "tab": "Productupdates",
+            "public": true,
+            "groups": [
+              {
+                "group": "🚀 Productupdates",
+                "pages": [
+                  "product-updates/nl/overview",
+                  "product-updates/nl/changelog"
                 ],
                 "public": true
               }
