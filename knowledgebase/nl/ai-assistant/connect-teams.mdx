@@ -1,0 +1,168 @@
+---
+title: "Microsoft Teams verbinden met Clarus"
+description: "Voeg de ClarusWMS-app toe aan Microsoft Teams en koppel hem aan uw Clarus-account, zodat uw team de AI Assistant vanuit een Teams-chat of -kanaal kan vragen over voorraad en orders."
+sidebarTitle: "Teams verbinden"
+---
+
+Microsoft Teams kost iets meer werk dan de andere kanalen, omdat de ClarusWMS-app aan uw Microsoft-organisatie moet worden toegevoegd voordat hij aan Clarus kan worden gekoppeld. Er zijn twee fases:
+
+1. **De ClarusWMS-app toevoegen in Teams** — gebeurt in Teams, door iemand die apps mag toevoegen.
+2. **Hem koppelen aan uw Clarus-account** — gebeurt in de AI-app, door een Clarus-beheerder.
+
+Zolang niet beide zijn gedaan, antwoordt de bot wel, maar alleen om te melden dat hij nog niet is gekoppeld.
+
+<Warning>
+**AI-nauwkeurigheid:** door AI gegenereerde antwoorden kunnen soms onnauwkeurig, onvolledig of misleidend zijn. Controleer de uitvoer van de assistent altijd voordat u ernaar handelt — vooral bij voorraadmutaties, orderwijzigingen of andere acties die uw actuele magazijngegevens raken. De assistent is een hulpmiddel, geen vervanging van uw eigen oordeel.
+</Warning>
+
+## Voordat u begint
+
+- Een Clarus-login met **beheerdersrechten**.
+- Rechten in Microsoft Teams om een app toe te voegen. Hem alleen voor uzelf toevoegen vereist dat het uploaden van aangepaste apps voor uw account is toegestaan; hem naar iedereen uitrollen vereist **Teams-beheerderstoegang**.
+
+## Fase 1 — De app toevoegen in Teams
+
+<Steps>
+  <Step title="Haal de ClarusWMS-app op">
+    Klik in de AI Assistant op het tandwiel **Settings**, kies **Integrations** en zoek de kaart **Microsoft Teams**. Volg de instructies op de kaart om het ClarusWMS-app-pakket op te halen en voeg het daarna toe in Teams via de route hieronder die bij uw uitrol past.
+
+    Biedt de kaart **Add to Teams**, dan is de app al beschikbaar voor uw Microsoft-organisatie — klik erop, en Teams opent met het voorstel om ClarusWMS toe te voegen. Is hij toegevoegd, ga dan direct door naar Fase 2 hieronder.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/teams-integration-card.png" alt="De Microsoft Teams-kaart op de pagina Integrations, met de opties om hem aan Teams toe te voegen en om de installatie af te ronden" />
+    </Frame>
+  </Step>
+  <Step title="Voeg hem toe in Teams">
+    <Tabs>
+      <Tab title="Alleen voor uzelf of een kleine pilot">
+        1. Ga in Teams naar **Apps** in de linkerzijbalk.
+        2. Klik onderaan op **Manage your apps**.
+        3. Klik op **Upload an app** en daarna op **Upload a custom app**.
+        4. Kies het ClarusWMS-app-pakket en klik op **Add**.
+
+        <Info>
+        Ontbreekt **Upload a custom app** of is die grijs, dan heeft uw organisatie dit niet toegestaan. Een Teams-beheerder kan het inschakelen via **Teams admin centre → Teams apps → Setup policies → Upload custom apps**, of gebruik in plaats daarvan de route voor de hele organisatie.
+        </Info>
+      </Tab>
+      <Tab title="Voor uw hele organisatie">
+        Een **Teams-beheerder** doet dit één keer, waarna ClarusWMS beschikbaar is voor iedereen die u kiest:
+
+        1. Open het **Teams admin centre**.
+        2. Ga naar **Teams apps → Manage apps**.
+        3. Open het menu **Actions** (rechtsboven) en kies **Upload new app**.
+
+        <Frame>
+          <img src="/images/knowledgebase/integrations/teams-manage-apps.png" alt="De pagina Manage apps in het Teams admin centre met het menu Actions open en de optie Upload new app" />
+        </Frame>
+
+        4. Klik op **Upload**, kies het ClarusWMS-app-pakket en bevestig.
+
+        <Frame>
+          <img src="/images/knowledgebase/integrations/teams-upload-custom-app.png" alt="Het dialoogvenster Upload a custom app in het Teams admin centre, met de knop Upload" />
+        </Frame>
+
+        5. Gebruik **permission policies** en **setup policies** om te bepalen wie hem mag gebruiken en wie hem vastgepind krijgt.
+
+        Uw team kan ClarusWMS daarna toevoegen uit de Teams-appcatalogus, net als elke andere app.
+      </Tab>
+    </Tabs>
+  </Step>
+  <Step title="Kies waar hij komt te staan">
+    Voeg ClarusWMS toe aan wat u nodig hebt — beide mag ook:
+
+    - **Een persoonlijke chat**, voor één-op-één-vragen.
+    - **Een team of kanaal**, zodat een groep hem samen vragen kan stellen. Kies **Add to a team** en selecteer het kanaal.
+  </Step>
+</Steps>
+
+## Fase 2 — Hem koppelen aan Clarus
+
+Zodra de app is toegevoegd, stuurt de ClarusWMS-bot u een direct bericht in Teams met een link om de installatie af te ronden. Die link weet al in welke Microsoft-organisatie u zit en is daarmee ruimschoots de makkelijkste route.
+
+<Frame>
+  <img src="/images/knowledgebase/integrations/teams-bot-welcome-dm.png" alt="Het welkomstbericht van de ClarusWMS-bot in Teams met de installatielink" />
+</Frame>
+
+<Steps>
+  <Step title="Open de installatielink">
+    Klik op de link in het bericht van de bot. Bent u nog niet aangemeld bij Clarus, dan wordt u gevraagd u aan te melden en te kiezen welke organisatie u instelt — daarna komt u direct terug op het installatiescherm.
+  </Step>
+  <Step title="Controleer de Microsoft-organisatie">
+    Het veld **Microsoft tenant** is ingevuld en vergrendeld, overgenomen uit de link. Dat identificeert uw Microsoft-organisatie en er is niets te wijzigen.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/teams-connect-form.png" alt="Het verbindingsscherm voor Microsoft Teams met het alleen-lezen veld Microsoft tenant en daaronder de velden description, default model en agent" />
+    </Frame>
+  </Step>
+  <Step title="Beschrijf de verbinding en verbind">
+    - **Description** — verplicht. Een kort label zoals `Acme Logistics warehouse assistant`.
+    - **Default model** — laat op **Sonnet** staan tenzij u een reden hebt om dit te wijzigen.
+    - **Agent** — optioneel. Laat leeg om de standaardassistent te gebruiken.
+
+    Klik op **Connect Teams**. Uw team kan de assistent nu vanuit Teams berichten.
+  </Step>
+</Steps>
+
+### Als u het bericht van de bot niet hebt
+
+Iemand anders dan u heeft de app misschien toegevoegd. U kunt de installatie ook vanuit de AI-app afronden:
+
+1. Ga naar **Settings → Integrations** en klik op de Microsoft Teams-kaart op **Already added it? Finish setup**.
+2. Voer uw **Microsoft tenant** in — de id van uw Microsoft-organisatie. Die staat in het welkomstbericht van de ClarusWMS-bot, of in uw Microsoft admin centre. Hij ziet uit als `contoso.onmicrosoft.com` of als een lange id van letters, cijfers en streepjes.
+3. Vul de description en het model in zoals hierboven en klik op **Connect Teams**.
+
+## Gebruik in Teams
+
+**In een persoonlijke chat** gaat elk bericht dat u stuurt naar de assistent, en de chat blijft één doorlopend gesprek:
+
+> **U:** welke goods out-orders voor Acme zijn nog niet gepickt?
+
+**In een kanaal of groepsgesprek** reageert de assistent alleen als u hem **@mentiont**, zodat hij stil blijft tijdens normaal teamoverleg:
+
+> `@ClarusAI hoeveel pallets WIDGET-RED-500 zijn er nog?`
+
+**Bestanden worden in Teams nog niet ondersteund.** Bijlagen die u in Teams stuurt, worden niet gelezen — stel uw vraag in tekst, of gebruik [Slack](/knowledgebase/nl/ai-assistant/connect-slack) of [WhatsApp](/knowledgebase/nl/ai-assistant/connect-whatsapp) als u een document of foto moet meesturen.
+
+**Meldingen.** Clarus kan meldingen in een Teams-gesprek plaatsen, maar alleen in een gesprek waar hij al deel van uitmaakte. Bericht de bot — of @mention hem in het kanaal — één keer, daarna kan hij er berichten plaatsen.
+
+Lange antwoorden komen als meer dan één bericht aan.
+
+<Warning>
+Iedereen in uw Microsoft-organisatie die de bot een bericht kan sturen of kan @mentionen, krijgt de volledige assistent-toegang van uw organisatie — die is niet beperkt tot de Clarus-rechten van één persoon, en hij kan gegevens ook wijzigen, niet alleen lezen. Gebruik de permission policies van Teams om te regelen wie ClarusWMS mag toevoegen, en denk na over aan welke kanalen u hem toevoegt.
+</Warning>
+
+## Uw instellingen wijzigen
+
+Klik op de Microsoft Teams-kaart in **Settings → Integrations** op **Reconfigure** om de description, het default model of de agent te wijzigen.
+
+## De integratie verwijderen
+
+Klik op het verbindingsscherm op **Remove integration** en bevestig. Uw team kan de assistent dan niet meer vanuit Teams berichten, en u kunt later opnieuw verbinden.
+
+De ClarusWMS-app zelf blijft geïnstalleerd in uw Microsoft-organisatie — om hem helemaal uit Teams te halen, verwijdert u hem ook in Teams of het Teams admin centre.
+
+## Problemen oplossen
+
+<AccordionGroup>
+  <Accordion title="De bot zegt dat de workspace niet aan een ClarusWMS-account is gekoppeld">
+    Fase 1 is gedaan, Fase 2 niet — de app staat in Teams maar is niet aan uw Clarus-account gekoppeld. Een Clarus-beheerder moet de koppeling afronden, via de installatielink van de bot of via **Settings → Integrations → Already added it? Finish setup**.
+  </Accordion>
+  <Accordion title="Teams zegt 'We can't read the manifest file'">
+    Het app-pakket is gewijzigd — meestal uitgepakt en opnieuw ingepakt, waardoor de bestanden in een map genest raken. Gebruik het originele pakket exact zoals het is aangeleverd, zonder het te openen of opnieuw te comprimeren. Blijft het met een ongewijzigd pakket misgaan, neem dan contact op met Clarus-support.
+  </Accordion>
+  <Accordion title="Ik kan 'Upload a custom app' niet vinden">
+    Uw organisatie heeft het uploaden van aangepaste apps niet toegestaan. Een Teams-beheerder kan het inschakelen via **Teams admin centre → Teams apps → Setup policies → Upload custom apps**, of ClarusWMS voor de hele organisatie toevoegen via **Teams apps → Manage apps → Upload new app**.
+  </Accordion>
+  <Accordion title="'This Microsoft tenant is already connected to another ClarusWMS account'">
+    Een Microsoft-organisatie kan aan één Clarus-account tegelijk verbonden zijn. Iemand heeft hem al aan een ander Clarus-account gekoppeld en moet die verbinding verwijderen voordat u de uwe kunt maken.
+  </Accordion>
+  <Accordion title="De bot negeert berichten in een kanaal">
+    In kanalen en groepsgesprekken antwoordt de assistent alleen als hij **@mentiont** wordt — dat is opzettelijk, zodat hij niet alles leest wat uw team zegt. Begin uw bericht met `@ClarusAI`. Persoonlijke chats werken altijd zonder mention.
+  </Accordion>
+  <Accordion title="Er komen geen meldingen in ons kanaal">
+    Clarus kan alleen berichten plaatsen in een Teams-gesprek waar hij al deel van uitmaakte. @mention de bot één keer in dat kanaal, daarna kunnen meldingen daar worden bezorgd.
+  </Accordion>
+  <Accordion title="Wat is een Microsoft tenant-id en waar vind ik die?">
+    Die identificeert uw Microsoft-organisatie. De snelste bron is het welkomstbericht van de ClarusWMS-bot in Teams, met een installatielink waarin hij al is opgenomen. Anders kan een Microsoft-beheerder hem vinden in het Microsoft Entra admin centre — hij wordt weergegeven als uw `onmicrosoft.com`-domein of als een lange id van letters, cijfers en streepjes.
+  </Accordion>
+</AccordionGroup>

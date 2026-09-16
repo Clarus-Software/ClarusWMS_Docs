@@ -1,0 +1,142 @@
+---
+title: "WhatsApp verbinden met Clarus"
+description: "Schakel WhatsApp in zodat goedgekeurde telefoonnummers de Clarus AI Assistant kunnen berichten — vraag overal naar voorraad en orders, met strakke controle over wie toegang heeft."
+sidebarTitle: "WhatsApp verbinden"
+---
+
+WhatsApp is het kanaal voor mensen die niet achter een bureau zitten. Uw team stuurt vanaf de telefoon een bericht naar het Clarus-WhatsApp-nummer en krijgt antwoord terug in de chat.
+
+Het is ook het strakst gecontroleerde kanaal: **alleen telefoonnummers die u hebt goedgekeurd, kunnen de assistent berichten.** Alle anderen worden afgewezen en wat zij sturen bereikt uw gegevens nooit.
+
+<Warning>
+**AI-nauwkeurigheid:** door AI gegenereerde antwoorden kunnen soms onnauwkeurig, onvolledig of misleidend zijn. Controleer de uitvoer van de assistent altijd voordat u ernaar handelt — vooral bij voorraadmutaties, orderwijzigingen of andere acties die uw actuele magazijngegevens raken. De assistent is een hulpmiddel, geen vervanging van uw eigen oordeel.
+</Warning>
+
+## Voordat u begint
+
+- Een Clarus-login met **beheerdersrechten**.
+- Uw eigen mobiele nummer bij de hand — u wordt als eerste goedgekeurde gebruiker toegevoegd zodat u direct kunt testen.
+- De telefoonnummers van ieder ander die toegang nodig heeft, in volledig internationaal formaat.
+
+U hebt geen WhatsApp Business-account nodig en hoeft niets aan de kant van Meta in te stellen. Clarus levert het nummer.
+
+## WhatsApp inschakelen
+
+<Steps>
+  <Step title="Open Integrations">
+    Klik in de AI Assistant op het tandwiel **Settings** onderaan de gesprekkenlijst en kies **Integrations**.
+  </Step>
+  <Step title="Klik op Set up WhatsApp">
+    Klik op de kaart **WhatsApp** op **Set up WhatsApp**.
+    <Frame>
+      <img src="/images/knowledgebase/integrations/whatsapp-integration-card.png" alt="De WhatsApp-kaart op de pagina Integrations met de knop Set up WhatsApp" />
+    </Frame>
+  </Step>
+  <Step title="Vul het installatieformulier in">
+    - **Description** — verplicht. Een kort label zoals `Acme Logistics warehouse assistant`.
+    - **Default model** — laat op **Sonnet** staan tenzij u een reden hebt om dit te wijzigen.
+    - **Agent** — optioneel. Laat leeg om de standaardassistent te gebruiken.
+    - **Your WhatsApp number** — verplicht, en wordt alleen de eerste keer gevraagd. Voer het in volledig internationaal formaat in, bijvoorbeeld `+44 7700 900123`. Dit wordt het eerste goedgekeurde nummer.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/whatsapp-setup-form.png" alt="Het WhatsApp-instellingenscherm met het Clarus-WhatsApp-nummer, de velden description, default model en agent, en de tabel met geautoriseerde gebruikers" />
+    </Frame>
+
+    Klik op **Enable WhatsApp**.
+  </Step>
+  <Step title="Bewaar het Clarus-WhatsApp-nummer">
+    Het scherm toont nu het nummer dat uw team moet berichten. Sla het op in de contacten van uw telefoon — dit is het nummer dat elke goedgekeurde gebruiker bericht.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/whatsapp-bot-number.png" alt="Het paneel met het ClarusWMS-WhatsApp-nummer om te berichten" />
+    </Frame>
+  </Step>
+  <Step title="Keur de rest van uw team goed">
+    Voeg in het onderdeel **Authorised users** iedereen toe die toegang nodig heeft:
+
+    - **Name** — optioneel, maar het maakt de lijst later veel makkelijker te beheren.
+    - **Email** — verplicht.
+    - **Phone** — verplicht, in volledig internationaal formaat inclusief landnummer, bijvoorbeeld `+44 7700 900123`.
+
+    Klik op **Add**. Ze kunnen direct berichten sturen.
+
+    <Frame>
+      <img src="/images/knowledgebase/integrations/whatsapp-authorised-users.png" alt="De tabel Authorised users met daarboven de rij om een gebruiker toe te voegen" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Tip>
+Voer telefoonnummers in **volledig internationaal formaat met landnummer** in — `+44 7700 900123`, niet `07700 900123`. Een nummer dat in nationaal formaat is opgeslagen, wordt niet herkend wanneer die persoon een bericht stuurt, en wordt dan afgewezen.
+</Tip>
+
+## Beheren wie toegang heeft
+
+Alles gebeurt in de tabel **Authorised users** op hetzelfde scherm.
+
+- **Iemand tijdelijk blokkeren** — klik op de status **Enabled** om die op **Disabled** te zetten. Ze blijven in de lijst staan, maar kunnen de assistent niet meer berichten. Klik opnieuw om weer in te schakelen.
+- **Een naam corrigeren** — klik op het pictogram met het potlood, typ en sla op.
+- **Iemand verwijderen** — klik op het prullenbakpictogram en bevestig. Gebruik dit wanneer iemand uit dienst gaat.
+- **Een nummer corrigeren** — telefoonnummers kunnen niet worden gewijzigd. Verwijder de regel en voeg een nieuwe toe.
+
+<Info>
+Er is geen uitnodiging of bevestigingsstap. Wie u toevoegt, is direct goedgekeurd — controleer het nummer dus goed voordat u het toevoegt. Een telefoonnummer kan bij **één** Clarus-account worden goedgekeurd — staat een nummer al op de lijst van een andere Clarus-organisatie, dan krijgt u dat te zien en kan het niet worden toegevoegd.
+</Info>
+
+## Gebruik in WhatsApp
+
+Bericht het Clarus-nummer zoals u elk ander contact zou berichten:
+
+> **U:** hoeveel stuks WIDGET-RED-500 liggen er op voorraad?
+>
+> **Clarus:** Er zijn 1.240 stuks over 3 locaties…
+
+**Alleen één-op-één-chats.** Groepsgesprekken worden niet ondersteund — de assistent antwoordt alleen op directe berichten aan het Clarus-nummer.
+
+**Verdergaan waar u was gebleven.** Uw chat blijft één doorlopend gesprek, dus vervolgvragen werken. Na **een uur** zonder berichten begint het volgende bericht dat u stuurt een nieuw gesprek — handig als u van onderwerp wisselt, maar het betekent dat de assistent de vragen van vanmorgen niet meer kent als u 's middags weer bericht.
+
+**Bestanden.** Stuur een foto of document mee met uw vraag en de assistent kan het lezen — fotografeer bijvoorbeeld een beschadigd pallet-label en vraag welk product het is. Zet uw vraag in het bijschrift. Afbeeldingen tot 3 MB, documenten tot 10 MB, 10 bestanden per bericht.
+
+**Opmaak.** Antwoorden gebruiken de eigen opmaak van WhatsApp, dus tabellen en koppen van de assistent komen door als vetgedrukte tekst en lijnen. Lange antwoorden komen als meerdere berichten aan.
+
+### Als iemand niet is goedgekeurd
+
+Wie bericht vanaf een nummer dat niet op uw lijst staat, krijgt:
+
+> This number isn't authorised to use ClarusWMS. Please contact your ClarusWMS admin to be added.
+
+Hun bericht bereikt uw gegevens nooit, en het antwoord verklapt bewust niet bij welke Clarus-organisatie het nummer hoort.
+
+<Warning>
+Elk goedgekeurd nummer krijgt de volledige assistent-toegang van uw organisatie — die is niet beperkt tot de Clarus-rechten van één persoon, en hij kan gegevens ook wijzigen, niet alleen lezen. Keur nummers individueel goed in plaats van standaard een heel team toe te voegen, en verwijder mensen direct als ze uit dienst gaan.
+</Warning>
+
+## Uitschakelen
+
+Voor WhatsApp is er geen enkele knop om de verbinding te verbreken. Om te voorkomen dat mensen het gebruiken, verwijdert u ze uit de lijst **Authorised users** — of zet u ze elk op **Disabled** als u de lijst wilt bewaren om later weer in te schakelen. Zonder goedgekeurde nummers kan niemand de assistent berichten.
+
+## Problemen oplossen
+
+<AccordionGroup>
+  <Accordion title="Ik krijg te horen dat mijn nummer niet is goedgekeurd, maar het staat op de lijst">
+    Bijna altijd een verschil in nummerformaat. Het opgeslagen nummer moet het volledige internationale nummer zijn, inclusief landnummer en zonder voorloopnul — `+44 7700 900123`, nooit `07700 900123`. Nummers kunnen niet worden gewijzigd, dus verwijder de regel en voeg hem opnieuw toe in het juiste formaat.
+  </Accordion>
+  <Accordion title="'That number is already linked to another ClarusWMS workspace'">
+    Een telefoonnummer kan bij één Clarus-account tegelijk zijn goedgekeurd. Dat nummer staat op de goedgekeurde lijst van een andere Clarus-organisatie en moet daar worden verwijderd voordat u het hier kunt toevoegen.
+  </Accordion>
+  <Accordion title="Welk nummer moeten wij berichten?">
+    Het nummer dat op het WhatsApp-installatiescherm staat, via **Settings → Integrations → Set up WhatsApp**. Het is voor elke goedgekeurde gebruiker hetzelfde nummer. Staat er geen nummer in het paneel, dan is WhatsApp nog niet volledig ingeschakeld voor uw account — neem contact op met Clarus-support.
+  </Accordion>
+  <Accordion title="Hij is vergeten waar we het over hadden">
+    Gesprekken worden na een uur zonder activiteit opnieuw gestart. Alles van voor die pauze zit niet meer in de context, dus vermeld de details opnieuw — het ordernummer, de productcode — in uw nieuwe bericht.
+  </Accordion>
+  <Accordion title="Kunnen we het in een WhatsApp-groep gebruiken?">
+    Nee. Groepsgesprekken worden niet ondersteund; de assistent antwoordt alleen op directe berichten aan het Clarus-nummer. Hebt u een gedeeld gesprek nodig dat het hele team kan zien, gebruik dan [Slack](/knowledgebase/nl/ai-assistant/connect-slack) of [Microsoft Teams](/knowledgebase/nl/ai-assistant/connect-teams).
+  </Accordion>
+  <Accordion title="Stuurt Clarus ons meldingen via WhatsApp?">
+    Nog niet — WhatsApp is voor gesprekken die u zelf begint. Voor meldingen die naar uw team worden gestuurd, verbindt u [Slack](/knowledgebase/nl/ai-assistant/connect-slack) en stelt u een default alert channel in.
+  </Accordion>
+  <Accordion title="Niemand krijgt nog antwoord">
+    Controleer of uw organisatie de maandelijkse AI-credits niet heeft opgebruikt — zie [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage). Controleer ook of de status van de persoon in de tabel Authorised users op **Enabled** staat en niet op **Disabled**.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,99 @@
+---
+title: "Berichtenkanalen"
+description: "Praat met uw magazijn vanuit Slack, WhatsApp of Microsoft Teams — stel de Clarus AI Assistant vragen en krijg antwoord zonder de app te verlaten die uw team al gebruikt."
+sidebarTitle: "Overzicht"
+---
+
+Breng de AI Assistant naar de apps die uw team toch al open heeft staan. Verbind **Slack**, **WhatsApp** of **Microsoft Teams** en iedereen in het gesprek kan vragen stellen over voorraad, orders of ontvangsten en binnen enkele seconden antwoord krijgen — geen Clarus-tabblad, geen login, geen wisseling van context.
+
+Vraag "hoeveel pallets `WIDGET-RED-500` zijn er nog?" in een Slack-kanaal, of stuur vanaf de magazijnvloer een bericht naar het Clarus-nummer op WhatsApp, en het antwoord komt terug in hetzelfde gesprek.
+
+<Warning>
+**AI-nauwkeurigheid:** door AI gegenereerde antwoorden kunnen soms onnauwkeurig, onvolledig of misleidend zijn. Controleer de uitvoer van de assistent altijd voordat u ernaar handelt — vooral bij voorraadmutaties, orderwijzigingen of andere acties die uw actuele magazijngegevens raken. De assistent is een hulpmiddel, geen vervanging van uw eigen oordeel.
+</Warning>
+
+## Kies een kanaal
+
+<CardGroup cols={3}>
+  <Card title="Slack" icon="slack" href="/knowledgebase/nl/ai-assistant/connect-slack">
+    Het snelst in te stellen. Keur de app één keer goed en uw hele workspace kan hem gebruiken.
+  </Card>
+  <Card title="WhatsApp" icon="whatsapp" href="/knowledgebase/nl/ai-assistant/connect-whatsapp">
+    Het beste voor mensen onderweg. U bepaalt precies welke telefoonnummers toegang hebben.
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft" href="/knowledgebase/nl/ai-assistant/connect-teams">
+    Voeg de ClarusWMS-app toe aan Teams en koppel hem daarna aan uw Clarus-account.
+  </Card>
+</CardGroup>
+
+## Waar u ze instelt
+
+Alle drie worden op één plek in de AI-app beheerd:
+
+1. Open de AI Assistant en klik op het tandwiel **Settings** onderaan de gesprekkenlijst.
+2. Kies **Integrations**.
+
+<Frame>
+  <img src="/images/knowledgebase/integrations/ai-settings-integrations.png" alt="De pagina Settings Integrations met kaarten voor Slack, WhatsApp en Microsoft Teams" />
+</Frame>
+
+Elk kanaal verschijnt als een kaart met een knop om het te verbinden. Zodra het verbonden is, toont de kaart het label **Installed** en de gegevens van de verbinding.
+
+<Info>
+**Integrations is alleen voor beheerders.** Ziet u het tandwiel Settings of het onderdeel Integrations niet, dan omvat uw Clarus-rol geen beheer van instellingen — vraag een beheerder het kanaal voor u in te stellen.
+</Info>
+
+## Wat elk kanaal kan
+
+| | Slack | WhatsApp | Microsoft Teams |
+|---|---|---|---|
+| Directe berichten aan de assistent | Ja | Ja | Ja |
+| Kanalen en groepsgesprekken | Ja, met een **@mention** | Niet ondersteund | Ja, met een **@mention** |
+| Antwoorden in threads | Ja | — | Ja |
+| Bestanden en afbeeldingen versturen | Ja | Ja | Nog niet |
+| Proactieve meldingen vanuit Clarus | Ja, naar een kanaal dat u kiest | Nog niet | Alleen in gesprekken die hij al kent |
+| Beperken wie hem mag gebruiken | Nee — iedereen in de workspace | **Ja** — een goedgekeurde lijst telefoonnummers | Nee — iedereen in uw Microsoft-organisatie |
+| Verbinding verbreken vanuit de app | Ja | Verwijder in plaats daarvan individuele gebruikers | Ja |
+
+Waar dit wordt ondersteund, kunt u afbeeldingen versturen (PNG, JPEG, GIF, WebP tot 3 MB) en documenten (PDF, CSV, tekst, Markdown, HTML, DOCX, XLSX tot 10 MB), maximaal 10 bestanden per bericht.
+
+Antwoorden worden niet woord voor woord opgebouwd zoals in de AI-app — de assistent denkt na en plaatst dan zijn antwoord. Een lang antwoord kan als meer dan één bericht aankomen.
+
+## Instellingen die elk kanaal deelt
+
+Welk kanaal u ook verbindt, u wordt gevraagd om:
+
+- **Description** — een kort label voor de verbinding, zodat u uw integraties kunt onderscheiden. Verplicht.
+- **Default model** — welk Claude-model berichten op dit kanaal beantwoordt. **Sonnet** is de standaard en de juiste keuze voor dagelijks gebruik. Zie [Overzicht](/knowledgebase/nl/ai-assistant/overview) voor waar de andere voor bedoeld zijn.
+- **Agent** — optioneel. Stuur de berichten van dit kanaal naar een specifieke agent die u hebt ingesteld, in plaats van naar de standaardassistent.
+
+<Warning>
+**Iedereen die de bot een bericht kan sturen, krijgt de volledige assistent-toegang van uw organisatie.** Anders dan in de AI-app — waar de assistent binnen *uw* individuele Clarus-rechten werkt — is een berichtenkanaal niet aan een bepaalde Clarus-gebruiker gekoppeld. De assistent kan niet zien wie de vraag stelt, dus iedereen in die Slack-workspace, Teams-organisatie of op uw goedgekeurde WhatsApp-lijst kan alles zien en wijzigen wat de assistent van uw organisatie kan.
+
+Houd daar rekening mee bij de keuze in welke kanalen u de bot uitnodigt, en gebruik bij voorkeur de goedgekeurde nummerlijst van WhatsApp waar u strakkere controle nodig hebt.
+</Warning>
+
+## Één Clarus-account per workspace
+
+Een Slack-workspace of een Microsoft-organisatie kan aan **één** Clarus-account tegelijk worden verbonden. Probeert u er een te verbinden die al elders gekoppeld is, dan krijgt u dat te zien — degene die het als eerste heeft ingesteld, moet de verbinding verbreken voordat u hem kunt overnemen.
+
+## Credits
+
+Berichten via Slack, WhatsApp en Teams gaan van hetzelfde maandelijkse creditbudget af als de AI-app. Antwoorden op chatberichten worden niet anders gefactureerd — maar een kanaal dat voor een hele workspace open staat, kan credits sneller verbruiken dan u verwacht. Zie [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage).
+
+## Voordat u begint
+
+- De AI Assistant ingeschakeld op uw Clarus-account.
+- Een Clarus-login met **beheerdersrechten**, om bij Settings → Integrations te komen.
+- Beheerrechten in het kanaal dat u verbindt: toestemming om apps toe te voegen aan uw Slack-workspace, of om apps te uploaden en goed te keuren in Microsoft Teams. Voor WhatsApp is geen beheertoegang bij derden nodig.
+
+## Meer informatie
+
+<CardGroup cols={2}>
+  <Card title="Toegang en controles" icon="lock" href="/knowledgebase/nl/ai-assistant/access-and-controls">
+    Wat de assistent kan bereiken, hoe acties worden geaudit en hoe u hem in- of uitschakelt.
+  </Card>
+  <Card title="AI Assistant-gegevensbescherming" icon="shield-halved" href="/knowledgebase/nl/security/ai-data-protection">
+    Gegevensverwerking, verwerkingslocatie, bewaring en subverwerkers.
+  </Card>
+</CardGroup>
