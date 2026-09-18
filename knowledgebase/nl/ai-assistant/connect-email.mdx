@@ -1,0 +1,130 @@
+---
+title: "Geef een agent een eigen e-mailadres"
+description: "Laat klanten, leveranciers en collega's een van uw AI-agents mailen en een antwoord in dezelfde thread krijgen — met controle over precies wie hem mag schrijven."
+sidebarTitle: "E-mail"
+---
+
+E-mail werkt anders dan de andere kanalen. Slack, WhatsApp en Teams verbinden uw **hele organisatie** met de assistent. E-mail hoort bij één **enkele agent**: u geeft een van uw agents een eigen adres, bepaalt wie hem mag schrijven, en iedereen op die lijst kan hem mailen en krijgt antwoord in dezelfde thread.
+
+Daarmee is dit het kanaal voor iemand buiten uw bedrijf die een antwoord nodig heeft — een klant die naar een order vraagt, een leverancier die een boeking controleert — zonder dat u hem een Clarus-login hoeft te geven.
+
+<Warning>
+**AI-nauwkeurigheid:** door AI gegenereerde antwoorden kunnen soms onnauwkeurig, onvolledig of misleidend zijn. Controleer de uitvoer van de assistent altijd voordat u ernaar handelt — vooral bij voorraadmutaties, orderwijzigingen of andere acties die uw actuele magazijngegevens raken. De assistent is een hulpmiddel, geen vervanging van uw eigen oordeel.
+</Warning>
+
+## Hoe het werkt
+
+Elke agent waarvoor u e-mail inschakelt, krijgt een eigen adres, opgebouwd uit een naam die u kiest en uw Clarus-account:
+
+```text
+advisor@acme.onclarus.com
+```
+
+Iedereen op de goedgekeurde lijst van die agent mag hem schrijven. De agent leest het bericht, doet het werk en antwoordt **in dezelfde e-mailthread**, ondertekend met de naam en handtekening die u hem hebt gegeven. Antwoord op dat bericht en het gesprek gaat verder waar u gebleven was.
+
+De agent ziet alleen het bericht dat naar hem is gestuurd. Hij antwoordt als die agent, met de instructies die u hem hebt meegegeven.
+
+## Wie hem mag mailen
+
+Elk bericht doorloopt twee controles voordat een agent het te zien krijgt. Beide moeten slagen.
+
+<Steps>
+  <Step title="De afzender moet echt zijn">
+    E-mailadressen zijn eenvoudig te vervalsen, dus we nemen de regel "Van" niet zomaar aan. We toetsen het bericht aan de gepubliceerde regels van het domein waar het vandaan zegt te komen — dezelfde standaard (**DMARC**) die banken en winkelketens gebruiken om te voorkomen dat hun adressen worden misbruikt.
+
+    Zegt het verzendende domein dat het bericht niet van hen is, dan wordt het verwijderd. Niemand kan uw agent mailen door zich voor te doen als een van uw klanten.
+
+    <Info>
+    Dit controleert het **domein**, niet de persoon. Een bericht dat echt van `acme.com` komt, slaagt; een vervalsing die beweert van `acme.com` te komen, niet.
+    </Info>
+  </Step>
+  <Step title="De afzender moet op de lijst van de agent staan">
+    Elke agent heeft een eigen lijst met goedgekeurde e-mailadressen. Staat de afzender daar niet op, dan ziet de agent het bericht nooit.
+
+    Voeg de specifieke personen toe die die agent moeten kunnen bereiken. Hele domeinen worden niet ondersteund, dus `acme.com` in één keer goedkeuren kan niet — dat is bewust, want het voorkomt dat één gelekt adres de deur opent voor een heel bedrijf.
+  </Step>
+</Steps>
+
+Haalt u iemand van de lijst, dan is hij vanaf zijn eerstvolgende bericht geblokkeerd.
+
+### Als iemand schrijft die niet op de lijst staat
+
+U kiest zelf wat er gebeurt, per agent:
+
+- **Negeren** — het bericht wordt stilzwijgend verwijderd.
+- **Escaleren** — het bericht wordt doorgestuurd naar een supervisoradres dat u aanwijst, zodat een mens kan bepalen of er geantwoord wordt of dat de afzender aan de lijst wordt toegevoegd.
+
+In beide gevallen krijgt **de afzender helemaal geen antwoord**. Dat is bewust: een automatisch "u bent niet bevoegd" zou bevestigen dat het adres bestaat en een nieuwe poging waard is.
+
+<Warning>
+**Iedereen op de goedgekeurde lijst van een agent krijgt de volledige toegang van die agent.** De assistent kan niet zien wie er schrijft, dus iedereen op de lijst kan zien en wijzigen wat die agent kan. Houd de lijst beperkt tot mensen die u het hele bereik van de agent toevertrouwt, en gebruik een agent met een smaller bereik waar u minder toegang wilt geven.
+</Warning>
+
+## Wat de agent terugschrijft
+
+Antwoorden worden geschreven als e-mail, niet als chat. Gewone tekst, geen opmaaktekens, en kort genoeg om op een telefoon te lezen.
+
+Waar een antwoord zou uitlopen op een lange tabel met gegevens, biedt de agent een spreadsheet aan om te downloaden in plaats van honderden regels in het bericht te plakken.
+
+<Note>
+**Bijlagen worden nog niet ondersteund.** Bestanden die naar het adres van een agent worden gestuurd, worden genegeerd, en de agent kan geen bestand aan zijn antwoord hangen — hij deelt in plaats daarvan een downloadlink. Gebruik [Slack](/knowledgebase/nl/ai-assistant/connect-slack) of [WhatsApp](/knowledgebase/nl/ai-assistant/connect-whatsapp) waar u een document of foto moet sturen.
+</Note>
+
+## Instellen
+
+Een beheerder zet e-mail aan voor een agent in de AI-app en stelt in:
+
+- **Het adres** — het deel vóór de `@`. Iets korts en herkenbaars, zoals `advisor` of `orders`.
+- **De naam en handtekening** — wat ontvangers zien als afzender, en wat er onderaan het antwoord komt.
+- **De goedgekeurde afzenders** — wie hem mag schrijven.
+- **Een supervisor** — waar berichten van onbekende afzenders naartoe gaan, als u voor escaleren hebt gekozen.
+
+Elk adres kan maar één keer binnen uw account worden gebruikt, dus twee agents kunnen er niet één delen.
+
+## Automatische berichten worden met rust gelaten
+
+Afwezigheidsberichten, mailinglijsten, meldingen van mislukte bezorging en de eigen post van de agent worden herkend en genegeerd. Twee automatische systemen kunnen niet in een lus op elkaar gaan antwoorden.
+
+## Credits
+
+Antwoorden per e-mail putten uit hetzelfde maandelijkse creditsaldo als de AI-app en de andere kanalen. Zie [Credits en gebruik](/knowledgebase/nl/ai-assistant/credits-and-usage).
+
+<Tip>
+Een agent die voor klanten bereikbaar is, kan drukker worden dan een intern kanaal. Houd de goedgekeurde lijst beperkt en bekijk het gebruik na de eerste weken.
+</Tip>
+
+## Problemen oplossen
+
+<AccordionGroup>
+  <Accordion title="Iemand heeft de agent gemaild en kreeg helemaal geen antwoord">
+    Bijna altijd een van de twee controles. Of hun adres staat niet op de goedgekeurde lijst van die agent, of hun bericht is gezakt voor de echtheidscontrole — wat kan gebeuren als post via een ander systeem wordt doorgestuurd dat hem onderweg herschrijft.
+
+    Controleer het exacte adres waarvandaan ze hebben gestuurd. Iemand met twee adressen is een veelvoorkomende oorzaak: alleen het adres op de lijst werkt.
+  </Accordion>
+  <Accordion title="Ik heb iemand verwijderd en wil zeker weten dat hij er niet meer door komt">
+    Verwijderen geldt vanaf hun eerstvolgende bericht. Er is geen wachttijd.
+  </Accordion>
+  <Accordion title="Het antwoord kwam in de spam terecht">
+    Vraag de ontvanger het als veilig te markeren en het adres van de agent aan zijn contacten toe te voegen. Gebeurt het steeds voor een heel domein, dan kan hun IT-afdeling het verzendende domein toestaan.
+  </Accordion>
+  <Accordion title="Kunnen twee agents één adres delen?">
+    Nee. Elk adres is uniek binnen uw account. Geef de tweede agent een eigen naam — bijvoorbeeld `orders` en `advisor`.
+  </Accordion>
+  <Accordion title="Kan ik iedereen bij een klant in één keer goedkeuren?">
+    Op dit moment niet — adressen worden afzonderlijk goedgekeurd. Het instellen kost meer werk, maar het betekent dat één gecompromitteerde mailbox niet meteen toegang geeft aan iedereen met dat domein.
+  </Accordion>
+  <Accordion title="Ziet de agent eerdere e-mails in de thread?">
+    Hij volgt het gesprek waar hij deel van uitmaakt, dus een antwoord op zijn eigen bericht gaat verder waar u gebleven was. Hij leest niets anders in uw mailbox.
+  </Accordion>
+</AccordionGroup>
+
+## Meer informatie
+
+<CardGroup cols={2}>
+  <Card title="Toegang en beheer" icon="lock" href="/knowledgebase/nl/ai-assistant/access-and-controls">
+    Wat de assistent kan bereiken, hoe acties worden vastgelegd en hoe u hem aan- of uitzet.
+  </Card>
+  <Card title="Gegevensbescherming AI Assistant" icon="shield-halved" href="/knowledgebase/nl/security/ai-data-protection">
+    Gegevensverwerking, verwerkingslocatie, bewaartermijnen en subverwerkers.
+  </Card>
+</CardGroup>

@@ -1,0 +1,130 @@
+---
+title: "Give an agent its own email address"
+description: "Let customers, suppliers, and colleagues email one of your AI agents and get a reply in the same thread — with control over exactly who is allowed to write to it."
+sidebarTitle: "Email"
+---
+
+Email works differently from the other channels. Slack, WhatsApp, and Teams connect your **whole organisation** to the assistant. Email belongs to a **single agent**: you give one of your agents its own address, decide who is allowed to write to it, and anyone on that list can email it and get a reply in the same thread.
+
+That makes it the channel to reach for when someone outside your business needs an answer — a customer chasing an order, a supplier checking a booking — without giving them a Clarus login.
+
+<Warning>
+**AI accuracy:** AI-generated responses can sometimes be inaccurate, incomplete, or misleading. Always verify the assistant's output before acting on it — especially for stock movements, order changes, or any actions that affect your live warehouse data. The assistant is a tool to help you, not a replacement for your own judgement.
+</Warning>
+
+## How it works
+
+Each agent you enable email for gets an address of its own, made up of a name you choose and your Clarus account:
+
+```text
+advisor@acme.onclarus.com
+```
+
+Anyone on that agent's approved list can write to it. The agent reads the message, does the work, and replies **in the same email thread**, signed with the name and signature you've given it. Reply to that answer and the conversation carries on where it left off.
+
+The agent only sees the message it was sent. It answers as that agent, using whatever instructions you gave it.
+
+## Who is allowed to email it
+
+Every message passes two checks before an agent ever sees it. Both must pass.
+
+<Steps>
+  <Step title="The sender has to be genuine">
+    Email addresses are trivially easy to fake, so we don't take the "From" line at face value. We check the message against the published rules of the domain it claims to come from — the same standard (**DMARC**) that banks and retailers use to stop their addresses being spoofed.
+
+    If the sending domain says the message isn't really theirs, it's dropped. Nobody can email your agent by pretending to be one of your customers.
+
+    <Info>
+    This checks the **domain**, not the individual. A message that genuinely comes from `acme.com` passes; a forgery claiming to be from `acme.com` does not.
+    </Info>
+  </Step>
+  <Step title="The sender has to be on the agent's list">
+    Each agent has its own list of approved email addresses. If the sender isn't on it, the agent never sees the message.
+
+    Add the specific people who should be able to reach that agent. Whole domains aren't supported, so approving `acme.com` in one go isn't possible — that's deliberate, because it stops one leaked address opening the door to an entire company.
+  </Step>
+</Steps>
+
+Take someone off the list and they're blocked from their very next message onwards.
+
+### When someone not on the list writes in
+
+You choose what happens, per agent:
+
+- **Ignore** — the message is dropped quietly.
+- **Escalate** — the message is forwarded to a supervisor's address you nominate, so a person can decide whether to answer or add them to the list.
+
+Either way, **the sender gets no reply at all**. That's deliberate: an automatic "you're not authorised" response would confirm the address exists and is worth trying again.
+
+<Warning>
+**Anyone on an agent's approved list gets that agent's full access.** The assistant can't tell which person is writing, so everyone on the list can see and change whatever that agent can. Keep the list to people you'd trust with the agent's whole remit, and use a narrower agent where you need a narrower reach.
+</Warning>
+
+## What the agent writes back
+
+Replies are written as email, not as chat. Plain prose, no formatting symbols, and short enough to read on a phone.
+
+Where an answer would run to a long table of data, the agent offers a spreadsheet to download instead of pasting hundreds of rows into the message.
+
+<Note>
+**Attachments aren't supported yet.** Files sent to an agent's address are ignored, and the agent can't attach a file to its reply — it shares a download link instead. Use [Slack](/knowledgebase/ai-assistant/connect-slack) or [WhatsApp](/knowledgebase/ai-assistant/connect-whatsapp) where you need to send a document or photo.
+</Note>
+
+## Setting it up
+
+An administrator turns email on for an agent in the AI app, and sets:
+
+- **The address** — the part before the `@`. Something short and recognisable, like `advisor` or `orders`.
+- **The name and signature** — what recipients see the reply comes from, and what's added at the end of it.
+- **The approved senders** — who can write to it.
+- **A supervisor** — where messages from unknown senders go, if you've chosen to escalate them.
+
+Each address can only be used once across your account, so two agents can't share one.
+
+## Automatic messages are left alone
+
+Out-of-office replies, mailing lists, delivery-failure notices, and the agent's own mail are all recognised and ignored. Two automatic systems can't end up replying to each other in a loop.
+
+## Credits
+
+Email answers draw on the same monthly credit allowance as the AI app and the other channels. See [Credits and usage](/knowledgebase/ai-assistant/credits-and-usage).
+
+<Tip>
+An agent that's reachable by customers can get busier than an internal channel. Keep the approved list tight, and check usage after the first few weeks.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Someone emailed the agent and got no reply at all">
+    Almost always one of the two checks. Either their address isn't on that agent's approved list, or their message failed the genuineness check — which can happen when mail is forwarded through another system that rewrites it on the way.
+
+    Check the exact address they sent **from**. A person with two addresses is a common cause: only the one on the list works.
+  </Accordion>
+  <Accordion title="I removed someone but want to be sure they can't get through">
+    Removal applies from their next message onward. There's no delay to wait out.
+  </Accordion>
+  <Accordion title="The reply went to spam">
+    Ask the recipient to mark it as safe and, ideally, add the agent's address to their contacts. If it keeps happening for a whole domain, their IT team can allow the sending domain.
+  </Accordion>
+  <Accordion title="Can two agents share one address?">
+    No. Each address is unique across your account. Give the second agent its own name — `orders` and `advisor`, for instance.
+  </Accordion>
+  <Accordion title="Can I approve everyone at a customer's company at once?">
+    Not currently — addresses are approved individually. It's more work to set up, but it means one compromised mailbox doesn't hand over access to everyone who shares that domain.
+  </Accordion>
+  <Accordion title="Does the agent see earlier emails in the thread?">
+    It follows the conversation it's part of, so a reply to its own answer continues where you left off. It doesn't read anything else in your mailbox.
+  </Accordion>
+</AccordionGroup>
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Access & controls" icon="lock" href="/knowledgebase/ai-assistant/access-and-controls">
+    What the assistant can reach, how actions are audited, and how to turn it on or off.
+  </Card>
+  <Card title="AI Assistant data protection" icon="shield-halved" href="/knowledgebase/security/ai-data-protection">
+    Data handling, processing location, retention, and subprocessors.
+  </Card>
+</CardGroup>

@@ -546,7 +546,8 @@
                       "knowledgebase/ai-assistant/messaging-channels",
                       "knowledgebase/ai-assistant/connect-slack",
                       "knowledgebase/ai-assistant/connect-whatsapp",
-                      "knowledgebase/ai-assistant/connect-teams"
+                      "knowledgebase/ai-assistant/connect-teams",
+                      "knowledgebase/ai-assistant/connect-email"
                     ],
                     "public": true
                   }
@@ -1224,7 +1225,8 @@
                       "knowledgebase/nl/ai-assistant/messaging-channels",
                       "knowledgebase/nl/ai-assistant/connect-slack",
                       "knowledgebase/nl/ai-assistant/connect-whatsapp",
-                      "knowledgebase/nl/ai-assistant/connect-teams"
+                      "knowledgebase/nl/ai-assistant/connect-teams",
+                      "knowledgebase/nl/ai-assistant/connect-email"
                     ],
                     "public": true
                   }
