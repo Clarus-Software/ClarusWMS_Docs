@@ -1,0 +1,232 @@
+---
+title: "External Crossdock Refactor — What's Changing"
+description: "How external crossdocking behaved before the refactored-external-crossdocks feature flag, what changes when it is enabled, and what to check before turning it on for an account."
+sidebarTitle: "External Crossdock Refactor"
+---
+
+External crossdocking was rebuilt behind the **`refactored-external-crossdocks`** feature flag. The old and new behaviours differ in *when* work happens (synchronously on task completion instead of in a background job), *which tasks exist* (putaway and pick tasks may no longer be created at all), and *what can be reversed*.
+
+This page covers what the old flow did, what the new flow does, and what needs checking before the flag is turned on for another customer.
+
+<Info>This is about **external** crossdocking — goods received from a supplier that are immediately destined for outbound dispatch to an end customer. Internal crossdocking (transfers between your own warehouses) is a separate feature and is not affected by this flag.</Info>
+
+## At a glance
+
+| | Before the flag | After the flag |
+|---|---|---|
+| Pick processing | Background job created the pick list and completed pick tasks | Done synchronously as part of receive/putaway; no background job |
+| Putaway with auto-complete on | PWAY task created, then completed by a background job | **No PWAY task is created** — stock lands in the putaway location on receive |
+| Pick with auto-complete on | PICK task created, then completed by a background job | **No PICK task is created** — stock is allocated straight to a LOAD or DISP task |
+| Errors during pick processing | Surfaced asynchronously (notification / event log) after the operator moved on | Surfaced immediately — the task completion itself fails |
+| Reversing a receive | Legacy generic reversal; no awareness of pick lists, loading or dispatch | Full reversal that unwinds allocation, loading and dispatch |
+| Receipt status | Updated by the legacy receipt handling | Recalculated on every receive/putaway (`RCV` → `PART` → `COMPLETED`) |
+| `Auto process pick` account setting | Gated the background pick processing | **No longer has any effect** |
+| Crossdock Requests screen | Not available | New screen for raising a crossdock across multiple warehouses |
+| "Process picks" button on crossdock orders | Shown | Hidden — allocation is automatic |
+
+## How it worked before
+
+### The flow
+
+<Steps>
+  <Step title="Crossdock confirmed">
+    Confirming a crossdock created the goods-in receipt and its **RCV** tasks. With `Auto confirm` set on the account, confirmation happened automatically on creation; with `Auto complete receive tasks` set, the RCV tasks were then completed automatically too.
+  </Step>
+  <Step title="RCV task completed">
+    Stock was created in the **goods-in bay** with status `RECEIVED`, `Quantity received` was incremented on the receipt line, and an `RCV` transaction was written. A **PWAY** task was then created against the account's default putaway location.
+  </Step>
+  <Step title="Putaway">
+    If `Auto complete putaway tasks` was set, a background job (`AutoCompletePutawayJob`) picked up every unfinished PWAY task on that crossdock and completed it — but only once every RCV task for the same storage unit had been completed. Otherwise an operator completed the PWAY task by hand.
+  </Step>
+  <Step title="Pick processing (background)">
+    Completing a PWAY task published a `stocks putaway` event. If `Auto process pick` was set on the account, that event queued a **pick processing job** per associated goods out, on its own `pick_processing` Sidekiq queue.
+
+    The job ran a batch-pick routine that built (or reused) a pick list, allocated the available stock on the crossdock's receipt line, created the PICK tasks, applied the pick-list charge, and moved the goods out to `Allocated` / `Partially allocated`.
+  </Step>
+  <Step title="Pick completion">
+    If `Auto complete pick tasks` was also set, the same job then completed every unfinished PICK task on the new pick list. Otherwise an operator completed them.
+  </Step>
+  <Step title="Loading / dispatch">
+    Completing the PICK task created the **LOAD** task (where the account uses the standard loading dispatch strategy) or the **DISP** task.
+  </Step>
+</Steps>
+
+### What was awkward about it
+
+- **A pick step that doesn't exist in the warehouse.** In a real external crossdock, goods come off a vehicle, are received, and go straight out again. There is no picking operation — yet the system always created a pick list and PICK tasks, then immediately completed them in the background to get rid of them.
+- **Asynchronous failures.** Pick processing ran after the operator had finished with the task. If it failed (not enough stock, lock contention, a validation error), the receipt looked fine to the operator and the outbound order silently stayed unallocated. The failure only showed up in the event log or as a notification to whoever happened to trigger it.
+- **Two background jobs in the middle of the flow.** Putaway auto-completion and pick processing both ran out-of-band, so the state of a crossdock depended on queue latency.
+- **Reversals were not properly supported.** Un-receiving a crossdock RCV task fell through to the generic task-reversal path, which reverts the PWAY task and removes the stock but knows nothing about pick lists, LOAD tasks or DISP tasks. Anything already allocated or picked could not be cleanly undone.
+
+## What the new flow does
+
+Everything happens **inside the task completion**, in one database transaction, with advisory locks around it. The background jobs for putaway auto-completion and pick processing are gone.
+
+The path taken depends on two account settings, and the two can be used independently:
+
+- `Auto complete putaway tasks` — skip the goods-in bay and the PWAY task
+- `Auto complete pick tasks` — skip the PICK task
+
+<Tabs>
+  <Tab title="Neither setting on">
+    **Receive → Putaway → Pick → Dispatch.** The standard manual flow.
+
+    - Completing the RCV task creates stock in the **goods-in bay** (`RECEIVED`) and creates a **PWAY** task for the default putaway location.
+    - Completing the PWAY task moves the stock to its final location, increments `Quantity putaway`, then creates the **PICK** task and pick list and allocates the stock.
+    - Completing the PICK task creates the **LOAD** or **DISP** task.
+
+    This is the closest to the old behaviour — the difference is that pick list creation and allocation now happen immediately on putaway completion rather than in a background job.
+  </Tab>
+  <Tab title="Auto putaway only">
+    **Receive → Pick → Dispatch.** No goods-in bay stage, no PWAY task.
+
+    - Completing the RCV task creates stock **directly in the default putaway location** with status `AVAILABLE`, and increments **both** `Quantity received` and `Quantity putaway` in the same step. The `RCV` transaction is written with the putaway subtype.
+    - The **PICK** task and pick list are created and the stock allocated, in the same transaction.
+    - Completing the PICK task creates the **LOAD** or **DISP** task.
+  </Tab>
+  <Tab title="Both settings on">
+    **Receive → Dispatch.** No PWAY task, no PICK task. This is the flow the refactor was designed around.
+
+    - Completing the RCV task creates stock directly in the default putaway location (`AVAILABLE`) and increments received and putaway quantities.
+    - The stock is allocated to a pick list and the goods out moved to `Allocated` / `Partially allocated`, but **no PICK task is created** — the allocation transaction is recorded with no task against it.
+    - A **LOAD** task is created if the stock has a storage unit and loading applies; otherwise a **DISP** task is created.
+  </Tab>
+  <Tab title="Auto pick only">
+    **Receive → Putaway → Dispatch.** For accounts that still need a physical putaway step but have no picking operation.
+
+    - Completing the RCV task behaves as in the standard flow: stock into the goods-in bay, PWAY task created.
+    - Completing the PWAY task moves the stock, then allocates it straight to a pick list — **no PICK task** — and creates the **LOAD** or **DISP** task.
+  </Tab>
+</Tabs>
+
+<Note>Loading applies when the account uses the standard loading dispatch strategy **and** there is no unfinished line-level DISP task already open against the storage unit. Otherwise the stock goes straight to a DISP task.</Note>
+
+### Reversals now work end to end
+
+Un-receiving a crossdock RCV task is handled by the crossdock module rather than the generic task path. It inspects how far the stock actually got and unwinds it in the right order — removing it from loading or dispatch, un-allocating it, stopping picking, or removing it from putaway — then decrements the receipt line quantities, writes an `UNRCV` transaction, removes the stock, and recalculates the receipt status back to `PART` or `RCV`.
+
+It refuses the reversal, with a clear error, when a dependent step has already been **completed** (stock loaded, dispatched, picked or put away). Un-putaway and un-pick have equivalent handling.
+
+### Charges and order status are unchanged
+
+The pick-list-created charge is still raised, and the goods out is still moved to `Partially allocated` / `Allocated` on the same rules as before. This work moved out of the background job into the receive/putaway step — it did not go away.
+
+## Before you turn it on
+
+<Warning>The flag changes behaviour for **in-flight** crossdocks, not just new ones. Work through this list before enabling it for an account.</Warning>
+
+<Steps>
+  <Step title="Drain in-flight crossdocks">
+    Get open crossdocks to a clean state first — ideally no partially received receipts, no unfinished PWAY tasks on crossdock receipts, and no crossdock pick lists mid-pick. A crossdock that was received under the old flow still has its PWAY and PICK tasks; those still complete after the switch, but they follow the new routing, and the reversal validations are stricter than the ones that created them.
+  </Step>
+  <Step title="Check the queues are empty">
+    Make sure the `pick_processing` queue has no crossdock jobs left and no putaway auto-complete jobs are pending. A job that was queued before the switch will still run the old code path against a receipt that the new code now owns.
+  </Step>
+  <Step title="Confirm the account's crossdock settings">
+    The two auto-complete settings now decide which tasks get created at all, so they need to reflect how the site actually works. Check `Auto complete putaway tasks` and `Auto complete pick tasks` on the account's external crossdock options, along with the default warehouse, goods-in location, putaway location, goods-out location and crossdock product.
+  </Step>
+  <Step title="Tell the warehouse which tasks disappear">
+    On accounts with auto-complete settings on, operators will stop seeing PWAY and/or PICK tasks for crossdocks entirely — not "they get completed for you", but "they are never created". Anyone who works from a task list, or who checks the putaway or pick panels on a crossdock receipt to confirm the goods moved, needs to know to look at the loading or dispatch task instead.
+  </Step>
+  <Step title="Check reports, automations and integrations that key off crossdock tasks">
+    Anything counting crossdock PWAY or PICK tasks, or triggering off their completion, will see nothing on auto-complete accounts. Automations built on the `pick_processing` event log sub-category for crossdock orders will also stop firing, because there is no longer a crossdock pick processing job to succeed or fail.
+  </Step>
+  <Step title="Expect errors to surface at the operator, not in a log">
+    Because allocation now happens inside the task completion, a problem that used to fail quietly in the background now fails the operator's action. Stock shortfalls, a missing crossdock line, a cancelled or completed pick list — all of these now stop the receive or putaway. Support should expect a change in the *kind* of issue reported: fewer "the order never allocated" tickets, more "it wouldn't let me complete the task".
+  </Step>
+  <Step title="Expect occasional 429s under heavy batch receiving">
+    The new flow takes nested advisory locks — on the task, then the storage unit (when several receive tasks share one), then the product (when several share one) — each with a 10-second timeout. Under very heavy concurrent receiving of the same storage unit or product, a task completion can be rejected with a "too many requests" error and needs retrying. This is deliberate: it is what stops two receives double-allocating the same stock.
+  </Step>
+  <Step title="Retire the deprecated receive-to-load workflow endpoint">
+    The `crossdock_receive_to_load` workflow is deprecated. With the flag on, its pick-processing step does nothing, so any caller relying on it to allocate stock will get a different result. Check nothing external still calls it.
+  </Step>
+</Steps>
+
+### Rolling back
+
+Turning the flag off again is **not** a clean rollback for crossdocks already processed under the new flow. In particular, stock received straight into the putaway location is created with status `AVAILABLE`, whereas the legacy reversal path requires status `RECEIVED` — so un-receiving those lines after a rollback fails validation. Accounts with `Auto complete putaway tasks` on also have receipts with no PWAY tasks at all, which the old flow does not expect.
+
+Plan the switch as one-way per account, and roll forward rather than back if something goes wrong.
+
+## What users will see in the UI
+
+| Screen | Change |
+|---|---|
+| Crossdocks list | New **Create crossdock request** button, opening the Crossdock Requests screen |
+| Crossdock goods out | The **Process picks** button is hidden — allocation happens automatically |
+| Crossdock receipt | Receive and putaway lines use the dedicated crossdock endpoints, and can be reversed line by line |
+| Crossdock pick list | Pick and un-pick use the dedicated crossdock endpoints |
+| Account → External crossdock options | `Auto process pick` remains on screen but no longer affects anything |
+
+### Crossdock Requests
+
+The new **Crossdock Requests** screen raises a crossdock from a single form: header details (account, reference, expected date of receipt, collection address, carrier, inbound method, receipt kind) plus a grid of lines with their own delivery addresses.
+
+It splits the request across warehouses automatically. Lines with an end customer are matched against the account's **crossdock receipt rules** to find that customer's warehouse; anything unmatched falls back to the account's default crossdock warehouse. One crossdock is created per warehouse, referenced `<your reference>/<warehouse code>`.
+
+The button is only shown when the flag is on.
+
+## Configuration reference
+
+Account → External crossdock options:
+
+| Setting | Effect |
+|---|---|
+| `Enabled` | Turns external crossdocking on for the account |
+| `Auto confirm` | Confirms a crossdock automatically when it is created |
+| `Auto complete receive tasks` | Completes the RCV tasks automatically once the receipt is raised |
+| `Auto complete putaway tasks` | **New meaning:** no PWAY task is created; stock is received straight into the putaway location |
+| `Auto complete pick tasks` | **New meaning:** no PICK task is created; stock is allocated straight to loading or dispatch |
+| `Auto process pick` | **No longer used.** Previously gated the background pick processing job |
+| `Split crossdock lines by quantity` | Splits crossdock lines into one line per unit on save |
+| `Default warehouse` / `Default goods in location` / `Default putaway location` / `Default goods out location` / `Default crossdock product` | Defaults used when creating the receipt and placing stock |
+| `Maximum number of storage units per delivery address` | Caps storage units per delivery address |
+
+**Crossdock receipt rules** (also on the account) map an end customer to the warehouse their crossdocked stock should be received into. They are used by the Crossdock Requests screen to split a request across warehouses.
+
+## Technical reference
+
+<AccordionGroup>
+  <Accordion title="Feature flag">
+    `refactored-external-crossdocks`, resolved through `ExternalCrossdocks::Config`. Always on in test and development; controlled by the flag in mirror and production.
+  </Accordion>
+  <Accordion title="API endpoints">
+    The dedicated crossdock endpoints return **404 while the flag is off** and only become live when it is on:
+
+    - `POST /external_crossdocks/:task_id/receive_stock` · `unreceive_stock`
+    - `POST /external_crossdocks/:task_id/putaway_stocks` · `unputaway_stocks`
+    - `POST /external_crossdocks/:task_id/pick_stock` · `unpick_stock`
+
+    Unaffected by the flag: `POST /external_crossdocks/:receipt_id/receive_receipt` and `revert_receipt`.
+
+    Deprecated: `POST /workflows/crossdock_receive_to_load`.
+  </Accordion>
+  <Accordion title="Where the flag is checked">
+    - `ExternalCrossdocks::Api.complete_receive_task` — chooses the new or legacy receive flow
+    - `TaskService::Update::Type::Rcv` — routes un-receive into the crossdock module only when on
+    - `TaskService::Update::Type::Pway` — routes putaway and un-putaway into the crossdock module only when on
+    - `ExternalCrossdocks::EventListener#stocks_putaway` — suppresses the legacy background pick processing when on
+    - `Workflows::Steps::PickProcessCrossdocksStocks` — no-ops when on
+
+    Pick task completion already runs on the new code in both modes.
+  </Accordion>
+  <Accordion title="Retired when the flag is removed">
+    - `ExternalCrossdocks::PickProcessingJob` and the batch-pick routine behind it
+    - `ExternalCrossdocks::AutoCompletePutawayJob`
+    - `ExternalCrossdocks::TriggerAutoPickProcessing`
+    - `ExternalCrossdocks::CompleteReceiveTask` and the legacy receive/putaway/picking services
+    - `Workflows::Types::CrossdockReceiveToLoad` and the `/workflows/:workflow_name` endpoint
+    - The `auto_process_pick` account column
+  </Accordion>
+  <Accordion title="Internal events published">
+    | Event | Topic | Raised when |
+    |---|---|---|
+    | Stock received | `external_crossdocks.stock.received` | RCV task completed |
+    | Stocks putaway | `external_crossdocks.stocks.putaway` | PWAY task completed |
+    | Stock picked | `external-crossdocks.stock.picked` | PICK task completed |
+    | Stock unpicked | `external-crossdocks.stock.unpicked` | PICK task reversed |
+    | Receipt completed | `external-crossdocks-receipt.completed` | Every receipt line fully processed |
+
+    These are internal (Wisper) events for module-to-module communication, not external message-broker topics — no integration consumer subscribes to them directly.
+  </Accordion>
+</AccordionGroup>
