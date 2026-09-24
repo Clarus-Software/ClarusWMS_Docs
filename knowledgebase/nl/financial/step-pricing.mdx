@@ -1,0 +1,173 @@
+---
+title: "Staffelprijzen voor pick- en huurkosten"
+description: "Stel staffelprijzen (step pricing) in op pick- en huurprijzen, zodat het tarief per eenheid meebeweegt met het volume. Kies Vaste Staffel of Cumulatief en zie hoe de kosten worden aangemaakt."
+sidebarTitle: "Staffelprijzen"
+---
+
+Met staffelprijzen rekent u een ander tarief per eenheid afhankelijk van het volume. In plaats van één vaste **Prijs** definieert u een reeks staffels — bijvoorbeeld 1–10, 11–20 en 21+ — elk met een eigen prijs, en Clarus bepaalt welk tarief van toepassing is wanneer de kosten worden aangemaakt.
+
+Staffelprijzen zijn beschikbaar voor **Pickprijzen** en **Huurprijzen** op een kostenkaart, met als maateenheid **Opslageenheid** of **Artikel**.
+
+| Kostentype | Waar de staffels op gebaseerd zijn |
+| --- | --- |
+| **Picken** | De gepickte hoeveelheid op één picklijst — grote, efficiënte orders krijgen een lager tarief. |
+| **Huur** | De opgeslagen hoeveelheid gedurende het kostenvenster — klanten die meer opslaan krijgen een lager tarief. |
+
+## Een berekeningsmethode kiezen
+
+Elke staffelprijs gebruikt een van twee berekeningsmethoden. Beide gebruiken dezelfde staffels; ze verschillen in hoe de totale hoeveelheid wordt geprijsd.
+
+De voorbeelden hieronder gebruiken deze staffels:
+
+| Staffel | Van | Tot | Prijs |
+| --- | --- | --- | --- |
+| 1 | 1 | 10 | £1,00 |
+| 2 | 11 | 20 | £0,80 |
+| 3 | 21 | *(leeg)* | £0,50 |
+
+<Tabs>
+  <Tab title="Vaste Staffel">
+    Clarus kijkt naar de uiteindelijke totale hoeveelheid, zoekt de ene staffel waarin deze valt en rekent **de volledige hoeveelheid** tegen de prijs van die staffel.
+
+    Bij een totaal van **25** valt de hoeveelheid in staffel 3:
+
+    `25 × £0,50 = £12,50`
+
+    Dit levert één kostenregel op.
+  </Tab>
+  <Tab title="Cumulatief">
+    Clarus verdeelt de totale hoeveelheid over de staffels en rekent **elk deel** tegen de prijs van de staffel waarin het valt.
+
+    Bij een totaal van **25**:
+
+    - De eerste 10 worden berekend tegen staffel 1: `10 × £1,00 = £10,00`
+    - De volgende 10 worden berekend tegen staffel 2: `10 × £0,80 = £8,00`
+    - De laatste 5 worden berekend tegen staffel 3: `5 × £0,50 = £2,50`
+
+    Totaal: **£20,50**, weergegeven als één kostenregel per staffel.
+  </Tab>
+</Tabs>
+
+## Staffelprijzen instellen
+
+<Steps>
+  <Step title="Open de kostenkaart">
+    Ga in het linkermenu naar **Tarieven** en vervolgens **Kostenkaart**, en selecteer de relevante kostenkaart.
+  </Step>
+  <Step title="Voeg een prijs toe">
+    Klik in het paneel **Pickprijzen** of **Huurprijzen** op **Regel toevoegen** en vul de **Code**, de naam en eventuele voorwaarden in zoals bij elke andere prijs.
+  </Step>
+  <Step title="Zet het prijstype op Staffel">
+    Selecteer in de kolom **Prijstype** de optie **Staffel**. De velden **Aantal** en **Prijs** worden niet meer beschikbaar, omdat de prijzen nu uit de staffels komen.
+
+    Kies daarna de **Maateenheid** — **Opslageenheid** of **Artikel**.
+
+    <Note>
+    Kies het prijstype vóór de maateenheid. Als u het **Prijstype** wijzigt, worden de maateenheid, het aantal en de prijs op die regel gewist.
+    </Note>
+  </Step>
+  <Step title="Open de staffelprijsconfiguratie">
+    Klik op **Staffels beheren** op de regel. Hiermee opent het venster **Staffelprijs Configuratie**.
+  </Step>
+  <Step title="Kies de berekeningsmethode">
+    Selecteer onder **Berekeningsmethode** de optie **Vaste Staffel** of **Cumulatief** (zie [Een berekeningsmethode kiezen](#een-berekeningsmethode-kiezen)).
+  </Step>
+  <Step title="Voeg uw staffels toe">
+    Klik onder **Staffels en Prijzen** voor elke staffel op **Regel toevoegen** en vul in:
+
+    | Veld | Beschrijving |
+    | --- | --- |
+    | **Omschrijving** | Optioneel. Een label voor de staffel, dat op de kostenregel wordt getoond in plaats van het bereik (bijvoorbeeld "Bulktarief"). |
+    | **Van** | Verplicht. De laagste hoeveelheid in de staffel. Moet 0 of meer zijn; decimalen zijn toegestaan. |
+    | **Tot** | De hoogste hoeveelheid in de staffel. Verplicht op elke staffel behalve de laatste — laat dit leeg op de laatste staffel om elke hoeveelheid vanaf **Van** te dekken. |
+    | **Prijs** | Verplicht. De prijs per eenheid voor hoeveelheden in deze staffel. |
+
+    Klik op **Opslaan** op elke staffelregel.
+  </Step>
+  <Step title="Pas de configuratie toe">
+    Klik op **Configuratie Toepassen**. Clarus zet de staffels op volgorde en slaat ze op bij de prijs.
+  </Step>
+</Steps>
+
+Om een staffelprijs later te wijzigen, klikt u opnieuw op **Staffels beheren**, bewerkt, voegt toe of verwijdert u staffels, en klikt u op **Configuratie Toepassen**.
+
+### Regels voor staffels
+
+Clarus controleert de staffels bij het opslaan en markeert alles wat niet kan worden geaccepteerd:
+
+- **Staffels mogen niet overlappen.** Zowel **Van** als **Tot** zijn inclusief, dus de volgende staffel moet boven de **Tot** van de vorige staffel beginnen. Na een staffel van 1–10 begint de volgende staffel bij 11 (of 10,01 als u met decimalen werkt) — niet bij 10.
+- **Tot moet groter zijn dan Van.**
+- **Ten minste één staffel is vereist** voordat u de configuratie kunt toepassen.
+- **Een berekeningsmethode is vereist.**
+- **Sla elke staffelregel op** voordat u op **Configuratie Toepassen** klikt.
+
+<Warning>
+Een hoeveelheid die buiten uw staffels valt, wordt niet berekend. Als uw laagste staffel bij 10 begint en een klant maar 9 bereikt, worden er geen staffelkosten aangemaakt. Hetzelfde geldt voor hoeveelheden die in een gat tussen twee staffels vallen, of boven een laatste staffel die een **Tot**-waarde heeft. Laat de **Tot** van de laatste staffel leeg als elke hoeveelheid daarboven moet worden berekend.
+</Warning>
+
+### Terug naar standaardprijzen
+
+Zodra een prijs is opgeslagen als **Staffel**, kan het **Prijstype** niet meer worden gewijzigd. Om terug te gaan naar een vaste prijs, verwijdert u de regel en voegt u een nieuwe toe met het **Prijstype** op **Standaard**.
+
+## Hoe staffelpickkosten worden aangemaakt
+
+Staffelpickkosten worden **per picklijst** berekend:
+
+- Zolang de picklijst wordt gepickt, bestaat er nog geen staffelkostenregel. Clarus registreert elke pick.
+- Zodra **elke picktaak op de picklijst is voltooid of geannuleerd**, telt Clarus de gepickte hoeveelheid op die picklijst op en maakt de kostenregels aan volgens de berekeningsmethode.
+- Met de maateenheid **Artikel** is het totaal het aantal gepickte artikelen. Met **Opslageenheid** is het het aantal unieke gepickte opslageenheden.
+- Als een pick later ongedaan wordt gemaakt, worden de staffelkostenregels voor die picklijst verwijderd. Ze worden opnieuw aangemaakt, op basis van de actuele gepickte hoeveelheid, zodra de picklijst weer volledig is gepickt.
+- Een picklijst die in het ene kostenvenster wordt gestart en in het volgende wordt afgerond, wordt als geheel berekend in het venster waarin hij wordt afgerond.
+
+U kunt het resultaat bekijken in het paneel **Kostenregels** van de picklijst. De kolom **Berekeningsmethode** toont **Vaste Staffel** of **Cumulatief** voor elke regel.
+
+<Info>
+Staffelprijzen zijn niet van toepassing op cross docks.
+</Info>
+
+## Hoe staffelhuurkosten worden aangemaakt
+
+<Tabs>
+  <Tab title="Vaste Staffel">
+    Tijdens het kostenvenster worden geen huurkostenregels aangemaakt. Wanneer het kostenvenster sluit, maakt Clarus één kostenregel aan voor de staffelprijs, geprijsd tegen de ene staffel die past bij het totaal voor het venster:
+
+    - **Artikel** — de totale hoeveelheid artikelen gehuurd tijdens het venster.
+    - **Opslageenheid** — het aantal unieke opslageenheden gehuurd tijdens het venster.
+
+    Voorraad telt mee voor het totaal als deze aan het begin van het venster op voorraad was of tijdens het venster is ontvangen — ook voorraad die weer is verzonden voordat het venster sloot.
+  </Tab>
+  <Tab title="Cumulatief">
+    Huurkostenregels worden gedurende het hele kostenvenster aangemaakt, op dezelfde manier als standaard huurkosten. Elke eenheid wordt geprijsd tegen de staffel die het lopende totaal op dat moment in het venster heeft bereikt.
+
+    Met de maateenheid **Artikel** wordt één kost die een staffelgrens overschrijdt, opgesplitst in één regel per staffel.
+  </Tab>
+</Tabs>
+
+## Staffelkostenregels controleren
+
+Staffelkostenregels verschijnen naast uw andere kosten en komen op de normale manier op facturen terecht. Elke regel toont de berekende hoeveelheid, maateenheid en prijs, en de omschrijving bevat de gebruikte staffel en methode, bijvoorbeeld:
+
+```text
+Standard rate, Tier: 21+, Method: Flat-tier
+```
+
+De staffel toont de **Omschrijving** van de staffel als u die hebt ingevuld, anders het bereik.
+
+<AccordionGroup>
+  <Accordion title="Wat gebeurt er als ik de staffels wijzig terwijl kosten worden aangemaakt?">
+    Clarus gebruikt de configuratie die van kracht is op het moment dat elke kostenregel wordt aangemaakt. Kostenregels die al zijn aangemaakt, worden niet opnieuw berekend. Voor pickkosten met een vaste staffel worden bijvoorbeeld de staffels gebruikt die van kracht zijn wanneer de laatste picktaak op de picklijst wordt voltooid.
+  </Accordion>
+  <Accordion title="Kan ik nog steeds voorwaarden gebruiken, zoals opslageenheidtype of productgroep?">
+    Ja. Een staffelprijs ondersteunt dezelfde voorwaarden als een standaardprijs voor het betreffende kostentype. Alleen het **Aantal** en de **Prijs** worden vervangen door de staffels.
+  </Accordion>
+  <Accordion title="Waarom zijn er geen staffelkosten aangemaakt?">
+    Controleer of de totale hoeveelheid binnen een van uw staffels valt (zie de waarschuwing onder [Regels voor staffels](#regels-voor-staffels)). Controleer bij pickkosten ook of elke picktaak op de picklijst is voltooid of geannuleerd. Bij huurkosten met een vaste staffel wordt de regel pas aangemaakt wanneer het kostenvenster sluit. Zie voor andere oorzaken [Geen kosten toegepast](/knowledgebase/nl/troubleshooting/no-charge-applied).
+  </Accordion>
+</AccordionGroup>
+
+## Gerelateerde pagina's
+
+- [Kosten aan accounts toewijzen](/knowledgebase/nl/financial/set-charges-to-accounts)
+- [Kostenvensters](/knowledgebase/nl/financial/charge-window-and-create-one)
+- [Subtypes voor pickkosten](/knowledgebase/nl/financial/pick-charge-subtypes)
+- [Terugkerende kosten](/knowledgebase/nl/financial/recurring-charges)
