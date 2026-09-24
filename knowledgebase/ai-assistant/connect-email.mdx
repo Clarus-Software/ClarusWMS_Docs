@@ -42,6 +42,8 @@ Every message passes two checks before an agent ever sees it. Both must pass.
     Each agent has its own list of approved email addresses. If the sender isn't on it, the agent never sees the message.
 
     Add the specific people who should be able to reach that agent. Whole domains aren't supported, so approving `acme.com` in one go isn't possible — that's deliberate, because it stops one leaked address opening the door to an entire company.
+
+    Each person can have a **name** and a short **note**. The agent is told both before it answers them, so a note like *Warehouse manager, Leeds* or *Customer, calls SKUs "part numbers"* changes how the reply is pitched. It doesn't change what the agent is allowed to do.
   </Step>
 </Steps>
 
@@ -57,18 +59,28 @@ You choose what happens, per agent:
 Either way, **the sender gets no reply at all**. That's deliberate: an automatic "you're not authorised" response would confirm the address exists and is worth trying again.
 
 <Warning>
-**Anyone on an agent's approved list gets that agent's full access.** The assistant can't tell which person is writing, so everyone on the list can see and change whatever that agent can. Keep the list to people you'd trust with the agent's whole remit, and use a narrower agent where you need a narrower reach.
+**Anyone on an agent's approved list gets that agent's full access.** The agent knows who wrote to it, but that doesn't narrow what it can do — everyone on the list can see and change whatever that agent can. Keep the list to people you'd trust with the agent's whole remit, and use a narrower agent where you need a narrower reach.
 </Warning>
 
 ## What the agent writes back
 
 Replies are written as email, not as chat. Plain prose, no formatting symbols, and short enough to read on a phone.
 
-Where an answer would run to a long table of data, the agent offers a spreadsheet to download instead of pasting hundreds of rows into the message.
+Where an answer would run to a long table of data, the agent sends a CSV spreadsheet attached to its reply instead of pasting hundreds of rows into the message. If the file is too large to attach, you get a download link instead.
+
+## Sending the agent a file
+
+Attach a PDF, a CSV or a photo and the agent reads it as part of your message. Ask it to check a purchase order against an order you already have, pull the figures out of a supplier's spreadsheet, or tell you what's on a delivery note — it works from the file the same way it works from the question.
+
+The file doesn't have to be in any particular layout. Every customer sends their paperwork differently, and the agent reads yours as it comes.
 
 <Note>
-**Attachments aren't supported yet.** Files sent to an agent's address are ignored, and the agent can't attach a file to its reply — it shares a download link instead. Use [Slack](/knowledgebase/ai-assistant/connect-slack) or [WhatsApp](/knowledgebase/ai-assistant/connect-whatsapp) where you need to send a document or photo.
+**What it can read.** PDFs, CSVs and images, up to ten files on one message. Older Office formats (`.xls`, `.doc`) aren't read yet, and neither is `winmail.dat` — the file Outlook produces when a message is sent in its own format rather than plain text or HTML. Anything it can't open, it names in its reply rather than ignoring quietly, so you know to send it another way.
 </Note>
+
+<Warning>
+**Treat a file like any other message from that sender.** The agent reads an attachment as information, not as instructions — a document telling it to ignore its rules or write to someone else is refused and called out in the reply. It's still worth remembering that whoever is on the approved list can put a document in front of it.
+</Warning>
 
 ## Setting it up
 

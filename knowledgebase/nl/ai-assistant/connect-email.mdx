@@ -42,6 +42,8 @@ Elk bericht doorloopt twee controles voordat een agent het te zien krijgt. Beide
     Elke agent heeft een eigen lijst met goedgekeurde e-mailadressen. Staat de afzender daar niet op, dan ziet de agent het bericht nooit.
 
     Voeg de specifieke personen toe die die agent moeten kunnen bereiken. Hele domeinen worden niet ondersteund, dus `acme.com` in één keer goedkeuren kan niet — dat is bewust, want het voorkomt dat één gelekt adres de deur opent voor een heel bedrijf.
+
+    Elke persoon kan een **naam** en een korte **notitie** krijgen. De agent krijgt beide te zien voordat hij antwoordt, dus een notitie als *Magazijnmanager, Leeds* of *Klant, noemt SKU's "artikelnummers"* verandert de toon van het antwoord. Het verandert niet wat de agent mag doen.
   </Step>
 </Steps>
 
@@ -57,18 +59,28 @@ U kiest zelf wat er gebeurt, per agent:
 In beide gevallen krijgt **de afzender helemaal geen antwoord**. Dat is bewust: een automatisch "u bent niet bevoegd" zou bevestigen dat het adres bestaat en een nieuwe poging waard is.
 
 <Warning>
-**Iedereen op de goedgekeurde lijst van een agent krijgt de volledige toegang van die agent.** De assistent kan niet zien wie er schrijft, dus iedereen op de lijst kan zien en wijzigen wat die agent kan. Houd de lijst beperkt tot mensen die u het hele bereik van de agent toevertrouwt, en gebruik een agent met een smaller bereik waar u minder toegang wilt geven.
+**Iedereen op de goedgekeurde lijst van een agent krijgt de volledige toegang van die agent.** De agent weet wel wie hem geschreven heeft, maar dat beperkt niet wat hij kan doen — iedereen op de lijst kan zien en wijzigen wat die agent kan. Houd de lijst beperkt tot mensen die u het hele bereik van de agent toevertrouwt, en gebruik een agent met een smaller bereik waar u minder toegang wilt geven.
 </Warning>
 
 ## Wat de agent terugschrijft
 
 Antwoorden worden geschreven als e-mail, niet als chat. Gewone tekst, geen opmaaktekens, en kort genoeg om op een telefoon te lezen.
 
-Waar een antwoord zou uitlopen op een lange tabel met gegevens, biedt de agent een spreadsheet aan om te downloaden in plaats van honderden regels in het bericht te plakken.
+Waar een antwoord zou uitlopen op een lange tabel met gegevens, stuurt de agent een CSV-spreadsheet als bijlage bij het antwoord in plaats van honderden regels in het bericht te plakken. Is het bestand te groot om bij te voegen, dan krijgt u een downloadlink.
+
+## De agent een bestand sturen
+
+Voeg een PDF, een CSV of een foto toe en de agent leest die als onderdeel van uw bericht. Vraag hem een inkooporder te controleren tegen een order die u al heeft, de cijfers uit de spreadsheet van een leverancier te halen, of te vertellen wat er op een pakbon staat — hij werkt met het bestand zoals hij met uw vraag werkt.
+
+Het bestand hoeft geen vaste indeling te hebben. Elke klant stuurt zijn papierwerk anders aan, en de agent leest het zoals het binnenkomt.
 
 <Note>
-**Bijlagen worden nog niet ondersteund.** Bestanden die naar het adres van een agent worden gestuurd, worden genegeerd, en de agent kan geen bestand aan zijn antwoord hangen — hij deelt in plaats daarvan een downloadlink. Gebruik [Slack](/knowledgebase/nl/ai-assistant/connect-slack) of [WhatsApp](/knowledgebase/nl/ai-assistant/connect-whatsapp) waar u een document of foto moet sturen.
+**Wat hij kan lezen.** PDF's, CSV's en afbeeldingen, tot tien bestanden per bericht. Oudere Office-formaten (`.xls`, `.doc`) worden nog niet gelezen, en `winmail.dat` evenmin — het bestand dat Outlook maakt wanneer een bericht in zijn eigen formaat wordt verstuurd in plaats van platte tekst of HTML. Wat hij niet kan openen, noemt hij in zijn antwoord in plaats van het stilzwijgend te negeren, zodat u weet dat u het anders moet aanleveren.
 </Note>
+
+<Warning>
+**Behandel een bestand als elk ander bericht van die afzender.** De agent leest een bijlage als informatie, niet als instructie — een document dat hem opdraagt zijn regels te negeren of iemand anders te mailen, wordt geweigerd en in het antwoord benoemd. Houd er wel rekening mee dat iedereen op de goedgekeurde lijst hem een document kan voorleggen.
+</Warning>
 
 ## Instellen
 
