@@ -1,0 +1,173 @@
+---
+title: "Step Pricing for Pick and Rental Charges"
+description: "Set up tiered (step) pricing on pick and rental charge prices, so the per-unit rate changes with volume. Choose Flat Tier or Cumulative calculation and see how the charges are raised."
+sidebarTitle: "Step Pricing"
+---
+
+Step pricing lets you charge a different per-unit rate depending on volume. Instead of one fixed **Price**, you define a set of tiers — for example 1–10, 11–20 and 21+ — each with its own price, and Clarus works out which rate applies when the charge is raised.
+
+Step pricing is available for **Pick Prices** and **Rental Prices** on a charge card, with a unit of measure of **Storage Unit** or **Item**.
+
+| Charge type | What the tiers are based on |
+| --- | --- |
+| **Pick** | The quantity picked on a single pick list — rewarding large, efficient orders with a lower rate. |
+| **Rental** | The quantity held in storage over the charge window — rewarding customers who store more. |
+
+## Choosing a calculation method
+
+Every step price uses one of two calculation methods. Both use the same tiers; they differ in how the total quantity is priced.
+
+The examples below use these tiers:
+
+| Tier | From | To | Price |
+| --- | --- | --- | --- |
+| 1 | 1 | 10 | £1.00 |
+| 2 | 11 | 20 | £0.80 |
+| 3 | 21 | *(blank)* | £0.50 |
+
+<Tabs>
+  <Tab title="Flat Tier">
+    Clarus looks at the final total quantity, finds the one tier it falls into, and charges **the whole quantity** at that tier's price.
+
+    For a total of **25**, the quantity falls into tier 3:
+
+    `25 × £0.50 = £12.50`
+
+    This produces a single charge line.
+  </Tab>
+  <Tab title="Cumulative">
+    Clarus splits the total quantity across the tiers and charges **each portion** at the price of the tier it falls into.
+
+    For a total of **25**:
+
+    - The first 10 are charged at tier 1: `10 × £1.00 = £10.00`
+    - The next 10 are charged at tier 2: `10 × £0.80 = £8.00`
+    - The final 5 are charged at tier 3: `5 × £0.50 = £2.50`
+
+    Total: **£20.50**, shown as one charge line per tier.
+  </Tab>
+</Tabs>
+
+## Setting up step pricing
+
+<Steps>
+  <Step title="Open the charge card">
+    From the left-hand menu, go to **Charges** then **Charge Card**, and select the relevant charge card.
+  </Step>
+  <Step title="Add a charge price">
+    In the **Pick Prices** or **Rental Prices** panel, click **Add Line** and fill in the **Code**, **Name** and any conditions as you would for any other charge price.
+  </Step>
+  <Step title="Set the price type to Step">
+    In the **Price Type** column, select **Step**. The **Quantity** and **Price** fields become unavailable, because the prices now come from the tiers.
+
+    Then choose the **Unit of Measure** — **Storage Unit** or **Item**.
+
+    <Note>
+    Choose the price type before the unit of measure. Changing the **Price Type** clears the unit of measure, quantity and price on that row.
+    </Note>
+  </Step>
+  <Step title="Open the step pricing configuration">
+    Click **Manage Steps** on the row. This opens the **Step Pricing Configuration** window.
+  </Step>
+  <Step title="Choose the calculation method">
+    Under **Calculation Method**, select **Flat Tier** or **Cumulative** (see [Choosing a calculation method](#choosing-a-calculation-method)).
+  </Step>
+  <Step title="Add your tiers">
+    Under **Tiers and Prices**, click **Add Line** for each tier and enter:
+
+    | Field | Description |
+    | --- | --- |
+    | **Description** | Optional. A label for the tier, shown on the charge line in place of the range (for example "Bulk rate"). |
+    | **From** | Required. The lowest quantity in the tier. Must be 0 or more; decimals are allowed. |
+    | **To** | The highest quantity in the tier. Required on every tier except the final one — leave it blank on the final tier to cover every quantity from **From** upwards. |
+    | **Price** | Required. The price per unit for quantities in this tier. |
+
+    Click **Save** on each tier row.
+  </Step>
+  <Step title="Apply the configuration">
+    Click **Apply Configuration**. Clarus sorts the tiers into order and saves them with the charge price.
+  </Step>
+</Steps>
+
+To change a step price later, click **Manage Steps** again, edit, add or delete tiers, and click **Apply Configuration**.
+
+### Tier rules
+
+Clarus checks the tiers when you save them and highlights anything it cannot accept:
+
+- **Tiers cannot overlap.** Both **From** and **To** are inclusive, so the next tier must start above the previous tier's **To**. After a tier of 1–10, start the next tier at 11 (or 10.01 if you work in decimals) — not at 10.
+- **To must be greater than From.**
+- **At least one tier is required** before you can apply the configuration.
+- **A calculation method is required.**
+- **Save every tier row** before you click **Apply Configuration**.
+
+<Warning>
+Any quantity that falls outside your tiers is not charged. If your lowest tier starts at 10 and a customer only reaches 9, no step charge is raised. Likewise, quantities that fall in a gap between two tiers, or above a final tier that has a **To** value, are not charged. Leave the final tier's **To** blank if every quantity above it should be charged.
+</Warning>
+
+### Changing back to standard pricing
+
+Once a charge price has been saved as **Step**, its **Price Type** cannot be changed. To go back to a fixed price, delete the row and add a new one with the **Price Type** set to **Standard**.
+
+## How step pick charges are raised
+
+Step pick charges are calculated **per pick list**:
+
+- While the pick list is being picked, no step charge line exists yet. Clarus records each pick.
+- Once **every pick task on the pick list is completed or cancelled**, Clarus totals the quantity picked on that pick list and creates the charge lines using the calculation method.
+- With a unit of measure of **Item**, the total is the number of items picked. With **Storage Unit**, it is the number of unique storage units picked.
+- If a pick is later unpicked, the step charge lines for that pick list are removed. They are created again, from the up-to-date picked quantity, once the pick list is fully picked again.
+- A pick list that is started in one charge window and finished in the next is charged as a whole, in the window it finishes.
+
+You can review the result in the **Charge Lines** panel of the pick list. The **Calculation Method** column shows **Flat Tier** or **Cumulative** for each line.
+
+<Info>
+Step pricing does not apply to cross docks.
+</Info>
+
+## How step rental charges are raised
+
+<Tabs>
+  <Tab title="Flat Tier">
+    No rental charge lines are created during the charge window. When the charge window closes, Clarus creates one charge line for the step price, priced at the single tier matching the total for the window:
+
+    - **Item** — the total quantity of items rented during the window.
+    - **Storage Unit** — the number of unique storage units rented during the window.
+
+    Stock counts towards the total if it was in stock at the start of the window or was received during it — including stock that was dispatched again before the window closed.
+  </Tab>
+  <Tab title="Cumulative">
+    Rental charge lines are created throughout the charge window, in the same way as standard rental charges. Each unit is priced at the tier its running total has reached at that point in the window.
+
+    With a unit of measure of **Item**, a single charge that crosses a tier boundary is split into one line per tier.
+  </Tab>
+</Tabs>
+
+## Reviewing step charge lines
+
+Step charge lines appear alongside your other charges and flow onto invoices in the normal way. Each line shows the billed quantity, unit of measure and price, and its description carries the tier and method used, for example:
+
+```text
+Standard rate, Tier: 21+, Method: Flat-tier
+```
+
+The tier shows the tier's **Description** if you entered one, otherwise its range.
+
+<AccordionGroup>
+  <Accordion title="What happens if I change the tiers while charges are being raised?">
+    Clarus uses the configuration that is in place at the moment each charge line is created. Charge lines that have already been created are not recalculated. For flat-tier pick charges, for example, the tiers in place when the last pick task on the pick list is completed are the ones used.
+  </Accordion>
+  <Accordion title="Can I still use conditions such as storage unit type or product group?">
+    Yes. A step price supports the same conditions as a standard charge price for its charge type. Only the **Quantity** and **Price** are replaced by the tiers.
+  </Accordion>
+  <Accordion title="Why was no step charge raised?">
+    Check that the total quantity falls within one of your tiers (see the warning under [Tier rules](#tier-rules)). For pick charges, also check that every pick task on the pick list has been completed or cancelled. For flat-tier rental charges, the line is created only when the charge window closes. For other causes, see [No charge applied](/knowledgebase/troubleshooting/no-charge-applied).
+  </Accordion>
+</AccordionGroup>
+
+## Related pages
+
+- [Set charges to accounts](/knowledgebase/financial/set-charges-to-accounts)
+- [Charge Windows](/knowledgebase/financial/charge-window-and-create-one)
+- [Pick Charge Subtypes](/knowledgebase/financial/pick-charge-subtypes)
+- [Recurring Charges](/knowledgebase/financial/recurring-charges)

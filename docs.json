@@ -374,6 +374,7 @@
                       "knowledgebase/financial/commercial-invoices",
                       "knowledgebase/financial/pick-charge-subtypes",
                       "knowledgebase/financial/recurring-charges",
+                      "knowledgebase/financial/step-pricing",
                       "knowledgebase/troubleshooting/no-charge-applied"
                     ],
                     "public": true
@@ -1041,6 +1042,7 @@
                       "knowledgebase/nl/financial/commercial-invoices",
                       "knowledgebase/nl/financial/pick-charge-subtypes",
                       "knowledgebase/nl/financial/recurring-charges",
+                      "knowledgebase/nl/financial/step-pricing",
                       "knowledgebase/nl/troubleshooting/no-charge-applied"
                     ],
                     "public": true
