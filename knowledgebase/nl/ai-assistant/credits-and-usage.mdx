@@ -1,11 +1,15 @@
 ---
 title: "AI Assistant-credits en -gebruik"
-description: "Hoe AI Assistant-gebruik in credits wordt gemeten, de maandelijkse toewijzing die bij uw contract is inbegrepen, wat er gebeurt als die op is, en wat van invloed is op hoe snel credits worden gebruikt."
+description: "Hoe AI Assistant-credits werken, welk modelniveau u voor verschillende taken kiest, de maandelijkse toewijzing die bij uw contract is inbegrepen, en wat er gebeurt als die op is."
 sidebarTitle: "Credits en gebruik"
 needs_review: true
 ---
 
-Het gebruik van de AI Assistant wordt gemeten in **credits**. Deze pagina legt uit waar uw credits vandaan komen, wat er gebeurt als ze op zijn en wat van invloed is op hoe snel ze worden gebruikt — zodat u het gebruik binnen uw team kunt plannen.
+Het gebruik van de AI Assistant wordt gemeten in **credits**. Deze pagina legt uit hoe credits werken, welk modelniveau u voor een taak kiest, waar uw credits vandaan komen en wat er gebeurt als ze op zijn — zodat u het gebruik binnen uw team kunt plannen.
+
+<Info>
+  **In het kort:** een credit dekt de kosten van het draaien van de AI Assistant en het werk dat het model voor uw verzoek doet. Hogere modelniveaus zijn krachtiger en kosten meer per eenheid werk, maar hebben vaak minder werk nodig om tot een goed antwoord te komen. Begin met een hoger niveau om een taak goed werkend te krijgen en probeer daarna — als u de taak vaker uitvoert — een lager niveau. Blijf daar als de resultaten goed blijven.
+</Info>
 
 ## Uw creditstoewijzing
 
@@ -25,11 +29,43 @@ Als uw subdomein zijn maandelijkse toewijzing heeft opgebruikt, **pauzeert de as
   De controle gebeurt **voordat** er een verzoek naar een model wordt gestuurd, zodat u niet per ongeluk over uw toewijzing heen kunt gaan — de assistent stopt eenvoudigweg totdat er weer credits beschikbaar zijn.
 </Note>
 
+## Wat een credit dekt
+
+Elke credit dekt twee dingen: de kosten van het draaien van het AI Assistant-platform, en het werk dat het model voor uw verzoek doet — uw vraag en de benodigde gegevens inlezen, en het antwoord terugschrijven. U hoeft niet over de details daarachter na te denken; het aantal credits dat een verzoek gebruikt, houdt daar al rekening mee.
+
+## Een modelniveau kiezen
+
+De modellen in de modelkeuze vallen in drie niveaus, van licht tot krachtigst. Denk eraan in niveaus in plaats van in namen — naarmate nieuwere, betere modellen verschijnen, zet Clarus elk niveau over op die modellen, zodat het niveau dat u kiest zijn plaats houdt terwijl het model erachter beter wordt.
+
+| Niveau | Momenteel | Het meest geschikt voor |
+| --- | --- | --- |
+| **Licht** | Claude Haiku | Eenvoudige, routinematige vragen en taken die u al hebt verfijnd met een duidelijke, goed geschreven prompt |
+| **Standaard** | Claude Sonnet | Dagelijks gebruik — de standaard, en een goede balans tussen capaciteit en kosten |
+| **Geavanceerd** | Claude Opus | Complexe analyses, open vragen en het voor het eerst uitwerken van een nieuwe taak |
+
+Een hoger niveau kost meer voor dezelfde hoeveelheid werk, maar is ook beter in het vinden van het antwoord — het heeft vaak minder stappen en minder heen-en-weer nodig. Een krachtiger model **verbruikt dus niet altijd meer credits** voor een verzoek, vooral niet bij een complex verzoek.
+
+Voor iets eenvoudigs, of iets dat u al een paar keer hebt gedaan en goed hebt geprompt, doet het niveau Licht het over het algemeen goed en tegen de laagste kosten.
+
+### Een praktische aanpak
+
+<Steps>
+  <Step title="Begin hoog">
+    Gebruik een hoger niveau om de taak goed werkend te krijgen. Verfijn uw prompt totdat het antwoord consequent is wat u nodig hebt.
+  </Step>
+  <Step title="Stap omlaag">
+    Als u de taak herhaaldelijk uitvoert — een terugkerende vraag of een automatisering — schakel dan met dezelfde prompt over naar het niveau eronder en controleer de resultaten.
+  </Step>
+  <Step title="Houd het laagste niveau dat werkt">
+    Als de antwoorden goed blijven, blijf dan op dat niveau. Als de kwaliteit daalt, ga dan een niveau omhoog. Reken op wat uitproberen.
+  </Step>
+</Steps>
+
 ## Wat credits verbruikt
 
-Credits weerspiegelen hoeveel werk elk verzoek met zich meebrengt — specifiek de hoeveelheid tekst die de assistent moet inlezen en teruggenereren. De belangrijkste factoren:
+Naast het niveau dat u kiest, zijn de belangrijkste factoren:
 
-- **Welk model u kiest** — dit is de grootste factor. Krachtigere modellen (zoals Claude Opus) gebruiken aanzienlijk meer per verzoek dan lichtere, snellere modellen (zoals Claude Haiku). De modelkeuze toont een **kostenindicator** voor elke optie, zodat u daar rekening mee kunt houden.
+- **Welk modelniveau u kiest** — zie [Een modelniveau kiezen](#een-modelniveau-kiezen). De modelkeuze toont een **kostenindicator** voor elke optie, zodat u daar rekening mee kunt houden.
 - **Hoeveel gegevens een vraag nodig heeft** — vragen waarvoor de assistent veel records moet ophalen en lezen, gebruiken meer dan een snelle, gerichte opzoeking.
 - **De lengte en complexiteit van een gesprek** — langere threads dragen meer context, dus een lange heen-en-weer gebruikt meer dan één gerichte vraag.
 - **Hoeveel u hem gebruikt** — het totale aantal gesprekken en acties binnen uw team.
@@ -41,6 +77,6 @@ Credits weerspiegelen hoeveel werk elk verzoek met zich meebrengt — specifiek 
 
 ## Het meeste uit uw toewijzing halen
 
-- **Stem het model af op de taak** — gebruik een lichter model (zoals Claude Haiku) voor routinematige, dagelijkse vragen en reserveer het krachtigste model voor werkelijk complexe analyses. Zie [Overzicht](/knowledgebase/nl/ai-assistant/overview) voor de opties.
+- **Stem het niveau af op de taak** — gebruik het niveau Licht voor routinematige of goed geprompte taken, en het niveau Geavanceerd voor werkelijk complex werk of om een nieuwe taak goed te krijgen. Zie [Een modelniveau kiezen](#een-modelniveau-kiezen).
 - **Stel gerichte vragen** in plaats van open vragen die meer gegevens ophalen dan u nodig heeft.
 - **Beperk automatiseringen** tot wat ze daadwerkelijk nodig hebben, zodat geplande of hoogvolume-runs niet meer verbruiken dan bedoeld. Zie [Toegang en controles](/knowledgebase/nl/ai-assistant/access-and-controls).
