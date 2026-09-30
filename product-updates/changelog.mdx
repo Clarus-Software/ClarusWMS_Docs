@@ -63,6 +63,7 @@ public: true
 
   ## New
 
+  - **Short receipt lines.** When a supplier delivers less than expected, select one or more **Part** receipts on the **Receipts** grid and click **Short Receipt Lines** to cancel the outstanding receive tasks. The receipt completes once its putaway is finished and triggers your **Receipt is Completed** automations, with a new **Short Receipt Lines** reason type and a per-account setting to enforce it. See [Short receipt lines](/knowledgebase/inbound/short-receipt-lines).
   - **Bulk import for alternative product codes.** Load alternative codes in bulk instead of product by product. See [Product import](/knowledgebase/products-and-stock/product-import).
   - **Print an invoice from an automation.** A new automation action prints an invoice when the trigger conditions are met. See [Email automations](/knowledgebase/integrations/email-automations).
   - **Recurring charge totals.** The total charges panel includes a total for recurring charges, so scheduled fees sit alongside operational ones. See [Recurring charges](/knowledgebase/financial/recurring-charges).
@@ -80,7 +81,6 @@ public: true
   ## Fixed
 
   - Dates and times on goods in records and sales orders respect your site's configured timezone.
-  - Short receipt lines on goods in are handled correctly. See [Book goods in](/knowledgebase/inbound/book-goods-in).
   - Intermittent logouts are resolved. See [Problems signing in](/knowledgebase/troubleshooting/signing-in).
   - Receipting against a pickface proximity putaway rule no longer fails. See [Guided putaway rules](/knowledgebase/inbound/guided-putaway-rules).
   - Auto dispatch fires on final pick tasks. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads).

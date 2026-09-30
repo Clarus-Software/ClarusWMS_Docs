@@ -263,6 +263,7 @@
                       "knowledgebase/inbound/confirm-all-button",
                       "knowledgebase/inbound/cancel-a-receipt",
                       "knowledgebase/inbound/cancel-receive-tasks",
+                      "knowledgebase/inbound/short-receipt-lines",
                       "knowledgebase/inbound/goods-in-report",
                       "knowledgebase/advanced/date-validation",
                       {
@@ -931,6 +932,7 @@
                       "knowledgebase/nl/inbound/confirm-all-button",
                       "knowledgebase/nl/inbound/cancel-a-receipt",
                       "knowledgebase/nl/inbound/cancel-receive-tasks",
+                      "knowledgebase/nl/inbound/short-receipt-lines",
                       "knowledgebase/nl/inbound/goods-in-report",
                       "knowledgebase/nl/advanced/date-validation",
                       {

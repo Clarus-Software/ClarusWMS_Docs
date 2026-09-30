@@ -1,12 +1,12 @@
 ---
 title: "Account Reason Codes"
-description: "How to create, configure, and assign reason codes to accounts for tracking stock adjustments, holds, releases, and transfers."
+description: "How to create, configure, and assign reason codes to accounts for tracking stock adjustments, holds, releases, transfers, and shorted orders and receipts."
 sidebarTitle: "Account Reason Codes"
 ---
 
 ## Overview
 
-Reason codes are essential for tracking stock adjustments and order line processes. There are six types, and you can assign them globally or to specific accounts.
+Reason codes are essential for tracking stock adjustments and order line processes. There are seven types, and you can assign them globally or to specific accounts.
 
 ## Reason code types
 
@@ -17,6 +17,7 @@ Reason codes are essential for tracking stock adjustments and order line process
 | **Hold** | Place available stock into hold status |
 | **Release** | Release stock from hold status |
 | **Short Order Lines** | Short a sales order when stock is insufficient |
+| **Short Receipt Lines** | Short a goods in receipt when the supplier delivers less than expected — see [Short receipt lines](/knowledgebase/inbound/short-receipt-lines) |
 | **Account Transfer** | Transfer stock between accounts |
 
 ## Creating reason codes
@@ -30,7 +31,7 @@ Reason codes are essential for tracking stock adjustments and order line process
     - **Code** -- a unique identifier
     - **Name** -- a descriptive title
     - **Description** -- additional detail about the code's purpose
-    - **Reason Type** -- one of the six types above
+    - **Reason Type** -- one of the seven types above
   </Step>
   <Step title="Activate and configure">
     Mark the code as **Active** or **Inactive**. Enable **Generic for All Accounts** to use it across all accounts, or leave it unchecked to assign it manually.
@@ -56,6 +57,6 @@ Reason codes are essential for tracking stock adjustments and order line process
     Yes. Enable the **Generic for All Accounts** option when creating the code. Otherwise, assign it manually to specific accounts.
   </Accordion>
   <Accordion title="How many types of reason codes are there?">
-    Six: Negative Adjustment, Positive Adjustment, Hold, Release, Short Order Lines, and Account Transfer.
+    Seven: Negative Adjustment, Positive Adjustment, Hold, Release, Short Order Lines, Short Receipt Lines, and Account Transfer.
   </Accordion>
 </AccordionGroup>

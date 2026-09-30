@@ -1,0 +1,96 @@
+---
+title: "Short Receipt Lines"
+description: "Close a part-received goods in receipt when the supplier delivered less than expected, cancelling the outstanding receive tasks so the receipt can complete."
+---
+
+When a supplier delivers less than the receipt expected, the receipt stays in **Part** status even after everything that did arrive has been received and put away. Shorting the receipt closes off the lines that will never arrive, so the receipt can move to **Completed** and trigger your **Receipt is Completed** automations.
+
+It works the same way as [shorting order lines](/knowledgebase/accounts/short-order-lines) on sales orders.
+
+## Before you start
+
+- Only receipts in **Part** status can be shorted, and they must still have outstanding lines to short.
+- Only standard goods in receipts can be shorted. Crossdock receipts cannot.
+- You need permission to manage goods in receipts.
+- A description is always required. A reason code is optional unless the account enforces one — see [Require a reason code](#require-a-reason-code).
+
+## Short a receipt
+
+<Steps>
+  <Step title="Open the receipts grid">
+    On the left-hand menu, click **Goods In** then **Receipts**.
+  </Step>
+  <Step title="Select the receipts">
+    Tick the checkbox next to each receipt you want to short. You can select several at once. Every selected receipt must be in **Part** status.
+  </Step>
+  <Step title="Click Short Receipt Lines">
+    Click **Short Receipt Lines** above the grid. The button stays disabled until you have selected at least one receipt.
+
+    If any selected receipt is not in **Part** status, a warning tells you that receipts can only be shorted if they have a status of PART. Clear those receipts from your selection and try again.
+  </Step>
+  <Step title="Check the receipts, then enter a reason">
+    A sidebar opens listing the ID and reference of every receipt you selected. Check that these are the receipts you mean to short.
+
+    - **Reason Code** — select a reason code of type **Short Receipt Lines**.
+    - **Please enter a description:** — explain why the receipt is being shorted. This is always required.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The receipts are shorted in the background, and a notification confirms each one once it has been processed — for example, *Receipt 1234 shorted successfully*. The grid refreshes to show the new status.
+  </Step>
+</Steps>
+
+<Warning>Shorting cancels every outstanding receive task on the receipt, and cannot be undone. If you still expect the rest of the delivery, do not short the receipt.</Warning>
+
+## What happens to the receipt
+
+When a receipt is shorted:
+
+- **Outstanding receive tasks are cancelled.** Stock that has already been received is not affected.
+- **The receipt moves to Completed** once all of its putaway tasks are finished. If received stock is still waiting to be put away, the receipt stays in **Part** until the last putaway task is completed, then completes automatically. Shorting never skips putaway work.
+- **The Receipt is Completed automation runs**, just as it does for a fully received receipt. See [Email automations](/knowledgebase/integrations/email-automations).
+- **The original receipt lines stay on the receipt**, so the receipt summary still shows what was expected alongside what was received.
+- **The change is recorded in the receipt's history.** Click **View History** on the receipt to see the status change, the reason code and the **Short Receipt Description**.
+
+## Reason codes for shorting receipts
+
+Shorting uses its own reason type, **Short Receipt Lines**. Reason codes of any other type — including **Short Order Lines** — are not offered.
+
+<Steps>
+  <Step title="Create the reason code">
+    Go to **Reason Codes** and click **New**. Set the **Reason Type** to **Short Receipt Lines**, and make sure the code is **Active**.
+  </Step>
+  <Step title="Make it available to the right accounts">
+    Enable **Generic for All Accounts** to use the code everywhere, or leave it unticked and assign it to specific accounts. See [Account reason codes](/knowledgebase/accounts/reason-codes).
+  </Step>
+</Steps>
+
+<Info>When all the selected receipts belong to one account, the sidebar lists that account's assigned codes as well as the generic ones. If your selection spans more than one account, only generic codes are listed.</Info>
+
+## Require a reason code
+
+You can make a reason code mandatory for shorting receipts on a per-account basis.
+
+<Steps>
+  <Step title="Open the account">
+    Go to **Accounts** and open the account you want to configure.
+  </Step>
+  <Step title="Turn on the enforce setting">
+    In the **Enforce Reason Codes** panel, turn on **Enforce Reason Code For Shorting Receipt Lines**, then save.
+  </Step>
+</Steps>
+
+Once it is on, a receipt for that account cannot be shorted without a reason code. If you short receipts from several accounts at once and any of them enforces a reason code, the reason code is required for the whole selection.
+
+<AccordionGroup>
+  <Accordion title="What if none of the delivery is going to arrive?">
+    Shorting is for receipts that are partly received. If nothing on the receipt is going to arrive, [cancel the receipt](/knowledgebase/inbound/cancel-a-receipt) instead.
+  </Accordion>
+  <Accordion title="Why was a receipt not shorted?">
+    If the reason code is missing on an account that enforces one, or the reason code is not assigned to a selected receipt's account, an error appears when you click **Save** and none of the selected receipts are shorted. Correct the reason code and save again.
+
+    Once the request is accepted, each receipt is processed separately. A receipt that has no remaining lines to short, or is no longer in **Part** status, is reported as not shorted in the notification, and the other receipts are still shorted.
+  </Accordion>
+  <Accordion title="Can I cancel a single receive task instead?">
+    Yes. To remove one expected line without closing the whole receipt, [cancel the receive task](/knowledgebase/inbound/cancel-receive-tasks) instead.
+  </Accordion>
+</AccordionGroup>
