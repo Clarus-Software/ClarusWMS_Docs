@@ -1,0 +1,96 @@
+---
+title: "Short Receipt Lines"
+description: "Sluit een deels ontvangen goederenontvangst af wanneer de leverancier minder heeft geleverd dan verwacht, door de openstaande ontvangsttaken te annuleren zodat de ontvangst kan worden voltooid."
+---
+
+Wanneer een leverancier minder levert dan de ontvangst verwachtte, blijft de ontvangst in de status **Deel** staan, ook nadat alles wat wel is aangekomen is ontvangen en weggezet. Door de ontvangst te shorten sluit u de regels af die nooit zullen aankomen, zodat de ontvangst naar **Voltooid** kan gaan en uw **Receipt is Completed**-automatiseringen worden uitgevoerd.
+
+Het werkt op dezelfde manier als [het shorten van orderregels](/knowledgebase/nl/accounts/short-order-lines) bij verkooporders.
+
+## Voordat u begint
+
+- Alleen ontvangsten met de status **Deel** kunnen worden geshort, en ze moeten nog openstaande regels hebben om te shorten.
+- Alleen standaard goederenontvangsten kunnen worden geshort. Crossdock-ontvangsten niet.
+- U heeft rechten nodig om goederenontvangsten te beheren.
+- Een omschrijving is altijd verplicht. Een redencode is optioneel, tenzij het account er een afdwingt — zie [Een redencode verplicht stellen](#een-redencode-verplicht-stellen).
+
+## Een ontvangst shorten
+
+<Steps>
+  <Step title="Open het ontvangstengrid">
+    Klik in het linkermenu op **Goederenontvangst** en vervolgens op **Ontvangstbewijzen**.
+  </Step>
+  <Step title="Selecteer de ontvangsten">
+    Vink het selectievakje aan naast elke ontvangst die u wilt shorten. U kunt er meerdere tegelijk selecteren. Elke geselecteerde ontvangst moet de status **Deel** hebben.
+  </Step>
+  <Step title="Klik op Short Receipt Lines">
+    Klik boven het grid op **Short Receipt Lines**. De knop blijft uitgeschakeld totdat u ten minste één ontvangst heeft geselecteerd.
+
+    Als een geselecteerde ontvangst niet de status **Deel** heeft, krijgt u een waarschuwing dat ontvangsten alleen kunnen worden geshort als ze de status PART hebben. Haal die ontvangsten uit uw selectie en probeer het opnieuw.
+  </Step>
+  <Step title="Controleer de ontvangsten en voer een reden in">
+    Er opent een zijbalk met de ID en referentie van elke ontvangst die u heeft geselecteerd. Controleer of dit de ontvangsten zijn die u wilt shorten.
+
+    - **Redencode** — selecteer een redencode van het type **Short Receipt Lines**.
+    - **Please enter a description:** — leg uit waarom de ontvangst wordt geshort. Dit is altijd verplicht.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Opslaan**. De ontvangsten worden op de achtergrond geshort en een melding bevestigt elke ontvangst zodra deze is verwerkt — bijvoorbeeld *Receipt 1234 shorted successfully*. Het grid wordt vernieuwd met de nieuwe status.
+  </Step>
+</Steps>
+
+<Warning>Shorten annuleert alle openstaande ontvangsttaken op de ontvangst en kan niet ongedaan worden gemaakt. Als u de rest van de levering nog verwacht, short de ontvangst dan niet.</Warning>
+
+## Wat er met de ontvangst gebeurt
+
+Wanneer een ontvangst wordt geshort:
+
+- **Openstaande ontvangsttaken worden geannuleerd.** Voorraad die al is ontvangen, wordt niet beïnvloed.
+- **De ontvangst gaat naar Voltooid** zodra alle wegzettaken zijn afgerond. Als ontvangen voorraad nog moet worden weggezet, blijft de ontvangst op **Deel** staan tot de laatste wegzettaak is voltooid, en wordt daarna automatisch voltooid. Shorten slaat nooit wegzetwerk over.
+- **De Receipt is Completed-automatisering wordt uitgevoerd**, net als bij een volledig ontvangen ontvangst. Zie [E-mailautomatiseringen](/knowledgebase/nl/integrations/email-automations).
+- **De oorspronkelijke ontvangstregels blijven op de ontvangst staan**, zodat het ontvangstoverzicht nog steeds laat zien wat werd verwacht naast wat is ontvangen.
+- **De wijziging wordt vastgelegd in de geschiedenis van de ontvangst.** Klik op de ontvangst op **Geschiedenis bekijken** om de statuswijziging, de redencode en de **Beschrijving Korte Ontvangst** te zien.
+
+## Redencodes voor het shorten van ontvangsten
+
+Shorten gebruikt een eigen redentype, **Short Receipt Lines**. Redencodes van een ander type — ook **Korte orderregels** — worden niet aangeboden.
+
+<Steps>
+  <Step title="Maak de redencode aan">
+    Ga naar **Redencodes** en klik op **Nieuw**. Stel het **Redentype** in op **Short Receipt Lines** en zorg dat de code **Actief** is.
+  </Step>
+  <Step title="Maak de code beschikbaar voor de juiste accounts">
+    Schakel **Generiek voor alle accounts** in om de code overal te gebruiken, of laat dit uit en wijs de code toe aan specifieke accounts. Zie [Account reason codes](/knowledgebase/nl/accounts/reason-codes).
+  </Step>
+</Steps>
+
+<Info>Wanneer alle geselecteerde ontvangsten bij één account horen, toont de zijbalk de toegewezen codes van dat account en de generieke codes. Als uw selectie meerdere accounts omvat, worden alleen generieke codes getoond.</Info>
+
+## Een redencode verplicht stellen
+
+U kunt per account een redencode verplicht stellen voor het shorten van ontvangsten.
+
+<Steps>
+  <Step title="Open het account">
+    Ga naar **Accounts** en open het account dat u wilt instellen.
+  </Step>
+  <Step title="Schakel de instelling in">
+    Schakel in het paneel **Redencodes afdwingen** de optie **Enforce Reason Code For Shorting Receipt Lines** in en sla op.
+  </Step>
+</Steps>
+
+Zodra dit aan staat, kan een ontvangst voor dat account niet zonder redencode worden geshort. Als u ontvangsten van meerdere accounts tegelijk short en een daarvan dwingt een redencode af, dan is de redencode verplicht voor de hele selectie.
+
+<AccordionGroup>
+  <Accordion title="Wat als er niets van de levering gaat aankomen?">
+    Shorten is bedoeld voor ontvangsten die deels zijn ontvangen. Als er niets van de ontvangst gaat aankomen, [annuleer de ontvangst](/knowledgebase/nl/inbound/cancel-a-receipt) dan.
+  </Accordion>
+  <Accordion title="Waarom is een ontvangst niet geshort?">
+    Als de redencode ontbreekt bij een account dat er een afdwingt, of als de redencode niet is toegewezen aan het account van een geselecteerde ontvangst, verschijnt er een foutmelding wanneer u op **Opslaan** klikt en wordt geen van de geselecteerde ontvangsten geshort. Corrigeer de redencode en sla opnieuw op.
+
+    Zodra het verzoek is geaccepteerd, wordt elke ontvangst afzonderlijk verwerkt. Een ontvangst zonder resterende regels om te shorten, of die niet meer de status **Deel** heeft, wordt in de melding als niet geshort gemeld; de andere ontvangsten worden nog steeds geshort.
+  </Accordion>
+  <Accordion title="Kan ik in plaats daarvan één ontvangsttaak annuleren?">
+    Ja. Om één verwachte regel te verwijderen zonder de hele ontvangst af te sluiten, [annuleert u de ontvangsttaak](/knowledgebase/nl/inbound/cancel-receive-tasks).
+  </Accordion>
+</AccordionGroup>
