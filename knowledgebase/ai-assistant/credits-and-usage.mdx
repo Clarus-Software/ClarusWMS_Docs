@@ -1,11 +1,15 @@
 ---
 title: "AI Assistant credits & usage"
-description: "How AI Assistant usage is measured in credits, the monthly allowance included with your contract, what happens when it runs out, and what affects how quickly credits are used."
+description: "How AI Assistant credits work, which model to choose for different tasks, the monthly allowance included with your contract, and what happens when it runs out."
 sidebarTitle: "Credits & usage"
 needs_review: true
 ---
 
-Use of the AI Assistant is measured in **credits**. This page explains where your credits come from, what happens when they run out, and what affects how quickly they're used — so you can plan usage across your team.
+Use of the AI Assistant is measured in **credits**. This page explains how credits work, which model to pick for a task, where your credits come from and what happens when they run out — so you can plan usage across your team.
+
+<Info>
+  **In short:** a credit covers the cost of running the AI Assistant and the model's work on your request. More capable models cost more per unit of work, but they often need less work to reach a good answer. Start with a more capable model to get a task working well, then — if you'll repeat it — try a lighter model and keep it there if the results hold up.
+</Info>
 
 ## Your credit allowance
 
@@ -25,11 +29,45 @@ If your subdomain uses up its monthly allowance, the assistant **pauses new requ
   The check happens **before** any request is sent to a model, so you can't accidentally run over your allowance — the assistant simply stops until there are credits available again.
 </Note>
 
+## What a credit covers
+
+Each credit covers two things: the cost of running the AI Assistant platform, and the work the model does on your request — reading in your question and the data it needs, and writing the answer back. You don't need to think about the detail behind that; the number of credits a request uses already accounts for it.
+
+## Choosing a model
+
+The model picker offers a lighter model, an everyday default and a most capable model. Each option shows a **cost indicator** — more 💰 means a higher cost per unit of work.
+
+| Model | Best for |
+| --- | --- |
+| **Claude Haiku** — the lightest | Simple, routine questions, and tasks you've already refined with a clear, well-written prompt |
+| **Claude Sonnet** — the default | Everyday use, with a good balance of capability and cost |
+| **Claude Opus** — the most capable | Complex analysis, open-ended questions, and working out a new task for the first time |
+
+As newer, better models are released, Clarus updates the options in the picker, so names and version numbers will change over time. The guidance here still applies: choose by how capable a model is, not by its name.
+
+A more capable model costs more for the same amount of work, but it's also better at getting to the answer — it often needs fewer steps and less back-and-forth. So a more capable model **doesn't always use more credits** for a request, especially a complex one.
+
+For something simple, or something you've done a few times and prompted well, the lightest model will generally do the job well and at the lowest cost.
+
+### A practical approach
+
+<Steps>
+  <Step title="Start high">
+    Use a more capable model to get the task working well. Refine your prompt until the answer is consistently what you need.
+  </Step>
+  <Step title="Step down">
+    If it's something you'll run repeatedly — a regular question or an automation — switch to a lighter model with the same prompt and check the results.
+  </Step>
+  <Step title="Keep the lightest model that works">
+    If the answers still hold up, stay there. If quality drops, move back up. Expect a little trial and error.
+  </Step>
+</Steps>
+
 ## What uses credits
 
-Credits reflect how much work each request involves — specifically the amount of text the assistant has to read in and generate back. The main factors:
+Beyond the model you choose, the main factors are:
 
-- **Which model you choose** — this is the biggest lever. More capable models (such as Claude Opus) use considerably more per request than lighter, faster ones (such as Claude Haiku). The model picker shows a **cost indicator** for each option so you can choose with that in mind.
+- **Which model you choose** — see [Choosing a model](#choosing-a-model).
 - **How much data a question needs** — questions that make the assistant retrieve and read a lot of records use more than a quick, narrow lookup.
 - **The length and complexity of a conversation** — longer threads carry more context, so a long back-and-forth uses more than a single focused question.
 - **How much you use it** — the total number of conversations and actions across your team.
@@ -41,6 +79,6 @@ Credits reflect how much work each request involves — specifically the amount 
 
 ## Getting the most from your allowance
 
-- **Match the model to the task** — use a lighter model (such as Claude Haiku) for routine, everyday questions, and reserve the most capable model for genuinely complex analysis. See [Overview](/knowledgebase/ai-assistant/overview) for the options.
+- **Match the model to the task** — use the lightest model for routine or well-prompted tasks, and the most capable model for genuinely complex work or for getting a new task right. See [Choosing a model](#choosing-a-model).
 - **Ask focused questions** rather than open-ended ones that pull in more data than you need.
 - **Scope automations** to what they actually need, so scheduled or high-volume runs don't consume more than intended. See [Access & controls](/knowledgebase/ai-assistant/access-and-controls).
