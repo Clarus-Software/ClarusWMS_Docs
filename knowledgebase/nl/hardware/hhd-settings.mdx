@@ -1,0 +1,78 @@
+---
+title: "HHD Settings"
+description: "Leer wat HHD Settings zijn, hoe handheld-flows ze gebruiken en hoe je ze aanmaakt, toewijst en beheert."
+---
+
+## Overzicht
+
+Met **HHD Settings** (HHD-instellingen) schakel je optioneel gedrag in je Handheld Device (HHD)-flows in of uit, zonder de flow zelf opnieuw op te bouwen.
+
+Elke instelling is een benoemde aan/uit-schakelaar met een korte **code**, bijvoorbeeld `receipt_input_batch`. Een handheld-flow kan controleren of een instelling aanstaat en op basis daarvan een scherm tonen of overslaan. Zo kunnen twee accounts dezelfde HHD-implementatie gebruiken en toch verschillende schermen zien, bijvoorbeeld één account dat bij ontvangst om een batch wordt gevraagd en een ander account niet.
+
+Elke instelling heeft vier eigenschappen:
+
+| Eigenschap | Wat het doet |
+|---|---|
+| **Code** | De unieke identifier die een flow opzoekt. Gebruik kleine letters en cijfers, met woorden gescheiden door underscores, bijvoorbeeld `show_all_accounts`. |
+| **Omschrijving** | Een korte toelichting waarvoor de instelling dient. |
+| **Actief?** | Zet de instelling aan of uit. Een inactieve instelling wordt nooit toegepast. |
+| **Globaal** | Indien aan, geldt de instelling voor alle accounts. Indien uit, geldt de instelling alleen voor de accounts die je eraan toewijst. |
+
+## Gebruik
+
+Een instelling wordt toegepast wanneer aan al het volgende is voldaan:
+
+- Een HHD-implementatie is zo ingesteld dat deze de instelling opzoekt.
+- De instelling is **Actief**.
+- De instelling is **Globaal**, of het gebruikte account is eraan toegewezen.
+
+Om een instelling in een flow te gebruiken, voeg je het component **HHD-instellingen ophalen** toe aan je implementatie. Dit zoekt een of meer instellingen op code op en geeft voor elke instelling een waar/onwaar-waarde. Die waarden gebruik je in condities om te bepalen welke schermen gebruikers zien. Zie [Condities toevoegen aan HHD-implementaties](/knowledgebase/nl/hardware/hhd-conditions) voor uitleg over condities.
+
+<Info>
+HHD-flows worden per klant geconfigureerd. Het aanmaken van een instelling maakt het gedrag beschikbaar om te configureren. Er verandert niets op een apparaat totdat een flow is ingesteld om de instelling te gebruiken.
+</Info>
+
+### Voorgestelde instellingen
+
+Bij het aanmaken van een nieuwe instelling toont de lijst **Voorgestelde instellingen** kant-en-klare instellingen voor ontvangst:
+
+| Code | Wat het regelt |
+|---|---|
+| `receipt_input_batch` | Toont het batch-invoerscherm bij het toevoegen van ontvangstregels en slaat de batch op de regel op. |
+| `receipt_input_stock_description` | Toont het invoerscherm voor de voorraadomschrijving en slaat de omschrijving op de regel op. |
+| `receipt_input_sell_by_date` | Toont het invoerscherm voor de houdbaarheidsdatum en slaat de datum op de regel op. |
+| `receipt_match_batch` | Koppelt ontvangen voorraad aan de pre-receipt-regel met dezelfde batch. |
+| `receipt_match_sell_by_date` | Koppelt ontvangen voorraad aan de pre-receipt-regel met dezelfde houdbaarheidsdatum. |
+| `receipt_add_sundry_charges` | Toont de optie om diverse kosten toe te voegen aan de kostenmand van het account na het ontvangen van ontvangstregels. Deze wordt aangemaakt als globale instelling. |
+
+## Instellen
+
+<Steps>
+  <Step title="Open HHD-instellingen">
+    Open in het hoofdmenu **Hand held devices** en selecteer **HHD-instellingen**. De lijst toont alle instellingen met code, omschrijving en of ze actief en globaal zijn.
+  </Step>
+  <Step title="Start een nieuwe instelling">
+    Klik op **Nieuw**.
+  </Step>
+  <Step title="Kies een voorgestelde instelling of maak je eigen instelling">
+    - **Voorgestelde instelling:** klik in de lijst **Voorgestelde instellingen** op toevoegen naast de gewenste instelling. Deze wordt direct actief aangemaakt en je gaat naar de bijbehorende pagina.
+    - **Eigen instelling:** vul in het paneel **Algemeen** een **Code** en **Omschrijving** in, kies of de instelling **Actief?** en **Globaal** is en klik op **Opslaan**.
+  </Step>
+  <Step title="Wijs accounts toe (alleen niet-globale instellingen)">
+    Is de instelling niet globaal, open dan het paneel **Accounts** op de pagina van de instelling. Klik op **Account toewijzen**, kies een account en herhaal dit voor elk account dat de instelling moet gebruiken. Gebruik **Toewijzing van account ongedaan maken** op de rij om een account te verwijderen.
+
+    Het paneel **Accounts** is verborgen bij globale instellingen, omdat die al voor iedereen gelden.
+  </Step>
+  <Step title="Gebruik de instelling in een flow">
+    Open je HHD-implementatie en voeg het component **HHD-instellingen ophalen** toe. Voer de code van de instelling in en gebruik de teruggegeven waar/onwaar-waarde in een conditie op het scherm dat je wilt aansturen.
+  </Step>
+</Steps>
+
+### Een instelling wijzigen of verwijderen
+
+- Om een instelling te pauzeren zonder haar te verliezen, open je de instelling, zet je **Actief?** uit en sla je op.
+- Om een instelling te verwijderen, selecteer je deze in de lijst **HHD-instellingen** en klik je op **Verwijderen**.
+
+<Tip>
+Codes worden exact vergeleken, dus de code in je flow moet identiek zijn aan de code van de instelling.
+</Tip>

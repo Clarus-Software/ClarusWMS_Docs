@@ -1,0 +1,78 @@
+---
+title: "HHD Settings"
+description: "Learn what HHD Settings are, how handheld device flows use them, and how to create, assign and manage them."
+---
+
+## Overview
+
+**HHD Settings** let you switch optional behaviour on or off for your Handheld Device (HHD) flows without rebuilding the flow itself.
+
+Each setting is a named on/off switch identified by a short **code**, for example `receipt_input_batch`. A handheld flow can check whether a setting is switched on and then show or skip a screen accordingly. This means two accounts can use the same HHD implementation but see different screens, such as one account being asked for a batch when receiving and another not.
+
+Each setting has four properties:
+
+| Property | What it does |
+|---|---|
+| **Code** | The unique identifier a flow looks up. Use lowercase letters and numbers, with words separated by underscores, for example `show_all_accounts`. |
+| **Description** | A plain-language note about what the setting is for. |
+| **Active?** | Switches the setting on or off. An inactive setting is never applied. |
+| **Global** | When on, the setting applies to every account. When off, it applies only to the accounts you assign to it. |
+
+## Usage
+
+A setting is applied when all of the following are true:
+
+- An HHD implementation has been set up to look the setting up.
+- The setting is **Active**.
+- The setting is **Global**, or the account being used has been assigned to it.
+
+To use a setting in a flow, add the **Retrieve HHD Settings** component to your implementation. It looks up one or more settings by code and returns a true or false value for each one. You can then use those values in conditions to decide which screens users see. See [Adding conditions to HHD implementations](/knowledgebase/hardware/hhd-conditions) for how conditions work.
+
+<Info>
+HHD flows are configured per customer. Creating a setting makes the behaviour available to configure. It does not change anything on a device until a flow is set up to use it.
+</Info>
+
+### Suggested settings
+
+When you create a new setting, a **Suggested Settings** list offers ready-made settings for receiving:
+
+| Code | What it controls |
+|---|---|
+| `receipt_input_batch` | Shows the batch entry screen when adding receipt lines and stores the batch on the line. |
+| `receipt_input_stock_description` | Shows the stock description entry screen and stores the description on the line. |
+| `receipt_input_sell_by_date` | Shows the sell-by date entry screen and stores the date on the line. |
+| `receipt_match_batch` | Matches received stock to the pre-receipt line with the same batch. |
+| `receipt_match_sell_by_date` | Matches received stock to the pre-receipt line with the same sell-by date. |
+| `receipt_add_sundry_charges` | Shows the option to add sundry charges to the account's charge basket after receiving receipt lines. This one is created as a global setting. |
+
+## Setup steps
+
+<Steps>
+  <Step title="Open HHD Settings">
+    In the main menu, open **Handheld Devices** and select **HHD Settings**. The list shows every setting with its code, description, and whether it is active and global.
+  </Step>
+  <Step title="Start a new setting">
+    Click **New**.
+  </Step>
+  <Step title="Choose a suggested setting or create your own">
+    - **Suggested setting:** in the **Suggested Settings** list, click add next to the setting you want. It is created straight away as active, and you are taken to its page.
+    - **Your own setting:** in the **General** panel, enter a **Code** and **Description**, choose whether it is **Active?** and **Global**, then click **Save**.
+  </Step>
+  <Step title="Assign accounts (non-global settings only)">
+    If the setting is not global, open the **Accounts** panel on the setting's page. Click **Assign Account**, choose an account, and repeat for each account that should use the setting. To remove an account, use **Unassign Account** on its row.
+
+    The **Accounts** panel is hidden for global settings, because they already apply to everyone.
+  </Step>
+  <Step title="Use the setting in a flow">
+    Open your HHD implementation and add the **Retrieve HHD Settings** component. Enter the setting's code, then use the returned true or false value in a condition on the screen you want to control.
+  </Step>
+</Steps>
+
+### Changing or removing a setting
+
+- To pause a setting without losing it, open it, switch **Active?** off, and save.
+- To remove a setting, select it in the **HHD Settings** list and click **Delete**.
+
+<Tip>
+Codes are matched exactly, so the code in your flow must be identical to the code on the setting.
+</Tip>

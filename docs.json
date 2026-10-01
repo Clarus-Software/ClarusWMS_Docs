@@ -357,6 +357,7 @@
                 "pages": [
                   "knowledgebase/hardware/hhd-conditions",
                   "knowledgebase/hardware/hhd-previews-duplication",
+                  "knowledgebase/hardware/hhd-settings",
                   "knowledgebase/hardware/image-capture"
                 ],
                 "public": true
@@ -1026,6 +1027,7 @@
                 "pages": [
                   "knowledgebase/nl/hardware/hhd-conditions",
                   "knowledgebase/nl/hardware/hhd-previews-duplication",
+                  "knowledgebase/nl/hardware/hhd-settings",
                   "knowledgebase/nl/hardware/image-capture"
                 ],
                 "public": true
