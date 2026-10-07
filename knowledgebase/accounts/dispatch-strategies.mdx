@@ -125,7 +125,7 @@ Change the shipment strategy afterwards if you want a different combination.
 The **Options** section of the **Fulfilment** panel also holds:
 
 - **Pack Strategy** — whether orders are packed, and whether by line or by unit.
-- **Dispatch By Output Quantity** — controls how many dispatch tasks are created for assembled (Assemble on Pick) kits. See [below](#dispatch-by-output-quantity).
+- **Dispatch By Output Quantity** — controls how many dispatch tasks are created for assembled (Assemble on Pick) kits.
 - **Dispatch Note Footer Notes** — custom text added to the bottom of every generated dispatch note.
 
 <AccordionGroup>
@@ -139,14 +139,3 @@ The **Options** section of the **Fulfilment** panel also holds:
     Yes. Uncompleting a dispatch task works the same way whether it was completed automatically or manually. Automations also trigger as normal.
   </Accordion>
 </AccordionGroup>
-
-## Dispatch by output quantity
-
-This setting controls how dispatch tasks are created for products made from a Bill of Materials (BOM) when **Assemble on Pick** is enabled. It determines whether the system creates one dispatch task per pick task, or one per individual component.
-
-| Setting | Behaviour | Best for |
-|---|---|---|
-| **Off** (recommended) | One dispatch task per pick task | Large dispatches where detailed component tracking is not needed |
-| **On** | One dispatch task per individual component for each assembled kit | Detailed tracking and auditing, especially when components are shipped separately |
-
-<Info>This setting does not affect pick tasks — it only changes the number of dispatch tasks created.</Info>

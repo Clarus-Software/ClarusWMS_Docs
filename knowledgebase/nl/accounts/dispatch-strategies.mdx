@@ -125,7 +125,7 @@ Wijzig de zendingsstrategie daarna als u een andere combinatie wilt.
 De sectie **Opties** van het paneel **Afhandeling** bevat ook:
 
 - **Verpakkingsstrategie** — of orders worden verpakt, en zo ja per regel of per eenheid.
-- **Verzenden op basis van uitvoeraantal** — bepaalt hoeveel verzendtaken worden gemaakt voor geassembleerde (Assemble on Pick) kits. Zie [hieronder](#verzenden-op-basis-van-uitvoeraantal).
+- **Verzenden op basis van uitvoeraantal** — bepaalt hoeveel verzendtaken worden gemaakt voor geassembleerde (Assemble on Pick) kits.
 - **Verzendbon voettekst** — eigen tekst onderaan elke gegenereerde verzendbon.
 
 <AccordionGroup>
@@ -139,14 +139,3 @@ De sectie **Opties** van het paneel **Afhandeling** bevat ook:
     Ja. Het ongedaan maken van een verzendtaak werkt hetzelfde, of de taak nu automatisch of handmatig is voltooid. Automatiseringen worden ook gewoon geactiveerd.
   </Accordion>
 </AccordionGroup>
-
-## Verzenden op basis van uitvoeraantal
-
-Deze instelling bepaalt hoe verzendtaken worden gemaakt voor producten die zijn gemaakt van een Bill of Materials (BOM) wanneer **Assemble on Pick** is ingeschakeld. Het bepaalt of het systeem één verzendtaak per picktaak maakt, of één per afzonderlijk onderdeel.
-
-| Instelling | Gedrag | Geschikt voor |
-|---|---|---|
-| **Off** (aanbevolen) | Eén verzendtaak per picktaak | Grote verzendingen waarbij gedetailleerde tracking per onderdeel niet nodig is |
-| **On** | Eén verzendtaak per afzonderlijk onderdeel voor elke geassembleerde kit | Gedetailleerde tracking en controle, vooral als onderdelen apart worden verzonden |
-
-<Info>Deze instelling wijzigt geen picktaken — alleen het aantal verzendtaken dat wordt gemaakt.</Info>
