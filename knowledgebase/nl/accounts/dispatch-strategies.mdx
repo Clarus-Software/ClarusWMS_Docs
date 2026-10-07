@@ -1,56 +1,146 @@
 ---
-title: "Hoe stel ik verzendstrategieën voor accounts in?"
-description: "In deze handleiding wordt uitgelegd hoe u de verzendstrategie voor elk account in Clarus WMS eenvoudig kunt wijzigen. Door deze duidelijke stappen te "
-sidebarTitle: "Hoe stel ik verzendstrategieën..."
+title: "Verzend- en zendingsstrategieën"
+description: "Stel verzend- en zendingsstrategieën in op accounts en verkooporders om te bepalen of zendingen en verzendtaken automatisch of handmatig worden afgehandeld."
+sidebarTitle: "Verzendstrategieën"
 ---
 
-## Hoe de verzendstrategie voor een account te wijzigen
+De **verzendstrategie** bepaalt hoe voorraad het magazijn verlaat na het picken. Als u verzendt via een vervoerderszending, bepaalt de **zendingsstrategie** wie de zending bij de vervoerder indient. Samen laten ze u handmatige stappen schrappen, zoals het één voor één voltooien van verzendtaken na elke zending.
 
-In deze handleiding wordt uitgelegd hoe u de verzendstrategie voor elk account in Clarus WMS eenvoudig kunt wijzigen. Door deze duidelijke stappen te volgen, kunt u de verzendinstellingen aanpassen om de operationele efficiëntie voor elk account te verbeteren.
+U stelt beide in als standaard op het account, en u kunt ze per verkooporder en per orderregel overschrijven.
 
-## Stapsgewijze handleiding
+## De strategieën instellen op een account
 
-### 1. Open het account
+<Steps>
+  <Step title="Open het account">
+    Open in het scherm **Accounts** het account dat u wilt bijwerken.
+  </Step>
+  <Step title="Klap het paneel Afhandeling uit">
+    Scroll naar het paneel **Afhandeling** en klap het uit. Het heeft een sectie **Standaard** en een sectie **Bak**, zodat u verschillende strategieën kunt instellen voor standaard picken en picken in bakken.
+  </Step>
+  <Step title="Kies een Verzendstrategie">
+    Selecteer per picktype een **Verzendstrategie**. Zie de tabel **Verzendstrategieën** hieronder.
+  </Step>
+  <Step title="Kies een Zendingsstrategie">
+    Als u **Zending** of **Auto zending** hebt gekozen, selecteer dan een **Zendingsstrategie**: **Auto** of **Handmatig**. Het veld is uitgeschakeld bij alle andere verzendstrategieën. Zie de tabel **Zendingsstrategieën** hieronder.
+  </Step>
+  <Step title="Controleer de Afhandelingsflow en sla op">
+    De **Afhandelingsflow** onder de velden wordt bijgewerkt terwijl u kiest. Deze toont elke stap die de order doorloopt en of die automatisch of handmatig gebeurt. Controleer of dit klopt en klik op **Opslaan**.
+  </Step>
+</Steps>
 
-Van de **Rekeningen** Open het specifieke account dat u wilt bijwerken.
+Nieuwe verkooporders voor het account nemen deze strategieën over als standaard. Een wijziging op het account verandert bestaande verkooporders niet.
 
-### 2. Zoek het tabblad Verzending
+## Verzendstrategieën
 
-Ofwel gebruik **Ctrl + f** om te zoeken naar "Verzenden" of scroll naar beneden totdat u de **Verzending** Tabblad.
+| Verzendstrategie | Wat er gebeurt |
+|---|---|
+| **Auto** | Verzendtaken worden automatisch voltooid zodra het picken is afgerond, of zodra het verpakken is afgerond als de order wordt verpakt. |
+| **Lading** | Voorraad wordt gegroepeerd in een lading en wordt verzonden wanneer de lading wordt verzonden. Zie [Ladingen maken en verzenden](/knowledgebase/nl/outbound/dispatching-loads). |
+| **Handmatig** | Voor elke voltooide picktaak wordt een verzendtaak gemaakt, die elk handmatig worden voltooid. |
+| **Zending** | Voorraad wordt verpakt en aan een vervoerderszending toegevoegd. Verzendtaken worden handmatig voltooid zodra de zending is vertrokken. |
+| **Auto zending** | Voorraad wordt verpakt en aan een vervoerderszending toegevoegd. Verzendtaken worden automatisch voltooid zodra de zending is aangemaakt. |
 
-### 3. Kies een verzendstrategie
+<Info>**Zending** en **Auto zending** hebben een **Verpakkingsstrategie** nodig (**Per regel verpakken** of **Per eenheid verpakken**), omdat het verpakken de pakketten van de zending opbouwt. Zie [Voorwaarden voor zendingen](/knowledgebase/nl/outbound/pre-requisites-for-shipments).</Info>
 
-Binnen de **Verzending** Tab, vindt u opties voor beide **Standaard verzendstrategie** en **Strategie voor de verzending** . Selecteer een van de volgende beschikbare strategieën:
-Auto verzending bij voltooiing van alle pick taken
-Hiermee wordt de bestelling automatisch verzonden zodra alle picktaken op de picklijst zijn voltooid. Dit betekent dat er geen handmatige actie nodig is.
-Laden
-Hierdoor kan voorraad worden gegroepeerd in een lading. Zodra de belasting is voltooid, kan deze worden gesloten en verzonden. Dit is handig voor het hanteren van items in bulk.
-Handmatige verzending
-Hiermee wordt een verzendtaak voor elke voltooide picktaak. Deze taken moeten vervolgens handmatig worden verzonden.
-Verzending
-Vergelijkbaar met de **Laden** Hiermee kunt u voorraad toewijzen aan een zending voordat u verzendt. Het is ideaal voor het combineren van meerdere bestellingen.
+## Zendingsstrategieën
 
-### 4. Overweeg extra configuratieopties
+De **Zendingsstrategie** geldt alleen voor de verzendstrategieën **Zending** en **Auto zending**. Deze bepaalt wie de zending na het verpakken bij de vervoerder indient.
 
--  **Verzending op uitvoerhoeveelheid** : bepaalt hoeveel verzendtaken worden gemaakt voor geassembleerde (Assemble on Pick) kits (zie hieronder).
--  **Voettekstnotities** : U kunt aangepaste notities toevoegen onderaan elke gegenereerde verzendnota. Dit geeft u flexibiliteit voor extra informatie of instructies.
+| Zendingsstrategie | Wat er gebeurt |
+|---|---|
+| **Auto** | De zending wordt automatisch bij de vervoerder ingediend zodra al haar pakketten zijn verpakt. |
+| **Handmatig** | U dient de zending zelf in, bijvoorbeeld door op **Pakket sluiten en labels afdrukken** te klikken aan de [verpakkingsbalie](/knowledgebase/nl/outbound/packing-desk). |
 
-## FAQs
+## Hoe de twee samenwerken
 
-### Wat is het doel van het veranderen van de verzendstrategie?
+De verzendstrategie bepaalt de verzendtaken; de zendingsstrategie bepaalt de zending. Samen geven ze vier mogelijkheden:
 
-Door de verzendstrategie te wijzigen, kunt u de manier waarop bestellingen worden verzonden voor specifieke accounts, waardoor het proces wordt geoptimaliseerd om aan hun unieke operationele behoeften te voldoen.
+| Verzendstrategie | Zendingsstrategie | Zending ingediend | Verzendtaken voltooid |
+|---|---|---|---|
+| **Zending** | **Handmatig** | Handmatig | Handmatig |
+| **Zending** | **Auto** | Automatisch | Handmatig |
+| **Auto zending** | **Handmatig** | Handmatig | Automatisch |
+| **Auto zending** | **Auto** | Automatisch | Automatisch |
 
-### Kan ik aangepaste notities toevoegen aan het verzenden van notities?
+De **Afhandelingsflow** toont de gekozen combinatie als genummerde stappen, met een badge **Auto** of **Handmatig** bij de stappen **Zending** en **Verzending**:
 
-Ja, u kunt aangepaste voettekstnotities toevoegen aan elke gegenereerde verzendnota, met aanvullende informatie of instructies naar wens.
+<Tabs>
+  <Tab title="Zending + Handmatig">
+    U dient de zending in en voltooit de verzendtaken zelf.
 
-### Wat is het verschil tussen laad- en verzendstrategieën?
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-shipment-manual.png" alt="Afhandelingsflow voor de verzendstrategie Zending met de zendingsstrategie Handmatig: de stappen Zending en Verzending zijn beide Handmatig" />
+    </Frame>
+  </Tab>
+  <Tab title="Zending + Auto">
+    De zending wordt ingediend zodra het verpakken klaar is. De verzendtaken voltooit u nog steeds zelf.
 
-Beide strategieën maken een groepering van aandelen mogelijk. Het laden van groepen voorraad in een "last" voor bulk handling, terwijl verzending voorraad toewijst aan een "verzending" die ideaal is voor het consolideren van meerdere bestellingen voordat u wordt verzonden.
-[CALLOUT:WARNING] **Herinnering:** Het aanpassen van deze instellingen kan het verzendproces voor elk account in Clarus WMS aanzienlijk stroomlijnen.
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-shipment-auto.png" alt="Afhandelingsflow voor de verzendstrategie Zending met de zendingsstrategie Auto: de stap Zending is Auto en de stap Verzending Handmatig" />
+    </Frame>
+  </Tab>
+  <Tab title="Auto zending + Handmatig">
+    U dient de zending in, bijvoorbeeld vanaf de verpakkingsbalie. De verzendtaken worden vanzelf voltooid zodra de zending is aangemaakt.
 
-## Verzending op uitvoerhoeveelheid
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-auto-shipment-manual.png" alt="Afhandelingsflow voor de verzendstrategie Auto zending met de zendingsstrategie Handmatig: de stap Zending is Handmatig en de stap Verzending Auto" />
+    </Frame>
+  </Tab>
+  <Tab title="Auto zending + Auto">
+    Na het verpakken hoeft u niets meer te doen: de zending wordt ingediend en de verzendtaken worden vanzelf voltooid.
+
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-auto-shipment-auto.png" alt="Afhandelingsflow voor de verzendstrategie Auto zending met de zendingsstrategie Auto: de stappen Zending en Verzending zijn beide Auto" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+### Een combinatie kiezen
+
+- **U verpakt aan de verpakkingsbalie** — gebruik **Auto zending** met **Handmatig**. Een klik op **Pakket sluiten en labels afdrukken** dient de zending in, en de verzendtaken worden vanzelf voltooid zodra de vervoerder de zending aanmaakt. U hoeft niet meer voor elke order op **Alle verzendtaken voltooien** te klikken.
+- **Uw orders hebben meestal één regel** — gebruik **Auto zending** met **Auto** om elke handmatige stap na het verpakken te schrappen.
+- **U wilt orders controleren voordat ze vertrekken** — gebruik **Zending** met **Handmatig**, zodat u zowel de zending als de verzending zelf in de hand hebt.
+
+<Warning>Met de zendingsstrategie **Auto** wordt de zending ingediend zodra alles erop is verpakt. Als een order meerdere regels heeft die in hetzelfde pakket moeten, gebruik dan **Handmatig**, zodat de zending niet wordt ingediend voordat u ze allemaal hebt verpakt.</Warning>
+
+<Info>Verzendtaken worden automatisch voltooid wanneer de zending de status **Aangemaakt** bereikt, dat is wanneer de vervoerder de zending bevestigt. Zolang een zending nog op **Verzenden** staat, blijven de verzendtaken open.</Info>
+
+## De strategieën instellen op een verkooporder
+
+Een verkooporder neemt bij het aanmaken de strategieën van het account over. Om ze te wijzigen opent u de verkooporder en gebruikt u de sectie **Afhandeling**, met dezelfde velden **Verzendstrategie**, **Zendingsstrategie** en **Verpakkingsstrategie** naast de **Standaard afhandelingsflow**.
+
+De waarden op de verkooporder zijn de standaard voor nieuwe orderregels. Elke orderregel behoudt zijn eigen verzend- en zendingsstrategie, die u in het raster met orderregels kunt wijzigen. Als een regel afwijkt van de order, geldt de strategie van de regel.
+
+Als u de **Verzendstrategie** wijzigt, wordt de **Zendingsstrategie** daarop aangepast:
+
+- **Zending** zet de zendingsstrategie op **Handmatig**.
+- **Auto zending** zet deze op **Auto**.
+
+Wijzig de zendingsstrategie daarna als u een andere combinatie wilt.
+
+<Warning>Alle voorraad op één zending moet dezelfde zendingsstrategie hebben. Als u voorraad toevoegt van een regel met een andere zendingsstrategie, ziet u de foutmelding *"All stocks in the same shipment must have the same shipment strategy."* Verpak die regels in een aparte zending, of stem eerst hun zendingsstrategieën op elkaar af.</Warning>
+
+## Extra opties
+
+De sectie **Opties** van het paneel **Afhandeling** bevat ook:
+
+- **Verpakkingsstrategie** — of orders worden verpakt, en zo ja per regel of per eenheid.
+- **Verzenden op basis van uitvoeraantal** — bepaalt hoeveel verzendtaken worden gemaakt voor geassembleerde (Assemble on Pick) kits. Zie [hieronder](#verzenden-op-basis-van-uitvoeraantal).
+- **Verzendbon voettekst** — eigen tekst onderaan elke gegenereerde verzendbon.
+
+<AccordionGroup>
+  <Accordion title="Verandert mijn bestaande inrichting?">
+    Nee. Accounts en verkooporders die al **Zending** gebruiken, werken als **Zending** met **Handmatig**, en die met **Auto zending** werken als **Auto zending** met **Auto**. Zo werkten ze ook voordat de zendingsstrategie bestond.
+  </Accordion>
+  <Accordion title="Wat is het verschil tussen Lading en Zending?">
+    Beide groeperen voorraad voordat die vertrekt. **Lading** groepeert orders op een voertuig voor bulkafhandeling. **Zending** boekt de pakketten van één order bij een vervoerder, wat past bij pakketbezorging.
+  </Accordion>
+  <Accordion title="Kan ik een automatisch voltooide verzendtaak terugdraaien?">
+    Ja. Het ongedaan maken van een verzendtaak werkt hetzelfde, of de taak nu automatisch of handmatig is voltooid. Automatiseringen worden ook gewoon geactiveerd.
+  </Accordion>
+</AccordionGroup>
+
+## Verzenden op basis van uitvoeraantal
 
 Deze instelling bepaalt hoe verzendtaken worden gemaakt voor producten die zijn gemaakt van een Bill of Materials (BOM) wanneer **Assemble on Pick** is ingeschakeld. Het bepaalt of het systeem één verzendtaak per picktaak maakt, of één per afzonderlijk onderdeel.
 

@@ -1,52 +1,142 @@
 ---
-title: "Setting Dispatch Strategies for Accounts"
-description: "How to configure dispatch strategies per account, including auto dispatch, loading, manual dispatch, and shipment options."
+title: "Dispatch and Shipment Strategies"
+description: "Set dispatch and shipment strategies on accounts and sales orders to control whether shipments are submitted and dispatch tasks completed automatically or manually."
 sidebarTitle: "Dispatch Strategies"
 ---
 
-## Overview
+The **dispatch strategy** decides how stock leaves the warehouse after picking. If you dispatch through a carrier shipment, the **shipment strategy** decides who submits the shipment to the carrier. Together they let you remove manual steps, such as completing dispatch tasks one by one after every shipment.
 
-Each account can have its own dispatch strategy, controlling how orders are dispatched after picking is complete. You can also configure separate strategies for standard and tote dispatches.
+You set both as account defaults, and you can override them on each sales order and order line.
+
+## Set the strategies on an account
 
 <Steps>
   <Step title="Open the account">
     From the **Accounts** screen, open the account you want to update.
   </Step>
-  <Step title="Locate the Dispatch tab">
-    Use **CTRL + F** to search for "Dispatch" or scroll down to find the **Dispatch** tab.
+  <Step title="Expand the Fulfilment panel">
+    Scroll to the **Fulfilment** panel and expand it. It has a **Standard** section and a **Tote** section, so you can set different strategies for standard and tote picking.
   </Step>
-  <Step title="Choose a dispatch strategy">
-    Select from the following options for both **Standard Dispatch Strategy** and **Tote Dispatch Strategy**:
+  <Step title="Choose a Dispatch Strategy">
+    Select a **Dispatch Strategy** for each pick type. See [Dispatch strategies](#dispatch-strategies) below.
+  </Step>
+  <Step title="Choose a Shipment Strategy">
+    If you chose **Shipment** or **Auto Shipment**, select a **Shipment Strategy**: **Auto** or **Manual**. The field is disabled for every other dispatch strategy. See [Shipment strategies](#shipment-strategies) below.
+  </Step>
+  <Step title="Check the Fulfilment Flow and save">
+    The **Fulfilment Flow** below the fields updates as you choose, showing each step the order goes through and whether it happens automatically or manually. Check it matches what you expect, then click **Save**.
   </Step>
 </Steps>
 
-## Available strategies
+New sales orders for the account take these strategies as their defaults. Changing the account does not change sales orders that already exist.
 
-### Auto Dispatch on Completion of All Pick Tasks
-Automatically dispatches the order as soon as all picking tasks are finished. No manual action is needed.
+## Dispatch strategies
 
-### Loading
-Groups stock into a load. Once the load is complete, it can be closed and dispatched. Useful for bulk handling.
+| Dispatch Strategy | What happens |
+|---|---|
+| **Auto** | Dispatch tasks are completed automatically once picking finishes, or once packing finishes if the order is packed. |
+| **Load** | Stock is grouped into a load and is dispatched when the load is dispatched. See [Dispatching loads](/knowledgebase/outbound/dispatching-loads). |
+| **Manual** | A dispatch task is created for each completed pick task, and each one is completed manually. |
+| **Shipment** | Stock is packed and added to a carrier shipment. Dispatch tasks are completed manually once the shipment has gone. |
+| **Auto Shipment** | Stock is packed and added to a carrier shipment. Dispatch tasks are completed automatically once the shipment is created. |
 
-### Manual Dispatch
-Creates a dispatch task for every completed picking task. Each task must be dispatched manually.
+<Info>**Shipment** and **Auto Shipment** need a **Pack Strategy** (**Pack by Line** or **Pack by Unit**), because packing is what builds the shipment's packages. See [Prerequisites for shipments](/knowledgebase/outbound/pre-requisites-for-shipments).</Info>
 
-### Shipment
-Similar to Loading, but assigns stock to a shipment before dispatching. Ideal for combining several orders.
+## Shipment strategies
+
+The **Shipment Strategy** applies only to the **Shipment** and **Auto Shipment** dispatch strategies. It decides who submits the shipment to the carrier after packing.
+
+| Shipment Strategy | What happens |
+|---|---|
+| **Auto** | The shipment is submitted to the carrier automatically as soon as all of its packages are packed. |
+| **Manual** | You submit the shipment yourself, for example by clicking **Close Package and Print Labels** at the [packing desk](/knowledgebase/outbound/packing-desk). |
+
+## How the two work together
+
+The dispatch strategy controls the dispatch tasks; the shipment strategy controls the shipment. Combining them gives four options:
+
+| Dispatch Strategy | Shipment Strategy | Shipment submitted | Dispatch tasks completed |
+|---|---|---|---|
+| **Shipment** | **Manual** | Manually | Manually |
+| **Shipment** | **Auto** | Automatically | Manually |
+| **Auto Shipment** | **Manual** | Manually | Automatically |
+| **Auto Shipment** | **Auto** | Automatically | Automatically |
+
+The **Fulfilment Flow** shows the selected combination as numbered steps, with an **Auto** or **Manual** badge on the **Shipment** and **Dispatch** steps:
+
+<Tabs>
+  <Tab title="Shipment + Manual">
+    You submit the shipment and complete the dispatch tasks yourself.
+
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-shipment-manual.png" alt="Fulfilment Flow for the Shipment dispatch strategy with the Manual shipment strategy: the Shipment and Dispatch steps are both marked Manual" />
+    </Frame>
+  </Tab>
+  <Tab title="Shipment + Auto">
+    The shipment is submitted when packing finishes. You still complete the dispatch tasks yourself.
+
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-shipment-auto.png" alt="Fulfilment Flow for the Shipment dispatch strategy with the Auto shipment strategy: the Shipment step is marked Auto and the Dispatch step Manual" />
+    </Frame>
+  </Tab>
+  <Tab title="Auto Shipment + Manual">
+    You submit the shipment, for example from the packing desk. Dispatch tasks complete themselves once the shipment is created.
+
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-auto-shipment-manual.png" alt="Fulfilment Flow for the Auto Shipment dispatch strategy with the Manual shipment strategy: the Shipment step is marked Manual and the Dispatch step Auto" />
+    </Frame>
+  </Tab>
+  <Tab title="Auto Shipment + Auto">
+    Nothing is left to do after packing: the shipment is submitted and the dispatch tasks complete themselves.
+
+    <Frame>
+      <img src="/images/knowledgebase/dispatch-strategies-fulfilment-flow-auto-shipment-auto.png" alt="Fulfilment Flow for the Auto Shipment dispatch strategy with the Auto shipment strategy: the Shipment and Dispatch steps are both marked Auto" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+### Choosing a combination
+
+- **You pack at the packing desk** — use **Auto Shipment** with **Manual**. Clicking **Close Package and Print Labels** submits the shipment, and the dispatch tasks complete themselves once the carrier creates it. You no longer need to click **Complete All Dispatch Tasks** for every order.
+- **Your orders are mostly single-line** — use **Auto Shipment** with **Auto** to remove every manual step after packing.
+- **You want to check orders before they leave** — use **Shipment** with **Manual**, so you control both the shipment and the dispatch.
+
+<Warning>With the **Auto** shipment strategy, the shipment is submitted as soon as everything on it is packed. If an order has several lines that should travel in the same package, use **Manual** so the shipment is not submitted before you have packed them all.</Warning>
+
+<Info>Dispatch tasks complete automatically when the shipment reaches **Created**, which is when the carrier confirms it. While a shipment is still **Submitting**, its dispatch tasks stay open.</Info>
+
+## Set the strategies on a sales order
+
+A sales order takes its strategies from the account when it is created. To change them, open the sales order and use the **Fulfilment** section, which shows the same **Dispatch Strategy**, **Shipment Strategy** and **Pack Strategy** fields alongside the **Default Fulfilment Flow**.
+
+The sales order values are the defaults for new order lines. Each order line keeps its own dispatch and shipment strategy, which you can change in the order lines grid. Where a line differs from the order, the line's strategy is the one that applies.
+
+When you change the **Dispatch Strategy**, the **Shipment Strategy** resets to match:
+
+- **Shipment** sets the shipment strategy to **Manual**.
+- **Auto Shipment** sets it to **Auto**.
+
+Change the shipment strategy afterwards if you want a different combination.
+
+<Warning>All stock on one shipment must have the same shipment strategy. If you try to add stock from a line with a different shipment strategy, you see the error *"All stocks in the same shipment must have the same shipment strategy."* Pack those lines into a separate shipment, or align their shipment strategies first.</Warning>
 
 ## Additional options
 
-- **Dispatch by Output Quantity** -- controls how many dispatch tasks are created for assembled (Assemble on Pick) kits (see [below](#dispatch-by-output-quantity))
-- **Footer Notes** -- add custom notes to generated dispatch notes
+The **Options** section of the **Fulfilment** panel also holds:
 
-<Warning>Tailoring dispatch strategies can significantly streamline the dispatch process for each account.</Warning>
+- **Pack Strategy** — whether orders are packed, and whether by line or by unit.
+- **Dispatch By Output Quantity** — controls how many dispatch tasks are created for assembled (Assemble on Pick) kits. See [below](#dispatch-by-output-quantity).
+- **Dispatch Note Footer Notes** — custom text added to the bottom of every generated dispatch note.
 
 <AccordionGroup>
-  <Accordion title="What is the difference between Loading and Shipment?">
-    Both group stock together. **Loading** groups into a "load" for bulk handling, while **Shipment** assigns stock to a "shipment" that is ideal for consolidating multiple orders.
+  <Accordion title="Will my existing setup change?">
+    No. Accounts and sales orders that already use **Shipment** behave as **Shipment** with **Manual**, and those that use **Auto Shipment** behave as **Auto Shipment** with **Auto**, which is how they worked before the shipment strategy existed.
   </Accordion>
-  <Accordion title="Can I add custom notes to dispatch notes?">
-    Yes. Use the **Footer Notes** field to add custom text to any generated dispatch note.
+  <Accordion title="What is the difference between Load and Shipment?">
+    Both group stock before it leaves. **Load** groups orders onto a vehicle for bulk handling. **Shipment** books one order's packages with a carrier, which suits parcel deliveries.
+  </Accordion>
+  <Accordion title="Can I undo an automatically completed dispatch task?">
+    Yes. Uncompleting a dispatch task works the same way whether it was completed automatically or manually. Automations also trigger as normal.
   </Accordion>
 </AccordionGroup>
 
