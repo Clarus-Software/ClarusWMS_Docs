@@ -1,0 +1,136 @@
+---
+title: "Replenishment Configuration"
+description: "Replenish pickfaces in whole units, cases, inners, or outers by setting a Replenishment Configuration on Continuous and Order Volume pickfaces."
+sidebarTitle: "Replenishment Configuration"
+---
+
+A **Replenishment Configuration** sets the unit of measure a pickface is replenished in. Instead of topping up to an exact quantity or bringing in whole pallets, Clarus rounds each replenishment to a whole number of **Units**, **Cases**, **Inners**, or **Outers**. This keeps cases intact when stock moves from racking to the pickface.
+
+Your existing triggers and account rules still decide **when** a pickface is replenished. The configuration only changes **how much** is moved.
+
+## How it works
+
+When a replenishment is generated, Clarus:
+
+1. Works out the quantity the pickface needs, the same way it does today. For [Continuous](/knowledgebase/warehouse-setup/replenishment/continuous) pickfaces that is the gap up to the **Max Trigger**. For [Order Volume](/knowledgebase/warehouse-setup/replenishment/order-volume) pickfaces it is the shortfall for the order.
+2. **Rounds it up** to the next whole multiple of the selected configuration.
+3. **Caps it** at the number of whole multiples available in racking.
+
+The configuration sizes come from the product. **Unit** uses **Output Quantity**, and **Case**, **Inner**, and **Outer** use **Units Per Case**, **Units Per Inner**, and **Units Per Outer**.
+
+### Examples
+
+With **Units Per Case** set to **5** and the pickface set to **Case**:
+
+| Pickface needs | Available in racking | Replenished | Why |
+| -------------- | -------------------- | ----------- | --- |
+| 20 | 50 | **20** | Already 4 whole cases |
+| 21 | 50 | **25** | Rounded up to 5 whole cases, above the Max Trigger |
+| 21 | 23 | **20** | Only 4 whole cases are available |
+| 21 | 3 | **Nothing** | Less than one whole case is available |
+
+<Note>
+Rounding up can take a pickface above its **Max Trigger**. Set the Max Trigger to a multiple of the configuration, or make sure the pickface can hold an extra case, inner, or outer.
+</Note>
+
+## Set a Replenishment Configuration
+
+<Steps>
+<Step title="Check the product configuration">
+Open the product and check that the quantity for the unit of measure you want is set: **Output Quantity**, **Units Per Case**, **Units Per Inner**, or **Units Per Outer**. Only configurations with a value here can be selected on a pickface.
+</Step>
+<Step title="Open the product's Pickfaces panel">
+Add a pickface with **Add Line**, or edit an existing one. See [Set Up a Pickface](/knowledgebase/warehouse-setup/create-pickface) if the location isn't a pickface yet.
+</Step>
+<Step title="Choose the replenishment type">
+Set **Replenishment Type** to **Continuous** or **Order Volume**. **Demand** pickfaces always replenish a full pallet, so you can't set a configuration on them.
+</Step>
+<Step title="Select the Replenishment Configuration">
+In the **Replenishment Configuration** column, select **Unit**, **Case**, **Inner**, or **Outer**. You can select one configuration per pickface.
+</Step>
+<Step title="Set Full Storage Units Only to No">
+**Full Storage Units Only** must be **No** for the configuration to apply. New lines default to **Yes**. See [Full Storage Units Only](#full-storage-units-only) below.
+</Step>
+<Step title="Save">
+Click **Save**. The next replenishment for the pickface uses the configuration.
+</Step>
+</Steps>
+
+To go back to the standard behaviour, clear the **Replenishment Configuration** and save. A pickface with no configuration replenishes exactly as it did before.
+
+<Tip>
+If you don't see the **Replenishment Configuration** column, add it through the column manager.
+</Tip>
+
+## Location groups
+
+When a [location group](/knowledgebase/warehouse-setup/location-groups) is assigned as a pickface, you can set a **Replenishment Configuration** on the group line. Clarus copies it to every location in the group, including locations added to the group later.
+
+To change one location, click **Manage** on the group line and set or clear the **Replenishment Configuration** for that location. Each location replenishes using its own setting. If you clear a location's configuration, that location replenishes without one, even when the group line still has a configuration.
+
+<Note>
+Changing the group line updates any locations that still match the group's previous settings. Locations you've changed individually keep their own configuration.
+</Note>
+
+## Full Storage Units Only
+
+With **Full Storage Units Only** set to **Yes**, the Replenishment Configuration is ignored. Clarus moves whole storage units as it does today, and the replenishment may not be a whole number of cases.
+
+The **Replenishment Configuration** field stays editable while **Full Storage Units Only** is **Yes**, so check both settings when you set up a pickface.
+
+## Which stock is moved
+
+The configuration decides **how much** is replenished. The account's **Pick Rule** and **Pick Optimisation** decide **which stock** makes up that total.
+
+The total is always a whole number of configurations. Each replenishment task is not. When the total is made up from several storage units, Clarus may create one task for each, and those tasks don't have to be whole cases.
+
+For example, the pickface is set to **Case** (10 units) and needs 20. Racking holds four pallets of 5. Clarus creates four replenishment tasks of 5, which together make 2 whole cases.
+
+How the total is made up depends on the account's **Pick Optimisation**:
+
+<Tabs>
+<Tab title="Storage Unit Breakdown Avoidance">
+The default. Clarus moves the whole storage units that best fill the quantity, preferring fewer and larger ones, and only breaks one storage unit for whatever is left. When whole storage units fit, dates are not taken into account.
+
+**Example:** the pickface is set to **Case** (5 units), with Sell By Date as the Pick Rule. Racking holds 3 units with an earlier sell-by date and a full case of 5 with a later sell-by date. Clarus replenishes the whole case of 5 and leaves the 3 earlier units in racking.
+</Tab>
+<Tab title="Stock Rotation">
+Clarus takes stock strictly in **Pick Rule** order and breaks whatever storage unit it needs to make up the quantity. **FIFO** takes the oldest received stock first, **Sell By Date** takes the earliest sell-by date first, and **Best Before Date** takes the earliest best-before date first.
+
+**Example:** with the same stock, Clarus replenishes the 3 units with the earliest sell-by date, plus 2 taken from the full case. The pickface receives 5 units, a whole case, but 3 units of the broken case stay in racking.
+</Tab>
+</Tabs>
+
+<Info>
+Neither option guarantees both "earliest date first" and "never break a case". Choose the **Pick Optimisation** that matters most for the account. See [Pick Optimisation](/knowledgebase/outbound/use-pick-optimisation).
+</Info>
+
+## On the handheld
+
+Your HHD implementation can be configured to show the replenishment in the pickface's configuration. With this configured, after scanning the **Location To**, the operator sees the **Replenishment Product Configuration** (for example **Cases**) and the number remaining to scan. They scan a barcode for each case, inner, or outer before the task completes. For example, a replenishment of 25 with **Units Per Case** set to 5 shows **5 cases**, not 25 units.
+
+The count on the handheld assumes each task is a whole number of configurations. When a task isn't, for example because a storage unit holds fewer units than a case, the count may not match the scans the handheld asks for.
+
+<Note>
+Contact support to add the replenishment configuration steps to your HHD implementation.
+</Note>
+
+## Removing a configuration from the product
+
+If you clear **Units Per Case**, **Units Per Inner**, or **Units Per Outer** on the product, Clarus removes that configuration from every pickface for the product. That covers both **Allowed Configurations** and **Replenishment Configuration**. Clarus warns you before saving. Affected pickfaces go back to replenishing without a configuration.
+
+## Things to know
+
+- **Less than one configuration in racking means no replenishment.** If racking holds less than one whole case, inner, or outer, Clarus doesn't replenish. This applies even if it is the last stock for the product. The pickface stays as it is, and no message is shown.
+- **Picks can be raised for more than the replenishment brings.** If racking holds stock that isn't a whole multiple of the configuration, an order can still be allocated and picked from the pickface for the full quantity. For example, with a case of 5 and 7 units in racking, an order for 7 raises a pick of 7 but a replenishment of 5. The remaining 2 units stay in racking.
+- **Keep racking stock in whole configurations.** The issues above happen when stock in racking has been adjusted so that it no longer matches the product's configuration. That setup isn't supported. If it happens, contact support.
+- **Match the replenishment configuration to how the pickface is picked.** For example, if a pickface picks in outers but replenishes in units, every outer picked can create a separate replenishment.
+- **A Max Trigger of 0 ignores the configuration.** A Continuous pickface with a **Max Trigger** of 0 moves the first stock found, as it does today.
+- **Not available on Demand pickfaces.** Demand replenishment always brings in a full pallet.
+
+## Related pages
+
+- [Pickface Replenishment](/knowledgebase/warehouse-setup/replenishment/overview): compare the replenishment strategies
+- [Continuous Replenishment](/knowledgebase/warehouse-setup/replenishment/continuous)
+- [Order Volume Replenishment](/knowledgebase/warehouse-setup/replenishment/order-volume)
+- [Mixed UOM Picking](/knowledgebase/warehouse-setup/mixed-uom-picking): choose which units of measure are picked from a pickface

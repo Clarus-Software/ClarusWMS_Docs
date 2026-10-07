@@ -1,0 +1,136 @@
+---
+title: "Replenishment Configuration"
+description: "Vul pickfaces aan in hele units, dozen, inners of outers door een Replenishment Configuration in te stellen op Continuous- en Order Volume-pickfaces."
+sidebarTitle: "Replenishment Configuration"
+---
+
+Met een **Replenishment Configuration** bepaalt u in welke eenheid een pickface wordt aangevuld. In plaats van aan te vullen tot een exacte hoeveelheid of hele pallets te verplaatsen, rondt Clarus elke aanvulling af op een heel aantal **Units**, **Cases**, **Inners** of **Outers**. Zo blijven dozen intact wanneer voorraad van de stelling naar de pickface gaat.
+
+Uw bestaande triggers en accountregels bepalen nog steeds **wanneer** een pickface wordt aangevuld. De configuratie verandert alleen **hoeveel** er wordt verplaatst.
+
+## Hoe het werkt
+
+Wanneer een aanvulling wordt gegenereerd, doet Clarus het volgende:
+
+1. Clarus berekent de hoeveelheid die de pickface nodig heeft, op dezelfde manier als nu. Voor [Continuous](/knowledgebase/nl/warehouse-setup/replenishment/continuous) pickfaces is dat het verschil tot de **Max Trigger**. Voor [Order Volume](/knowledgebase/nl/warehouse-setup/replenishment/order-volume) pickfaces is dat het tekort voor de order.
+2. Die hoeveelheid wordt **naar boven afgerond** op het eerstvolgende hele veelvoud van de geselecteerde configuratie.
+3. De hoeveelheid wordt **begrensd** op het aantal hele veelvouden dat in de stelling beschikbaar is.
+
+De groottes komen van het product. **Unit** gebruikt **Output Quantity**, en **Case**, **Inner** en **Outer** gebruiken **Units Per Case**, **Units Per Inner** en **Units Per Outer**.
+
+### Voorbeelden
+
+Met **Units Per Case** op **5** en de pickface ingesteld op **Case**:
+
+| Pickface heeft nodig | Beschikbaar in stelling | Aangevuld | Waarom |
+| -------------------- | ----------------------- | --------- | ------ |
+| 20 | 50 | **20** | Al 4 hele dozen |
+| 21 | 50 | **25** | Afgerond naar 5 hele dozen, boven de Max Trigger |
+| 21 | 23 | **20** | Er zijn maar 4 hele dozen beschikbaar |
+| 21 | 3 | **Niets** | Er is minder dan één hele doos beschikbaar |
+
+<Note>
+Door naar boven af te ronden kan een pickface boven de **Max Trigger** uitkomen. Stel de Max Trigger in op een veelvoud van de configuratie, of zorg dat de pickface een extra doos, inner of outer kan bevatten.
+</Note>
+
+## Een Replenishment Configuration instellen
+
+<Steps>
+<Step title="Controleer de productconfiguratie">
+Open het product en controleer dat de hoeveelheid voor de gewenste eenheid is ingesteld: **Output Quantity**, **Units Per Case**, **Units Per Inner** of **Units Per Outer**. Alleen configuraties met een waarde kunnen op een pickface worden geselecteerd.
+</Step>
+<Step title="Open het Pickfaces-paneel van het product">
+Voeg een pickface toe met **Add Line**, of bewerk een bestaande. Zie [Een pickface opzetten](/knowledgebase/nl/warehouse-setup/create-pickface) als de locatie nog geen pickface is.
+</Step>
+<Step title="Kies het aanvullingstype">
+Stel **Replenishment Type** in op **Continuous** of **Order Volume**. **Demand** pickfaces vullen altijd een volle pallet aan, dus daarop kunt u geen configuratie instellen.
+</Step>
+<Step title="Selecteer de Replenishment Configuration">
+Selecteer in de kolom **Replenishment Configuration** **Unit**, **Case**, **Inner** of **Outer**. U kunt één configuratie per pickface selecteren.
+</Step>
+<Step title="Zet Full Storage Units Only op No">
+**Full Storage Units Only** moet op **No** staan om de configuratie te laten gelden. Nieuwe regels staan standaard op **Yes**. Zie [Full Storage Units Only](#full-storage-units-only) hieronder.
+</Step>
+<Step title="Opslaan">
+Klik op **Save**. De volgende aanvulling voor de pickface gebruikt de configuratie.
+</Step>
+</Steps>
+
+Wilt u terug naar het standaardgedrag, wis dan de **Replenishment Configuration** en sla op. Een pickface zonder configuratie wordt precies zo aangevuld als voorheen.
+
+<Tip>
+Ziet u de kolom **Replenishment Configuration** niet, voeg deze dan toe via de kolombeheerder.
+</Tip>
+
+## Locatiegroepen
+
+Wanneer een [locatiegroep](/knowledgebase/nl/warehouse-setup/location-groups) als pickface is toegewezen, kunt u een **Replenishment Configuration** op de groepsregel instellen. Clarus kopieert deze naar elke locatie in de groep, ook naar locaties die later aan de groep worden toegevoegd.
+
+Om één locatie te wijzigen, klikt u op **Manage** op de groepsregel en stelt u de **Replenishment Configuration** voor die locatie in of wist u deze. Elke locatie wordt aangevuld volgens haar eigen instelling. Wist u de configuratie van een locatie, dan wordt die locatie zonder configuratie aangevuld, ook als de groepsregel nog een configuratie heeft.
+
+<Note>
+Een wijziging op de groepsregel werkt de locaties bij die nog overeenkomen met de vorige instellingen van de groep. Locaties die u afzonderlijk heeft gewijzigd, behouden hun eigen configuratie.
+</Note>
+
+## Full Storage Units Only
+
+Als **Full Storage Units Only** op **Yes** staat, wordt de Replenishment Configuration genegeerd. Clarus verplaatst hele opslageenheden zoals nu, en de aanvulling is dan mogelijk geen heel aantal dozen.
+
+Het veld **Replenishment Configuration** blijft bewerkbaar terwijl **Full Storage Units Only** op **Yes** staat. Controleer daarom beide instellingen wanneer u een pickface opzet.
+
+## Welke voorraad wordt verplaatst
+
+De configuratie bepaalt **hoeveel** er wordt aangevuld. De **Pick Rule** en **Pick Optimisation** van het account bepalen **welke voorraad** dat totaal vormt.
+
+Het totaal is altijd een heel aantal configuraties. Elke afzonderlijke aanvullingstaak is dat niet. Wanneer het totaal uit meerdere opslageenheden bestaat, kan Clarus voor elke opslageenheid een taak aanmaken, en die taken hoeven geen hele dozen te zijn.
+
+Bijvoorbeeld: de pickface staat op **Case** (10 units) en heeft 20 nodig. De stelling bevat vier pallets van 5. Clarus maakt vier aanvullingstaken van 5 aan, samen 2 hele dozen.
+
+Hoe het totaal wordt samengesteld, hangt af van de **Pick Optimisation** van het account:
+
+<Tabs>
+<Tab title="Storage Unit Breakdown Avoidance">
+De standaardinstelling. Clarus verplaatst de hele opslageenheden die de hoeveelheid het best vullen, met een voorkeur voor minder en grotere, en breekt alleen één opslageenheid aan voor het restant. Als hele opslageenheden passen, wordt geen rekening gehouden met datums.
+
+**Voorbeeld:** de pickface staat op **Case** (5 units), met Sell By Date als Pick Rule. De stelling bevat 3 units met een eerdere sell-by-datum en een volle doos van 5 met een latere sell-by-datum. Clarus vult de hele doos van 5 aan en laat de 3 eerdere units in de stelling staan.
+</Tab>
+<Tab title="Stock Rotation">
+Clarus neemt voorraad strikt in de volgorde van de **Pick Rule** en breekt elke opslageenheid aan die nodig is om de hoeveelheid te maken. **FIFO** neemt de oudst ontvangen voorraad eerst, **Sell By Date** de vroegste sell-by-datum eerst en **Best Before Date** de vroegste best-before-datum eerst.
+
+**Voorbeeld:** met dezelfde voorraad vult Clarus de 3 units met de vroegste sell-by-datum aan, plus 2 uit de volle doos. De pickface ontvangt 5 units, een hele doos, maar 3 units van de aangebroken doos blijven in de stelling.
+</Tab>
+</Tabs>
+
+<Info>
+Geen van beide opties garandeert zowel "vroegste datum eerst" als "nooit een doos aanbreken". Kies de **Pick Optimisation** die voor het account het belangrijkst is. Zie [Pick Optimisation](/knowledgebase/nl/outbound/use-pick-optimisation).
+</Info>
+
+## Op de handheld
+
+Uw HHD-implementatie kan zo worden geconfigureerd dat de aanvulling in de configuratie van de pickface wordt getoond. Is dit geconfigureerd, dan ziet de medewerker na het scannen van de **Location To** de **Replenishment Product Configuration** (bijvoorbeeld **Cases**) en het aantal dat nog moet worden gescand. De medewerker scant een barcode voor elke doos, inner of outer voordat de taak wordt afgerond. Een aanvulling van 25 met **Units Per Case** op 5 toont bijvoorbeeld **5 dozen**, niet 25 units.
+
+De telling op de handheld gaat ervan uit dat elke taak een heel aantal configuraties is. Is dat niet zo, bijvoorbeeld omdat een opslageenheid minder units bevat dan een doos, dan komt de telling mogelijk niet overeen met de scans die de handheld vraagt.
+
+<Note>
+Neem contact op met support om de stappen voor de aanvullingsconfiguratie aan uw HHD-implementatie toe te voegen.
+</Note>
+
+## Een configuratie van het product verwijderen
+
+Als u **Units Per Case**, **Units Per Inner** of **Units Per Outer** op het product wist, verwijdert Clarus die configuratie van elke pickface van het product. Dat geldt voor zowel **Allowed Configurations** als **Replenishment Configuration**. Clarus waarschuwt u voordat u opslaat. De betreffende pickfaces worden daarna zonder configuratie aangevuld.
+
+## Goed om te weten
+
+- **Minder dan één configuratie in de stelling betekent geen aanvulling.** Als de stelling minder dan één hele doos, inner of outer bevat, vult Clarus niet aan. Dat geldt ook als het de laatste voorraad van het product is. De pickface blijft zoals hij is en er wordt geen melding getoond.
+- **Picks kunnen hoger zijn dan wat de aanvulling brengt.** Als de stelling voorraad bevat die geen heel veelvoud van de configuratie is, kan een order toch volledig worden gealloceerd en vanuit de pickface worden gepickt. Bijvoorbeeld: met een doos van 5 en 7 units in de stelling geeft een order van 7 een pick van 7, maar een aanvulling van 5. De overige 2 units blijven in de stelling.
+- **Houd stellingvoorraad in hele configuraties.** De situaties hierboven ontstaan wanneer voorraad in de stelling zo is aangepast dat deze niet meer overeenkomt met de configuratie van het product. Die opzet wordt niet ondersteund. Neem contact op met support als dit gebeurt.
+- **Stem de aanvullingsconfiguratie af op hoe de pickface wordt gepickt.** Als een pickface bijvoorbeeld in outers pickt maar in units aanvult, kan elke gepickte outer een aparte aanvulling veroorzaken.
+- **Een Max Trigger van 0 negeert de configuratie.** Een Continuous pickface met een **Max Trigger** van 0 verplaatst de eerste gevonden voorraad, zoals nu.
+- **Niet beschikbaar op Demand pickfaces.** Demand-aanvulling brengt altijd een volle pallet.
+
+## Gerelateerde pagina's
+
+- [Pickface Aanvulling](/knowledgebase/nl/warehouse-setup/replenishment/overview): vergelijk de aanvullingsstrategieën
+- [Continuous Replenishment](/knowledgebase/nl/warehouse-setup/replenishment/continuous)
+- [Order Volume Replenishment](/knowledgebase/nl/warehouse-setup/replenishment/order-volume)
+- [Gemengde UOM-picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking): kies welke eenheden vanuit een pickface worden gepickt
