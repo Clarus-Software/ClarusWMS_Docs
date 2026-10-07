@@ -8,6 +8,16 @@ A **Replenishment Configuration** sets the unit of measure a pickface is repleni
 
 Your existing triggers and account rules still decide **when** a pickface is replenished. The configuration only changes **how much** is moved.
 
+## When to use it
+
+Use a Replenishment Configuration when a product is handled in whole configurations from start to finish. That means it is received, stored, picked, and replenished in whole cases, inners, or outers. Pair it with [Mixed UOM Picking](/knowledgebase/warehouse-setup/mixed-uom-picking) so that picks from racking also take whole configurations.
+
+When every pick and replenishment moves whole configurations, the stock left in racking is always a whole number of them. It only stops matching through a manual transfer, or a positive or negative stock adjustment that opens a case and takes or adds loose units.
+
+<Warning>
+This feature is designed for racking stock held in whole configurations. If racking holds part cases, Clarus replenishes only the whole configurations and leaves the loose units behind. See [Things to know](#things-to-know) for what happens then.
+</Warning>
+
 ## How it works
 
 When a replenishment is generated, Clarus:
@@ -123,7 +133,7 @@ If you clear **Units Per Case**, **Units Per Inner**, or **Units Per Outer** on 
 
 - **Less than one configuration in racking means no replenishment.** If racking holds less than one whole case, inner, or outer, Clarus doesn't replenish. This applies even if it is the last stock for the product. The pickface stays as it is, and no message is shown.
 - **Picks can be raised for more than the replenishment brings.** If racking holds stock that isn't a whole multiple of the configuration, an order can still be allocated and picked from the pickface for the full quantity. For example, with a case of 5 and 7 units in racking, an order for 7 raises a pick of 7 but a replenishment of 5. The remaining 2 units stay in racking.
-- **Keep racking stock in whole configurations.** The issues above happen when stock in racking has been adjusted so that it no longer matches the product's configuration. That setup isn't supported. If it happens, contact support.
+- **Keep racking stock in whole configurations.** The issues above only happen when stock in racking no longer matches the product's configuration, usually after a manual transfer or stock adjustment. That isn't supported. See [When to use it](#when-to-use-it), and contact support if it happens.
 - **Match the replenishment configuration to how the pickface is picked.** For example, if a pickface picks in outers but replenishes in units, every outer picked can create a separate replenishment.
 - **A Max Trigger of 0 ignores the configuration.** A Continuous pickface with a **Max Trigger** of 0 moves the first stock found, as it does today.
 - **Not available on Demand pickfaces.** Demand replenishment always brings in a full pallet.

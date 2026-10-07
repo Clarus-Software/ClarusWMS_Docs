@@ -8,6 +8,16 @@ Met een **Replenishment Configuration** bepaalt u in welke eenheid een pickface 
 
 Uw bestaande triggers en accountregels bepalen nog steeds **wanneer** een pickface wordt aangevuld. De configuratie verandert alleen **hoeveel** er wordt verplaatst.
 
+## Wanneer gebruikt u het
+
+Gebruik een Replenishment Configuration wanneer een product van begin tot eind in hele configuraties wordt behandeld. Dat betekent dat het in hele dozen, inners of outers wordt ontvangen, opgeslagen, gepickt en aangevuld. Combineer het met [Gemengde UOM-picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking), zodat picks uit de stelling ook hele configuraties nemen.
+
+Wanneer elke pick en elke aanvulling hele configuraties verplaatst, is de voorraad die in de stelling achterblijft altijd een heel aantal configuraties. Dat verandert alleen door een handmatige transfer, of een positieve of negatieve voorraadaanpassing waarbij een doos wordt geopend en losse units worden weggenomen of toegevoegd.
+
+<Warning>
+Deze functie is bedoeld voor stellingvoorraad in hele configuraties. Als de stelling aangebroken dozen bevat, vult Clarus alleen de hele configuraties aan en blijven de losse units achter. Zie [Goed om te weten](#goed-om-te-weten) voor wat er dan gebeurt.
+</Warning>
+
 ## Hoe het werkt
 
 Wanneer een aanvulling wordt gegenereerd, doet Clarus het volgende:
@@ -123,7 +133,7 @@ Als u **Units Per Case**, **Units Per Inner** of **Units Per Outer** op het prod
 
 - **Minder dan één configuratie in de stelling betekent geen aanvulling.** Als de stelling minder dan één hele doos, inner of outer bevat, vult Clarus niet aan. Dat geldt ook als het de laatste voorraad van het product is. De pickface blijft zoals hij is en er wordt geen melding getoond.
 - **Picks kunnen hoger zijn dan wat de aanvulling brengt.** Als de stelling voorraad bevat die geen heel veelvoud van de configuratie is, kan een order toch volledig worden gealloceerd en vanuit de pickface worden gepickt. Bijvoorbeeld: met een doos van 5 en 7 units in de stelling geeft een order van 7 een pick van 7, maar een aanvulling van 5. De overige 2 units blijven in de stelling.
-- **Houd stellingvoorraad in hele configuraties.** De situaties hierboven ontstaan wanneer voorraad in de stelling zo is aangepast dat deze niet meer overeenkomt met de configuratie van het product. Die opzet wordt niet ondersteund. Neem contact op met support als dit gebeurt.
+- **Houd stellingvoorraad in hele configuraties.** De situaties hierboven ontstaan alleen wanneer voorraad in de stelling niet meer overeenkomt met de configuratie van het product, meestal na een handmatige transfer of voorraadaanpassing. Dat wordt niet ondersteund. Zie [Wanneer gebruikt u het](#wanneer-gebruikt-u-het), en neem contact op met support als dit gebeurt.
 - **Stem de aanvullingsconfiguratie af op hoe de pickface wordt gepickt.** Als een pickface bijvoorbeeld in outers pickt maar in units aanvult, kan elke gepickte outer een aparte aanvulling veroorzaken.
 - **Een Max Trigger van 0 negeert de configuratie.** Een Continuous pickface met een **Max Trigger** van 0 verplaatst de eerste gevonden voorraad, zoals nu.
 - **Niet beschikbaar op Demand pickfaces.** Demand-aanvulling brengt altijd een volle pallet.
