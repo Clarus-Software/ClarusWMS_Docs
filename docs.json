@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "ClarusWMS",
+  "name": "Clarus WMS",
   "colors": {
     "primary": "#03162E",
     "light": "#89E3AA",
