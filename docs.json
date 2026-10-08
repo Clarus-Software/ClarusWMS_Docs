@@ -3,12 +3,15 @@
   "theme": "mint",
   "name": "ClarusWMS",
   "colors": {
-    "primary": "#1D4763",
-    "light": "#6B9DC2",
-    "dark": "#B1C5DE"
+    "primary": "#03162E",
+    "light": "#89E3AA",
+    "dark": "#03162E"
   },
   "background": {
-    "decoration": "gradient"
+    "decoration": "gradient",
+    "color": {
+      "dark": "#03162E"
+    }
   },
   "favicon": "/favicon.png",
   "api": {
