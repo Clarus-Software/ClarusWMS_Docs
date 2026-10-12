@@ -1,0 +1,96 @@
+---
+title: "Legacy Authentication & URLs"
+description: "How to authenticate against the Clarus API with the legacy sign-in — your subdomain API URL, the sign-in request, and the token-and-email Authorization header to send on every call."
+sidebarTitle: "Legacy Authentication"
+---
+
+Integrations that are not yet on [OAuth 2.0](/knowledgebase/integrations/api-authentication) authenticate with the legacy sign-in. You sign in once with an API user's email address and password, receive a token, and then send the token and email address on every request.
+
+The endpoints, payloads and responses are the same as the rest of this reference. Only the base URL and the `Authorization` header are different.
+
+## Your API URL
+
+Each Clarus environment has its own API URL, built from your subdomain:
+
+```text
+https://{subdomain}.api.clarus.ws
+```
+
+For example, if your subdomain is `acme`, your API URL is `https://acme.api.clarus.ws`. If you're not sure of your subdomain, ask Clarus support.
+
+| Path | Use it for |
+|---|---|
+| `/users/sign_in` | Signing in to get a token |
+| `/api/...` | REST endpoints, e.g. `https://acme.api.clarus.ws/api/products` |
+| `/graphql` | GraphQL queries |
+
+<Info>If you have a sandbox environment, it has its own subdomain. Swap that subdomain into the URL to point your integration at the sandbox.</Info>
+
+When you're working from the **Operations** reference, replace `https://clarus-api.com` with your API URL. You don't need the `X-Clarus-Subdomain` header, because the URL already identifies your environment.
+
+## Sign in and authenticate requests
+
+<Steps>
+  <Step title="Sign in">
+    Send the API user's email address and password to `/users/sign_in`:
+
+    ```bash
+    curl -X POST https://acme.api.clarus.ws/users/sign_in \
+      -H "Content-Type: application/json" \
+      -d '{
+        "user": {
+          "email": "api.user@example.com",
+          "password": "your-password"
+        }
+      }'
+    ```
+
+    A successful sign-in returns `201 Created` with the token:
+
+    ```json
+    {
+      "user_id": 42,
+      "token": "23Ya-sdFas7E3sMH9xgt",
+      "email": "api.user@example.com",
+      "auth_status": "legacy"
+    }
+    ```
+
+    Incorrect credentials return `401 Unauthorized`.
+  </Step>
+  <Step title="Send the token on every request">
+    Add an `Authorization` header that carries both the `token` and the `email` from the sign-in response:
+
+    ```text
+    Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"
+    ```
+
+    For example:
+
+    ```bash
+    curl https://acme.api.clarus.ws/graphql \
+      -H 'Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"' \
+      -H "Content-Type: application/json" \
+      -d '{"query": "{ accounts { all { edges { node { id code name } } } } }"}'
+    ```
+
+    The `Bearer` prefix is also accepted, as long as the email is included: `Authorization: Bearer token="…", email="…"`.
+  </Step>
+  <Step title="Reuse the token">
+    Store the token and reuse it for every call. Sign in again only when a request returns `401 Unauthorized`.
+  </Step>
+</Steps>
+
+## Each sign-in replaces the token
+
+A user has only one legacy token at a time. Every sign-in issues a new token and invalidates the previous one, and a sign-in to the WMS front-end with the same account can do the same. Signing out through `/users/sign_out` also invalidates the token.
+
+This means:
+
+- **Use a dedicated API user.** If someone signs in to the front-end with the integration's account, the integration's token stops working. See [Use a dedicated user account](/knowledgebase/integrations/api-authentication#use-a-dedicated-user-account).
+- **Don't sign in on every request.** Signing in on every call cuts off any other process that is using the same account. Reuse the stored token, and sign in again only after a `401`.
+- **Give each system its own user.** Two integrations sharing one account keep invalidating each other's tokens.
+
+## Treat credentials as secrets
+
+The password and the token both give access to your warehouse data. Keep them in a secrets manager or environment variables, never in source control, and never in shared documents.

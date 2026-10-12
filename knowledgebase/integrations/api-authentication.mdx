@@ -6,6 +6,8 @@ sidebarTitle: "Authentication"
 
 The Clarus API is authenticated. Every request carries an OAuth 2.0 bearer token **and** your tenant subdomain header.
 
+<Info>Not on OAuth yet? Integrations that sign in with an email address and password use the legacy sign-in and per-subdomain API URLs instead. See [Legacy Authentication & URLs](/knowledgebase/integrations/api-legacy-authentication).</Info>
+
 ## OAuth 2.0
 
 The API uses **OAuth 2.0** bearer tokens. Obtain an access token and send it on every request as an `Authorization: Bearer <token>` header.
