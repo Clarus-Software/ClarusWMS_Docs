@@ -1,31 +1,59 @@
 ---
 title: "Charge Windows: What They Are and How to Create One"
-description: "Create and manage charge windows that define the time periods for applying customer charges on a daily, weekly, or monthly basis."
+description: "Create and manage charge windows that set when an account's charges close for invoicing — weekly on chosen weekdays, or monthly on chosen days, including the 29th, 30th and 31st."
 sidebarTitle: "Charge Windows"
 ---
 
 ## What Is a Charge Window?
 
-A charge window defines the time period during which charges are applied to customer accounts. Charges can run on a daily, weekly, or monthly basis.
+A charge window sets when an account's billing period closes. Each day you select is a day the window **closes**. When it closes, the account's open charges are closed off for invoicing and a new period starts.
+
+You assign a charge window to an account alongside its charge card — see [Set charges to accounts](/knowledgebase/financial/set-charges-to-accounts).
 
 <Steps>
-  <Step title="Access charge window settings">
+  <Step title="Open charge windows">
     From the left-hand menu, click **Charges** then **Charge Windows**. This displays all existing charge windows.
   </Step>
   <Step title="Create a new charge window">
-    Click **+Add Charge Window** to begin setup.
+    Click the add button at the bottom of the grid to open **New Charge Window**.
   </Step>
   <Step title="Enter charge window details">
     Fill in the following fields:
 
-    - **Name**: Give the charge window a clear name (e.g., "Weekly Storage Charge").
-    - **Frequency**: Choose either **Day** or **Month** from the dropdown.
-      - **Day**: Pick specific days of the week (e.g., Sunday to Sunday) or choose all days for daily charges.
-      - **Month**: A calendar will appear. Select the specific days within the month when charges should run.
+    - **Name**: Give the charge window a clear name (e.g., "Month End").
+    - **Frequency**: Choose **Weekly** or **Monthly**.
+      - **Weekly**: Under **Select day(s)**, pick the weekdays the window closes on. Select every day to close the window daily.
+      - **Monthly**: Under **Select day(s)**, pick the days of the month the window closes on, from 1 to 31.
   </Step>
   <Step title="Save the charge window">
-    Click **Save** to activate the charge window.
+    Click **Save** to create the charge window.
   </Step>
 </Steps>
 
-<Tip>After creating the charge window, your next step is to set up a **Charge Card** that defines the actual charges applied during the specified window.</Tip>
+## Monthly windows in shorter months
+
+If you choose the 29th, 30th or 31st for a monthly window, the window still closes in months that don't have that day. It closes on the **last calendar day of that month** instead.
+
+| Day selected | February (28 days) | February (leap year) | April, June, September, November |
+|---|---|---|---|
+| 29th | 28th | 29th | 29th |
+| 30th | 28th | 29th | 30th |
+| 31st | 28th | 29th | 30th |
+
+For example, a window set to close on the 31st closes on 31 January, 28 February, 31 March and 30 April. Each month's charges stay in that month's billing period.
+
+When you select the 29th, 30th or 31st, the charge window screen shows a message as a reminder of this behaviour.
+
+<Tip>To bill on the last day of every month, select the **31st**. The window then closes on the final day of each month, whatever its length.</Tip>
+
+<Note>Days are not combined. If you select both the 30th and the 31st, the window closes once on 30 April — not twice.</Note>
+
+## What happens when a window closes
+
+The window's closing day drives several charges:
+
+- The account's open charges are closed off for invoicing, and a new billing period starts.
+- [Recurring charges](/knowledgebase/financial/recurring-charges) with the **End of Charge Window** frequency are added.
+- [Step-priced](/knowledgebase/financial/step-pricing) rental charges using flat tiers are calculated for the whole window.
+
+<Tip>After creating the charge window, your next step is to set up a **Charge Card** that defines the actual charges, then assign both to the account.</Tip>

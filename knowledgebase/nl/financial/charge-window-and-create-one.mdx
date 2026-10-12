@@ -1,52 +1,59 @@
 ---
-title: "Wat is een Charge Window en hoe maak ik er een?"
-description: "In deze handleiding wordt uitgelegd hoe u laadvensters maakt en beheert, die de tijdsperioden voor het toepassen van klantkosten."
-sidebarTitle: "Charge Window"
+title: "Kostenvensters: wat ze zijn en hoe u er een maakt"
+description: "Maak en beheer kostenvensters die bepalen wanneer de kosten van een account worden afgesloten voor facturering — wekelijks op gekozen weekdagen, of maandelijks op gekozen dagen, inclusief de 29e, 30e en 31e."
+sidebarTitle: "Kostenvensters"
 ---
 
-In deze handleiding wordt uitgelegd hoe u laadvensters maakt en beheert, die de tijdsperioden voor het toepassen van klantkosten. Kosten kunnen dagelijks, wekelijks of maandelijks worden ingesteld.
+## Wat is een kostenvenster?
 
-## Stapsgewijze handleiding
+Een kostenvenster bepaalt wanneer de factureringsperiode van een account sluit. Elke dag die u selecteert, is een dag waarop het venster **sluit**. Wanneer het sluit, worden de openstaande kosten van het account afgesloten voor facturering en begint een nieuwe periode.
+
+U wijst een kostenvenster samen met de kostenkaart toe aan een account — zie [Kosten toewijzen aan accounts](/knowledgebase/nl/financial/set-charges-to-accounts).
 
 <Steps>
-  <Step title="Instellingen voor toegang opladen">
-    Klik in het linkermenu op **Kosten**. Selecteer vervolgens **Windows opladen**. Hiermee wordt een lijst weergegeven met alle bestaande laadvensters.
+  <Step title="Kostenvensters openen">
+    Klik in het linkermenu op **Tarieven** en vervolgens op **Kostenvensters**. Hiermee wordt een lijst met alle bestaande kostenvensters weergegeven.
   </Step>
-  <Step title="Creeer een nieuw laadvenster">
-    Klik op **+Oplaadvenster toevoegen** om te beginnen met het opzetten van een nieuw laadvenster.
+  <Step title="Een nieuw kostenvenster maken">
+    Klik op de knop toevoegen onderaan het overzicht om **Nieuw kostenvenster** te openen.
   </Step>
-  <Step title="Vulvenster Details invoeren">
-    Vul op het instelscherm de volgende velden in:
+  <Step title="Gegevens van het kostenvenster invoeren">
+    Vul de volgende velden in:
 
-    **Naam**: Geef het laadvenster een duidelijke naam, bijvoorbeeld "Weekly Storage Charge", om het te helpen identificeren.
-
-    **Frequentie**: Kies ook **Dag** of **Maand** in het dropdownmenu.
-
-    Als u selecteert **Dag** kunt u specifieke dagen van de week kiezen (bijvoorbeeld van zondag tot zondag) of alle dagen kiezen voor dagelijkse kosten.
-
-    Als u selecteert **Maand** verschijnt er een kalender. Gebruik dit om de specifieke dagen te selecteren binnen de maand waarop de kosten moeten worden uitgevoerd (bijvoorbeeld van de 1e tot de 30e).
+    - **Naam**: Geef het kostenvenster een duidelijke naam (bijvoorbeeld "Einde maand").
+    - **Frequentie**: Kies **Wekelijks** of **Maandelijks**.
+      - **Wekelijks**: Kies onder **Selecteer dag(en)** de weekdagen waarop het venster sluit. Selecteer alle dagen om het venster dagelijks te laten sluiten.
+      - **Maandelijks**: Kies onder **Selecteer dag(en)** de dagen van de maand waarop het venster sluit, van 1 tot en met 31.
   </Step>
-  <Step title="Bewaar het oplaadvenster">
-    Zodra u tevreden bent met uw instellingen, klikt u op **Opslaan**. Het laadvenster zal nu actief zijn.
+  <Step title="Het kostenvenster opslaan">
+    Klik op **Opslaan** om het kostenvenster aan te maken.
   </Step>
 </Steps>
 
-## Veelgestelde vragen
+## Maandelijkse vensters in kortere maanden
 
-<AccordionGroup>
-<Accordion title="Wat is een oplaadvenster?">
-Een laadvenster is de gedefinieerde periode gedurende welke kosten worden toegepast. Dit kan dagelijks, wekelijks of maandelijks zijn.
-</Accordion>
-<Accordion title="Kan ik kosten instellen voor specifieke dagen van de week?">
-Ja, door te kiezen **Dag** in de frequentie dropdown kunt u specifieke dagen van de week selecteren om kosten aan te passen.
-</Accordion>
-<Accordion title="Kan ik een maandelijks laadvenster instellen?">
-Ja, u kunt selecteren **Maand** als frequentie en vervolgens specifieke datums kiezen binnen die maand voor de kosten om te draaien.
-</Accordion>
-<Accordion title="Hoe breng ik wijzigingen aan in een bestaand laadvenster?">
-U kunt een laadvenster bewerken of bijwerken door het te selecteren in de **Windows opladen** lijst en vervolgens de details aanpassen.
-</Accordion>
-<Accordion title="Wat gebeurt er nadat ik een laadvenster heb gemaakt?">
-Na het maken van het laadvenster is uw volgende stap het instellen van een **Kaart opladen**. Deze kaart definieert de werkelijke kosten die tijdens het opgegeven venster worden toegepast.
-</Accordion>
-</AccordionGroup>
+Als u voor een maandelijks venster de 29e, 30e of 31e kiest, sluit het venster ook in maanden die die dag niet hebben. Het sluit dan in plaats daarvan op de **laatste kalenderdag van die maand**.
+
+| Geselecteerde dag | Februari (28 dagen) | Februari (schrikkeljaar) | April, juni, september, november |
+|---|---|---|---|
+| 29e | 28e | 29e | 29e |
+| 30e | 28e | 29e | 30e |
+| 31e | 28e | 29e | 30e |
+
+Een venster dat op de 31e sluit, sluit bijvoorbeeld op 31 januari, 28 februari, 31 maart en 30 april. De kosten van elke maand blijven zo in de factureringsperiode van die maand.
+
+Wanneer u de 29e, 30e of 31e selecteert, toont het scherm van het kostenvenster een melding als herinnering aan dit gedrag.
+
+<Tip>Wilt u op de laatste dag van elke maand factureren, selecteer dan de **31e**. Het venster sluit dan op de laatste dag van elke maand, ongeacht de lengte.</Tip>
+
+<Note>Dagen worden niet opgeteld. Als u zowel de 30e als de 31e selecteert, sluit het venster op 30 april één keer — niet twee keer.</Note>
+
+## Wat er gebeurt wanneer een venster sluit
+
+De sluitingsdag van het venster bepaalt verschillende kosten:
+
+- De openstaande kosten van het account worden afgesloten voor facturering en er begint een nieuwe factureringsperiode.
+- [Terugkerende kosten](/knowledgebase/nl/financial/recurring-charges) met de frequentie **Einde van kostenvenster** worden toegevoegd.
+- Huurkosten met een [staffelprijs](/knowledgebase/nl/financial/step-pricing) met vaste staffels worden voor het hele venster berekend.
+
+<Tip>Nadat u het kostenvenster hebt gemaakt, is de volgende stap het instellen van een **kostenkaart** die de werkelijke kosten bepaalt. Wijs daarna beide toe aan het account.</Tip>
