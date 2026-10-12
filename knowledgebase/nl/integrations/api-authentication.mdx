@@ -1,46 +1,141 @@
 ---
 title: "Authenticatie & toegang"
-description: "Hoe u authenticeert tegen de Clarus API — OAuth 2.0 bearer-tokens, de vereiste tenant-subdomeinheader, de headers die u meestuurt, en de playground."
+description: "Hoe u authenticeert tegen de Clarus API — OAuth 2.0 bearer-tokens met de tenant-subdomeinheader, of de legacy-aanmelding met de API-URL van uw subdomein — en de headers die u bij elk verzoek meestuurt."
 sidebarTitle: "Authenticatie"
 ---
 
-De Clarus API is geauthenticeerd. Elk verzoek draagt een OAuth 2.0 bearer-token **en** uw tenant-subdomeinheader.
+De Clarus API is geauthenticeerd, en elk verzoek moet zowel de gebruiker als uw omgeving identificeren. Dat kan op twee manieren:
 
-<Info>Nog niet op OAuth? Integraties die zich aanmelden met een e-mailadres en wachtwoord gebruiken in plaats daarvan de legacy-aanmelding en API-URL's per subdomein. Zie [Legacy-authenticatie & URL's](/knowledgebase/nl/integrations/api-legacy-authentication).</Info>
+- **OAuth 2.0**: een OAuth bearer-token, meegestuurd met de `X-Clarus-Subdomain`-header naar `https://clarus-api.com`.
+- **Legacy-aanmelding**: een token dat u krijgt door u aan te melden met een e-mailadres en wachtwoord, meegestuurd naar de eigen API-URL van uw subdomein. Integraties die nog niet op OAuth werken, gebruiken deze methode.
 
-## OAuth 2.0
+De endpoints, payloads en responses zijn voor beide hetzelfde. Alleen de basis-URL en de headers verschillen.
 
-De API gebruikt **OAuth 2.0** bearer-tokens. Verkrijg een accesstoken en stuur deze bij elk verzoek mee als een `Authorization: Bearer <token>`-header.
+## Verzoeken authenticeren
 
-| | URL |
-|---|---|
-| Authorize | `https://clarus-api.com/oauth/authorize` |
-| Token | `https://clarus-api.com/oauth/token` |
+<Tabs>
+  <Tab title="OAuth 2.0">
+    ### OAuth 2.0
 
-Vraag de scopes aan die uw integratie nodig heeft.
+    De API gebruikt **OAuth 2.0** bearer-tokens. Verkrijg een accesstoken en stuur deze bij elk verzoek mee als een `Authorization: Bearer <token>`-header.
 
-## De subdomeinheader
+    | | URL |
+    |---|---|
+    | Authorize | `https://clarus-api.com/oauth/authorize` |
+    | Token | `https://clarus-api.com/oauth/token` |
 
-ClarusWMS is multi-tenant. Elk verzoek moet de `X-Clarus-Subdomain`-header bevatten die aangeeft met welke tenant-gegevens u werkt — deze wordt meegestuurd naast het bearer-token, niet in plaats daarvan.
+    Vraag de scopes aan die uw integratie nodig heeft.
 
-## Request-headers
+    ### De subdomeinheader
 
-Stuur deze headers bij **elk** verzoek mee, of u nu REST of GraphQL aanroept:
+    ClarusWMS is multi-tenant. Elk verzoek moet de `X-Clarus-Subdomain`-header bevatten die aangeeft met welke tenant-gegevens u werkt — deze wordt meegestuurd naast het bearer-token, niet in plaats daarvan.
 
-| Header | Waarde |
-|---|---|
-| `Authorization` | `Bearer <access-token>` |
-| `X-Clarus-Subdomain` | uw tenant-subdomein |
-| `Content-Type` | `application/json` |
+    ### Request-headers
 
-## De playground gebruiken
+    Stuur deze headers bij **elk** verzoek mee, of u nu REST of GraphQL aanroept:
 
-Wanneer u calls uitprobeert vanuit de **Operations**-playground, toont het **Authorize**-paneel beide vereisten:
+    | Header | Waarde |
+    |---|---|
+    | `Authorization` | `Bearer <access-token>` |
+    | `X-Clarus-Subdomain` | uw tenant-subdomein |
+    | `Content-Type` | `application/json` |
 
-1. **BearerAuth** — plak een accesstoken (of doorloop de OAuth-flow indien geconfigureerd).
-2. **ClarusSubdomain** — voer uw tenant-subdomein in; dit wordt bij elk verzoek als `X-Clarus-Subdomain`-header meegestuurd.
+    ### De playground gebruiken
 
-Beide zijn vereist, zodat verzoeken vanuit de playground het token en de subdomeinheader samen meedragen.
+    Wanneer u calls uitprobeert vanuit de **Operations**-playground, toont het **Authorize**-paneel beide vereisten:
+
+    1. **BearerAuth** — plak een accesstoken (of doorloop de OAuth-flow indien geconfigureerd).
+    2. **ClarusSubdomain** — voer uw tenant-subdomein in; dit wordt bij elk verzoek als `X-Clarus-Subdomain`-header meegestuurd.
+
+    Beide zijn vereist, zodat verzoeken vanuit de playground het token en de subdomeinheader samen meedragen.
+  </Tab>
+  <Tab title="Legacy-aanmelding">
+    ### Uw API-URL
+
+    Elke Clarus-omgeving heeft een eigen API-URL, opgebouwd uit uw subdomein:
+
+    ```text
+    https://{subdomain}.api.clarus.ws
+    ```
+
+    Is uw subdomein bijvoorbeeld `acme`, dan is uw API-URL `https://acme.api.clarus.ws`. Weet u uw subdomein niet zeker, neem dan contact op met Clarus support.
+
+    | Pad | Gebruik |
+    |---|---|
+    | `/users/sign_in` | Aanmelden om een token te krijgen |
+    | `/api/...` | REST-endpoints, bijv. `https://acme.api.clarus.ws/api/products` |
+    | `/graphql` | GraphQL-queries |
+
+    <Info>Heeft u een sandbox-omgeving, dan heeft die een eigen subdomein. Vul dat subdomein in de URL in om uw integratie naar de sandbox te laten wijzen.</Info>
+
+    Werkt u vanuit de **Operations**-referentie, vervang dan `https://clarus-api.com` door uw API-URL. De `X-Clarus-Subdomain`-header is niet nodig, omdat de URL uw omgeving al aangeeft.
+
+    ### Aanmelden en verzoeken authenticeren
+
+    <Steps>
+      <Step title="Aanmelden">
+        Stuur het e-mailadres en wachtwoord van de API-gebruiker naar `/users/sign_in`:
+
+        ```bash
+        curl -X POST https://acme.api.clarus.ws/users/sign_in \
+          -H "Content-Type: application/json" \
+          -d '{
+            "user": {
+              "email": "api.user@example.com",
+              "password": "your-password"
+            }
+          }'
+        ```
+
+        Een geslaagde aanmelding geeft `201 Created` terug met het token:
+
+        ```json
+        {
+          "user_id": 42,
+          "token": "23Ya-sdFas7E3sMH9xgt",
+          "email": "api.user@example.com",
+          "auth_status": "legacy"
+        }
+        ```
+
+        Onjuiste inloggegevens geven `401 Unauthorized` terug.
+      </Step>
+      <Step title="Stuur het token bij elk verzoek mee">
+        Voeg een `Authorization`-header toe met zowel het `token` als het `email` uit de aanmeldresponse:
+
+        ```text
+        Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"
+        ```
+
+        Bijvoorbeeld:
+
+        ```bash
+        curl https://acme.api.clarus.ws/graphql \
+          -H 'Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"' \
+          -H "Content-Type: application/json" \
+          -d '{"query": "{ accounts { all { edges { node { id code name } } } } }"}'
+        ```
+
+        Het voorvoegsel `Bearer` wordt ook geaccepteerd, zolang het e-mailadres erbij staat: `Authorization: Bearer token="…", email="…"`.
+      </Step>
+      <Step title="Hergebruik het token">
+        Bewaar het token en gebruik het voor elke aanroep. Meld u alleen opnieuw aan wanneer een verzoek `401 Unauthorized` teruggeeft.
+      </Step>
+    </Steps>
+
+    ### Elke aanmelding vervangt het token
+
+    Een gebruiker heeft maar één legacy-token tegelijk. Elke aanmelding geeft een nieuw token uit en maakt het vorige ongeldig, en een aanmelding in de WMS-front-end met hetzelfde account kan hetzelfde doen. Afmelden via `/users/sign_out` maakt het token ook ongeldig.
+
+    Dit betekent:
+
+    - **Gebruik een aparte API-gebruiker.** Meldt iemand zich in de front-end aan met het account van de integratie, dan werkt het token van de integratie niet meer. Zie [Gebruik een apart gebruikersaccount](#gebruik-een-apart-gebruikersaccount) hieronder.
+    - **Meld u niet bij elk verzoek aan.** Aanmelden bij elke aanroep sluit andere processen af die hetzelfde account gebruiken. Hergebruik het opgeslagen token en meld u pas opnieuw aan na een `401`.
+    - **Geef elk systeem een eigen gebruiker.** Twee integraties die één account delen, maken elkaars tokens steeds ongeldig.
+
+    <Note>De **Operations**-playground gebruikt OAuth 2.0, dus legacy-aanroepen kunt u daar niet uitproberen. Gebruik in plaats daarvan curl, Postman of uw eigen client.</Note>
+  </Tab>
+</Tabs>
 
 ## Gebruik een apart gebruikersaccount
 
@@ -52,4 +147,4 @@ Dezelfde logica geldt als u meerdere ontwikkelaars of systemen op de API hebt: i
 
 ## Behandel referenties als geheimen
 
-Bewaar API-referenties in een secrets manager, omgevingsvariabelen of het equivalent van uw platform. Zet ze niet in versiebeheer en plak ze niet in gedeelde documenten.
+Bewaar API-referenties — wachtwoorden, client secrets en tokens — in een secrets manager, omgevingsvariabelen of het equivalent van uw platform. Zet ze niet in versiebeheer en plak ze niet in gedeelde documenten.

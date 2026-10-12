@@ -593,7 +593,6 @@
                 "pages": [
                   "api-reference/introduction",
                   "knowledgebase/integrations/api-authentication",
-                  "knowledgebase/integrations/api-legacy-authentication",
                   "knowledgebase/integrations/api-creating-records",
                   "knowledgebase/integrations/api-polling-updates",
                   "knowledgebase/integrations/openapi-spec"
@@ -1172,7 +1171,6 @@
                 "pages": [
                   "knowledgebase/nl/integrations/api-overview",
                   "knowledgebase/nl/integrations/api-authentication",
-                  "knowledgebase/nl/integrations/api-legacy-authentication",
                   "knowledgebase/nl/integrations/api-creating-records",
                   "knowledgebase/nl/integrations/api-polling-updates",
                   "knowledgebase/nl/integrations/openapi-spec"
