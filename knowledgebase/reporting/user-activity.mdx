@@ -1,0 +1,90 @@
+---
+title: "User Activity"
+description: "See when handheld users started and stopped each activity, filter and export the User Activity grid, and run the labour performance reports that combine productive and ancillary time."
+sidebarTitle: "User Activity"
+---
+
+## Overview
+
+**User Activity** is a record of what each handheld (HHD) user has been doing and for how long. Every time a user logs in to an activity mode, such as a truck type, or to an ancillary task, such as a break, an entry is added with its start and end time.
+
+Use it to:
+
+- see when each user started and stopped each activity, productive or not,
+- filter and export that history for further analysis,
+- run labour performance reports that combine productive and ancillary time for each user, activity mode or warehouse.
+
+To set up the activity modes your users choose from, see [Activity modes and ancillary tasks](/knowledgebase/hardware/hhd-activity-modes).
+
+## The User Activity grid
+
+Select **User Activity** in the main menu. The grid lists one row per activity entry, newest first.
+
+| Column | What it shows |
+|---|---|
+| **ID** | The entry's reference number. |
+| **Warehouse Code** | The warehouse the user was working in. |
+| **User Name** | The ClarusWMS user. |
+| **HHD User Username** | The handheld user that logged in to the activity. |
+| **Activity Mode** | The truck type or task the user logged in to, for example `Reach Truck` or `Break`. |
+| **Activity Type** | **Activity** for productive work or **Ancillary** for non-productive time. |
+| **Start Time** | When the activity began. |
+| **End Time** | When the activity ended. Blank while the activity is still in progress. |
+
+Click the view button on a row to open the entry. The entry page shows the same details plus the **Ancillary Type** and when the entry was created and last updated.
+
+<Note>
+An entry with no **End Time** is still in progress. It ends when the user starts another activity.
+</Note>
+
+### Filter the grid
+
+Filter by any column to narrow the list, for example:
+
+- **User Name** or **HHD User Username**, to see one person's day,
+- **Activity Type**, to see only ancillary time,
+- **Activity Mode**, to see a single truck type,
+- **Warehouse Code**, to see one warehouse,
+- **Start Time** and **End Time**, to pick a date range.
+
+For how to filter, sort, add columns and save views, see [Customising data grids](/knowledgebase/reporting/customise-data-grids).
+
+### Export the grid
+
+Click **Export** at the bottom of the grid to download the entries. You need export permission to use it. The export contains the columns shown on screen, so add or remove columns before you export if you need different data.
+
+## Labour performance reports
+
+The pre-made reports below use activity entries to show productive and ancillary time together. Run them in the same way as any other report — see [Using reports](/knowledgebase/reporting/use-reports).
+
+Each report asks for a **start time** and an **end time**, which default to the start and end of today. Only entries that start and end inside that window are counted, so an entry that began before the window or is still in progress is not included.
+
+| Report | Grouped by | What it shows |
+|---|---|---|
+| **Activity Report** | None — one row per entry | Warehouse code, HHD user name, user external reference, activity mode, activity type, start and end time, total time in seconds and tasks completed. Choose a warehouse to limit it. |
+| **Labour Performance by User** | User | Total logged time, total activity time, total ancillary time, total tasks, tasks per hour and average minutes per move. |
+| **Labour Performance by Activity Mode** | Activity mode | Total users, total hours logged, total tasks and average tasks per hour. Choose a warehouse to limit it. |
+| **Labour Performance by Warehouse and Activity Mode** | Warehouse and activity mode | Total users, total hours logged, total tasks and average tasks per hour. |
+| **Overall Labour Performance** | Warehouse, activity mode and user | Total logged time, total activity time, total ancillary time, total hours logged, total tasks, tasks per hour and average minutes per task. |
+
+### How the figures are worked out
+
+| Figure | How it is calculated |
+|---|---|
+| **Total logged time** | The time between **Start Time** and **End Time**, added up across all entries — productive and ancillary together. |
+| **Total activity time** | The same, for entries with the **Activity** type only. |
+| **Total ancillary time** | The same, for entries with the **Ancillary** type only. |
+| **Total tasks** | The tasks completed across the entries, counted when each activity ended. |
+| **Total users** | The number of different HHD users with entries. |
+| **Tasks per hour** | Total tasks divided by total logged time in hours. |
+| **Average minutes per move** | Total logged time in minutes divided by total tasks. |
+
+<Warning>
+**Tasks per hour** and **Average minutes per move** divide by total logged time, which includes ancillary time. A user who spends an hour on breaks will show a lower rate than the same user's productive-only rate. To see productive time alone, compare **Total activity time** with **Total tasks** in the user report.
+</Warning>
+
+Each task is counted for the user who completed it, in any warehouse, between the entry's start and end time.
+
+## Who can see User Activity
+
+User Activity and the reports are available to users whose role gives them read access to the data. Exporting needs export permission. Setting up activity modes needs the ability to manage HHD implementations, which the Admin role includes. See [User roles](/knowledgebase/users-and-roles/user-roles-guide).
