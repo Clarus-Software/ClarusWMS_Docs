@@ -358,6 +358,7 @@
               {
                 "group": "📱 Handheld Devices (HHD)",
                 "pages": [
+                  "knowledgebase/hardware/hhd-activity-modes",
                   "knowledgebase/hardware/hhd-conditions",
                   "knowledgebase/hardware/hhd-previews-duplication",
                   "knowledgebase/hardware/hhd-settings",
@@ -409,6 +410,7 @@
                       "knowledgebase/reporting/select-and-group-data-by-warehouse",
                       "knowledgebase/reporting/goods-out-report",
                       "knowledgebase/reporting/sell-by-date-report",
+                      "knowledgebase/reporting/user-activity",
                       "knowledgebase/reporting/set-up-scheduled-reports",
                       "knowledgebase/reporting/remove-a-scheduled-report"
                     ],
@@ -1028,6 +1030,7 @@
               {
                 "group": "📱 Handheld Devices (HHD)",
                 "pages": [
+                  "knowledgebase/nl/hardware/hhd-activity-modes",
                   "knowledgebase/nl/hardware/hhd-conditions",
                   "knowledgebase/nl/hardware/hhd-previews-duplication",
                   "knowledgebase/nl/hardware/hhd-settings",
@@ -1079,6 +1082,7 @@
                       "knowledgebase/nl/reporting/select-and-group-data-by-warehouse",
                       "knowledgebase/nl/reporting/goods-out-report",
                       "knowledgebase/nl/reporting/sell-by-date-report",
+                      "knowledgebase/nl/reporting/user-activity",
                       "knowledgebase/nl/reporting/set-up-scheduled-reports",
                       "knowledgebase/nl/reporting/remove-a-scheduled-report"
                     ],

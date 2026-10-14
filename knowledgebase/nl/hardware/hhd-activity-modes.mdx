@@ -1,0 +1,123 @@
+---
+title: "Activiteitsmodi en bijkomende taken"
+description: "Laat handheldgebruikers inloggen op een activiteitsmodus, zoals een trucktype, of op een niet-productieve taak, zoals een pauze, zodat hun tijd wordt bijgehouden en hun menu alleen de benodigde opties toont."
+sidebarTitle: "Activiteitsmodi"
+---
+
+## Overzicht
+
+Met **activiteitsmodi** kan een handheldgebruiker (HHD) aangeven waar hij mee bezig is voordat hij begint met werken. Een gebruiker kan inloggen op een van twee soorten activiteit:
+
+- **Een productieve activiteit**, zoals een trucktype (bijvoorbeeld Reach Truck of Order Picker).
+- **Een bijkomende taak**, oftewel niet-productieve tijd zoals een pauze of een training.
+
+Elke keer dat een gebruiker een activiteit start, legt ClarusWMS de start- en eindtijd vast voor die gebruiker, het magazijn en de activiteitsmodus. Managers kunnen die tijd bekijken in het raster [Gebruikersactiviteit](/knowledgebase/nl/reporting/user-activity) en in de rapporten over arbeidsprestaties, die productieve en bijkomende tijd naast elkaar kunnen tonen.
+
+Activiteitsmodi kunnen ook worden gebruikt om elke rol een eigen menu te geven. U bouwt voor elke modus een apart menu, zodat een Reach Truck-chauffeur alleen de opties ziet die hij nodig heeft.
+
+<Info>
+HHD-flows worden per klant geconfigureerd. Activiteitsmodi worden ingesteld op de knoppen in uw HHD-implementatie, dus er verandert niets op een apparaat totdat u ze toevoegt. De onderstaande stappen laten zien hoe.
+</Info>
+
+## Hoe het werkt
+
+1. U bouwt voor elke activiteitsmodus een menuflow die alleen de opties bevat waartoe die modus toegang moet hebben.
+2. U voegt voor elke modus een knop toe aan het hoofdmenu. De knop brengt de gebruiker naar het menu van die modus en geeft aan ClarusWMS door welke activiteitsmodus en welk activiteitstype de gebruiker start.
+3. Wanneer de gebruiker op de knop tikt, wordt een activiteit waarop hij al was ingelogd op dat moment beëindigd en begint de nieuwe. Er zit geen leemte of overlap tussen de twee.
+
+De naam van de activiteitsmodus is vrije tekst. ClarusWMS houdt geen lijst bij van trucktypes of bijkomende taken, dus de namen die u op de knoppen invoert zijn de namen die in het raster en de rapporten verschijnen. Gebruik elke keer dezelfde spelling, omdat rapporten op die naam groeperen.
+
+### Activiteitstypes
+
+Elke activiteitsknop heeft een **Activiteitstype**:
+
+| Activiteitstype | Gebruik het voor |
+|---|---|
+| **Activiteit** | Productief werk, zoals werken op een bepaald trucktype. |
+| **Bijkomend** | Niet-productieve tijd, zoals een pauze of een training. |
+
+Rapporten gebruiken het activiteitstype om productieve tijd te scheiden van bijkomende tijd.
+
+## Een activiteitsmodus instellen
+
+<Tip>
+Dupliceer eerst de implementatie die u wilt wijzigen, zodat u indien nodig eenvoudig kunt terugkeren naar de vorige versie.
+</Tip>
+
+U hebt hiervoor de bevoegdheid nodig om HHD-implementaties te beheren. Die zit in de rol Admin.
+
+<Steps>
+  <Step title="Open de implementatie">
+    Open in het hoofdmenu **Hand held devices** en selecteer **Implementaties**, en open vervolgens de implementatie waarop u activiteitsmodi wilt instellen.
+  </Step>
+  <Step title="Bepaal uw modi en menu's">
+    Bepaal voor welke activiteiten u een menu wilt instellen en welke menuopties elke activiteit moet hebben.
+  </Step>
+  <Step title="Dupliceer de menuflow">
+    Open de sectie **Flowconfiguratie** en klik op **Dupliceer flow**.
+  </Step>
+  <Step title="Geef de nieuwe flow een naam">
+    Voer een **Code** en **Naam** in voor de nieuwe flow. Volg het naamgevingspatroon van uw bestaande flows, bijvoorbeeld `reach-truck-menu` als code.
+  </Step>
+  <Step title="Verwijder de opties die deze modus niet mag hebben">
+    De gedupliceerde menuflow verschijnt op het scherm. Beweeg de muis over elk item waartoe deze activiteitsmodus geen toegang mag hebben totdat de actieknoppen verschijnen en klik dan op **Delete Component**.
+  </Step>
+  <Step title="Ga terug naar het hoofdmenu">
+    Ga terug naar het hoofdmenu wanneer het menu voor deze activiteitsmodus klopt.
+  </Step>
+  <Step title="Voeg een knop toe die de activiteit start">
+    Beweeg de muis over een willekeurig element in het hoofdmenu en klik op **Eronder toevoegen** wanneer die verschijnt.
+  </Step>
+  <Step title="Voeg Navigatieknoppen toe">
+    Zoek in de componentenbibliotheek die opent naar **Navigatieknoppen** en klik op het component om het aan het scherm toe te voegen.
+  </Step>
+  <Step title="Wijs de knop naar het nieuwe menu">
+    Navigatieknoppen toont standaard een terugknop en een volgende-knop. Verwijder in de zijbalk rechts de terugknop en wijzig de **Actie** van de volgende-knop in **Ga naar flow**.
+  </Step>
+  <Step title="Kies de flow">
+    Voer bij **Flow** de code in van het menu voor de activiteitsmodus dat u hebt gemaakt en selecteer het wanneer het verschijnt.
+  </Step>
+  <Step title="Stel de activiteitsmodus en het type in">
+    Voer de **Activiteitsmodus** in (bijvoorbeeld `Reach Truck`) en selecteer een **Activiteitstype**.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Opslaan** om alle wijzigingen bij de implementatie op te slaan.
+  </Step>
+</Steps>
+
+Herhaal de stappen voor elke activiteitsmodus.
+
+### Bijkomende taken
+
+Stel een pauze- of trainingsknop op dezelfde manier in, met **Activiteitstype** op **Bijkomend** en de taaknaam, bijvoorbeeld `Break`, als **Activiteitsmodus**.
+
+<Note>
+**Activiteitsmodus** en **Activiteitstype** zijn niet beschikbaar wanneer de actie van een knop **Uitloggen** is.
+</Note>
+
+## Wat wordt vastgelegd
+
+Elke activiteit wordt opgeslagen als een item met:
+
+- de gebruiker, de HHD-gebruiker en het magazijn,
+- de **Activiteitsmodus** en het **Activiteitstype**,
+- een **Starttijd** en een **Eindtijd**,
+- het aantal taken dat de gebruiker heeft voltooid terwijl de activiteit liep.
+
+Enkele zaken om te weten:
+
+- **Een item zonder Eindtijd is nog bezig.** Het wordt beëindigd wanneer de gebruiker een andere activiteit start.
+- **Wisselen van activiteit beëindigt de vorige.** De nieuwe activiteit start op hetzelfde moment als waarop de vorige eindigt.
+- **Voltooide taken** worden geteld wanneer een activiteit eindigt. Het omvat elke taak die die gebruiker heeft voltooid tussen de start- en eindtijd, en een item dat nog loopt toont er nog geen.
+- **Tijdtotalen bevatten alleen afgeronde items.** Rapporten tellen de tijd tussen Starttijd en Eindtijd op, dus een item dat nog loopt telt pas mee in de totalen wanneer het eindigt.
+
+## Gerelateerde handleidingen
+
+<CardGroup cols={2}>
+  <Card title="Gebruikersactiviteit" icon="user-clock" href="/knowledgebase/nl/reporting/user-activity">
+    Bekijk en exporteer activiteitsitems en draai de rapporten over arbeidsprestaties.
+  </Card>
+  <Card title="HHD-previews en flowduplicatie" icon="mobile" href="/knowledgebase/nl/hardware/hhd-previews-duplication">
+    Bekijk een preview van uw implementatie en dupliceer flows.
+  </Card>
+</CardGroup>

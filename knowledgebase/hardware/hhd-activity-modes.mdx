@@ -1,0 +1,123 @@
+---
+title: "Activity Modes and Ancillary Tasks"
+description: "Let handheld users log in to an activity mode such as a truck type, or to a non-productive task such as a break, so their time is tracked and their menu shows only the options they need."
+sidebarTitle: "Activity Modes"
+---
+
+## Overview
+
+**Activity modes** let a handheld (HHD) user say what they are doing before they start work. A user can log in to one of two kinds of activity:
+
+- **A productive activity**, such as a truck type (for example Reach Truck or Order Picker).
+- **An ancillary task**, which is non-productive time such as a break or training.
+
+Each time a user starts an activity, ClarusWMS records the start and end time against that user, the warehouse and the activity mode. Managers can then review that time on the [User Activity](/knowledgebase/reporting/user-activity) grid and in the labour performance reports, which can show productive and ancillary time side by side.
+
+Activity modes can also be used to give each role its own menu. You build a separate menu for each mode, so a Reach Truck driver sees only the options a Reach Truck driver needs.
+
+<Info>
+HHD flows are configured per customer. Activity modes are set up on the buttons in your HHD implementation, so nothing changes on a device until you add them. The steps below show how.
+</Info>
+
+## How it works
+
+1. You build a menu flow for each activity mode, containing only the options that mode should have access to.
+2. You add a button for each mode to the home menu. The button takes the user to that mode's menu and tells ClarusWMS which activity mode and activity type the user is starting.
+3. When the user taps the button, any activity they were already logged in to is ended at that moment, and the new one begins. There is no gap or overlap between the two.
+
+The activity mode name is free text. ClarusWMS does not hold a list of truck types or ancillary tasks, so the names you type on the buttons are the names that appear in the grid and reports. Use the same spelling every time, because reports group by that name.
+
+### Activity types
+
+Each activity button has an **Activity Type**:
+
+| Activity type | Use it for |
+|---|---|
+| **Activity** | Productive work, such as working on a particular truck type. |
+| **Ancillary** | Non-productive time, such as a break or training. |
+
+Reports use the activity type to split productive time from ancillary time.
+
+## Set up an activity mode
+
+<Tip>
+Duplicate the implementation you want to change first, so you can easily revert to the previous version if needed.
+</Tip>
+
+You need the ability to manage HHD implementations to do this. It is included in the Admin role.
+
+<Steps>
+  <Step title="Open the implementation">
+    In the main menu, open **Handheld Devices** and select **HHD Implementations**, then open the implementation you want to set activity modes on.
+  </Step>
+  <Step title="Decide on your modes and menus">
+    Decide which activities you want to set up a menu for, and which menu options each one should have.
+  </Step>
+  <Step title="Duplicate the menu flow">
+    Open the **Flow Configuration** section and click **Duplicate Flow**.
+  </Step>
+  <Step title="Name the new flow">
+    Enter a **Code** and **Name** for the new flow. Follow the naming pattern of your existing flows, for example `reach-truck-menu` for the code.
+  </Step>
+  <Step title="Remove the options this mode should not have">
+    The duplicated menu flow appears on screen. Hover over each item you do not want this activity mode to access until the action buttons appear, then click **Delete Component**.
+  </Step>
+  <Step title="Return to the main menu">
+    When the menu is right for this activity mode, go back to the main menu.
+  </Step>
+  <Step title="Add a button that starts the activity">
+    Hover over any element on the home menu and click **Add Below** when it appears.
+  </Step>
+  <Step title="Add Navigation Buttons">
+    In the component library that opens, search for **Navigation Buttons** and click the component to add it to the screen.
+  </Step>
+  <Step title="Point the button at the new menu">
+    Navigation Buttons shows a back button and a next button by default. In the sidebar on the right, delete the back button and change the next button's **Action** to **Go To Flow**.
+  </Step>
+  <Step title="Choose the flow">
+    In **Flow**, enter the code of the activity mode menu you created and select it when it appears.
+  </Step>
+  <Step title="Set the activity mode and type">
+    Enter the **Activity Mode** (for example `Reach Truck`) and select an **Activity Type**.
+  </Step>
+  <Step title="Save">
+    Click **Save** to store all changes against the implementation.
+  </Step>
+</Steps>
+
+Repeat the steps for each activity mode.
+
+### Ancillary tasks
+
+Set up a break or training button in the same way, with **Activity Type** set to **Ancillary** and the task name, for example `Break`, as the **Activity Mode**.
+
+<Note>
+**Activity Mode** and **Activity Type** are not available when a button's action is **Logout**.
+</Note>
+
+## What gets recorded
+
+Each activity is stored as an entry with:
+
+- the user, the HHD user and the warehouse,
+- the **Activity Mode** and **Activity Type**,
+- a **Start Time** and an **End Time**,
+- the number of tasks the user completed while it was running.
+
+Some details worth knowing:
+
+- **An entry with no End Time is still in progress.** It is ended when the user starts another activity.
+- **Switching activities ends the previous one.** The new activity starts at the same time the previous one ends.
+- **Tasks completed** is counted when an activity ends. It includes every task that user completed between the start and end time, and an entry that is still running shows none yet.
+- **Time totals only include finished entries.** Reports add up the time between Start Time and End Time, so an entry that is still running does not count towards totals until it ends.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="User Activity" icon="user-clock" href="/knowledgebase/reporting/user-activity">
+    View and export activity entries, and run the labour performance reports.
+  </Card>
+  <Card title="HHD previews and flow duplication" icon="mobile" href="/knowledgebase/hardware/hhd-previews-duplication">
+    Preview your implementation and duplicate flows.
+  </Card>
+</CardGroup>

@@ -1,0 +1,90 @@
+---
+title: "Gebruikersactiviteit"
+description: "Bekijk wanneer handheldgebruikers elke activiteit hebben gestart en gestopt, filter en exporteer het raster Gebruikersactiviteit en draai de rapporten over arbeidsprestaties die productieve en bijkomende tijd combineren."
+sidebarTitle: "Gebruikersactiviteit"
+---
+
+## Overzicht
+
+**Gebruikersactiviteit** is een overzicht van wat elke handheldgebruiker (HHD) heeft gedaan en hoe lang. Elke keer dat een gebruiker inlogt op een activiteitsmodus, zoals een trucktype, of op een bijkomende taak, zoals een pauze, wordt een item toegevoegd met de start- en eindtijd.
+
+Gebruik het om:
+
+- te zien wanneer elke gebruiker elke activiteit heeft gestart en gestopt, productief of niet,
+- die historie te filteren en te exporteren voor verdere analyse,
+- rapporten over arbeidsprestaties te draaien die productieve en bijkomende tijd combineren per gebruiker, activiteitsmodus of magazijn.
+
+Zie [Activiteitsmodi en bijkomende taken](/knowledgebase/nl/hardware/hhd-activity-modes) om de activiteitsmodi in te stellen waaruit uw gebruikers kiezen.
+
+## Het raster Gebruikersactiviteit
+
+Selecteer **Gebruikersactiviteit** in het hoofdmenu. Het raster toont één rij per activiteitsitem, nieuwste eerst.
+
+| Kolom | Wat het toont |
+|---|---|
+| **ID** | Het referentienummer van het item. |
+| **Magazijncode** | Het magazijn waarin de gebruiker werkte. |
+| **Gebruikersnaam** | De ClarusWMS-gebruiker. |
+| **HHD User Username** | De handheldgebruiker die op de activiteit was ingelogd. |
+| **Activiteitsmodus** | Het trucktype of de taak waarop de gebruiker was ingelogd, bijvoorbeeld `Reach Truck` of `Break`. |
+| **Activiteitstype** | **Activiteit** voor productief werk of **Bijkomend** voor niet-productieve tijd. |
+| **Starttijd** | Wanneer de activiteit begon. |
+| **Eindtijd** | Wanneer de activiteit eindigde. Leeg zolang de activiteit nog bezig is. |
+
+Klik op de weergaveknop in een rij om het item te openen. De itempagina toont dezelfde gegevens plus het **Ancillary Type** en wanneer het item is aangemaakt en voor het laatst is bijgewerkt.
+
+<Note>
+Een item zonder **Eindtijd** is nog bezig. Het eindigt wanneer de gebruiker een andere activiteit start.
+</Note>
+
+### Het raster filteren
+
+Filter op elke kolom om de lijst te beperken, bijvoorbeeld:
+
+- **Gebruikersnaam** of **HHD User Username**, om de dag van één persoon te zien,
+- **Activiteitstype**, om alleen bijkomende tijd te zien,
+- **Activiteitsmodus**, om één trucktype te zien,
+- **Magazijncode**, om één magazijn te zien,
+- **Starttijd** en **Eindtijd**, om een datumbereik te kiezen.
+
+Zie [Dataroosters aanpassen](/knowledgebase/nl/reporting/customise-data-grids) voor het filteren, sorteren, toevoegen van kolommen en opslaan van weergaven.
+
+### Het raster exporteren
+
+Klik onderaan het raster op **Export** om de items te downloaden. U hebt exportrechten nodig om dit te gebruiken. De export bevat de kolommen die op het scherm worden getoond, dus voeg kolommen toe of verwijder ze voordat u exporteert als u andere gegevens nodig hebt.
+
+## Rapporten over arbeidsprestaties
+
+De onderstaande kant-en-klare rapporten gebruiken activiteitsitems om productieve en bijkomende tijd samen te tonen. Draai ze op dezelfde manier als elk ander rapport — zie [Rapporten gebruiken](/knowledgebase/nl/reporting/use-reports).
+
+Elk rapport vraagt om een **start_time** en een **end_time**, die standaard het begin en einde van vandaag zijn. Alleen items die binnen dat venster beginnen en eindigen worden meegeteld, dus een item dat voor het venster begon of nog bezig is, wordt niet meegenomen.
+
+| Rapport | Gegroepeerd op | Wat het toont |
+|---|---|---|
+| **Activiteitenrapport** | Geen — één rij per item | Magazijncode, HHD-gebruikersnaam, externe referentie van de gebruiker, activiteitsmodus, activiteitstype, start- en eindtijd, totale tijd in seconden en voltooide taken. Kies een magazijn om het te beperken. |
+| **Arbeidsprestatie per gebruiker** | Gebruiker | Totale geregistreerde tijd, totale activiteitstijd, totale nevenactiviteitstijd, totaal aantal taken, taken per uur en gemiddeld aantal minuten per verplaatsing. |
+| **Arbeidsprestatie per activiteitsmodus** | Activiteitsmodus | Totaal aantal gebruikers, totaal geregistreerde uren, totaal aantal taken en gemiddeld aantal taken per uur. Kies een magazijn om het te beperken. |
+| **Arbeidsprestatie per magazijn en activiteitsmodus** | Magazijn en activiteitsmodus | Totaal aantal gebruikers, totaal geregistreerde uren, totaal aantal taken en gemiddeld aantal taken per uur. |
+| **Algehele arbeidsprestatie** | Magazijn, activiteitsmodus en gebruiker | Totale geregistreerde tijd, totale activiteitstijd, totale nevenactiviteitstijd, totaal geregistreerde uren, totaal aantal taken, taken per uur en gemiddeld aantal minuten per taak. |
+
+### Hoe de cijfers worden berekend
+
+| Cijfer | Hoe het wordt berekend |
+|---|---|
+| **Totale geregistreerde tijd** | De tijd tussen **Starttijd** en **Eindtijd**, opgeteld over alle items — productief en bijkomend samen. |
+| **Totale activiteitstijd** | Hetzelfde, alleen voor items met het type **Activiteit**. |
+| **Totale nevenactiviteitstijd** | Hetzelfde, alleen voor items met het type **Bijkomend**. |
+| **Totaal aantal taken** | De voltooide taken over de items, geteld wanneer elke activiteit eindigde. |
+| **Totaal aantal gebruikers** | Het aantal verschillende HHD-gebruikers met items. |
+| **Taken per uur** | Totaal aantal taken gedeeld door de totale geregistreerde tijd in uren. |
+| **Gemiddeld aantal minuten per verplaatsing** | De totale geregistreerde tijd in minuten gedeeld door het totaal aantal taken. |
+
+<Warning>
+**Taken per uur** en **Gemiddeld aantal minuten per verplaatsing** delen door de totale geregistreerde tijd, inclusief bijkomende tijd. Een gebruiker die een uur pauzeert, toont een lagere waarde dan zijn productieve waarde alleen. Vergelijk in het gebruikersrapport de **totale activiteitstijd** met het **totaal aantal taken** om alleen productieve tijd te zien.
+</Warning>
+
+Elke taak wordt geteld voor de gebruiker die haar heeft voltooid, in elk magazijn, tussen de start- en eindtijd van het item.
+
+## Wie Gebruikersactiviteit kan zien
+
+Gebruikersactiviteit en de rapporten zijn beschikbaar voor gebruikers van wie de rol leesrechten op de gegevens geeft. Exporteren vereist exportrechten. Het instellen van activiteitsmodi vereist de bevoegdheid om HHD-implementaties te beheren, die de rol Admin bevat. Zie [Gebruikersrollen](/knowledgebase/nl/users-and-roles/user-roles-guide).
