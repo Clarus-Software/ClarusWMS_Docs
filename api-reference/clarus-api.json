@@ -8124,6 +8124,11 @@
                             "nullable": true,
                             "description": "Pick label template ID"
                           },
+                          "crossdock_storage_unit_label_template_id": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "Cross-dock storage unit label template ID"
+                          },
                           "address": {
                             "type": "object",
                             "description": "Optional nested customer address. Town/city goes in address_3.",
@@ -8299,6 +8304,11 @@
                             "type": "integer",
                             "nullable": true,
                             "description": "Pick label template ID"
+                          },
+                          "crossdock_storage_unit_label_template_id": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "Cross-dock storage unit label template ID"
                           },
                           "address": {
                             "type": "object",
@@ -27815,6 +27825,61 @@
         }
       }
     },
+    "/api/positive_adjustments/create_stocks": {
+      "post": {
+        "tags": [
+          "Stocks"
+        ],
+        "summary": "Create stock (positive adjustment)",
+        "description": "Add stock the system does not know about, such as stock found during a count or opening stock for a new warehouse. Each line is created as loose stock, on one storage unit, or across several new storage units. Every stock line created is recorded as a positive adjustment transaction. To increase the quantity of an existing stock record instead, use `POST /api/positive_adjustments/extra_stock_on_storage_unit_found`.",
+        "x-mint": {
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"account_id\": 1,\n  \"description\": \"Stock found during cycle count\",\n  \"stock_date\": \"2026-10-17T09:30:00Z\",\n  \"stocks\": [\n    {\n      \"location_id\": 100,\n      \"product_id\": 123,\n      \"quantity\": 6\n    },\n    {\n      \"location_id\": 101,\n      \"product_id\": 123,\n      \"quantity\": 24,\n      \"storage_unit_quantity\": 1,\n      \"storage_unit_type_id\": 2\n    }\n  ],\n  \"warehouse_id\": 1,\n  \"reason_code_id\": 4\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `account_id` | Yes | Stock account (owner of the stock) for every line |\n| `warehouse_id` | Yes | Warehouse for every line |\n| `stock_date` | Yes | ISO 8601 date-time used as the FIFO date of every line |\n| `description` | Yes | Free-text reason for the adjustment (audit trail) |\n| `stocks` | Yes | Lines to create: `product_id`, `location_id` and `quantity` are required on each |\n| `reason_code_id` | No | `positive_adjustment` reason code; required if the account enforces one |\n\n## Storage Units\n\nEach line's storage unit fields decide how it is created:\n\n| `storage_unit_quantity` | Other fields | Result |\n|-------------------------|--------------|--------|\n| Omitted or `0` | - | Loose stock at the location, no storage unit |\n| `1` | `storage_unit_reference` matches an existing non-dispatched storage unit | Stock is added to that storage unit |\n| `1` | `storage_unit_reference` is new | A storage unit is created with that reference |\n| `1` | `storage_unit_type_id` only | A storage unit is created with a reference generated from the type's sequence |\n| Greater than `1` | `storage_unit_type_id` | That many storage units are created, each holding `quantity` |\n\nSend the same `storage_unit_reference` on several lines to build a mixed storage unit.\n\n## Behavior\n\n- All lines are created in a single transaction: if any line fails, nothing is created.\n- New stock is always created with status `AVAILABLE`.\n- Products with full serial number tracking need one serial number per unit, and cannot use `storage_unit_quantity` greater than 1.\n- The response has no body (204). To read the created stock, query `/graphql#ListStocks` (for example filtered by location and product).\n\n## Error Codes\n\n| Code | Symbol | Description |\n|------|--------|-------------|\n| 228 | incorrect_reason_code_type | Reason code is not a `positive_adjustment` reason code |\n| 230 | reason_code_missing | No reason code was sent but the account enforces positive adjustment reason codes |\n| 335 | receipt_line_storage_unit_quantity_must_eq_one_with_full_tracking_of_serial_numbers | `storage_unit_quantity` greater than 1 sent for a serial-tracked product |\n| 339 | serial_numbers_quantity_is_not_equal_to_stock_quantity | Serial-tracked product sent with a number of serial numbers that does not match the quantity |\n| 341 | serial_numbers_already_in_stock | A serial number is already in stock for the product |\n| 342 | serial_numbers_not_unique | The same serial number was sent more than once |"
+        },
+        "operationId": "positiveAdjustmentCreateStocks",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockPositiveAdjustmentCreateStocksRequest"
+              },
+              "example": {
+                "account_id": 1,
+                "description": "Stock found during cycle count",
+                "stock_date": "2026-10-17T09:30:00Z",
+                "stocks": [
+                  {
+                    "location_id": 100,
+                    "product_id": 123,
+                    "quantity": 6
+                  },
+                  {
+                    "location_id": 101,
+                    "product_id": 123,
+                    "quantity": 24,
+                    "storage_unit_quantity": 1,
+                    "storage_unit_type_id": 2
+                  }
+                ],
+                "warehouse_id": 1,
+                "reason_code_id": 4
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Stock created successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
     "/api/stocks/{id}": {
       "patch": {
         "tags": [
@@ -28052,14 +28117,14 @@
       }
     },
     "/api/stocks/{id}/negative_adjustment": {
-      "post": {
+      "put": {
         "tags": [
           "Stocks"
         ],
         "summary": "Perform negative stock adjustment",
-        "description": "Reduce the quantity of stock at a location. Use this for stock corrections, write-offs, or recording damaged/lost inventory.",
+        "description": "Reduce the quantity of an existing stock record. Use this for stock corrections, write-offs, or recording damaged/lost inventory. The reduction is recorded as a negative adjustment transaction. To increase stock, use the positive adjustment endpoints.",
         "x-mint": {
-          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"quantity\": 10,\n      \"reason_code_id\": 2\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to reduce (must be > 0 and <= available) |\n| `reason_code_id` | No | Reason code for audit trail (e.g., damaged, expired) |"
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"description\": \"Damaged in storage\",\n  \"quantity\": 10,\n  \"reason_code_id\": 2\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to remove (must be > 0 and no more than the stock's quantity) |\n| `description` | Yes | Free-text reason for the adjustment (audit trail) |\n| `reason_code_id` | No | `negative_adjustment` reason code (e.g. damaged, expired); required if the account enforces one |\n\n## Behavior\n\n- The stock must have status `AVAILABLE` or be on hold, and its stock balance (available or on hold respectively) must cover `quantity`.\n- The stock's quantity decreases by `quantity`, and the stock balance for its account, product and warehouse decreases with it.\n- The response has no body (204).\n\n## Error Codes\n\n| Code | Symbol | Description |\n|------|--------|-------------|\n| 170 | stock_balance_must_be_positive | The stock balance does not cover the quantity being removed |\n| 228 | incorrect_reason_code_type | Reason code is not a `negative_adjustment` reason code |\n| 229 | reason_code_account_mismatch | Reason code is restricted to other accounts |\n| 230 | reason_code_missing | No reason code was sent but the account enforces negative adjustment reason codes |"
         },
         "operationId": "negativeAdjustmentStock",
         "parameters": [
@@ -28079,23 +28144,117 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/StockNegativeAdjustmentRequest"
+              },
+              "example": {
+                "description": "Damaged in storage",
+                "quantity": 10,
+                "reason_code_id": 2
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Stock adjusted successfully"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/api/positive_adjustments/extra_stock_on_storage_unit_found": {
+      "post": {
+        "tags": [
+          "Stocks"
+        ],
+        "summary": "Increase stock quantity (positive adjustment)",
+        "description": "Increase the quantity of an existing stock record in place, keeping its ID, location, storage unit, FIFO date and other attributes. Despite the endpoint name, this works for any stock record, whether or not it is on a storage unit. The increase is recorded as a positive adjustment transaction. To add new stock lines instead, use `POST /api/positive_adjustments/create_stocks`.",
+        "x-mint": {
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"description\": \"Extra units found on pallet\",\n  \"quantity\": 5,\n  \"stock_id\": 4521,\n  \"reason_code_id\": 4\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `stock_id` | Yes | ID of the existing stock record to increase |\n| `quantity` | Yes | Quantity to add (must be > 0); this is the increase, not the new total |\n| `description` | Yes | Free-text reason for the adjustment (audit trail) |\n| `reason_code_id` | No | `positive_adjustment` reason code; required if the account enforces one |\n| `serial_numbers` | Conditional | One per added unit when the stock has full serial number tracking |\n\n## Behavior\n\n- The stock must have status `AVAILABLE` or be on hold; allocated, picked and in-transit stock cannot be adjusted.\n- The stock's quantity increases by `quantity`, and the stock balance for its account, product and warehouse increases with it.\n- Returns the updated stock record.\n\n## Error Codes\n\n| Code | Symbol | Description |\n|------|--------|-------------|\n| 134 | cant_adjust_allocated_stock | Stock is not available or on hold |\n| 228 | incorrect_reason_code_type | Reason code is not a `positive_adjustment` reason code |\n| 230 | reason_code_missing | No reason code was sent but the account enforces positive adjustment reason codes |\n| 229 | reason_code_account_mismatch | Reason code is restricted to other accounts |\n| 339 | serial_numbers_quantity_is_not_equal_to_stock_quantity | Serial-tracked product sent with a number of serial numbers that does not match the quantity |\n| 341 | serial_numbers_already_in_stock | A serial number is already in stock for the product |\n| 342 | serial_numbers_not_unique | The same serial number was sent more than once |"
+        },
+        "operationId": "positiveAdjustmentExtraStock",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockPositiveAdjustmentExtraStockRequest"
+              },
+              "example": {
+                "description": "Extra units found on pallet",
+                "quantity": 5,
+                "stock_id": 4521,
+                "reason_code_id": 4
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Stock adjusted successfully",
+            "description": "Stock quantity increased successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DataResponse"
+                  "type": "object",
+                  "description": "The updated stock as a JSON:API resource. Attribute and relationship keys are dasherized (e.g. `fifo-date`, `storage-unit`) and decimal values such as `quantity` are serialized as strings.",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "attributes": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Stock attributes, including `status`, `quantity`, `fifo-date`, `pick-priority`, hold fields, dimensions and the custom `string1`-`string5`, `integer1`-`integer5`, `datetime1`-`datetime5` and `boolean1`-`boolean5` fields"
+                        },
+                        "id": {
+                          "type": "string",
+                          "description": "ID of the stock record"
+                        },
+                        "relationships": {
+                          "type": "object",
+                          "additionalProperties": true,
+                          "description": "Related records (account, location, product, storage-unit, warehouse, etc.)"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "stocks"
+                          ],
+                          "description": "Resource type identifier"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "id": "4521",
+                    "type": "stocks",
+                    "attributes": {
+                      "description": null,
+                      "fifo-date": "2026-09-02T08:15:00.000+01:00",
+                      "hold-status-id": null,
+                      "pick-priority": 1,
+                      "quantity": "29.0",
+                      "status": "AVAILABLE"
+                    }
+                  }
                 }
               }
             }
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
           },
           "422": {
             "$ref": "#/components/responses/UnprocessableEntity"
@@ -29061,6 +29220,121 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/storage_units/{id}/crossdock_label": {
+      "post": {
+        "tags": [
+          "Storage Units"
+        ],
+        "summary": "Print a cross-dock label for a storage unit",
+        "description": "Generate the cross-dock storage unit (LPN) label for a storage unit. The template is resolved automatically from configuration - the customer's `crossdock_storage_unit_label_template_id` if set, otherwise the account's `external_crossdock_options.crossdock_storage_unit_label_template_id`, otherwise the account default for the `crossdock_storage_unit_label` template type. No template can be supplied in the request.\n\nThe storage unit must already have an allocation or pick transaction, which happens once its receive task has completed. Called earlier the document is marked `failed`.\n\nWhen `cloud_print` is true, the label is sent directly to the specified printer. When `cloud_print` is false or omitted, the response is a PDF binary stream (not JSON).",
+        "x-mint": {
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"storage_units\",\n    \"attributes\": {\n      \"cloud_print\": true,\n      \"printer_id\": 1\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `cloud_print` | No | When true, sends to printer via PrintNode instead of returning PDF |\n| `printer_id` | No | PrintNode printer ID (required when cloud_print is true) |\n\n## Template Selection\n\nThe label template is never chosen in the request. It resolves in order: the customer's configured cross-dock label, then the account's cross-dock label default, then the account default for the `crossdock_storage_unit_label` type.\n\n## Response Behavior\n\n- **With `cloud_print: true`**: Returns JSON acknowledgement that the print job was sent\n- **Without `cloud_print`**: Returns a PDF binary stream (`application/pdf`)"
+        },
+        "operationId": "printStorageUnitCrossdockLabel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the storage unit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "storage_units"
+                        ]
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "cloud_print": {
+                            "type": "boolean",
+                            "description": "When true, sends the label to a printer via PrintNode instead of returning a PDF"
+                          },
+                          "printer_id": {
+                            "type": "integer",
+                            "description": "PrintNode printer ID to send the label to (required when cloud_print is true)"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "example": {
+                "data": {
+                  "type": "storage_units",
+                  "attributes": {
+                    "cloud_print": true,
+                    "printer_id": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Label print job created successfully (when cloud_print is true) or PDF binary stream (when cloud_print is false)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "attributes": {
+                          "type": "object"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "id": 1,
+                    "type": "documents",
+                    "attributes": {
+                      "status": "processing"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
           }
         }
       }
@@ -39006,46 +39280,32 @@
       },
       "StockNegativeAdjustmentRequest": {
         "type": "object",
-        "description": "Request body for negative stock adjustment",
+        "description": "Request body for negative stock adjustment. The body is sent as plain JSON, not wrapped in a JSON:API `data` envelope.",
         "required": [
-          "data"
+          "description",
+          "quantity"
         ],
         "properties": {
-          "data": {
-            "type": "object",
-            "required": [
-              "type",
-              "attributes"
-            ],
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "stocks"
-                ],
-                "description": "Resource type identifier"
-              },
-              "attributes": {
-                "type": "object",
-                "required": [
-                  "quantity"
-                ],
-                "properties": {
-                  "quantity": {
-                    "type": "number",
-                    "minimum": 0,
-                    "exclusiveMinimum": true,
-                    "description": "Quantity to remove from stock"
-                  },
-                  "reason_code_id": {
-                    "type": "integer",
-                    "nullable": true,
-                    "description": "Reason code ID for the adjustment"
-                  }
-                }
-              }
-            }
+          "description": {
+            "type": "string",
+            "description": "Free-text reason for the adjustment, recorded on the transaction"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "Quantity to REMOVE from the stock. Must be greater than 0 and no more than the stock's current quantity."
+          },
+          "reason_code_id": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID of a reason code with `reason_type` `negative_adjustment`, recorded on the transaction for the audit trail. Required when the stock's account has `enforce_negative_adjustment_reason_code` enabled."
           }
+        },
+        "example": {
+          "description": "Damaged in storage",
+          "quantity": 10,
+          "reason_code_id": 2
         }
       },
       "StockOffholdRequest": {
@@ -39080,6 +39340,352 @@
           ],
           "description": "Quality check passed",
           "reason_code_id": 1
+        }
+      },
+      "StockPositiveAdjustmentCreateStocksRequest": {
+        "type": "object",
+        "description": "Request body for creating new stock through a positive adjustment. The body is sent as plain JSON, not wrapped in a JSON:API `data` envelope.",
+        "required": [
+          "account_id",
+          "description",
+          "stock_date",
+          "stocks",
+          "warehouse_id"
+        ],
+        "properties": {
+          "account_id": {
+            "type": "integer",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AccountId"
+              }
+            ],
+            "description": "Stock account that owns all the stock created by this request"
+          },
+          "description": {
+            "type": "string",
+            "description": "Free-text reason for the adjustment, recorded on each transaction"
+          },
+          "reason_code_id": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID of a reason code with `reason_type` `positive_adjustment`, recorded on the transaction for the audit trail. Required when the stock's account has `enforce_positive_adjustment_reason_code` enabled."
+          },
+          "stock_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 date-time used as the FIFO date of every stock line created (e.g. `2026-10-17T09:30:00Z`)"
+          },
+          "stocks": {
+            "type": "array",
+            "minItems": 1,
+            "description": "The stock lines to create. Each line is created as loose stock, on one storage unit, or on several storage units depending on its storage unit fields.",
+            "items": {
+              "$ref": "#/components/schemas/StockPositiveAdjustmentLine"
+            }
+          },
+          "warehouse_id": {
+            "type": "integer",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WarehouseId"
+              }
+            ],
+            "description": "Warehouse all the stock is created in"
+          }
+        },
+        "example": {
+          "account_id": 1,
+          "description": "Stock found during cycle count",
+          "stock_date": "2026-10-17T09:30:00Z",
+          "stocks": [
+            {
+              "location_id": 100,
+              "product_id": 123,
+              "quantity": 6
+            },
+            {
+              "location_id": 101,
+              "product_id": 123,
+              "quantity": 24,
+              "storage_unit_quantity": 1,
+              "storage_unit_type_id": 2
+            }
+          ],
+          "warehouse_id": 1,
+          "reason_code_id": 4
+        }
+      },
+      "StockPositiveAdjustmentExtraStockRequest": {
+        "type": "object",
+        "description": "Request body for increasing the quantity of an existing stock record. The body is sent as plain JSON, not wrapped in a JSON:API `data` envelope.",
+        "required": [
+          "description",
+          "quantity",
+          "stock_id"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Free-text reason for the adjustment, recorded on the transaction"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "Quantity to ADD to the stock's current quantity (not the new total)"
+          },
+          "reason_code_id": {
+            "type": "integer",
+            "nullable": true,
+            "description": "ID of a reason code with `reason_type` `positive_adjustment`, recorded on the transaction for the audit trail. Required when the stock's account has `enforce_positive_adjustment_reason_code` enabled."
+          },
+          "serial_numbers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Serial numbers for the added units. Required when the stock has full serial number tracking, in which case exactly one serial number per added unit must be sent (quantity rounded up). Serial numbers must be unique and must not already be in stock for the product."
+          },
+          "stock_id": {
+            "type": "integer",
+            "description": "ID of the existing stock record to increase"
+          }
+        },
+        "example": {
+          "description": "Extra units found on pallet",
+          "quantity": 5,
+          "stock_id": 4521,
+          "reason_code_id": 4
+        }
+      },
+      "StockPositiveAdjustmentLine": {
+        "type": "object",
+        "description": "One line of stock to create in a `create_stocks` positive adjustment. The account, warehouse and FIFO date come from the top level of the request, not from the line.",
+        "required": [
+          "location_id",
+          "product_id",
+          "quantity"
+        ],
+        "properties": {
+          "boolean1": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Tenant-configurable custom flag field"
+          },
+          "boolean2": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Tenant-configurable custom flag field"
+          },
+          "boolean3": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Tenant-configurable custom flag field"
+          },
+          "boolean4": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Tenant-configurable custom flag field"
+          },
+          "boolean5": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Tenant-configurable custom flag field"
+          },
+          "configurations_per_layer": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Number of configurations per layer",
+            "nullable": true
+          },
+          "datetime1": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tenant-configurable custom date/time field"
+          },
+          "datetime2": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tenant-configurable custom date/time field"
+          },
+          "datetime3": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tenant-configurable custom date/time field"
+          },
+          "datetime4": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tenant-configurable custom date/time field"
+          },
+          "datetime5": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Tenant-configurable custom date/time field"
+          },
+          "depth": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Depth of the stock line, in the given unit_of_measure",
+            "nullable": true
+          },
+          "height": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Height of the stock line, in the given unit_of_measure",
+            "nullable": true
+          },
+          "integer1": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Tenant-configurable custom number field"
+          },
+          "integer2": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Tenant-configurable custom number field"
+          },
+          "integer3": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Tenant-configurable custom number field"
+          },
+          "integer4": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Tenant-configurable custom number field"
+          },
+          "integer5": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Tenant-configurable custom number field"
+          },
+          "location_id": {
+            "type": "integer",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocationId"
+              }
+            ],
+            "description": "Location the stock is created at"
+          },
+          "number_of_layers": {
+            "type": "integer",
+            "nullable": true,
+            "minimum": 0,
+            "description": "Number of layers on the stock line"
+          },
+          "product_id": {
+            "type": "integer",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductId"
+              }
+            ],
+            "description": "Product the stock is for"
+          },
+          "quantity": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "Quantity of the product to add. When `storage_unit_quantity` is greater than 1 this is the quantity on EACH storage unit, not the total."
+          },
+          "serial_numbers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Serial numbers to assign to the new stock. Required when the product has full serial number tracking, in which case exactly one serial number per unit must be sent (quantity rounded up). Serial numbers must be unique and must not already be in stock for the product."
+          },
+          "stock_configuration": {
+            "type": "string",
+            "enum": [
+              "unit",
+              "case",
+              "inner",
+              "outer"
+            ],
+            "description": "Packaging configuration of the stock line",
+            "nullable": true
+          },
+          "storage_unit_quantity": {
+            "type": "integer",
+            "nullable": true,
+            "minimum": 0,
+            "description": "Number of storage units to create for this line. Omit (or send 0) for loose stock with no storage unit; send 1 to place the stock on a single storage unit; send more than 1 to create that many storage units, each holding `quantity`. Values above 1 require `storage_unit_type_id` and are not allowed for products with full serial number tracking."
+          },
+          "storage_unit_reference": {
+            "type": "string",
+            "nullable": true,
+            "description": "Reference of the storage unit to place the stock on (only used when `storage_unit_quantity` is 1). If a non-dispatched storage unit with this reference already exists the stock is added to it; otherwise a new storage unit is created with this reference. Send the same reference on several lines to build a mixed storage unit."
+          },
+          "storage_unit_type_id": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Storage unit type for new storage units. When `storage_unit_reference` is omitted, references are generated from this type's sequence (e.g. `PAL000123`)."
+          },
+          "string1": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tenant-configurable custom text field"
+          },
+          "string2": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tenant-configurable custom text field"
+          },
+          "string3": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tenant-configurable custom text field"
+          },
+          "string4": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tenant-configurable custom text field"
+          },
+          "string5": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tenant-configurable custom text field"
+          },
+          "unit_of_measure": {
+            "type": "string",
+            "enum": [
+              "centimetre",
+              "metre",
+              "inch",
+              "foot",
+              "millimetre"
+            ],
+            "description": "Unit for the height, width and depth measurements",
+            "nullable": true
+          },
+          "units_per_layer": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Number of units per layer",
+            "nullable": true
+          },
+          "width": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Width of the stock line, in the given unit_of_measure",
+            "nullable": true
+          }
+        },
+        "example": {
+          "location_id": 100,
+          "product_id": 123,
+          "quantity": 24,
+          "storage_unit_quantity": 1,
+          "storage_unit_type_id": 2
         }
       },
       "StockTransferRequest": {
@@ -39480,7 +40086,7 @@
           },
           "template_type_id": {
             "type": "integer",
-            "description": "Template type ID (codes: dispatch_note, picking_note, commercial_invoice, invoice, put_away_note, pre_receipt, pre_pick_label, storage_unit_labels, pick_storage_unit_label)"
+            "description": "Template type ID (codes: dispatch_note, picking_note, commercial_invoice, invoice, put_away_note, pre_receipt, pre_pick_label, storage_unit_labels, pick_storage_unit_label, crossdock_storage_unit_label)"
           },
           "top": {
             "type": "number",
@@ -41275,6 +41881,7 @@
             "type": "string",
             "enum": [
               "find_resource",
+              "find_resources",
               "build_resource",
               "build_nested_resource",
               "execute_flow_on_each",
