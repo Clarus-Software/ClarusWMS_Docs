@@ -2553,7 +2553,7 @@
         "summary": "Upload an automation action parameter attachment",
         "description": "Upload a file as the attachment for an automation action parameter (e.g. a template body or import file). Replaces any existing attachment.",
         "x-mint": {
-          "content": "## Binary Upload\n\nThis endpoint uses binary upload (not JSON:API). Send the file contents as the raw request body.\n\n### Required Headers\n\n| Header | Description | Example |\n|--------|-------------|--------|\n| `Content-Disposition` | Filename of the upload | `attachment; filename=\"body.html\"` |\n| `Content-Type` | MIME type of the file | `text/html` |\n\n### cURL Example\n\n```bash\ncurl -X POST https://clarus-api.com/api/automation_action_parameters/42/attachment \\\n  -H \"Authorization: Bearer YOUR_TOKEN\" \\\n  -H \"X-Clarus-Subdomain: acme-warehouse\" \\\n  -H \"Content-Disposition: attachment; filename=\\\"body.html\\\"\" \\\n  -H \"Content-Type: text/html\" \\\n  --data-binary @body.html\n```"
+          "content": "## Upload Format\n\nThis endpoint takes a `multipart/form-data` request (not JSON:API format) with the file in a `file` field. The file name and MIME type are read from the `file` part.\n\n## Example (cURL)\n\n```bash\ncurl -X POST https://clarus-api.com/api/automation_action_parameters/42/attachment \\\n  -H \"Authorization: Bearer YOUR_TOKEN\" \\\n  -H \"X-Clarus-Subdomain: acme-warehouse\" \\\n  -F \"file=@body.html;type=text/html\"\n```\n\n## Deprecated: raw body upload\n\nSending the raw file as the request body with `Content-Disposition` and `Content-Type` headers is still accepted but deprecated and will be removed. Use the multipart `file` field above."
         },
         "operationId": "uploadAutomationActionParameterAttachment",
         "parameters": [
@@ -2570,11 +2570,19 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/octet-stream": {
+            "multipart/form-data": {
               "schema": {
-                "type": "string",
-                "format": "binary",
-                "description": "The file contents"
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The file to upload"
+                  }
+                }
               }
             }
           }
@@ -10106,9 +10114,9 @@
           "Documents"
         ],
         "summary": "Upload file to a document",
-        "description": "Upload binary file content to an existing document record. The document must be in `queued` or `processing` status. On success, the document status changes to `available`.",
+        "description": "Upload the file content of an existing document record. The document must be in `queued` or `processing` status. On success, the document status changes to `available`.",
         "x-mint": {
-          "content": "## Upload Format\n\nThis endpoint uses **binary upload** (not JSON:API format). Send the raw file content as the request body.\n\n## Required Headers\n\n| Header | Format | Example |\n|--------|--------|---------|\n| `Content-Disposition` | `attachment; filename=\"<name>\"` | `attachment; filename=\"report.csv\"` |\n| `Content-Type` | MIME type of the file | `text/csv` |\n\n## Example (cURL)\n\n```bash\ncurl -X POST https://clarus-api.com/api/documents/42/upload \\\n  -H 'Authorization: Bearer <token>' \\\n  -H 'X-Clarus-Subdomain: acme-warehouse' \\\n  -H 'Content-Disposition: attachment; filename=\"report.csv\"' \\\n  -H 'Content-Type: text/csv' \\\n  --data-binary @report.csv\n```\n\n## Status Transitions\n\n- Document must be in `queued` or `processing` status\n- After successful upload, status becomes `available`\n- If the document is already `available` or `failed`, the upload will be rejected"
+          "content": "## Upload Format\n\nThis endpoint takes a `multipart/form-data` request (not JSON:API format) with the file in a `file` field. The file name and MIME type are read from the `file` part.\n\n## Example (cURL)\n\n```bash\ncurl -X POST https://clarus-api.com/api/documents/42/upload \\\n  -H 'Authorization: Bearer <token>' \\\n  -H 'X-Clarus-Subdomain: acme-warehouse' \\\n  -F 'file=@report.csv;type=text/csv'\n```\n\n## Status Transitions\n\n- Document must be in `queued` or `processing` status\n- After successful upload, status becomes `available`\n- If the document is already `available` or `failed`, the upload will be rejected\n\n## Deprecated: raw body upload\n\nSending the raw file as the request body with `Content-Disposition` and `Content-Type` headers is still accepted but deprecated and will be removed. Use the multipart `file` field above."
         },
         "operationId": "uploadDocument",
         "parameters": [
@@ -10120,25 +10128,24 @@
             "schema": {
               "type": "integer"
             }
-          },
-          {
-            "name": "Content-Disposition",
-            "in": "header",
-            "required": true,
-            "description": "File name in the format: attachment; filename=\"report.csv\"",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/octet-stream": {
+            "multipart/form-data": {
               "schema": {
-                "type": "string",
-                "format": "binary",
-                "description": "Raw binary file content"
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The file to upload"
+                  }
+                }
               }
             }
           }
@@ -32034,7 +32041,7 @@
         "summary": "Upload Liquid HTML template file",
         "description": "Upload a Liquid HTML file as the template's content. This replaces any existing attachment.",
         "x-mint": {
-          "content": "## Binary Upload\n\nThis endpoint uses binary upload (not JSON:API). Send the file contents as the raw request body.\n\n### Required Headers\n\n| Header | Description | Example |\n|--------|-------------|--------|\n| `Content-Disposition` | Filename of the upload | `attachment; filename=\"dispatch_note.html.liquid\"` |\n| `Content-Type` | MIME type of the file | `text/html` |\n\n### cURL Example\n\n```bash\ncurl -X POST https://clarus-api.com/api/templates/42/attachment \\\n  -H \"Authorization: Bearer YOUR_TOKEN\" \\\n  -H \"X-Clarus-Subdomain: acme-warehouse\" \\\n  -H \"Content-Disposition: attachment; filename=\\\"dispatch_note.html.liquid\\\"\" \\\n  -H \"Content-Type: text/html\" \\\n  --data-binary @dispatch_note.html.liquid\n```\n\nThe uploaded file should be a valid Liquid HTML template. See the create endpoint for available Liquid variables per template type."
+          "content": "## Upload Format\n\nThis endpoint takes a `multipart/form-data` request (not JSON:API format) with the file in a `file` field. The file name and MIME type are read from the `file` part.\n\n## Example (cURL)\n\n```bash\ncurl -X POST https://clarus-api.com/api/templates/42/attachment \\\n  -H \"Authorization: Bearer YOUR_TOKEN\" \\\n  -H \"X-Clarus-Subdomain: acme-warehouse\" \\\n  -F \"file=@dispatch_note.html.liquid;type=text/html\"\n```\n\nThe uploaded file should be a valid Liquid HTML template. See the create endpoint for available Liquid variables per template type.\n\n## Deprecated: raw body upload\n\nSending the raw file as the request body with `Content-Disposition` and `Content-Type` headers is still accepted but deprecated and will be removed. Use the multipart `file` field above."
         },
         "operationId": "uploadTemplateAttachment",
         "parameters": [
@@ -32051,18 +32058,19 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/octet-stream": {
+            "multipart/form-data": {
               "schema": {
-                "type": "string",
-                "format": "binary",
-                "description": "The Liquid HTML template file contents"
-              }
-            },
-            "text/html": {
-              "schema": {
-                "type": "string",
-                "format": "binary",
-                "description": "The Liquid HTML template file contents"
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The Liquid HTML template file"
+                  }
+                }
               }
             }
           }
