@@ -1,44 +1,141 @@
 ---
 title: "Authentication & Access"
-description: "How to authenticate against the Clarus API — OAuth 2.0 bearer tokens, the required tenant subdomain header, the request headers to send, and the playground."
+description: "How to authenticate against the Clarus API — OAuth 2.0 bearer tokens with the tenant subdomain header, or the legacy sign-in with your subdomain API URL — and the headers to send on every request."
 sidebarTitle: "Authentication"
 ---
 
-The Clarus API is authenticated. Every request carries an OAuth 2.0 bearer token **and** your tenant subdomain header.
+The Clarus API is authenticated, and every request must identify both the user and your environment. There are two ways to do this:
 
-## OAuth 2.0
+- **OAuth 2.0**: an OAuth bearer token, sent with the `X-Clarus-Subdomain` header to `https://clarus-api.com`.
+- **Legacy sign-in**: a token from signing in with an email address and password, sent to your subdomain's own API URL. Integrations that are not yet on OAuth use this method.
 
-The API uses **OAuth 2.0** bearer tokens. Obtain an access token and send it on every request as an `Authorization: Bearer <token>` header.
+The endpoints, payloads and responses are the same for both. Only the base URL and the headers differ.
 
-| | URL |
-|---|---|
-| Authorize | `https://clarus-api.com/oauth/authorize` |
-| Token | `https://clarus-api.com/oauth/token` |
+## Authenticating requests
 
-Request the scopes your integration requires.
+<Tabs>
+  <Tab title="OAuth 2.0">
+    ### OAuth 2.0
 
-## The subdomain header
+    The API uses **OAuth 2.0** bearer tokens. Obtain an access token and send it on every request as an `Authorization: Bearer <token>` header.
 
-ClarusWMS is multi-tenant. Every request must include the `X-Clarus-Subdomain` header identifying which tenant's data you are operating on — it is sent in addition to the bearer token, not instead of it.
+    | | URL |
+    |---|---|
+    | Authorize | `https://clarus-api.com/oauth/authorize` |
+    | Token | `https://clarus-api.com/oauth/token` |
 
-## Request headers
+    Request the scopes your integration requires.
 
-Send these headers on **every** request, whether you are calling REST or GraphQL:
+    ### The subdomain header
 
-| Header | Value |
-|---|---|
-| `Authorization` | `Bearer <access-token>` |
-| `X-Clarus-Subdomain` | your tenant subdomain |
-| `Content-Type` | `application/json` |
+    ClarusWMS is multi-tenant. Every request must include the `X-Clarus-Subdomain` header identifying which tenant's data you are operating on — it is sent in addition to the bearer token, not instead of it.
 
-## Using the playground
+    ### Request headers
 
-When you try calls from the **Operations** playground, the **Authorize** panel exposes both requirements:
+    Send these headers on **every** request, whether you are calling REST or GraphQL:
 
-1. **BearerAuth** — paste an access token (or complete the OAuth flow if configured).
-2. **ClarusSubdomain** — enter your tenant subdomain; it is sent as the `X-Clarus-Subdomain` header on every request.
+    | Header | Value |
+    |---|---|
+    | `Authorization` | `Bearer <access-token>` |
+    | `X-Clarus-Subdomain` | your tenant subdomain |
+    | `Content-Type` | `application/json` |
 
-Both are required, so requests sent from the playground carry the token and the subdomain header together.
+    ### Using the playground
+
+    When you try calls from the **Operations** playground, the **Authorize** panel exposes both requirements:
+
+    1. **BearerAuth** — paste an access token (or complete the OAuth flow if configured).
+    2. **ClarusSubdomain** — enter your tenant subdomain; it is sent as the `X-Clarus-Subdomain` header on every request.
+
+    Both are required, so requests sent from the playground carry the token and the subdomain header together.
+  </Tab>
+  <Tab title="Legacy sign-in">
+    ### Your API URL
+
+    Each Clarus environment has its own API URL, built from your subdomain:
+
+    ```text
+    https://{subdomain}.api.clarus.ws
+    ```
+
+    For example, if your subdomain is `acme`, your API URL is `https://acme.api.clarus.ws`. If you're not sure of your subdomain, ask Clarus support.
+
+    | Path | Use it for |
+    |---|---|
+    | `/users/sign_in` | Signing in to get a token |
+    | `/api/...` | REST endpoints, e.g. `https://acme.api.clarus.ws/api/products` |
+    | `/graphql` | GraphQL queries |
+
+    <Info>If you have a sandbox environment, it has its own subdomain. Swap that subdomain into the URL to point your integration at the sandbox.</Info>
+
+    When you're working from the **Operations** reference, replace `https://clarus-api.com` with your API URL. You don't need the `X-Clarus-Subdomain` header, because the URL already identifies your environment.
+
+    ### Sign in and authenticate requests
+
+    <Steps>
+      <Step title="Sign in">
+        Send the API user's email address and password to `/users/sign_in`:
+
+        ```bash
+        curl -X POST https://acme.api.clarus.ws/users/sign_in \
+          -H "Content-Type: application/json" \
+          -d '{
+            "user": {
+              "email": "api.user@example.com",
+              "password": "your-password"
+            }
+          }'
+        ```
+
+        A successful sign-in returns `201 Created` with the token:
+
+        ```json
+        {
+          "user_id": 42,
+          "token": "23Ya-sdFas7E3sMH9xgt",
+          "email": "api.user@example.com",
+          "auth_status": "legacy"
+        }
+        ```
+
+        Incorrect credentials return `401 Unauthorized`.
+      </Step>
+      <Step title="Send the token on every request">
+        Add an `Authorization` header that carries both the `token` and the `email` from the sign-in response:
+
+        ```text
+        Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"
+        ```
+
+        For example:
+
+        ```bash
+        curl https://acme.api.clarus.ws/graphql \
+          -H 'Authorization: Token token="23Ya-sdFas7E3sMH9xgt", email="api.user@example.com"' \
+          -H "Content-Type: application/json" \
+          -d '{"query": "{ accounts { all { edges { node { id code name } } } } }"}'
+        ```
+
+        The `Bearer` prefix is also accepted, as long as the email is included: `Authorization: Bearer token="…", email="…"`.
+      </Step>
+      <Step title="Reuse the token">
+        Store the token and reuse it for every call. Sign in again only when a request returns `401 Unauthorized`.
+      </Step>
+    </Steps>
+
+    ### Each sign-in replaces the token
+
+    A user has only one legacy token at a time. Every sign-in issues a new token and invalidates the previous one, and a sign-in to the WMS front-end with the same account can do the same. Signing out through `/users/sign_out` also invalidates the token.
+
+    This means:
+
+    - **Use a dedicated API user.** If someone signs in to the front-end with the integration's account, the integration's token stops working. See [Use a dedicated user account](#use-a-dedicated-user-account) below.
+    - **Don't sign in on every request.** Signing in on every call cuts off any other process that is using the same account. Reuse the stored token, and sign in again only after a `401`.
+    - **Give each system its own user.** Two integrations sharing one account keep invalidating each other's tokens.
+
+    <Note>The **Operations** playground uses OAuth 2.0, so you can't try legacy sign-in calls there. Use curl, Postman or your own client instead.</Note>
+  </Tab>
+</Tabs>
 
 ## Use a dedicated user account
 
@@ -50,4 +147,4 @@ The same logic applies if you have multiple developers or systems hitting the AP
 
 ## Treat credentials as secrets
 
-Store API credentials in a secrets manager, environment variables, or your platform's equivalent. Don't commit them to source control or paste them into shared documents.
+Store API credentials — passwords, client secrets and tokens — in a secrets manager, environment variables, or your platform's equivalent. Don't commit them to source control or paste them into shared documents.
