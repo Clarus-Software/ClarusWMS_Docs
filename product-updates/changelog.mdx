@@ -5,6 +5,27 @@ rss: true
 public: true
 ---
 
+<Update label="Late October 2026" description="16–23 October 2026" rss={{ title: "October 2026: replenish pickfaces in whole cases, multipart file uploads in the API", description: "Round pickface replenishments to whole units, cases, inners or outers, and upload files to the API as multipart form data." }}>
+
+  ## Replenish pickfaces in whole cases, inners or outers
+
+  A new **Replenishment Configuration** on **Continuous** and **Order Volume** pickfaces sets the unit of measure each replenishment is moved in. Clarus rounds the quantity up to a whole number of **Units**, **Cases**, **Inners** or **Outers**, so cases stay intact on the way from racking to the pickface.
+
+  - Your triggers still decide **when** to replenish. The configuration only changes **how much** is moved.
+  - Set it per pickface, or on a location group line to apply it to every location in the group.
+  - **Full Storage Units Only** must be **No** for the configuration to apply.
+  - Your HHD implementation can show the count in cases, inners or outers. Contact support to add these steps.
+
+  <Note>Pickfaces without a configuration replenish exactly as before.</Note>
+
+  <Info>See [Replenishment Configuration](/knowledgebase/warehouse-setup/replenishment/replenishment-configuration) and [Mixed UOM Picking](/knowledgebase/warehouse-setup/mixed-uom-picking).</Info>
+
+  ## Improved
+
+  - **Multipart file uploads in the API.** The document, template and automation action parameter upload endpoints accept `multipart/form-data` with the file in a `file` field. Clarus takes the file name and MIME type from the uploaded file. Sending the raw file as the request body still works, but it is deprecated and will be removed. See the [API reference](/api-reference/introduction).
+
+</Update>
+
 <Update label="Mid-October 2026" description="9–16 October 2026" rss={{ title: "October 2026: handheld activity tracking and month-end charge windows", description: "Track productive and break time on handhelds with labour performance reports, and monthly charge windows that close on the last day of shorter months." }}>
 
   ## Track handheld activity and labour performance

@@ -5,6 +5,27 @@ rss: true
 public: true
 ---
 
+<Update label="Eind oktober 2026" description="16–23 oktober 2026" rss={{ title: "Oktober 2026: pickfaces aanvullen in hele dozen, multipart-uploads in de API", description: "Rond aanvullingen van pickfaces af op hele eenheden, dozen, inners of outers, en upload bestanden naar de API als multipart-formulierdata." }}>
+
+  ## Pickfaces aanvullen in hele dozen, inners of outers
+
+  Met de nieuwe **Replenishment Configuration** op **Continuous**- en **Order Volume**-pickfaces stelt u de eenheid in waarin elke aanvulling wordt verplaatst. Clarus rondt de hoeveelheid naar boven af op een heel aantal **Units**, **Cases**, **Inners** of **Outers**, zodat dozen heel blijven tussen stelling en pickface.
+
+  - Uw triggers bepalen nog steeds **wanneer** er wordt aangevuld. De configuratie bepaalt alleen **hoeveel** er wordt verplaatst.
+  - Stel het per pickface in, of op een locatiegroepregel om het op elke locatie in de groep toe te passen.
+  - **Full Storage Units Only** moet op **No** staan om de configuratie toe te passen.
+  - Uw HHD-implementatie kan het aantal in dozen, inners of outers tonen. Neem contact op met support om deze stappen toe te voegen.
+
+  <Note>Pickfaces zonder configuratie worden precies zoals voorheen aangevuld.</Note>
+
+  <Info>Zie [Replenishment Configuration](/knowledgebase/nl/warehouse-setup/replenishment/replenishment-configuration) en [Mixed UOM Picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).</Info>
+
+  ## Verbeterd
+
+  - **Multipart-uploads in de API.** De upload-endpoints voor documenten, templates en parameters van automatiseringsacties accepteren `multipart/form-data` met het bestand in een `file`-veld. Clarus haalt de bestandsnaam en het MIME-type uit het geüploade bestand. Het ruwe bestand als request body versturen werkt nog, maar is verouderd en wordt verwijderd. Zie de [API-referentie](/api-reference/introduction).
+
+</Update>
+
 <Update label="Half oktober 2026" description="9–16 oktober 2026" rss={{ title: "Oktober 2026: activiteitsregistratie op handhelds en kostenvensters aan het einde van de maand", description: "Registreer productieve tijd en pauzes op handhelds met rapporten over arbeidsprestaties, en maandelijkse kostenvensters die in kortere maanden op de laatste dag sluiten." }}>
 
   ## Activiteit en arbeidsprestaties op handhelds bijhouden
