@@ -7352,6 +7352,13 @@
                           "name": {
                             "type": "string",
                             "description": "Currency display name"
+                          },
+                          "symbol_override": {
+                            "type": "string",
+                            "nullable": true,
+                            "maxLength": 5,
+                            "example": "GB£",
+                            "description": "Symbol printed on invoices in place of the currency's own symbol. Max 5 characters. Blank or null is stored as no override."
                           }
                         }
                       }
@@ -7378,38 +7385,18 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "id"
+                  ],
                   "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "description": "Record ID"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "currencies"
-                          ],
-                          "description": "Resource type"
-                        },
-                        "attributes": {
-                          "type": "object",
-                          "description": "Created resource attributes"
-                        }
-                      }
+                    "id": {
+                      "type": "integer",
+                      "description": "ID of the created currency"
                     }
                   }
                 },
                 "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "currencies",
-                    "attributes": {
-                      "code": "gbp",
-                      "name": "Pound Sterling"
-                    }
-                  }
+                  "id": 1
                 }
               }
             }
@@ -7429,7 +7416,7 @@
           "Currencies"
         ],
         "summary": "Update a currency",
-        "description": "Update an existing currency's code or name.",
+        "description": "Update an existing currency's code, name or symbol override. Attributes left out of the request are unchanged.",
         "operationId": "updateCurrency",
         "parameters": [
           {
@@ -7478,6 +7465,13 @@
                           "name": {
                             "type": "string",
                             "description": "Currency display name"
+                          },
+                          "symbol_override": {
+                            "type": "string",
+                            "nullable": true,
+                            "maxLength": 5,
+                            "example": "GB£",
+                            "description": "Symbol printed on invoices in place of the currency's own symbol. Max 5 characters. Blank or null removes the override."
                           }
                         }
                       }
@@ -7497,47 +7491,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "description": "Record ID"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "currencies"
-                          ],
-                          "description": "Resource type"
-                        },
-                        "attributes": {
-                          "type": "object",
-                          "description": "Updated resource attributes"
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "currencies",
-                    "attributes": {
-                      "code": "gbp",
-                      "name": "British Pound"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "$ref": "#/components/responses/NoContent"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
@@ -7555,7 +7510,7 @@
           "Currencies"
         ],
         "summary": "Delete a currency",
-        "description": "Delete a currency by ID.",
+        "description": "Delete a currency by ID. Returns 422 if it is the default currency or is still used by an account or invoice.",
         "operationId": "destroyCurrency",
         "parameters": [
           {
@@ -7577,6 +7532,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
           }
         }
       }
