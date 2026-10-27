@@ -14,6 +14,19 @@
     }
   },
   "favicon": "/favicon.png",
+  "fonts": {
+    "heading": {
+      "family": "Space Grotesk",
+      "weight": 300
+    },
+    "body": {
+      "family": "Work Sans",
+      "weight": 400
+    }
+  },
+  "appearance": {
+    "default": "dark"
+  },
   "api": {
     "playground": {
       "display": "interactive"
@@ -38,14 +51,16 @@
             "public": true,
             "groups": [
               {
-                "group": "🏠 Overview",
+                "group": "Overview",
+                "icon": "house",
                 "pages": [
                   "index"
                 ],
                 "public": true
               },
               {
-                "group": "🔑 Account & Sign-in",
+                "group": "Account & Sign-in",
+                "icon": "key",
                 "pages": [
                   {
                     "group": "Multi-Factor Authentication",
@@ -73,7 +88,8 @@
                 "public": true
               },
               {
-                "group": "🧭 Using Clarus",
+                "group": "Using Clarus",
+                "icon": "compass",
                 "pages": [
                   "knowledgebase/reporting/customise-data-grids",
                   "knowledgebase/reporting/data-grid-columns"
@@ -81,7 +97,8 @@
                 "public": true
               },
               {
-                "group": "⚙️ System Setup",
+                "group": "System Setup",
+                "icon": "gear",
                 "pages": [
                   {
                     "group": "Users & Roles",
@@ -193,7 +210,8 @@
                 "public": true
               },
               {
-                "group": "📦 Products & Stock",
+                "group": "Products & Stock",
+                "icon": "box",
                 "pages": [
                   "knowledgebase/products-and-stock/add-new-products",
                   "knowledgebase/advanced/serial-number-tracking",
@@ -251,7 +269,8 @@
                 "public": true
               },
               {
-                "group": "🏭 Warehouse Operations",
+                "group": "Warehouse Operations",
+                "icon": "warehouse",
                 "pages": [
                   "knowledgebase/getting-started/use-the-booking-diary",
                   {
@@ -357,7 +376,8 @@
                 "public": true
               },
               {
-                "group": "📱 Handheld Devices (HHD)",
+                "group": "Handheld Devices (HHD)",
+                "icon": "mobile",
                 "pages": [
                   "knowledgebase/hardware/hhd-activity-modes",
                   "knowledgebase/hardware/hhd-conditions",
@@ -368,7 +388,8 @@
                 "public": true
               },
               {
-                "group": "💷 Financial & Reporting",
+                "group": "Financial & Reporting",
+                "icon": "chart-line",
                 "pages": [
                   {
                     "group": "Charges",
@@ -421,7 +442,8 @@
                 "public": true
               },
               {
-                "group": "📂 SFTP",
+                "group": "SFTP",
+                "icon": "folder-open",
                 "pages": [
                   "knowledgebase/integrations/use-sftp-for-imports",
                   {
@@ -466,7 +488,8 @@
                 "public": true
               },
               {
-                "group": "⚡ Automations",
+                "group": "Automations",
+                "icon": "bolt",
                 "pages": [
                   {
                     "group": "Webhooks",
@@ -500,7 +523,8 @@
                 "public": true
               },
               {
-                "group": "🔌 Integration",
+                "group": "Integration",
+                "icon": "plug",
                 "pages": [
                   "knowledgebase/integrations/marketplace-integrations",
                   {
@@ -543,7 +567,8 @@
                 "public": true
               },
               {
-                "group": "🤖 AI Assistant",
+                "group": "AI Assistant",
+                "icon": "robot",
                 "pages": [
                   "knowledgebase/ai-assistant/overview",
                   "knowledgebase/ai-assistant/access-and-controls",
@@ -563,7 +588,8 @@
                 "public": true
               },
               {
-                "group": "🛡️ Compliance",
+                "group": "Compliance",
+                "icon": "shield-check",
                 "pages": [
                   "knowledgebase/security/subprocessors",
                   "knowledgebase/security/ai-data-protection",
@@ -578,7 +604,8 @@
             "public": true,
             "groups": [
               {
-                "group": "🚀 Product Updates",
+                "group": "Product Updates",
+                "icon": "rocket",
                 "pages": [
                   "product-updates/overview",
                   "product-updates/changelog"
@@ -718,7 +745,8 @@
             "public": true,
             "groups": [
               {
-                "group": "🔑 Account & Inloggen",
+                "group": "Account & Inloggen",
+                "icon": "key",
                 "pages": [
                   {
                     "group": "Multi-Factor Authenticatie",
@@ -746,7 +774,8 @@
                 "public": true
               },
               {
-                "group": "🧭 Clarus gebruiken",
+                "group": "Clarus gebruiken",
+                "icon": "compass",
                 "pages": [
                   "knowledgebase/nl/reporting/customise-data-grids",
                   "knowledgebase/nl/reporting/data-grid-columns"
@@ -754,7 +783,8 @@
                 "public": true
               },
               {
-                "group": "⚙️ Systeeminstellingen",
+                "group": "Systeeminstellingen",
+                "icon": "gear",
                 "pages": [
                   {
                     "group": "Gebruikers & Rollen",
@@ -866,7 +896,8 @@
                 "public": true
               },
               {
-                "group": "📦 Producten & Voorraad",
+                "group": "Producten & Voorraad",
+                "icon": "box",
                 "pages": [
                   "knowledgebase/nl/products-and-stock/add-new-products",
                   "knowledgebase/nl/advanced/serial-number-tracking",
@@ -924,7 +955,8 @@
                 "public": true
               },
               {
-                "group": "🏭 Magazijnoperaties",
+                "group": "Magazijnoperaties",
+                "icon": "warehouse",
                 "pages": [
                   "knowledgebase/nl/getting-started/use-the-booking-diary",
                   {
@@ -1030,7 +1062,8 @@
                 "public": true
               },
               {
-                "group": "📱 Handheld Devices (HHD)",
+                "group": "Handheld Devices (HHD)",
+                "icon": "mobile",
                 "pages": [
                   "knowledgebase/nl/hardware/hhd-activity-modes",
                   "knowledgebase/nl/hardware/hhd-conditions",
@@ -1041,7 +1074,8 @@
                 "public": true
               },
               {
-                "group": "💷 Financieel & Rapportage",
+                "group": "Financieel & Rapportage",
+                "icon": "chart-line",
                 "pages": [
                   {
                     "group": "Kosten",
@@ -1094,7 +1128,8 @@
                 "public": true
               },
               {
-                "group": "📂 SFTP",
+                "group": "SFTP",
+                "icon": "folder-open",
                 "pages": [
                   "knowledgebase/nl/integrations/use-sftp-for-imports",
                   {
@@ -1139,7 +1174,8 @@
                 "public": true
               },
               {
-                "group": "⚡ Automatiseringen",
+                "group": "Automatiseringen",
+                "icon": "bolt",
                 "pages": [
                   {
                     "group": "Webhooks",
@@ -1173,7 +1209,8 @@
                 "public": true
               },
               {
-                "group": "💻 Bouwen met de Clarus API",
+                "group": "Bouwen met de Clarus API",
+                "icon": "code",
                 "pages": [
                   "knowledgebase/nl/integrations/api-overview",
                   "knowledgebase/nl/integrations/api-authentication",
@@ -1184,7 +1221,8 @@
                 "public": true
               },
               {
-                "group": "🔌 Integratie",
+                "group": "Integratie",
+                "icon": "plug",
                 "pages": [
                   "knowledgebase/nl/integrations/marketplace-integrations",
                   {
@@ -1227,7 +1265,8 @@
                 "public": true
               },
               {
-                "group": "🤖 AI Assistant",
+                "group": "AI Assistant",
+                "icon": "robot",
                 "pages": [
                   "knowledgebase/nl/ai-assistant/overview",
                   "knowledgebase/nl/ai-assistant/access-and-controls",
@@ -1247,7 +1286,8 @@
                 "public": true
               },
               {
-                "group": "🛡️ Compliance",
+                "group": "Compliance",
+                "icon": "shield-check",
                 "pages": [
                   "knowledgebase/nl/security/subprocessors",
                   "knowledgebase/nl/security/ai-data-protection",
@@ -1262,7 +1302,8 @@
             "public": true,
             "groups": [
               {
-                "group": "🚀 Productupdates",
+                "group": "Productupdates",
+                "icon": "rocket",
                 "pages": [
                   "product-updates/nl/overview",
                   "product-updates/nl/changelog"

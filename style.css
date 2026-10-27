@@ -1,0 +1,18 @@
+.bg-primary-dark,
+.dark .dark\:bg-primary-light {
+  background-color: #89E3AA !important;
+}
+
+.bg-primary-dark:hover,
+.dark .dark\:bg-primary-light:hover {
+  background-color: #53B477 !important;
+}
+
+.bg-primary-dark,
+.bg-primary-dark .text-white,
+.bg-primary-dark.text-white,
+.dark .dark\:bg-primary-light,
+#topbar-cta-button .text-white,
+#topbar-cta-button svg {
+  color: #03162E !important;
+}
