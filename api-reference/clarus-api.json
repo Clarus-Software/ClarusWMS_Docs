@@ -7352,6 +7352,13 @@
                           "name": {
                             "type": "string",
                             "description": "Currency display name"
+                          },
+                          "symbol_override": {
+                            "type": "string",
+                            "nullable": true,
+                            "maxLength": 5,
+                            "example": "GB£",
+                            "description": "Symbol printed on invoices in place of the currency's own symbol. Max 5 characters. Blank or null is stored as no override."
                           }
                         }
                       }
@@ -7378,38 +7385,18 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "id"
+                  ],
                   "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "description": "Record ID"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "currencies"
-                          ],
-                          "description": "Resource type"
-                        },
-                        "attributes": {
-                          "type": "object",
-                          "description": "Created resource attributes"
-                        }
-                      }
+                    "id": {
+                      "type": "integer",
+                      "description": "ID of the created currency"
                     }
                   }
                 },
                 "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "currencies",
-                    "attributes": {
-                      "code": "gbp",
-                      "name": "Pound Sterling"
-                    }
-                  }
+                  "id": 1
                 }
               }
             }
@@ -7429,7 +7416,7 @@
           "Currencies"
         ],
         "summary": "Update a currency",
-        "description": "Update an existing currency's code or name.",
+        "description": "Update an existing currency's code, name or symbol override. Attributes left out of the request are unchanged.",
         "operationId": "updateCurrency",
         "parameters": [
           {
@@ -7478,6 +7465,13 @@
                           "name": {
                             "type": "string",
                             "description": "Currency display name"
+                          },
+                          "symbol_override": {
+                            "type": "string",
+                            "nullable": true,
+                            "maxLength": 5,
+                            "example": "GB£",
+                            "description": "Symbol printed on invoices in place of the currency's own symbol. Max 5 characters. Blank or null removes the override."
                           }
                         }
                       }
@@ -7497,47 +7491,8 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "description": "Record ID"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "currencies"
-                          ],
-                          "description": "Resource type"
-                        },
-                        "attributes": {
-                          "type": "object",
-                          "description": "Updated resource attributes"
-                        }
-                      }
-                    }
-                  }
-                },
-                "example": {
-                  "data": {
-                    "id": "1",
-                    "type": "currencies",
-                    "attributes": {
-                      "code": "gbp",
-                      "name": "British Pound"
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "$ref": "#/components/responses/NoContent"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
@@ -7555,7 +7510,7 @@
           "Currencies"
         ],
         "summary": "Delete a currency",
-        "description": "Delete a currency by ID.",
+        "description": "Delete a currency by ID. Returns 422 if it is the default currency or is still used by an account or invoice.",
         "operationId": "destroyCurrency",
         "parameters": [
           {
@@ -7577,6 +7532,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
           }
         }
       }
@@ -28079,7 +28037,7 @@
         "summary": "Move stock to another location",
         "description": "Move a quantity of stock from its current location to a different location within the same warehouse. Creates a transfer transaction for audit purposes.",
         "x-mint": {
-          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"quantity\": 100,\n      \"to_location_id\": 456,\n      \"reason_code_id\": 1\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to move (must be > 0 and <= available) |\n| `to_location_id` | Yes | Destination location ID within the warehouse |\n| `reason_code_id` | No | Reason code for audit trail |"
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"quantity\": 100,\n      \"to_location_id\": 456,\n      \"reason_code_id\": 1\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to move (must be > 0 and no more than the available quantity) |\n| `to_location_id` | Yes | Destination location ID within the warehouse |\n| `reason_code_id` | No | Reason code for audit trail |"
         },
         "operationId": "moveStock",
         "parameters": [
@@ -28277,7 +28235,7 @@
         "summary": "Transfer stock to another account",
         "description": "Transfer ownership of a quantity of stock from one account (customer) to another. The stock remains at the same location but changes ownership.",
         "x-mint": {
-          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"quantity\": 100,\n      \"to_account_id\": 789,\n      \"reason_code_id\": 1\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to transfer (must be > 0 and <= available) |\n| `to_account_id` | Yes | Destination stock account ID (the new owner) |\n| `reason_code_id` | No | Reason code for audit trail |"
+          "content": "## Request Structure\n\n```json expandable\n{\n  \"data\": {\n    \"type\": \"stocks\",\n    \"attributes\": {\n      \"quantity\": 100,\n      \"to_account_id\": 789,\n      \"reason_code_id\": 1\n    }\n  }\n}\n```\n\n## Key Fields\n\n| Field | Required | Description |\n|-------|----------|-------------|\n| `quantity` | Yes | Quantity to transfer (must be > 0 and no more than the available quantity) |\n| `to_account_id` | Yes | Destination stock account ID (the new owner) |\n| `reason_code_id` | No | Reason code for audit trail |"
         },
         "operationId": "transferStock",
         "parameters": [
@@ -38641,7 +38599,7 @@
                 },
                 "operator": {
                   "type": "string",
-                  "description": "Comparison operator (e.g., >=, <=, =)"
+                  "description": "Comparison operator (e.g., `>=`, `<=`, `=`)"
                 },
                 "prompt": {
                   "type": "string",
