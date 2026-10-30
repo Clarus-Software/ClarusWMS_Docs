@@ -5,6 +5,30 @@ rss: true
 public: true
 ---
 
+<Update label="Einde oktober 2026" description="23–30 oktober 2026" rss={{ title: "Oktober 2026: positieve voorraadcorrecties en cross-dock-labels in de API", description: "Voeg voorraad toe of verhoog deze via de API, druk cross-dock-labels voor storage units af en stel een eigen valutasymbool in voor facturen." }}>
+
+  ## Positieve voorraadcorrecties in de API
+
+  U kunt nu voorraad toevoegen via de API, net als op het scherm **Stock Adjustments**.
+
+  - **Create stock** voegt nieuwe voorraadregels toe, zoals voorraad die bij een telling is gevonden of beginvoorraad voor een nieuw magazijn. Elke regel kan los zijn, op één storage unit staan of over meerdere nieuwe storage units worden verdeeld.
+  - **Increase stock quantity** voegt eenheden toe aan een bestaand voorraadrecord. Het record behoudt zijn ID, locatie, storage unit en FIFO-datum.
+  - Elke wijziging wordt vastgelegd als positieve correctietransactie. Als het account redencodes voor positieve correcties verplicht stelt, moet u er een meesturen.
+
+  <Info>Zie [Voorraadcorrecties](/knowledgebase/nl/products-and-stock/stock-adjustments) en de [API-referentie](/api-reference/introduction).</Info>
+
+  ## Cross-dock-labels afdrukken via de API
+
+  Een nieuw storage unit-endpoint genereert het cross-dock-label (LPN) voor een storage unit. Clarus kiest de template op basis van uw klant- of accountinstellingen. U ontvangt het label als pdf of stuurt het direct naar een cloudprinter.
+
+  <Note>De ontvangsttaak van de storage unit moet zijn afgerond voordat u het label afdrukt.</Note>
+
+  ## Verbeterd
+
+  - **Afwijkend valutasymbool.** Stel een symbool van maximaal 5 tekens in, zoals `GB£`, dat op facturen wordt afgedrukt in plaats van het eigen symbool van de valuta. Zie [Factuurvaluta's](/knowledgebase/nl/financial/invoice-currencies).
+
+</Update>
+
 <Update label="Eind oktober 2026" description="16–23 oktober 2026" rss={{ title: "Oktober 2026: pickfaces aanvullen in hele dozen, multipart-uploads in de API", description: "Rond aanvullingen van pickfaces af op hele eenheden, dozen, inners of outers, en upload bestanden naar de API als multipart-formulierdata." }}>
 
   ## Pickfaces aanvullen in hele dozen, inners of outers

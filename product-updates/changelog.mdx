@@ -5,6 +5,30 @@ rss: true
 public: true
 ---
 
+<Update label="End of October 2026" description="23–30 October 2026" rss={{ title: "October 2026: positive stock adjustments and cross-dock labels in the API", description: "Add or increase stock through the API, print cross-dock storage unit labels, and set a custom currency symbol for invoices." }}>
+
+  ## Positive stock adjustments in the API
+
+  You can now add stock through the API, as you can on the **Stock Adjustments** screen.
+
+  - **Create stock** adds new stock lines, such as stock found during a count or opening stock for a new warehouse. Each line can be loose, on one storage unit or split across several new storage units.
+  - **Increase stock quantity** adds units to an existing stock record. The record keeps its ID, location, storage unit and FIFO date.
+  - Each change is recorded as a positive adjustment transaction. If the account enforces positive adjustment reason codes, you must send one.
+
+  <Info>See [Stock adjustments](/knowledgebase/products-and-stock/stock-adjustments) and the [API reference](/api-reference/introduction).</Info>
+
+  ## Print cross-dock labels through the API
+
+  A new storage unit endpoint generates the cross-dock storage unit (LPN) label. Clarus picks the template from your customer or account settings. You can get the label back as a PDF or send it straight to a cloud printer.
+
+  <Note>The storage unit's receive task must be complete before you print the label.</Note>
+
+  ## Improved
+
+  - **Currency symbol override.** Set a symbol of up to 5 characters, such as `GB£`, to print on invoices in place of the currency's own symbol. See [Invoice currencies](/knowledgebase/financial/invoice-currencies).
+
+</Update>
+
 <Update label="Late October 2026" description="16–23 October 2026" rss={{ title: "October 2026: replenish pickfaces in whole cases, multipart file uploads in the API", description: "Round pickface replenishments to whole units, cases, inners or outers, and upload files to the API as multipart form data." }}>
 
   ## Replenish pickfaces in whole cases, inners or outers
