@@ -312,6 +312,7 @@
                           "knowledgebase/outbound/create-a-sales-order",
                           "knowledgebase/outbound/create-a-sales-order-without-selecting-a-warehouse",
                           "knowledgebase/outbound/amend-order-line-quantities",
+                          "knowledgebase/outbound/pre-allocate-stock",
                           "knowledgebase/outbound/order-import"
                         ],
                         "public": true
@@ -998,6 +999,7 @@
                           "knowledgebase/nl/outbound/create-a-sales-order",
                           "knowledgebase/nl/outbound/create-a-sales-order-without-selecting-a-warehouse",
                           "knowledgebase/nl/outbound/amend-order-line-quantities",
+                          "knowledgebase/nl/outbound/pre-allocate-stock",
                           "knowledgebase/nl/outbound/order-import"
                         ],
                         "public": true

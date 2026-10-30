@@ -1,0 +1,169 @@
+---
+title: "Pre-Allocate Stock to a Sales Order"
+description: "Reserve specific available stock against a sales order before picking, then edit or release it when plans change. Pre-allocated stock is held for that order and is picked from exactly."
+sidebarTitle: "Pre-Allocate Stock"
+---
+
+Pre-allocation lets you hand-pick available stock and hold it for a sales order before the order is sent to pick. Held stock moves to a **Pre-Allocated** status, so no other order can allocate or pick it, and when you process picks the order is picked from exactly the stock you reserved.
+
+Use it when you need to guarantee stock for an order that will be picked later, for example a key customer's delivery, while other orders keep flowing through the warehouse.
+
+<Info>
+Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocate** button on your sales order lines, contact Clarus support.
+</Info>
+
+## Before you start
+
+- You need the **Pre-Allocations** ability with **Manage** access to pre-allocate, edit or release stock. With **Read** access only, you can see pre-allocations but the buttons are disabled. See [Permissions](#permissions).
+- The sales order must be saved and have a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**.
+
+## Pre-allocate stock to an order line
+
+<Steps>
+  <Step title="Open the sales order">
+    Open the sales order from the **Sales Orders** data grid. If it's a new order, save it first — the **Pre-Allocate** button is disabled until the order is saved.
+  </Step>
+  <Step title="Click Pre-Allocate on the line">
+    In the order lines, click **Pre-Allocate** on the line you want to reserve stock for. The **Pre-Allocate Stock** window opens, showing the product and a summary such as *0 of 10 pre-allocated, 10 remaining*.
+  </Step>
+  <Step title="Enter the quantities to hold">
+    The **Available Stock** grid lists the stock you can choose from. Enter a quantity in the **Quantity To Pre-Allocate** column against each stock record you want to hold. You can:
+
+    - Spread the line across several stock records.
+    - Take part of a stock record — the rest stays available. For example, if a pallet holds 20 and the line needs 5, pre-allocate 5 and the other 15 remain available to other orders.
+    - Enter decimal quantities.
+    - Pre-allocate less than the ordered quantity. The rest of the line is allocated as normal when you process picks.
+
+    The summary updates as you type to show how much you've selected against what remains.
+  </Step>
+  <Step title="Confirm">
+    Click **Confirm Pre-Allocation**. The stock is held for the order line and the order's status updates.
+  </Step>
+</Steps>
+
+### Which stock you can choose
+
+- Only stock with a status of **Available** in the order's warehouse is shown.
+- Stock in a pickface location can't be pre-allocated.
+- Batch, sell-by date and storage unit rules are **not** applied — you're choosing the stock manually, so you can pick any available stock record for the product.
+- If the order's account is set up to order from linked accounts, stock from those linked accounts is also shown. When you pre-allocate linked-account stock, it's transferred into the order's account with a **LINKED ACCOUNT TRANSFER** reason code.
+- The total pre-allocated on a line can't exceed the line's ordered quantity.
+
+## What happens when stock is pre-allocated
+
+| Where | What you'll see |
+|-------|-----------------|
+| Sales order status | **Pre-Allocated** when every line is fully covered, **Part Pre-Allocated** when only some of the order is. |
+| Sales order page | A **Pre-Allocated Stock** grid listing each held stock record, its quantity and location. |
+| Sales Orders data grid | A **Pre-Allocated** column showing the total pre-allocated against the total ordered across all lines, for example 5/10. |
+| Stocks data grid | The held stock shows a status of **Pre-Allocated**. Add the **Pre-Allocated Sales Order Line** column to see which order it's held for. |
+| [Stock Balance](/knowledgebase/products-and-stock/stock-balance) | The quantity moves from **Available** into its own **Pre-Allocated** balance, separate from **Allocated**. The ordered balance reduces by the same amount. |
+| Transactions | A **Pre-Allocated** transaction is recorded for each stock record held. |
+| Audit log | The order's status change is logged with who made it and when. |
+
+If you hold only part of a stock record, it's split in two: a **Pre-Allocated** record for the quantity you held and an **Available** record for the remainder. Reducing a held quantity later works the same way in reverse.
+
+## Edit or release pre-allocated stock
+
+While the order is **Pre-Allocated** or **Part Pre-Allocated**, you can change what's held from the **Pre-Allocated Stock** grid on the sales order page.
+
+<Tabs>
+  <Tab title="Reduce the quantity">
+    <Steps>
+      <Step title="Enter the new quantity">
+        In the **Quantity** column, type the quantity you want to keep holding. It must be greater than zero and less than the quantity currently held.
+      </Step>
+      <Step title="Save">
+        Click **Save** on that row. The difference is released back to **Available** straight away.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Release a stock record">
+    <Steps>
+      <Step title="Click Release">
+        Click **Release** on the row for the stock record you no longer need.
+      </Step>
+      <Step title="Confirm">
+        Confirm the release. The stock is no longer held for this order and becomes available to other orders immediately.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Add more stock">
+    If a line is only partly pre-allocated, click **Pre-Allocate** on the line again and select more stock, as described in [Pre-allocate stock to an order line](#pre-allocate-stock-to-an-order-line). You can add up to the quantity still remaining on the line.
+  </Tab>
+</Tabs>
+
+Each change updates the order's status and balances, and records an **Un-Pre-Allocated** transaction for the released quantity:
+
+- Some stock still held → **Part Pre-Allocated**
+- Every line still fully covered → stays **Pre-Allocated**
+- All pre-allocated stock released → back to **Pending**
+
+<Note>
+Once the order has been processed for picking, the **Pre-Allocated Stock** grid becomes read-only and its pre-allocation can no longer be changed.
+</Note>
+
+## Changing order lines with pre-allocated stock
+
+To protect the stock you've held, some line changes are blocked until you release the pre-allocation first:
+
+- You can't reduce a line's order quantity below its pre-allocated quantity. Reduce or release the pre-allocation, then change the line.
+- You can't change the product on a line that has pre-allocated stock.
+- You can't delete a line that has pre-allocated stock.
+
+## Processing picks on a pre-allocated order
+
+When you [process picks](/knowledgebase/outbound/create-and-process-a-pick-list) on a **Pre-Allocated** or **Part Pre-Allocated** order:
+
+- Pick tasks are created from exactly the stock you pre-allocated — the system doesn't look for different stock.
+- Any quantity on a line that wasn't pre-allocated is matched from available stock using your normal pick rules.
+- The quantity moves out of the **Pre-Allocated** balance as the stock is allocated to the pick.
+
+## Cancelling orders, pick lists and pick tasks
+
+Cancelling releases pre-allocated stock automatically, returning it to **Available**:
+
+- **Cancelling a sales order** that is **Pre-Allocated** or **Part Pre-Allocated** releases all of its pre-allocated stock.
+- **Cancelling a pick list**, or an individual pick task, for a pre-allocated order returns that stock to **Available**. It's no longer held for the order, so pre-allocate again if you still need to reserve it. See [Cancel or amend a pick list](/knowledgebase/outbound/cancel-or-amend-a-pick-list).
+
+## Stock control on pre-allocated stock
+
+While stock is **Pre-Allocated**, the following operations are blocked:
+
+- Positive and negative adjustments
+- Account transfers
+- Warehouse transfers
+- Hold and release from hold
+- Moves
+
+If you try one of these, you're told the stock is pre-allocated to a sales order. Release the pre-allocation from the sales order first, then carry out the operation.
+
+## Permissions
+
+Pre-allocation has its own **Pre-Allocations** ability, set on the user's role. See [Creating and implementing user roles](/knowledgebase/users-and-roles/user-roles-guide).
+
+| Access | What the user can do |
+|--------|----------------------|
+| **Read** | See the **Pre-Allocated** count on the Sales Orders data grid and the **Pre-Allocated Stock** grid on the sales order page. The **Pre-Allocate**, **Save** and **Release** buttons are shown but disabled. |
+| **Manage** | Pre-allocate, edit and release stock. Manage also requires Read. |
+
+The Admin role has both **Read** and **Manage** by default. Other roles need the ability added.
+
+This ability only controls pre-allocation on sales orders. Users still see the **Pre-Allocated** stock status and balance through their existing Stocks and Stock Balance access.
+
+## Frequently asked questions
+
+<AccordionGroup>
+<Accordion title="Why is the Pre-Allocate button disabled?">
+Check that the order is saved and has a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**, that the line isn't already fully pre-allocated, and that your role has **Manage** access to **Pre-Allocations**. Hover over the button to see the reason.
+</Accordion>
+<Accordion title="Why can't I see some of my stock in the Pre-Allocate Stock window?">
+Only **Available** stock in the order's warehouse is listed. Stock that's held, allocated, already pre-allocated, or in a pickface location isn't shown.
+</Accordion>
+<Accordion title="Can I pre-allocate serial-numbered, kitted or cross-dock orders?">
+No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows.
+</Accordion>
+<Accordion title="Do automations still run when I pre-allocate?">
+Yes. Pre-allocating, editing and releasing stock trigger the existing sales order updated and stock balances updated automations.
+</Accordion>
+</AccordionGroup>
