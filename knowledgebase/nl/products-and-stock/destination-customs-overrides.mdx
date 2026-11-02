@@ -1,0 +1,135 @@
+---
+title: "Douanegegevens per bestemming"
+description: "Verstuur een andere omschrijving, goederencode of douane-omschrijving voor een product wanneer het naar een specifiek land wordt verzonden. De afwijkende waarden worden automatisch toegepast op de boeking bij de vervoerder en op de commerciële factuur."
+sidebarTitle: "Douanegegevens per bestemming"
+---
+
+Met douanegegevens per bestemming vervangt u de eigen douanegegevens van een product wanneer dat product naar één bepaald land wordt verzonden. Gebruik dit wanneer de douane van een bestemming andere waarden verwacht dan u in eigen land gebruikt — bijvoorbeeld een markt die een van uw producten onder een andere goederencode indeelt, of die een andere formulering in de douane-omschrijving vereist.
+
+U stelt deze afwijkende waarden in op het product, per land. Wanneer een zending naar dat land wordt geboekt, stuurt Clarus de afwijkende waarden naar de vervoerder en drukt ze af op de commerciële factuur. Voor het magazijnteam verandert er niets: inpakschermen tonen de normale omschrijving van het product.
+
+<Info>
+Een afwijkende waarde geldt alleen voor het land waarvoor deze is ingesteld. Heeft een product andere waarden nodig voor de Verenigde Staten en voor Japan, voeg dan twee regels toe.
+</Info>
+
+## Voordat u begint
+
+| Wat u nodig hebt | Hoe u het krijgt |
+|---|---|
+| Een rol die producten mag beheren | De rollen Admin en Standard kunnen standaard regels toevoegen, wijzigen en verwijderen. Gebruikers die producten wel mogen bekijken maar niet beheren, zien de regels maar kunnen ze niet wijzigen. Uw beheerder stelt dit in op de rol van de gebruiker — zie [Gebruikersrollen creëren en implementeren](/knowledgebase/nl/users-and-roles/user-roles-guide). |
+| De eigen douanegegevens van het product | Vul zoals gewoonlijk de sectie **Douane** van het product in — zie [Commerciële facturen](/knowledgebase/nl/financial/commercial-invoices). Elk veld dat u in een regel leeg laat, gebruikt deze waarden. |
+| Een geïntegreerde vervoerder op de zending | De afwijkende waarden bereiken de vervoerder alleen wanneer de zending wordt geboekt via een van de geïntegreerde vervoerders van Clarus. Vervoerders met een custom carrier type, waarbij u uw eigen labels afdrukt, sturen geen productgegevens naar een vervoerder; dan verandert alleen de commerciële factuur. Zie [Koeriers- en vervoerdersintegraties](/knowledgebase/nl/integrations/carrier-integrations). |
+
+U hoeft niets in te schakelen. De sectie **Douanegegevens per bestemming** is op elk product beschikbaar.
+
+## Een regel toevoegen
+
+<Steps>
+  <Step title="Open het product">
+    Klik in het menu aan de linkerkant op **Producten** en open het product.
+  </Step>
+  <Step title="Klap Douanegegevens per bestemming uit">
+    Scroll naar de sectie **Douanegegevens per bestemming**, direct onder **Douane**, en klap deze uit.
+  </Step>
+  <Step title="Klik op Regel toevoegen">
+    Klik op **Regel toevoegen**. Er verschijnt een nieuwe regel.
+  </Step>
+  <Step title="Kies het land">
+    Selecteer de bestemming in de kolom **Land**. Elk land kan maar één keer per product worden gebruikt.
+  </Step>
+  <Step title="Vul de waarden in die in plaats daarvan worden verstuurd">
+    Vul alleen de velden in die u wilt vervangen. U moet er minstens één invullen.
+
+    | Veld | Maximale lengte | Wat het vervangt |
+    |---|---|---|
+    | **Omschrijving** | 150 tekens | De omschrijving van het product |
+    | **Lange omschrijving** | — | De lange omschrijving van het product |
+    | **Goederencode** | 14 tekens | De goederencode van het product, verstuurd als HS-code |
+    | **Douane omschrijving** | 255 tekens | De douane-omschrijving van het product |
+
+    Elk veld dat u leeg laat, valt terug op de eigen waarde van het product, zodat u nooit een lege waarde verstuurt in plaats van een echte.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Opslaan** in de regel. De regel geldt voor de volgende zending die naar dat land wordt geboekt.
+  </Step>
+</Steps>
+
+Om een regel te wijzigen, past u de waarden in de regel aan en klikt u op **Opslaan**. Om een regel te verwijderen, klikt u op **Verwijderen** in de regel en bevestigt u. Zendingen naar dat land gebruiken dan weer de eigen waarden van het product.
+
+### Het Verenigd Koninkrijk kiezen
+
+De lijst **Land** toont alleen hele landen — Engeland, Schotland, Wales en Noord-Ierland staan er niet apart in. Een regel voor **Verenigd Koninkrijk** geldt voor elk afleveradres in het VK, inclusief Noord-Ierland.
+
+## Hoe de afwijkende waarden op een zending worden toegepast
+
+Clarus zoekt de regel op wanneer de zending bij de vervoerder wordt geboekt:
+
+1. Het land wordt bepaald door het afleveradres van de zending. Het account waartoe de order behoort en het magazijn waaruit deze wordt verzonden, maken geen verschil.
+2. Als het product een regel heeft voor dat land, vervangt elk veld dat in de regel is ingevuld de eigen waarde van het product. Velden die leeg zijn gelaten, behouden de waarde van het product.
+3. Als er geen regel is voor dat land, worden de eigen waarden van het product precies zoals voorheen verstuurd. De zending wordt niet tegengehouden, en een eventuele afwijzing door de vervoerder wordt op de gebruikelijke manier getoond.
+
+Elk pakket in de zending krijgt dezelfde waarden.
+
+### Wat de vervoerder ontvangt
+
+| Verstuurd naar de vervoerder | Waar de waarde vandaan komt |
+|---|---|
+| HS-code | De **Goederencode** van de regel, anders die van het product |
+| Artikelomschrijving | De **Douane omschrijving** — die van de regel, anders die van het product. Alleen als geen van beide bestaat, gebruikt Clarus de **Omschrijving** (ook hier eerst die van de regel). De vervoerder ontvangt de eerste 50 tekens. |
+
+De **Lange omschrijving** wordt niet naar de vervoerder verstuurd. De afwijkende waarden veranderen niets aan de hoeveelheid, waarde, het gewicht, de afmetingen of het land van fabricage die per artikel worden verstuurd.
+
+<Tip>
+Als het product al een douane-omschrijving heeft, verandert een regel die alleen de **Omschrijving** wijzigt niets aan wat de vervoerder ontvangt. Wilt u de formulering wijzigen die de vervoerder ziet, vul dan **Douane omschrijving** in op de regel.
+</Tip>
+
+### Wat de commerciële factuur toont
+
+De [commerciële factuur](/knowledgebase/nl/financial/commercial-invoices) gebruikt dezelfde afwijkende waarden, bepaald op basis van het afleverland van de zending:
+
+- Op de standaard commerciële factuur toont de kolom **Product Description** de **Omschrijving** van de regel en de kolom **HS Code** de **Goederencode** van de regel, met terugval op de eigen waarden van het product.
+- Als u een aangepaste commerciële factuur gebruikt, kan deze ook de afwijkende **Douane omschrijving** en **Lange omschrijving** tonen, met de oorspronkelijke waarden van het product ernaast. Neem contact op met Clarus support om uw template te wijzigen.
+- De factuur wordt bij elke afdruk opnieuw bepaald. Als u een regel wijzigt nadat een zending is geboekt, toont een herdruk de nieuwe waarden, niet de waarden die destijds naar de vervoerder zijn verstuurd.
+
+<Warning>
+De vervoerder ontvangt de **Douane omschrijving**, maar de standaard commerciële factuur drukt de **Omschrijving** af. Om de papieren en de boeking bij de vervoerder te laten overeenkomen, vult u beide velden in op de regel, met dezelfde formulering.
+</Warning>
+
+### Wat niet verandert
+
+- Inpakschermen en meldingen op de handheld tonen de normale omschrijving en code van het product, ongeacht de bestemming.
+- Verzendlabels en custom carrier type-templates worden precies zoals voorheen afgedrukt.
+- Hoe een zending wordt getarifeerd of in dozen wordt verdeeld, verandert niet.
+
+## Regels in bulk toevoegen
+
+Als u veel producten of landen moet instellen, kunnen de regels vanuit een CSV-bestand worden geladen in plaats van één voor één te worden ingevoerd. Neem contact op met Clarus support om de import in te stellen; zij spreken de bestandsindeling met u af. Een bestand kan nieuwe regels toevoegen en bestaande regels wijzigen of verwijderen.
+
+## Meldingen die u kunt zien
+
+| Melding | Wat het betekent |
+|---|---|
+| *Land is vereist* | Kies een land voordat u de regel opslaat. |
+| *Omschrijving overschrijdt de maximale lengte (150)* | Maak de omschrijving korter. Dezelfde melding verschijnt voor **Goederencode** (14) en **Douane omschrijving** (255). |
+| *De informatie kon niet worden opgeslagen. Als dit probleem aanhoudt, neem dan contact op met de beheerder.* | De regel heeft een land maar geen waarden. Vul minstens één veld in, of verwijder de regel. |
+| *De waarde is niet uniek. Geef een unieke waarde op.* | Het product heeft al een regel voor dat land. Wijzig de bestaande regel in plaats van een nieuwe toe te voegen. |
+
+## Veelgestelde vragen
+
+<AccordionGroup>
+<Accordion title="Kan één regel voor meerdere landen gelden?">
+Nee. Elke regel is voor één land. Voeg een aparte regel toe voor elke bestemming die andere waarden nodig heeft. De uitzondering is het Verenigd Koninkrijk, waar één regel alle vier de landen dekt.
+</Accordion>
+<Accordion title="Het product wordt door meerdere accounts gedeeld. Heeft elk account een eigen regel nodig?">
+Nee. De regels horen bij het product, dus dezelfde regel geldt ongeacht van welk account de order wordt verzonden.
+</Accordion>
+<Accordion title="Welk adres bepaalt het land — het factuuradres of het afleveradres?">
+Het afleveradres van de zending. Een order die aan een Amerikaanse klant wordt gefactureerd maar op een adres in het VK wordt afgeleverd, gebruikt het Verenigd Koninkrijk.
+</Accordion>
+<Accordion title="Kan ik andere gegevens wijzigen, zoals de waarde, het gewicht of de barcode?">
+Nee. Alleen **Omschrijving**, **Lange omschrijving**, **Goederencode** en **Douane omschrijving** kunnen worden vervangen. Waarde, gewicht en afmetingen bepalen ook hoe een zending wordt getarifeerd en ingepakt, dus die komen altijd van het product.
+</Accordion>
+<Accordion title="Hoe werken deze regels samen met EU-productidentificaties?">
+Ze werken naast elkaar. Bij een levering naar een EU-land past Clarus een eventuele regel voor dat land toe en verstuurt het ook het artikelnummer van de fabrikant en de barcode van het product. Zie [EU-productidentificaties](/knowledgebase/nl/products-and-stock/eu-product-identifiers).
+</Accordion>
+</AccordionGroup>

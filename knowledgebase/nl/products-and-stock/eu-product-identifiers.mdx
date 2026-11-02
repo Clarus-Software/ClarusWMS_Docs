@@ -1,0 +1,93 @@
+---
+title: "EU-productidentificaties"
+description: "Leg een artikelnummer van de fabrikant vast bij een product en verstuur het, samen met de barcode van het product, naar de vervoerder bij elke zending naar een EU-land, zodat EU-douaneaangiften de productidentificaties bevatten die nu worden verwacht."
+sidebarTitle: "EU-productidentificaties"
+---
+
+De EU-douane verwacht nu dat pakketten met een lage waarde die van buiten de EU naar de EU worden verzonden, elk artikel nauwkeuriger identificeren. Clarus verstuurt drie identificaties per artikel wanneer een zending naar een EU-land wordt geboekt:
+
+| Identificatie | Afkomstig uit |
+|---|---|
+| SKU | De **Code** van het product |
+| Artikelnummer fabrikant | Het nieuwe veld **Artikelnummer fabrikant** in de sectie **Douane** van het product |
+| Barcode | De **Barcode** in de sectie **Eenheid** van het product |
+
+Vul **Artikelnummer fabrikant** en **Barcode** in bij de producten die u naar de EU verzendt, en Clarus geeft ze automatisch door aan de vervoerder. Voor het magazijnteam verandert er niets.
+
+<Tip>
+Vraag uw vervoerder of douane-expediteur welke identificaties uw producten nodig hebben. De regels kennen uitzonderingen die afhangen van de goederencode van het product, dus een juiste **Goederencode** is ook belangrijk.
+</Tip>
+
+## Voordat u begint
+
+| Wat u nodig hebt | Hoe u het krijgt |
+|---|---|
+| Een rol die producten mag beheren | De rollen Admin en Standard kunnen standaard producten wijzigen. Uw beheerder stelt dit in op de rol van de gebruiker — zie [Gebruikersrollen creëren en implementeren](/knowledgebase/nl/users-and-roles/user-roles-guide). |
+| Een geïntegreerde vervoerder op de zending | De identificaties worden alleen verstuurd wanneer de zending wordt geboekt via een van de geïntegreerde vervoerders van Clarus. Vervoerders met een custom carrier type, waarbij u uw eigen labels afdrukt, sturen geen productgegevens naar een vervoerder. Zie [Koeriers- en vervoerdersintegraties](/knowledgebase/nl/integrations/carrier-integrations). |
+
+U hoeft niets in te schakelen. Het veld **Artikelnummer fabrikant** is op elk product beschikbaar.
+
+## De identificaties aan een product toevoegen
+
+<Steps>
+  <Step title="Open het product">
+    Klik in het menu aan de linkerkant op **Producten** en open het product.
+  </Step>
+  <Step title="Vul het artikelnummer van de fabrikant in">
+    Klap de sectie **Douane** uit en vul **Artikelnummer fabrikant** in — de eigen code van de fabrikant voor het artikel, zoals een model- of onderdeelnummer. Het mag maximaal 255 tekens bevatten. Klik op **Opslaan** in de sectie **Douane**.
+  </Step>
+  <Step title="Controleer de barcode">
+    Controleer in de sectie **Eenheid** of **Barcode** de standaardbarcode van het product bevat (de GTIN, EAN of UPC). Klik op **Opslaan** in de sectie **Eenheid** als u deze wijzigt.
+  </Step>
+</Steps>
+
+<Warning>
+Clarus verstuurt wat er in de **Barcode** van de sectie **Eenheid** staat. Als u dat veld gebruikt voor een interne barcode in plaats van de standaardbarcode van het product, ontvangt de vervoerder de interne barcode. Barcodes van doos, binnenverpakking en buitenverpakking worden niet verstuurd.
+</Warning>
+
+### Artikelnummers van de fabrikant in bulk toevoegen
+
+De standaard CSV-productimport heeft een kolom **Manufacturer SKU**, zodat u het veld voor veel producten tegelijk kunt invullen. Zie [Productimport](/knowledgebase/nl/products-and-stock/product-import).
+
+Om producten te vinden die er nog een nodig hebben, voegt u de kolom **Artikelnummer fabrikant** toe aan de datagrid **Producten** en filtert u daarop.
+
+## Hoe de identificaties worden verstuurd
+
+Wanneer een zending bij de vervoerder wordt geboekt, controleert Clarus het land van het afleveradres van de zending:
+
+- **Levering naar een EU-lidstaat** — elk artikel bevat de SKU, het artikelnummer van de fabrikant en de barcode.
+- **Levering naar een ander land** — elk artikel bevat de SKU, zoals voorheen. Het artikelnummer van de fabrikant en de barcode worden niet verstuurd.
+
+Dit geldt alleen voor de 27 EU-lidstaten. Leveringen naar het Verenigd Koninkrijk, inclusief Noord-Ierland, en naar Europese landen buiten de EU zoals Noorwegen en Zwitserland bevatten het artikelnummer van de fabrikant en de barcode niet.
+
+De identificaties worden verstuurd voor elk artikel in een zending naar de EU, ongeacht de waarde.
+
+Als een product geen artikelnummer van de fabrikant of geen barcode heeft, laat Clarus die identificatie weg en boekt de zending toch. Als de vervoerder de zending afwijst, wordt de fout op dezelfde manier getoond als elke andere fout van de vervoerder.
+
+<Note>
+De identificaties gaan alleen naar de vervoerder. Clarus voegt ze niet toe aan de commerciële factuur.
+</Note>
+
+### Samen met douanegegevens per bestemming
+
+Als het product een regel heeft in [Douanegegevens per bestemming](/knowledgebase/nl/products-and-stock/destination-customs-overrides) voor het afleverland, past Clarus die ook toe. De regel verandert de omschrijving en goederencode die worden verstuurd; de SKU, het artikelnummer van de fabrikant en de barcode komen altijd van het product.
+
+## Meldingen die u kunt zien
+
+| Melding | Wat het betekent |
+|---|---|
+| *Artikelnummer fabrikant overschrijdt de maximale lengte (255)* | Maak het artikelnummer van de fabrikant korter en sla de sectie **Douane** opnieuw op. |
+
+## Veelgestelde vragen
+
+<AccordionGroup>
+<Accordion title="Moet ik Artikelnummer fabrikant bij elk product invullen?">
+Nee. Zendingen gaan ook zonder dit veld naar de vervoerder. Of een bepaald product er een nodig heeft, hangt af van het product en de eisen van de vervoerder, dus vraag dit na bij uw vervoerder of douane-expediteur.
+</Accordion>
+<Accordion title="Waarom wordt het artikelnummer van de fabrikant niet verstuurd voor mijn orders naar Noord-Ierland?">
+Clarus behandelt adressen in Noord-Ierland als adressen in het Verenigd Koninkrijk, en de identificaties worden alleen verstuurd bij leveringen naar EU-lidstaten.
+</Accordion>
+<Accordion title="Mijn orders naar de EU zien er hetzelfde uit. Werkt het wel?">
+De identificaties worden op de achtergrond verstuurd wanneer de zending wordt geboekt, dus in Clarus ziet niets er anders uit. Controleer of het product een **Artikelnummer fabrikant** en een **Barcode** heeft, en of de zending is geboekt bij een geïntegreerde vervoerder in plaats van een custom carrier type.
+</Accordion>
+</AccordionGroup>
