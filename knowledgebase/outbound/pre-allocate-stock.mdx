@@ -1,10 +1,10 @@
 ---
 title: "Pre-Allocate Stock to a Sales Order"
-description: "Reserve specific available stock against a sales order before picking, then edit or release it when plans change. Pre-allocated stock is held for that order and is picked from exactly."
+description: "Reserve specific available stock against a sales order before picking, then edit or release it when plans change. Pre-allocated stock is reserved for that order and is picked from exactly."
 sidebarTitle: "Pre-Allocate Stock"
 ---
 
-Pre-allocation lets you hand-pick available stock and hold it for a sales order before the order is sent to pick. Held stock moves to a **Pre-Allocated** status, so no other order can allocate or pick it, and when you process picks the order is picked from exactly the stock you reserved.
+Pre-allocation lets you select available stock and pre-allocate it to a sales order before the order is sent to pick. Pre-allocated stock moves to a **Pre-Allocated** status, so no other order can allocate or pick it, and when you process picks the order is picked from exactly the stock you reserved.
 
 Use it when you need to guarantee stock for an order that will be picked later, for example a key customer's delivery, while other orders keep flowing through the warehouse.
 
@@ -19,27 +19,45 @@ Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocat
 
 ## Pre-allocate stock to an order line
 
+You pre-allocate stock one order line at a time, from that line's **Pre-Allocate** button.
+
 <Steps>
   <Step title="Open the sales order">
     Open the sales order from the **Sales Orders** data grid. If it's a new order, save it first — the **Pre-Allocate** button is disabled until the order is saved.
   </Step>
-  <Step title="Click Pre-Allocate on the line">
-    In the order lines, click **Pre-Allocate** on the line you want to reserve stock for. The **Pre-Allocate Stock** window opens, showing the product and a summary such as *0 of 10 pre-allocated, 10 remaining*.
+  <Step title="Add the pre-allocation columns to the order lines">
+    The **Order Lines** grid doesn't show the pre-allocation columns by default. Use the Column Manager to add:
+
+    - **Pre-Allocate** — a button on each order line that opens the stock selection for that line.
+    - **Pre-Allocated** — how much of each line is pre-allocated, against its ordered quantity.
+
+    Save the view so the columns stay in place next time. See [Adding and removing data grid columns](/knowledgebase/reporting/data-grid-columns).
   </Step>
-  <Step title="Enter the quantities to hold">
-    The **Available Stock** grid lists the stock you can choose from. Enter a quantity in the **Quantity To Pre-Allocate** column against each stock record you want to hold. You can:
+  <Step title="Click Pre-Allocate on the order line">
+    Find the order line you want to pre-allocate stock to and click its **Pre-Allocate** button. The **Pre-Allocate Stock** window opens for that line's product, with a summary such as *0 of 10 pre-allocated, 10 remaining*.
+  </Step>
+  <Step title="Select the stock to pre-allocate">
+    The **Available Stock** grid lists the stock records you can pre-allocate. For each one you want to use, type the quantity into its **Quantity To Pre-Allocate** field.
+
+    <Warning>
+    Don't confuse **Quantity To Pre-Allocate** with the **Quantity** column next to it. **Quantity** is how much the stock record holds, and is read-only. Only the quantities you enter in **Quantity To Pre-Allocate** are pre-allocated to the order line.
+    </Warning>
+
+    You can:
 
     - Spread the line across several stock records.
     - Take part of a stock record — the rest stays available. For example, if a pallet holds 20 and the line needs 5, pre-allocate 5 and the other 15 remain available to other orders.
     - Enter decimal quantities.
     - Pre-allocate less than the ordered quantity. The rest of the line is allocated as normal when you process picks.
 
-    The summary updates as you type to show how much you've selected against what remains.
+    The summary updates as you type to show how much you've selected against what remains on the line.
   </Step>
   <Step title="Confirm">
-    Click **Confirm Pre-Allocation**. The stock is held for the order line and the order's status updates.
+    Click **Confirm Pre-Allocation**. The selected stock is pre-allocated to the order line, the line's **Pre-Allocated** column updates and the order's status changes.
   </Step>
 </Steps>
+
+Repeat for each order line you want to pre-allocate stock to.
 
 ### Which stock you can choose
 
@@ -54,48 +72,57 @@ Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocat
 | Where | What you'll see |
 |-------|-----------------|
 | Sales order status | **Pre-Allocated** when every line is fully covered, **Part Pre-Allocated** when only some of the order is. |
-| Sales order page | A **Pre-Allocated Stock** grid listing each held stock record, its quantity and location. |
-| Sales Orders data grid | A **Pre-Allocated** column showing the total pre-allocated against the total ordered across all lines, for example 5/10. |
-| Stocks data grid | The held stock shows a status of **Pre-Allocated**. Add the **Pre-Allocated Sales Order Line** column to see which order it's held for. |
+| Sales order page | The line's **Pre-Allocated** column updates, and a **Pre-Allocated Stock** section appears lower down the page listing each pre-allocated stock record, its quantity and location. |
+| Sales Orders data grid | A **Pre-Allocated** column (add it with the Column Manager) showing the total pre-allocated against the total ordered across all lines, for example 5/10. |
+| Stocks data grid | The pre-allocated stock shows a status of **Pre-Allocated**. Add the **Pre-Allocated Sales Order Line** column to see which order it's pre-allocated to. |
 | [Stock Balance](/knowledgebase/products-and-stock/stock-balance) | The quantity moves from **Available** into its own **Pre-Allocated** balance, separate from **Allocated**. The ordered balance reduces by the same amount. |
-| Transactions | A **Pre-Allocated** transaction is recorded for each stock record held. |
+| Transactions | A **Pre-Allocated** transaction is recorded for each stock record pre-allocated. |
 | Audit log | The order's status change is logged with who made it and when. |
 
-If you hold only part of a stock record, it's split in two: a **Pre-Allocated** record for the quantity you held and an **Available** record for the remainder. Reducing a held quantity later works the same way in reverse.
+If you pre-allocate only part of a stock record, it's split in two: a **Pre-Allocated** record for the quantity you pre-allocated and an **Available** record for the remainder. Reducing a pre-allocated quantity later works the same way in reverse.
 
 ## Edit or release pre-allocated stock
 
-While the order is **Pre-Allocated** or **Part Pre-Allocated**, you can change what's held from the **Pre-Allocated Stock** grid on the sales order page.
+You change a pre-allocation from the **Pre-Allocated Stock** section of the sales order page, not from the order lines. This section sits lower down the page and only appears once stock has been pre-allocated. It has one row per pre-allocated stock record, not one per order line, so a line spread across three stock records has three rows.
+
+You can make changes while the order is **Pre-Allocated** or **Part Pre-Allocated**.
 
 <Tabs>
   <Tab title="Reduce the quantity">
     <Steps>
+      <Step title="Find the stock record">
+        In the **Pre-Allocated Stock** section, find the row for the stock record you want to reduce. Use the **Location Code** and **Storage Unit Reference** columns to identify it.
+      </Step>
       <Step title="Enter the new quantity">
-        In the **Quantity** column, type the quantity you want to keep holding. It must be greater than zero and less than the quantity currently held.
+        On that row, type the quantity you want to keep pre-allocated into the **Quantity** input box. Hover over its column heading to see it labelled **Pre-Allocated Quantity**. The new quantity must be greater than zero and less than the quantity currently pre-allocated.
+
+        <Warning>
+        Don't change the **Quantity** on the order line in the **Order Lines** grid. That's the ordered quantity, and it can't be reduced below what's pre-allocated. Reduce the pre-allocation here first.
+        </Warning>
       </Step>
       <Step title="Save">
-        Click **Save** on that row. The difference is released back to **Available** straight away.
+        Click **Save** on the same row. The difference is released back to **Available** straight away.
       </Step>
     </Steps>
   </Tab>
-  <Tab title="Release a stock record">
+<Tab title="Release a stock record">
     <Steps>
       <Step title="Click Release">
-        Click **Release** on the row for the stock record you no longer need.
+        In the **Pre-Allocated Stock** section, click **Release** on the row for the stock record you no longer need. This releases the whole quantity on that row.
       </Step>
       <Step title="Confirm">
-        Confirm the release. The stock is no longer held for this order and becomes available to other orders immediately.
+        Confirm the release. The stock is no longer pre-allocated to this order and becomes available to other orders immediately.
       </Step>
     </Steps>
   </Tab>
   <Tab title="Add more stock">
-    If a line is only partly pre-allocated, click **Pre-Allocate** on the line again and select more stock, as described in [Pre-allocate stock to an order line](#pre-allocate-stock-to-an-order-line). You can add up to the quantity still remaining on the line.
+    If a line is only partly pre-allocated, click that order line's **Pre-Allocate** button again and select more stock, as described in [Pre-allocate stock to an order line](#pre-allocate-stock-to-an-order-line). You can add up to the quantity still remaining on the line.
   </Tab>
 </Tabs>
 
 Each change updates the order's status and balances, and records an **Un-Pre-Allocated** transaction for the released quantity:
 
-- Some stock still held → **Part Pre-Allocated**
+- Some stock still pre-allocated → **Part Pre-Allocated**
 - Every line still fully covered → stays **Pre-Allocated**
 - All pre-allocated stock released → back to **Pending**
 
@@ -105,7 +132,7 @@ Once the order has been processed for picking, the **Pre-Allocated Stock** grid 
 
 ## Changing order lines with pre-allocated stock
 
-To protect the stock you've held, some line changes are blocked until you release the pre-allocation first:
+To protect the stock you've pre-allocated, some line changes are blocked until you release the pre-allocation first:
 
 - You can't reduce a line's order quantity below its pre-allocated quantity. Reduce or release the pre-allocation, then change the line.
 - You can't change the product on a line that has pre-allocated stock.
@@ -124,7 +151,7 @@ When you [process picks](/knowledgebase/outbound/create-and-process-a-pick-list)
 Cancelling releases pre-allocated stock automatically, returning it to **Available**:
 
 - **Cancelling a sales order** that is **Pre-Allocated** or **Part Pre-Allocated** releases all of its pre-allocated stock.
-- **Cancelling a pick list**, or an individual pick task, for a pre-allocated order returns that stock to **Available**. It's no longer held for the order, so pre-allocate again if you still need to reserve it. See [Cancel or amend a pick list](/knowledgebase/outbound/cancel-or-amend-a-pick-list).
+- **Cancelling a pick list**, or an individual pick task, for a pre-allocated order returns that stock to **Available**. It's no longer pre-allocated to the order, so pre-allocate again if you still need to reserve it. See [Cancel or amend a pick list](/knowledgebase/outbound/cancel-or-amend-a-pick-list).
 
 ## Stock control on pre-allocated stock
 
@@ -158,7 +185,7 @@ This ability only controls pre-allocation on sales orders. Users still see the *
 Check that the order is saved and has a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**, that the line isn't already fully pre-allocated, and that your role has **Manage** access to **Pre-Allocations**. Hover over the button to see the reason.
 </Accordion>
 <Accordion title="Why can't I see some of my stock in the Pre-Allocate Stock window?">
-Only **Available** stock in the order's warehouse is listed. Stock that's held, allocated, already pre-allocated, or in a pickface location isn't shown.
+Only **Available** stock in the order's warehouse is listed. Stock that's on hold, allocated, already pre-allocated, or in a pickface location isn't shown.
 </Accordion>
 <Accordion title="Can I pre-allocate serial-numbered, kitted or cross-dock orders?">
 No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows.

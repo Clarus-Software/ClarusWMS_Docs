@@ -1,10 +1,10 @@
 ---
 title: "Voorraad pre-alloceren aan een verkooporder"
-description: "Reserveer specifieke beschikbare voorraad voor een verkooporder voordat er wordt gepickt, en wijzig of geef deze vrij wanneer plannen veranderen. Pre-gealloceerde voorraad wordt voor die order vastgehouden en precies zo gepickt."
+description: "Reserveer specifieke beschikbare voorraad voor een verkooporder voordat er wordt gepickt, en wijzig of geef deze vrij wanneer plannen veranderen. Pre-gealloceerde voorraad wordt voor die order gereserveerd en precies zo gepickt."
 sidebarTitle: "Voorraad pre-alloceren"
 ---
 
-Met pre-allocatie kiest u zelf beschikbare voorraad uit en houdt u deze vast voor een verkooporder voordat de order naar het picken gaat. Vastgehouden voorraad krijgt de status **Pre-gealloceerd**, zodat geen andere order deze kan alloceren of picken. Wanneer u de picks verwerkt, wordt de order gepickt van precies de voorraad die u hebt gereserveerd.
+Met pre-allocatie selecteert u beschikbare voorraad en pre-alloceert u deze aan een verkooporder voordat de order naar het picken gaat. Pre-gealloceerde voorraad krijgt de status **Pre-gealloceerd**, zodat geen andere order deze kan alloceren of picken. Wanneer u de picks verwerkt, wordt de order gepickt van precies de voorraad die u hebt gereserveerd.
 
 Gebruik dit wanneer u voorraad moet garanderen voor een order die later wordt gepickt, bijvoorbeeld de levering van een belangrijke klant, terwijl andere orders gewoon door het magazijn blijven gaan.
 
@@ -19,27 +19,45 @@ Pre-allocatie wordt geleidelijk uitgerold. Als u de knop **Pre-alloceren** niet 
 
 ## Voorraad pre-alloceren aan een orderregel
 
+U pre-alloceert voorraad per orderregel, via de knop **Pre-alloceren** van die regel.
+
 <Steps>
   <Step title="Open de verkooporder">
     Open de verkooporder vanuit de datagrid **Verkooporders**. Is het een nieuwe order, sla deze dan eerst op — de knop **Pre-alloceren** is uitgeschakeld totdat de order is opgeslagen.
   </Step>
-  <Step title="Klik op Pre-alloceren bij de regel">
-    Klik in de orderregels op **Pre-alloceren** bij de regel waarvoor u voorraad wilt reserveren. Het venster **Voorraad pre-alloceren** opent met het product en een samenvatting zoals *0 van 10 pre-gealloceerd, 10 resterend*.
+  <Step title="Voeg de pre-allocatiekolommen toe aan de orderregels">
+    De grid **Orderregels** toont de pre-allocatiekolommen niet standaard. Voeg via de **Kolommanager** toe:
+
+    - **Pre-alloceren** — een knop op elke orderregel die de voorraadselectie voor die regel opent.
+    - **Pre-gealloceerd** — hoeveel van elke regel is pre-gealloceerd, ten opzichte van de bestelde hoeveelheid.
+
+    Sla de weergave op zodat de kolommen de volgende keer blijven staan. Zie [Kolommen toevoegen en verwijderen](/knowledgebase/nl/reporting/data-grid-columns).
   </Step>
-  <Step title="Voer de vast te houden hoeveelheden in">
-    De grid **Beschikbare voorraad** toont de voorraad waaruit u kunt kiezen. Voer in de kolom **Aantal te pre-alloceren** een hoeveelheid in bij elk voorraadrecord dat u wilt vasthouden. U kunt:
+  <Step title="Klik op Pre-alloceren bij de orderregel">
+    Zoek de orderregel waaraan u voorraad wilt pre-alloceren en klik op de knop **Pre-alloceren** van die regel. Het venster **Voorraad pre-alloceren** opent voor het product van die regel, met een samenvatting zoals *0 van 10 pre-gealloceerd, 10 resterend*.
+  </Step>
+  <Step title="Selecteer de voorraad om te pre-alloceren">
+    De grid **Beschikbare voorraad** toont de voorraadrecords die u kunt pre-alloceren. Typ voor elk record dat u wilt gebruiken de hoeveelheid in het veld **Aantal te pre-alloceren**.
+
+    <Warning>
+    Verwar **Aantal te pre-alloceren** niet met de kolom **Aantal** ernaast. **Aantal** is de hoeveelheid in het voorraadrecord en kan niet worden gewijzigd. Alleen de hoeveelheden die u invoert bij **Aantal te pre-alloceren** worden aan de orderregel pre-gealloceerd.
+    </Warning>
+
+    U kunt:
 
     - De regel verdelen over meerdere voorraadrecords.
     - Een deel van een voorraadrecord nemen — de rest blijft beschikbaar. Bijvoorbeeld: als een pallet 20 stuks bevat en de regel 5 nodig heeft, pre-alloceert u 5 en blijven de andere 15 beschikbaar voor andere orders.
     - Decimale hoeveelheden invoeren.
     - Minder pre-alloceren dan de bestelde hoeveelheid. De rest van de regel wordt zoals gewoonlijk gealloceerd wanneer u de picks verwerkt.
 
-    De samenvatting wordt tijdens het typen bijgewerkt en toont hoeveel u hebt geselecteerd ten opzichte van wat er resteert.
+    De samenvatting wordt tijdens het typen bijgewerkt en toont hoeveel u hebt geselecteerd ten opzichte van wat er op de regel resteert.
   </Step>
   <Step title="Bevestigen">
-    Klik op **Pre-allocatie bevestigen**. De voorraad wordt vastgehouden voor de orderregel en de status van de order wordt bijgewerkt.
+    Klik op **Pre-allocatie bevestigen**. De geselecteerde voorraad wordt aan de orderregel pre-gealloceerd, de kolom **Pre-gealloceerd** van de regel wordt bijgewerkt en de status van de order verandert.
   </Step>
 </Steps>
+
+Herhaal dit voor elke orderregel waaraan u voorraad wilt pre-alloceren.
 
 ### Welke voorraad u kunt kiezen
 
@@ -54,48 +72,57 @@ Pre-allocatie wordt geleidelijk uitgerold. Als u de knop **Pre-alloceren** niet 
 | Waar | Wat u ziet |
 |------|------------|
 | Status van de verkooporder | **Pre-gealloceerd** wanneer elke regel volledig is gedekt, **Gedeeltelijk pre-gealloceerd** wanneer slechts een deel van de order is gedekt. |
-| Verkooporderpagina | Een grid **Pre-gealloceerde voorraad** met elk vastgehouden voorraadrecord, de hoeveelheid en de locatie. |
-| Datagrid Verkooporders | Een kolom **Pre-gealloceerd** met het totaal pre-gealloceerd ten opzichte van het totaal besteld over alle regels, bijvoorbeeld 5/10. |
-| Datagrid Voorraden | De vastgehouden voorraad heeft de status **Pre-gealloceerd**. Voeg de kolom **Pre-gealloceerde verkooporderregel** toe om te zien voor welke order deze wordt vastgehouden. |
+| Verkooporderpagina | De kolom **Pre-gealloceerd** van de regel wordt bijgewerkt, en lager op de pagina verschijnt een sectie **Pre-gealloceerde voorraad** met elk pre-gealloceerd voorraadrecord, de hoeveelheid en de locatie. |
+| Datagrid Verkooporders | Een kolom **Pre-gealloceerd** (voeg deze toe via de Kolommanager) met het totaal pre-gealloceerd ten opzichte van het totaal besteld over alle regels, bijvoorbeeld 5/10. |
+| Datagrid Voorraden | De pre-gealloceerde voorraad heeft de status **Pre-gealloceerd**. Voeg de kolom **Pre-gealloceerde verkooporderregel** toe om te zien aan welke order deze is pre-gealloceerd. |
 | [Voorraadsaldi](/knowledgebase/nl/products-and-stock/stock-balance) | De hoeveelheid gaat van **Beschikbaar** naar een eigen saldo **Pre-gealloceerd**, los van **Toegewezen**. Het bestelde saldo daalt met dezelfde hoeveelheid. |
-| Transacties | Voor elk vastgehouden voorraadrecord wordt een transactie **Pre-gealloceerd** vastgelegd. |
+| Transacties | Voor elk pre-gealloceerd voorraadrecord wordt een transactie **Pre-gealloceerd** vastgelegd. |
 | Auditlog | De statuswijziging van de order wordt vastgelegd met wie deze heeft gedaan en wanneer. |
 
-Als u slechts een deel van een voorraadrecord vasthoudt, wordt het in tweeën gesplitst: een record **Pre-gealloceerd** voor de vastgehouden hoeveelheid en een record **Beschikbaar** voor de rest. Het later verlagen van een vastgehouden hoeveelheid werkt op dezelfde manier, maar dan omgekeerd.
+Als u slechts een deel van een voorraadrecord pre-alloceert, wordt het in tweeën gesplitst: een record **Pre-gealloceerd** voor de pre-gealloceerde hoeveelheid en een record **Beschikbaar** voor de rest. Het later verlagen van een pre-gealloceerde hoeveelheid werkt op dezelfde manier, maar dan omgekeerd.
 
 ## Pre-gealloceerde voorraad wijzigen of vrijgeven
 
-Zolang de order **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** is, kunt u wijzigen wat er wordt vastgehouden vanuit de grid **Pre-gealloceerde voorraad** op de verkooporderpagina.
+U wijzigt een pre-allocatie vanuit de sectie **Pre-gealloceerde voorraad** op de verkooporderpagina, niet vanuit de orderregels. Deze sectie staat lager op de pagina en verschijnt pas zodra er voorraad is pre-gealloceerd. Ze heeft één rij per pre-gealloceerd voorraadrecord, niet één per orderregel: een regel die over drie voorraadrecords is verdeeld, heeft dus drie rijen.
+
+U kunt wijzigingen maken zolang de order **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** is.
 
 <Tabs>
   <Tab title="De hoeveelheid verlagen">
     <Steps>
+      <Step title="Zoek het voorraadrecord">
+        Zoek in de sectie **Pre-gealloceerde voorraad** de rij van het voorraadrecord dat u wilt verlagen. Gebruik de kolommen **Locatiecode** en **Opslageenheid referentie** om het te herkennen.
+      </Step>
       <Step title="Voer de nieuwe hoeveelheid in">
-        Typ in de kolom **Aantal** de hoeveelheid die u wilt blijven vasthouden. Deze moet groter zijn dan nul en kleiner dan de hoeveelheid die nu wordt vastgehouden.
+        Typ op die rij in het invoerveld **Aantal** de hoeveelheid die pre-gealloceerd moet blijven. Beweeg de muis over de kolomkop om het label **Pre-gealloceerde hoeveelheid** te zien. De nieuwe hoeveelheid moet groter zijn dan nul en kleiner dan de hoeveelheid die nu is pre-gealloceerd.
+
+        <Warning>
+        Wijzig niet het **Aantal** op de orderregel in de grid **Orderregels**. Dat is de bestelde hoeveelheid, en die kan niet lager worden dan wat is pre-gealloceerd. Verlaag eerst hier de pre-allocatie.
+        </Warning>
       </Step>
       <Step title="Opslaan">
-        Klik op **Opslaan** in die rij. Het verschil wordt direct vrijgegeven en is weer **Beschikbaar**.
+        Klik op **Opslaan** in dezelfde rij. Het verschil wordt direct vrijgegeven en is weer **Beschikbaar**.
       </Step>
     </Steps>
   </Tab>
-  <Tab title="Een voorraadrecord vrijgeven">
+<Tab title="Een voorraadrecord vrijgeven">
     <Steps>
       <Step title="Klik op Vrijgeven">
-        Klik op **Vrijgeven** in de rij van het voorraadrecord dat u niet meer nodig hebt.
+        Klik in de sectie **Pre-gealloceerde voorraad** op **Vrijgeven** in de rij van het voorraadrecord dat u niet meer nodig hebt. Hiermee geeft u de volledige hoeveelheid op die rij vrij.
       </Step>
       <Step title="Bevestigen">
-        Bevestig het vrijgeven. De voorraad wordt niet langer vastgehouden voor deze order en is direct beschikbaar voor andere orders.
+        Bevestig het vrijgeven. De voorraad is niet langer pre-gealloceerd aan deze order en is direct beschikbaar voor andere orders.
       </Step>
     </Steps>
   </Tab>
   <Tab title="Meer voorraad toevoegen">
-    Als een regel slechts gedeeltelijk is pre-gealloceerd, klikt u opnieuw op **Pre-alloceren** bij de regel en selecteert u meer voorraad, zoals beschreven in [Voorraad pre-alloceren aan een orderregel](#voorraad-pre-alloceren-aan-een-orderregel). U kunt toevoegen tot de hoeveelheid die nog resteert op de regel.
+    Als een regel slechts gedeeltelijk is pre-gealloceerd, klikt u opnieuw op de knop **Pre-alloceren** van die orderregel en selecteert u meer voorraad, zoals beschreven in [Voorraad pre-alloceren aan een orderregel](#voorraad-pre-alloceren-aan-een-orderregel). U kunt toevoegen tot de hoeveelheid die nog resteert op de regel.
   </Tab>
 </Tabs>
 
 Elke wijziging werkt de status en saldi van de order bij en legt een transactie **Pre-allocatie ongedaan gemaakt** vast voor de vrijgegeven hoeveelheid:
 
-- Er wordt nog voorraad vastgehouden → **Gedeeltelijk pre-gealloceerd**
+- Er is nog voorraad pre-gealloceerd → **Gedeeltelijk pre-gealloceerd**
 - Elke regel is nog volledig gedekt → blijft **Pre-gealloceerd**
 - Alle pre-gealloceerde voorraad vrijgegeven → terug naar **In behandeling**
 
@@ -105,7 +132,7 @@ Zodra de order is verwerkt voor picken, wordt de grid **Pre-gealloceerde voorraa
 
 ## Orderregels met pre-gealloceerde voorraad wijzigen
 
-Om de vastgehouden voorraad te beschermen, zijn sommige regelwijzigingen geblokkeerd totdat u eerst de pre-allocatie vrijgeeft:
+Om de pre-gealloceerde voorraad te beschermen, zijn sommige regelwijzigingen geblokkeerd totdat u eerst de pre-allocatie vrijgeeft:
 
 - U kunt de orderhoeveelheid van een regel niet verlagen tot onder de pre-gealloceerde hoeveelheid. Verlaag of geef de pre-allocatie eerst vrij en wijzig daarna de regel.
 - U kunt het product niet wijzigen op een regel met pre-gealloceerde voorraad.
@@ -124,7 +151,7 @@ Wanneer u [picks verwerkt](/knowledgebase/nl/outbound/create-and-process-a-pick-
 Bij annuleren wordt pre-gealloceerde voorraad automatisch vrijgegeven en is deze weer **Beschikbaar**:
 
 - **Een verkooporder annuleren** met de status **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** geeft alle pre-gealloceerde voorraad van die order vrij.
-- **Een picklijst annuleren**, of een afzonderlijke picktaak, voor een pre-gealloceerde order maakt die voorraad weer **Beschikbaar**. Deze wordt niet langer voor de order vastgehouden, dus pre-alloceer opnieuw als u de voorraad nog steeds wilt reserveren. Zie [Een picklist annuleren of wijzigen](/knowledgebase/nl/outbound/cancel-or-amend-a-pick-list).
+- **Een picklijst annuleren**, of een afzonderlijke picktaak, voor een pre-gealloceerde order maakt die voorraad weer **Beschikbaar**. Deze is niet langer aan de order pre-gealloceerd, dus pre-alloceer opnieuw als u de voorraad nog steeds wilt reserveren. Zie [Een picklist annuleren of wijzigen](/knowledgebase/nl/outbound/cancel-or-amend-a-pick-list).
 
 ## Voorraadbeheer op pre-gealloceerde voorraad
 
