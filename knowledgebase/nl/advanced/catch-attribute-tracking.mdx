@@ -1,0 +1,277 @@
+---
+title: "Vangstkenmerken registreren"
+description: "Leg een meting zoals gewicht, lengte, volume of waarde vast voor elk artikel van een product bij ontvangst en picken, en bekijk daarna de waarde per artikel en het totaal bij voorraad en transacties."
+sidebarTitle: "Vangstkenmerken"
+---
+
+Met vangstkenmerken (catch attributes) legt u een gemeten waarde vast voor elk afzonderlijk artikel van een product, niet alleen een aantal. Bijvoorbeeld het gewicht van elke kip, de lengte van elke rol stof of de waarde van elk artikel. Elders in de branche heet dit vaak "catch weight"; hier heet het vangstkenmerken omdat u meer kunt meten dan alleen gewicht.
+
+Gebruik vangstkenmerken wanneer artikelen van hetzelfde product van elkaar verschillen en u precies wilt weten wat er op voorraad ligt en wat er naar elke klant is verzonden, bijvoorbeeld om op werkelijk gewicht te factureren in plaats van per stuk.
+
+Vangstkenmerken werken grotendeels zoals [serienummertracering](/knowledgebase/nl/advanced/serial-number-tracking), met drie verschillen:
+
+- Een vangstkenmerk is een **getal**, zoals `1.25`, geen tekstcode.
+- Waarden **hoeven niet uniek te zijn**: twee artikelen kunnen allebei 1,25 kg wegen.
+- Het product bepaalt **wat** er wordt gemeten en in **welke eenheid**, en het **totaal** van de waarden wordt overal getoond waar de waarden staan.
+
+Een product kan tegelijk serienummers en vangstkenmerken registreren. Als beide nodig zijn, voert u eerst de serienummers in.
+
+<Info>
+Vangstkenmerken worden door Clarus support voor uw systeem ingeschakeld. Als u het paneel **Vangstkenmerken** niet ziet bij uw producten, neem dan contact op met Clarus support.
+</Info>
+
+## Voordat u begint
+
+| Wat u nodig hebt | Hoe u het krijgt |
+|---|---|
+| Vangstkenmerken ingeschakeld voor uw systeem | Vraag het aan Clarus support. Tot die tijd geeft het instellen van tracking op een product de melding *Vangstkenmerken zijn niet ingeschakeld.* |
+| Rechten om producten te bewerken | Uw bestaande productrechten. Vangstkenmerken hebben geen eigen recht. |
+| Rechten voor ontvangsten, picklijsten, voorraad en transacties | Uw bestaande rechten voor die schermen. |
+| Een handheld (HHD)-proces dat vangstkenmerken vastlegt, als u met een handheld pickt | Geconfigureerd in uw HHD-implementatie. Zie [Picken op de handheld](#picken-op-de-handheld). |
+
+Er is geen account- of magazijninstelling: vangstkenmerken worden per product ingesteld.
+
+## Een trackinginstelling kiezen
+
+Elk product heeft een van drie trackinginstellingen:
+
+| Trackinginstelling | Wanneer waarden worden vastgelegd | Gebruik dit wanneer |
+|---|---|---|
+| **Geen tracking** | Nooit. Dit is de standaard. | Het product niet gemeten hoeft te worden. |
+| **Track tijdens picken** | Bij het picken van de voorraad. Goederenontvangst werkt zoals gewoonlijk. | U alleen hoeft te weten wat elke klant heeft ontvangen, bijvoorbeeld om op gewicht te factureren. |
+| **Volledige tracking** | Bij ontvangst van de voorraad, en opnieuw bij het picken. | U de meting van elk artikel wilt kennen zolang het op voorraad ligt, en ook wat er is verzonden. |
+
+## Een product instellen
+
+Vangstkenmerken stelt u in op het eigen scherm van het product, niet op het scherm **Nieuw** product. Maak het product eerst aan en open het daarna.
+
+<Steps>
+  <Step title="Open het product">
+    Ga naar **Producten** en open het product. Om een nieuw product aan te maken, zie [Nieuwe producten toevoegen](/knowledgebase/nl/products-and-stock/add-new-products); sla het op en open het daarna.
+  </Step>
+  <Step title="Klap het paneel Vangstkenmerken uit">
+    Het paneel **Vangstkenmerken** staat onder het paneel **Serienummers** en is standaard ingeklapt.
+  </Step>
+  <Step title="Kies de Trackinginstelling">
+    Selecteer **Track tijdens picken** of **Volledige tracking**.
+
+    Als het product al voorraad of transacties heeft, krijgt u een waarschuwing: *Dit product heeft bestaande voorraad en transacties. Het wijzigen van de traceringsinstelling is alleen van toepassing op nieuwe voorraad en goederenbewegingen. Bestaande voorraad en transacties blijven onaangetast.* Klik op **Instelling wijzigen** om door te gaan.
+  </Step>
+  <Step title="Kies de Meting">
+    Selecteer wat u per artikel meet: **Diepte**, **Hoogte**, **Waarde**, **Volume** of **Gewicht**.
+  </Step>
+  <Step title="Kies de Maateenheid">
+    De lijst toont alleen eenheden die bij de meting passen:
+
+    | Meting | Maateenheden |
+    |---|---|
+    | **Gewicht** | Gram, Kilogram |
+    | **Hoogte**, **Diepte** | Millimeter, Centimeter, Meter, Inch, Voet |
+    | **Volume** | Milliliter, Liter, Hectoliter, Pint, Gallon |
+    | **Waarde** | Geen. Het veld blijft leeg en is uitgeschakeld. |
+
+    Als u de meting wijzigt, springt de eenheid terug naar de eerste eenheid van de nieuwe meting.
+  </Step>
+</Steps>
+
+Totalen worden getoond met de afkorting van de eenheid, bijvoorbeeld *12.5 kg*. Totalen voor **Waarde** worden als gewoon getal getoond, zonder valuta.
+
+<Note>
+Het wijzigen van de trackinginstelling geldt alleen voor voorraad die daarna wordt ontvangen en goederen die daarna worden verplaatst. Bestaande voorraad en ontvangstregels behouden de instelling die ze hadden toen ze werden aangemaakt.
+</Note>
+
+### Stuklijstproducten
+
+Producten met **Producttype** **Stuklijsten** kunnen geen vangstkenmerken registreren. Alle drie de velden in het paneel **Vangstkenmerken** zijn voor deze producten uitgeschakeld.
+
+Als u het **Producttype** van een getrackt product wijzigt in **Stuklijsten**, wordt de trackinginstelling **Geen tracking**. Heeft het product al voorraad of transacties, dan wordt u eerst om bevestiging gevraagd.
+
+## Vangstkenmerken invoeren op een ontvangst (Volledige tracking)
+
+Voor een product met **Volledige tracking** voert u één waarde in voor elk ontvangen artikel. U kunt ze invoeren op de ontvangstregel voordat de voorraad binnenkomt, of bij het ontvangen.
+
+De kolommen voor vangstkenmerken worden standaard niet getoond. Voeg ze toe aan de grid via **Weergave bewerken** › **Kolom toevoegen**. Zie [Datagrids aanpassen](/knowledgebase/nl/reporting/customise-data-grids).
+
+| Kolom | Wat het doet |
+|---|---|
+| **Instelling vangstkenmerktracking** | De trackinginstelling van de regel, overgenomen van het product wanneer u het product kiest. |
+| **Vangstkenmerken bewerken** | Opent het venster **Vangstkenmerken bewerken**. |
+| **Vangstkenmerken** | Typ of plak waarden direct in de grid, gescheiden door komma's of puntkomma's. |
+| **Totaal vangstkenmerken** | Het totaal van de waarden van de regel, met de eenheid. |
+
+### Waarden invoeren in het venster Vangstkenmerken bewerken
+
+<Steps>
+  <Step title="Open het venster">
+    Klik in de grid **Opslageenheden** van de ontvangst, of bij een taak in het paneel **Ontvangen**, op **Vangstkenmerken bewerken**. De knop is alleen actief op een regel met **Volledige tracking** die een aantal heeft en niet is voltooid of geannuleerd.
+  </Step>
+  <Step title="Voer één waarde per artikel in">
+    Het venster toont een veld **Vangstkenmerk** voor elk verwacht artikel. Typ of scan in elk veld een waarde.
+
+    De kop toont hoeveel u hebt ingevoerd ten opzichte van het verwachte aantal (bijvoorbeeld **Vangstkenmerken** *2/3*), en het lopende **Totaal vangstkenmerken** met de eenheid.
+
+    U kunt dezelfde waarde meer dan eens invoeren. Om een waarde te verwijderen, maakt u het veld leeg. Met **Toon niet-toegewezen vangstkenmerken** en **Toon alle vangstkenmerken** wisselt u tussen de lege velden en alle velden.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Vangstkenmerken toevoegen** om de waarden op te slaan en het venster te sluiten.
+  </Step>
+</Steps>
+
+Waarden moeten groter zijn dan nul. Als u waarden direct in de kolom **Vangstkenmerken** typt, worden waarden die nul, negatief of geen getal zijn genegeerd.
+
+### Regels voor ontvangstregels met Volledige tracking
+
+- Het aantal waarden moet gelijk zijn aan het aantal van de regel. Een decimaal aantal heeft een waarde nodig voor elk gedeeltelijk artikel, dus 2,5 heeft drie waarden nodig.
+- De opslageenheidshoeveelheid van de regel moet 1 zijn, zodat elke opslageenheid één artikel bevat. Anders ziet u *Voor producten die volledige tracking van vangstkenmerken vereisen, kan de opslageenheidshoeveelheid niet groter zijn dan 1*.
+- U kunt alleen waarden invoeren wanneer zowel het product als de regel op **Volledige tracking** staan.
+- Bij een product met **Volledige tracking** kunt u een regel wijzigen in **Track tijdens picken** of **Geen tracking**. Als de regel al waarden heeft, krijgt u een waarschuwing: *Waarschuwing! Vangstkenmerken worden niet opgeslagen bij ontvangstregels die zijn ingesteld op 'Volgen tijdens picken' of 'Geen volgen'. Zorg ervoor dat u indien nodig bijwerkt voordat u doorgaat.* Klik op **Instelling wijzigen** om door te gaan; de waarden van de regel worden gewist.
+- Bij elk ander product behoudt de regel de instelling van het product en is de kolom **Instelling vangstkenmerktracking** uitgeschakeld.
+- Voorraad die vanuit een regel wordt aangemaakt, krijgt de trackinginstelling van de **regel**.
+
+## Voorraad met Volledige tracking ontvangen
+
+Wanneer u een ontvangsttaak voltooit voor een regel met **Volledige tracking**, hebt u precies één waarde per ontvangen artikel nodig. Als u vooraf waarden op de ontvangstregel hebt ingevoerd, worden die automatisch gebruikt.
+
+Als het aantal waarden niet overeenkomt met het **Bevestigd aantal**, wordt u om bevestiging gevraagd:
+
+- **Te weinig waarden:** *U heeft nog niet alle vangstkenmerken voor deze regel ingevoerd. Door dit te voltooien wordt de ontvangen hoeveelheid bijgewerkt. Wilt u doorgaan?*
+- **Te veel waarden:** *U heeft al alle verwachte vangstkenmerken voor deze ontvangstregel ingevoerd. Door dit te voltooien wordt de ontvangen hoeveelheid bijgewerkt. Wilt u doorgaan?*
+
+Klik op **Regel opslaan** om door te gaan. Het **Bevestigd aantal** wordt aangepast aan het aantal ingevoerde waarden.
+
+Wanneer u meerdere ontvangsttaken tegelijk voltooit, wordt een taak met **Volledige tracking** waarvan de waarden niet overeenkomen met het bevestigde aantal niet voltooid. U ziet dan: *Opdrachten met de instelling 'Volledige tracking' voor tracking van vangstkenmerken staan geen automatische voltooiing toe zonder vangstkenmerken. Voeg deze toe of voltooi handmatig.* Voeg de waarden toe en voltooi de taak afzonderlijk.
+
+Als u een ontvangst ongedaan maakt, worden de waarden van de voorraad verwijderd. De waarden op de ontvangstregel blijven bewaard en worden opnieuw gebruikt als u de regel opnieuw ontvangt.
+
+## Voorraad met vangstkenmerken picken
+
+| Trackinginstelling | Waarden nodig bij het picken |
+|---|---|
+| **Track tijdens picken** | Eén waarde voor elk gepickt artikel: niet meer en niet minder. |
+| **Volledige tracking**, hele voorraadregel picken | Geen. Alle waarden van de voorraadregel gaan mee. |
+| **Volledige tracking**, deel van een voorraadregel picken | De waarde van elk artikel dat u neemt. Elke waarde moet al op de voorraadregel staan. U kunt een waarde zo vaak picken als die op de regel voorkomt, bijvoorbeeld twee keer als twee artikelen 1,25 wegen. |
+
+Waarden worden exact vergeleken, tot op vier decimalen, dus voer ze in zoals ze bij ontvangst zijn vastgelegd.
+
+### Picken in de webapp
+
+<Steps>
+  <Step title="Open de picklijst">
+    Open de picklijst en ga naar het paneel **Picken**. Zie [Een picklijst aanmaken en verwerken](/knowledgebase/nl/outbound/create-and-process-a-pick-list).
+  </Step>
+  <Step title="Voeg de kolommen voor vangstkenmerken toe">
+    Voeg de kolommen **Vangstkenmerken** en **Vangstkenmerken bewerken** toe via **Weergave bewerken** › **Kolom toevoegen**. Ze worden standaard niet getoond.
+  </Step>
+  <Step title="Voer de waarden in">
+    Typ de waarden in de kolom **Vangstkenmerken**, gescheiden door komma's, of klik op **Vangstkenmerken bewerken** om ze per veld in te voeren. Klik in het venster op **Opslaan** om de waarden te bewaren, of op **Opslaan & Kiezen** om ze op te slaan en de pick te voltooien.
+
+    De kolommen zijn uitgeschakeld wanneer de taak geen waarden nodig heeft, bijvoorbeeld bij een product met **Geen tracking** of een pick van een hele opslageenheid met **Volledige tracking**.
+  </Step>
+  <Step title="Voltooi de taak">
+    Als het aantal waarden niet overeenkomt met het bevestigde aantal, ziet u een melding dat de vangstkenmerken moeten overeenkomen met het **Bevestigd aantal**.
+  </Step>
+</Steps>
+
+Voltooi deze taken één voor één. Wanneer u meerdere picktaken tegelijk voltooit, worden taken met **Track tijdens picken** en deelpicks met **Volledige tracking** overgeslagen, ook als de waarden zijn ingevuld. U ziet dan: *Opdrachten met de instelling 'Volledige tracking' of 'Tracking tijdens pick' van vangstkenmerken staan geen geautomatiseerde voltooiing toe. Voltooi handmatig.*
+
+### Een pick ongedaan maken
+
+Als u een picktaak ongedaan maakt:
+
+- **Track tijdens picken:** de waarden die bij het picken zijn vastgelegd, worden verwijderd. U krijgt eerst een waarschuwing: *Het ongedaan maken van deze picktaak verwijdert alle bijbehorende vangstkenmerken met de picktaak. Wilt u doorgaan?* Klik op **Taak ongedaan maken** om door te gaan.
+- **Volledige tracking:** de waarden gaan terug naar de voorraadregel waarvan ze zijn gepickt.
+
+### Picken op de handheld
+
+Het vastleggen van vangstkenmerken kan worden toegevoegd aan het handheldproces **Pick — By Pick List**. Handheldprocessen worden per klant geconfigureerd, dus de stap verschijnt pas wanneer deze in uw HHD-implementatie is opgenomen. Neem contact op met Clarus support om de stap toe te voegen.
+
+Zodra de stap is geconfigureerd:
+
+<Steps>
+  <Step title="Pick zoals gewoonlijk">
+    Scan en bevestig de pick zoals altijd. Als het product ook serienummers registreert, voert u die eerst in.
+  </Step>
+  <Step title="Voer de waarde van elk artikel in">
+    Het scherm **Vangstkenmerken** verschijnt voor producten met **Track tijdens picken** en voor deelpicks met **Volledige tracking**. Typ of scan een waarde en tik op **Gewicht toevoegen**. Het scherm toont hoeveel u hebt ingevoerd ten opzichte van het gepickte aantal, hoeveel er nog moeten worden ingevoerd, en het lopende totaal.
+
+    Voer decimalen in met een punt, bijvoorbeeld `1.5`, niet met een komma. Elke waarde moet groter zijn dan nul. Om een fout te herstellen, tikt u op **Verwijderen** naast de waarde.
+  </Step>
+  <Step title="Rond de pick af">
+    Wanneer u voor elk gepickt artikel een waarde hebt ingevoerd, gaat de handheld automatisch terug naar de pick. Het bevestigingsscherm toont het **Totaal vangstkenmerken**.
+  </Step>
+</Steps>
+
+Het scherm wordt overgeslagen voor producten met **Geen tracking**.
+
+<Note>
+De tekst van het standaardscherm verwijst naar gewicht, bijvoorbeeld **Gewicht toevoegen**, ongeacht wat het product meet. Als u een andere meting registreert, vraag Clarus support dan naar het aanpassen van de tekst wanneer de stap aan uw implementatie wordt toegevoegd.
+</Note>
+
+## Voorraad met Volledige tracking toevoegen via een correctie
+
+Positieve correcties voegen voorraad toe en hebben daarom bij een product met **Volledige tracking** één waarde nodig voor elk toegevoegd artikel, net als bij ontvangst. Dit geldt wanneer u losse voorraad vindt, een opslageenheid vindt, extra voorraad op een opslageenheid vindt of voorraad aanmaakt. Als het aantal niet klopt, ziet u *Het aantal vangstkenmerken dat aan de voorraad wordt toegewezen, moet gelijk zijn aan de voorraadhoeveelheid.*
+
+De schermen voor voorraadcorrecties in de webapp hebben geen veld voor vangstkenmerken. Zie [Beperkingen](#beperkingen).
+
+## Waar u vangstkenmerken ziet
+
+| Waar | Wat u ziet |
+|---|---|
+| Voorraadregel | In het paneel **Details** van de voorraad: **Instelling vangstkenmerktracking** en **Totaal vangstkenmerken** met de eenheid. Een apart paneel **Vangstkenmerken** toont elke waarde en heeft een knop **Exporteren**. |
+| Transacties | Open **Weergave bewerken** › **Weergavetype** en kies **Transacties met vangstkenmerken**. U ziet één rij per waarde, met de waarde in de kolom **Vangstkenmerk**. U kunt deze weergave exporteren. Hetzelfde weergavetype staat in het paneel **Transacties** van een voorraadregel. |
+| Ontvangsten | Kolommen **Instelling vangstkenmerktracking** en **Totaal vangstkenmerken** bij de regels van de ontvangst. |
+| Voorraad selecteren bij een verkooporder | Kolommen **Totaal vangstkenmerken** en **Instelling vangstkenmerktracking** in de grid **Voorraad selecteren**. |
+| Rapportquery's | Drie opties voor **Gegevensbron**: **Vangstkenmerken**, **Transactie Vangstkenmerken** en **Transacties (Alle Met Vangstkenmerken)**, met één rij per waarde. Zie [Rapporten gebruiken](/knowledgebase/nl/reporting/use-reports). |
+| Pakbonnen | Pakbonsjablonen kunnen per regel de waarden, de meting en de eenheid van de vangstkenmerken bevatten. Vraag Clarus support om ze aan uw sjabloon toe te voegen. |
+
+Wanneer voorraad wordt verzonden, worden de waarden gemarkeerd als verzonden. Als een verzending wordt teruggedraaid, worden ze hersteld.
+
+<Note>
+Wanneer ontvangen voorraad wordt gesplitst voordat deze wordt gepickt, bijvoorbeeld door allocatie, een gedeeltelijke verplaatsing of een blokkade, delen de gesplitste regels één set waarden. Elke regel toont alle waarden en hetzelfde **Totaal vangstkenmerken**, totdat een pick specifieke waarden meeneemt. Een transactie op die voorraad toont dezelfde volledige set waarden.
+</Note>
+
+Voorraad die vangstkenmerken registreert, wordt in een pickface niet samengevoegd met andere voorraad, zodat elke voorraadregel zijn eigen waarden behoudt.
+
+## Meldingen die u kunt zien
+
+| Melding | Wat het betekent |
+|---|---|
+| *Vangstkenmerken zijn niet ingeschakeld.* | Vangstkenmerken zijn nog niet ingeschakeld voor uw systeem. Neem contact op met Clarus support. |
+| *Selecteer een maateenheid die past bij het type vangstkenmerk.* | De **Maateenheid** past niet bij de **Meting**. Kies er een uit de lijst. |
+| Een algemene foutmelding bij het opslaan van het product | Kies een **Meting** wanneer tracking is ingeschakeld. |
+| *Producten van het type 'stuklijst' moeten de instelling voor het volgen van vangstkenmerken op 'Geen tracking' hebben staan.* | Stuklijstproducten kunnen geen vangstkenmerken registreren. |
+| *Vangstkenmerken kunnen niet worden toegewezen op de ontvangstregel als het product niet is ingesteld op volledige tracking van vangstkenmerken.* | Waarden kunnen alleen op ontvangstregels worden ingevoerd voor producten met **Volledige tracking**. |
+| *De hoeveelheid van de ontvangstregel van de opslageenheid moet één zijn wanneer volledige tracking van vangstkenmerken is ingesteld.* | Zet de opslageenheidshoeveelheid van de regel op 1. |
+| *Het aantal toegewezen vangstkenmerken moet gelijk zijn aan de voorraadhoeveelheid.* | De waarden van een ontvangstregel komen niet overeen met het aantal. |
+| *Het aantal vangstkenmerken dat aan de voorraad wordt toegewezen, moet gelijk zijn aan de voorraadhoeveelheid.* | Bij ontvangen, picken of voorraad toevoegen komt het aantal waarden niet overeen met het aantal. |
+| *Opgegeven vangstkenmerk komt niet overeen met de voorraad.* | Bij een deelpick met **Volledige tracking** staat een ingevoerde waarde niet op de voorraadregel, of u hebt deze vaker ingevoerd dan hij daar voorkomt. |
+| *Het gewicht moet groter zijn dan nul.* / *Het gewicht moet een getal zijn.* | Op de handheld is de waarde nul, negatief of geen getal, bijvoorbeeld omdat er een komma is gebruikt. |
+
+## Beperkingen
+
+- Waarden moeten groter zijn dan nul.
+- Waarden worden opgeslagen tot op vier decimalen. Een waarde met meer decimalen wordt bij het opslaan afgerond en komt dan bij het picken niet meer exact overeen. Voer niet meer dan vier decimalen in.
+- **Waarde** heeft geen eenheid of valuta; het totaal is een gewoon getal.
+
+<AccordionGroup>
+<Accordion title="Wat wordt nog niet ondersteund?">
+De volgende onderdelen leggen geen vangstkenmerken vast en werken ze niet bij:
+
+- **Negatieve correcties.** Deze verwijderen geen waarden, dus de waarden en het **Totaal vangstkenmerken** van de voorraadregel gaan niet omlaag. Overleg met Clarus support voordat u voorraad met vangstkenmerken naar beneden corrigeert.
+- **Positieve correcties en voorraad aanmaken in de webapp.** De schermen hebben geen veld voor vangstkenmerken, dus voorraad met **Volledige tracking** kan op deze manier niet worden toegevoegd.
+- **Voorraadimport.** Er is geen kolom voor vangstkenmerken, dus het importeren van voorraad met **Volledige tracking** voldoet niet aan de aantalcontrole.
+- **Werkorders en kits.** Picken voor werkorders, kits en conversies legt geen vangstkenmerken vast.
+- **Crossdocks.** Crossdockvoorraad staat altijd op **Geen tracking**.
+- **Ontvangen op de handheld.** De standaard handheldprocessen voor ontvangst bevatten geen stap voor vangstkenmerken. Voer de waarden eerst in op de ontvangstregel in de webapp; die worden dan gebruikt wanneer de regel op de handheld wordt ontvangen.
+- **Pakbonnen voor ladingen.** Vangstkenmerken zijn alleen beschikbaar op de pakbon van een order.
+</Accordion>
+<Accordion title="Waarom toont een voorraadregel meer waarden dan het aantal?">
+De regel is gesplitst van een grotere voorraadregel die nog niet volledig is gepickt, en deelt daarom de waarden van die regel. Zie de opmerking bij [Waar u vangstkenmerken ziet](#waar-u-vangstkenmerken-ziet).
+</Accordion>
+<Accordion title="Worden de waarden gesplitst als ik een gepickte regel gedeeltelijk verpak of laad?">
+Nee. De delen van een gepickte regel delen dezelfde waarden. Als één deel wordt verzonden, worden alle waarden van die regel als verzonden gemarkeerd.
+</Accordion>
+<Accordion title="Kan ik de trackinginstelling van een product later wijzigen?">
+Ja. De wijziging geldt alleen voor nieuwe ontvangsten, voorraad en goederenbewegingen. Bestaande voorraad behoudt zijn instelling, dus voorraad die met **Volledige tracking** is ontvangen, heeft bij een deelpick nog steeds waarden nodig.
+</Accordion>
+</AccordionGroup>

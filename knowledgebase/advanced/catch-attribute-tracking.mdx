@@ -1,0 +1,277 @@
+---
+title: "Catch Attribute Tracking"
+description: "Record a measurement such as weight, length, volume or value against every item of a product as you receive and pick it, then see each item's value and the total on stock and transactions."
+sidebarTitle: "Catch Attributes"
+---
+
+Catch attributes let you record a measured value against every individual item of a product, not just a quantity. For example, you can record the weight of each chicken, the length of each roll of fabric, or the value of each item. Elsewhere in the industry this is often called "catch weight". It's called catch attributes here because you can measure more than weight.
+
+Use catch attributes when items of the same product vary, and you need to know exactly what's in stock and exactly what was sent to each customer. For example, you might invoice by actual weight rather than by unit.
+
+Catch attributes work much like [serial number tracking](/knowledgebase/advanced/serial-number-tracking), with three differences:
+
+- A catch attribute is a **number**, such as `1.25`, not a text code.
+- Values **don't have to be unique**. Two items can both weigh 1.25 kg.
+- The product says **what** is measured and in **which unit**, and the **total** of the values is shown wherever the values are.
+
+A product can track serial numbers and catch attributes at the same time. Where both are needed, you enter serial numbers first.
+
+<Info>
+Catch attributes are switched on for your system by Clarus support. If you can't see the **Catch Attributes** panel on your products, contact Clarus support.
+</Info>
+
+## Before you start
+
+| What you need | How to get it |
+|---|---|
+| Catch attributes switched on for your system | Ask Clarus support. Until then, setting tracking on a product gives the error *Catch attributes are not enabled.* |
+| Permission to edit products | Your existing product permissions. Catch attributes have no permission of their own. |
+| Permission to work with receipts, pick lists, stock and transactions | Your existing permissions for those screens. |
+| A handheld (HHD) process that captures catch attributes, if you pick on a handheld | Configured in your HHD implementation. See [Picking on the handheld](#picking-on-the-handheld). |
+
+There's no account or warehouse setting. Catch attributes are set up product by product.
+
+## Choose a tracking setting
+
+Each product has one of three tracking settings:
+
+| Tracking Setting | When values are captured | Use it when |
+|---|---|---|
+| **No Tracking** | Never. This is the default. | The product doesn't need measuring. |
+| **Track During Pick** | When the stock is picked. Goods in works as normal. | You only need to know what each customer received, for example to invoice by weight. |
+| **Full Tracking** | When the stock is received, and again when it's picked. | You need to know the measurement of every item while it's in stock, as well as what was sent. |
+
+## Set up a product
+
+Catch attributes are set on the product's own screen, not on the **New** product screen. Create the product first, then open it.
+
+<Steps>
+  <Step title="Open the product">
+    Go to **Products** and open the product. To create a new one, see [Add new products](/knowledgebase/products-and-stock/add-new-products), save it, then open it.
+  </Step>
+  <Step title="Expand the Catch Attributes panel">
+    The **Catch Attributes** panel is below the **Serial Numbers** panel. It's collapsed by default.
+  </Step>
+  <Step title="Choose the Tracking Setting">
+    Select **Track During Pick** or **Full Tracking**.
+
+    If the product already has stock or transactions, you're warned: *This product has existing stock and transactions. Changing the tracking setting will only apply to new stock and goods movements. Existing stock and transactions will remain unaffected.* Click **Change setting** to go ahead.
+  </Step>
+  <Step title="Choose the Measurement">
+    Select what you measure for each item: **Depth**, **Height**, **Value**, **Volume** or **Weight**.
+  </Step>
+  <Step title="Choose the Unit of Measure">
+    The list only shows units that fit the measurement:
+
+    | Measurement | Units of measure |
+    |---|---|
+    | **Weight** | Gram, Kilogram |
+    | **Height**, **Depth** | Millimetre, Centimetre, Metre, Inch, Foot |
+    | **Volume** | Millilitre, Litre, Hectolitre, Pint, Gallon |
+    | **Value** | None. The field is left blank and disabled. |
+
+    When you change the measurement, the unit resets to the first unit for the new measurement.
+  </Step>
+</Steps>
+
+Totals are shown with the unit's abbreviation, for example *12.5 kg*. **Value** totals are shown as a plain number, with no currency.
+
+<Note>
+Changing the tracking setting only affects stock received and goods moved from then on. Existing stock and receipt lines keep the setting they had when they were created.
+</Note>
+
+### Bill of Materials products
+
+Products with a **Product Type** of **Bill of Materials** can't track catch attributes. All three fields in the **Catch Attributes** panel are disabled for them.
+
+If you change a tracked product's **Product Type** to **Bill of Materials**, its tracking setting changes to **No Tracking**. If the product already has stock or transactions, you're asked to confirm first.
+
+## Enter catch attributes on a receipt (Full Tracking)
+
+For a **Full Tracking** product, you enter one value for every item received. You can enter them on the receipt line before the stock arrives, or when you receive it.
+
+The catch attribute columns aren't shown by default. Add them to the grid through **Edit View** › **Add a Column**. See [Customising data grids](/knowledgebase/reporting/customise-data-grids).
+
+| Column | What it does |
+|---|---|
+| **Catch Attribute Tracking Setting** | The line's tracking setting. It's copied from the product when you choose the product. |
+| **Edit Catch Attributes** | Opens the **Edit Catch Attributes** window. |
+| **Catch Attributes** | Type or paste values straight into the grid, separated by commas or semicolons. |
+| **Catch Attribute Total** | The total of the line's values, with the unit. |
+
+### Enter values in the Edit Catch Attributes window
+
+<Steps>
+  <Step title="Open the window">
+    On the receipt's **Storage Units** grid, or on a task in the **Receive** panel, click **Edit Catch Attributes**. The button is only enabled on a **Full Tracking** line that has a quantity and isn't completed or cancelled.
+  </Step>
+  <Step title="Enter one value per item">
+    The window shows a **Catch Attribute** field for each item expected. Type or scan a value into each one.
+
+    The header shows how many you've entered against how many are expected (for example **Catch Attributes** *2/3*), and the running **Catch Attribute Total** with its unit.
+
+    You can enter the same value more than once. To remove a value, clear its field. Use **Display Unassigned Catch Attributes** and **Display All Catch Attributes** to switch between the empty fields and every field.
+  </Step>
+  <Step title="Save">
+    Click **Add Catch Attributes** to save the values and close the window.
+  </Step>
+</Steps>
+
+Values must be greater than zero. When you type values straight into the **Catch Attributes** column, any value that is zero, negative or not a number is ignored.
+
+### Rules for Full Tracking receipt lines
+
+- The number of values must match the line's quantity. A decimal quantity needs a value for each part item, so 2.5 needs three values.
+- The line's storage unit quantity must be 1, so each storage unit holds one item. Otherwise you'll see *For products that require full tracking of catch attributes, storage unit quantity cannot exceed 1*.
+- You can only enter values when both the product and the line are **Full Tracking**.
+- For a **Full Tracking** product, you can change a line to **Track During Pick** or **No Tracking**. If the line already has values, you're warned: *Warning! Catch Attributes will not be saved against Receipt Lines set to Track During Pick or No Tracking. Please ensure you update if required before continuing.* Click **Change setting** to go ahead. The line's values are cleared.
+- For any other product, the line keeps the product's setting and the **Catch Attribute Tracking Setting** column is disabled.
+- Stock created from a line takes the **line's** tracking setting.
+
+## Receive Full Tracking stock
+
+When you complete a receive task for a **Full Tracking** line, you need exactly one value per item received. If you entered values on the receipt line beforehand, they're used automatically.
+
+If the number of values doesn't match the **Confirmed Quantity**, you're asked to confirm:
+
+- **Too few values:** *You haven't entered all of the catch attributes for this line yet. Completing this will update the received quantity. Do you wish to continue?*
+- **Too many values:** *You have already entered all of the catch attributes expected for this receipt line. Completing this will update the received quantity. Do you wish to continue?*
+
+Click **Save line** to continue. The **Confirmed Quantity** changes to match the number of values you entered.
+
+When you complete several receive tasks together, a **Full Tracking** task whose values don't match its confirmed quantity isn't completed. You'll see: *Tasks with catch attribute tracking setting 'Full Tracking' does not allow automated completion without catch attributes. Please add them or complete manually.* Add the values, then complete the task on its own.
+
+If you unreceive stock, its values are removed from the stock. The values entered on the receipt line are kept, so they're used again if you receive the line again.
+
+## Pick catch-tracked stock
+
+| Tracking Setting | Values needed at pick |
+|---|---|
+| **Track During Pick** | One value for every item picked: no more, no fewer. |
+| **Full Tracking**, picking the whole stock line | None. Every value on the stock line goes with it. |
+| **Full Tracking**, picking part of a stock line | The value of each item you take. Each value must already exist on the stock line. You can pick a value as many times as it exists on the line, for example twice if two items weigh 1.25. |
+
+Values are matched exactly, to four decimal places, so enter them as they were recorded at goods in.
+
+### Picking on the web app
+
+<Steps>
+  <Step title="Open the pick list">
+    Open the pick list and go to its **Pick** panel. See [Create and process a pick list](/knowledgebase/outbound/create-and-process-a-pick-list).
+  </Step>
+  <Step title="Add the catch attribute columns">
+    Add the **Catch Attributes** and **Edit Catch Attributes** columns through **Edit View** › **Add a Column**. They aren't shown by default.
+  </Step>
+  <Step title="Enter the values">
+    Type the values into the **Catch Attributes** column, separated by commas, or click **Edit Catch Attributes** to enter them one per field. In the window, click **Save** to keep the values, or **Save & Pick** to save them and complete the pick.
+
+    The columns are disabled when the task needs no values, for example a **No Tracking** product or a **Full Tracking** pick of a whole storage unit.
+  </Step>
+  <Step title="Complete the task">
+    If the number of values doesn't match the confirmed quantity, you'll see *Catch Attributes needs to match Confirmed Quantity with* followed by the quantity.
+  </Step>
+</Steps>
+
+Complete these tasks one at a time. When you complete several pick tasks together, **Track During Pick** tasks and **Full Tracking** part picks are skipped, even if their values are filled in. You'll see: *Tasks with catch attribute tracking setting 'Full Tracking' or 'Track During Pick' does not allow automated completion. Please complete manually.*
+
+### Undo a pick
+
+If you uncomplete a pick task:
+
+- **Track During Pick:** the values captured during the pick are removed. You're warned first: *Undoing this pick task will remove all associated catch attributes with the pick task. Do you wish to continue?* Click **Uncomplete task** to go ahead.
+- **Full Tracking:** the values go back to the stock line they were picked from.
+
+### Picking on the handheld
+
+Catch attribute capture can be added to the **Pick — By Pick List** handheld process. Handheld processes are configured for each customer, so the step only appears once it's part of your HHD implementation. Contact Clarus support to add it.
+
+Once it's configured:
+
+<Steps>
+  <Step title="Pick as normal">
+    Scan and confirm the pick as usual. If the product tracks serial numbers too, you enter those first.
+  </Step>
+  <Step title="Enter each item's value">
+    The **Catch Attributes** screen opens for **Track During Pick** products, and for **Full Tracking** part picks. Key or scan a value and tap **Add Weight**. The screen shows how many you've entered against the quantity picked, how many are left to enter, and the running total.
+
+    Enter decimals with a point, for example `1.5`, not a comma. Each value must be greater than zero. To correct a mistake, tap **Remove** next to the value.
+  </Step>
+  <Step title="Finish the pick">
+    When you've entered a value for every item picked, the handheld returns to the pick automatically. The confirmation screen shows the **Catch Attribute Total**.
+  </Step>
+</Steps>
+
+The screen is skipped for products set to **No Tracking**.
+
+<Note>
+The standard screen's wording refers to weight, for example **Add Weight**, whatever the product measures. If you track a different measurement, ask Clarus support about changing the wording when the step is added to your implementation.
+</Note>
+
+## Add Full Tracking stock with an adjustment
+
+Positive adjustments add stock, so for a **Full Tracking** product they need one value for every item added, just like receiving. This applies when you find loose stock, find a storage unit, find extra stock on a storage unit, or create stock. If the count is wrong, you'll see *The number of catch attributes being assigned to the stock must be equal to the stock quantity.*
+
+The web app's stock adjustment screens don't have a field for catch attributes. See [Limits](#limits).
+
+## Where you'll see catch attributes
+
+| Where | What you'll see |
+|---|---|
+| Stock line | On the stock's **Details** panel: **Catch Attribute Tracking Setting** and **Catch Attribute Total**, with its unit. A separate **Catch Attributes** panel lists every value, and has an **Export** button. |
+| Transactions | Open **Edit View** › **View Type** and choose **Transactions with catch attributes**. You'll see one row per value, with the value in the **Catch Attribute** column. You can export this view. The same view type is on a stock line's **Transactions** panel. |
+| Receipts | **Catch Attribute Tracking Setting** and **Catch Attribute Total** columns on the receipt's lines. |
+| Sales order stock selection | **Catch Attribute Total** and **Catch Attribute Tracking Setting** columns in the **Select Stock** grid. |
+| Report Queries | Three **Data Source** options: **Catch Attributes**, **Transaction Catch Attributes**, and **Transactions (All With Catch Attributes)**, with one row per value. See [Using reports](/knowledgebase/reporting/use-reports). |
+| Dispatch notes | Dispatch note templates can include each line's catch attribute values, measurement and unit. Ask Clarus support to add them to your template. |
+
+When stock is dispatched, its values are marked as dispatched. If a dispatch is reversed, they're restored.
+
+<Note>
+When received stock is split before it's picked, for example by allocation, a part move or a hold, the split lines share one set of values. Each line shows all of the values and the same **Catch Attribute Total** until a pick takes specific values. A transaction on that stock lists the same full set of values.
+</Note>
+
+Stock that tracks catch attributes isn't merged with other stock in a pickface, so each stock line keeps its own values.
+
+## Messages you might see
+
+| Message | What it means |
+|---|---|
+| *Catch attributes are not enabled.* | Catch attributes haven't been switched on for your system. Contact Clarus support. |
+| *Select a unit of measure that matches the catch attribute type.* | The **Unit of Measure** doesn't fit the **Measurement**. Choose one from the list. |
+| *A catch attribute type must be set when catch attribute tracking is enabled.* | Choose a **Measurement** whenever tracking is switched on. |
+| *Products with a bill of materials type must have catch attribute tracking setting set to no tracking.* | Bill of Materials products can't track catch attributes. |
+| *Catch attributes cannot be assigned on the receipt line if the product is not set to full tracking of catch attributes.* | Values can only be entered on receipt lines for **Full Tracking** products. |
+| *The receipt line storage unit quantity must be one when full tracking of catch attributes is set.* | Set the line's storage unit quantity to 1. |
+| *The number of catch attributes assigned must be equal to the stock quantity.* | A receipt line's values don't match its quantity. |
+| *The number of catch attributes being assigned to the stock must be equal to the stock quantity.* | When receiving, picking or adding stock, the number of values doesn't match the quantity. |
+| *The provided catch attribute doesn't match the stock.* | During a **Full Tracking** part pick, a value you entered isn't on the stock line, or you entered it more times than it exists there. |
+| *The weight must be greater than zero.* / *The weight must be a number.* | On the handheld, the value is zero, negative, or not a number, for example because it uses a comma. |
+
+## Limits
+
+- Values must be greater than zero.
+- Values are stored to four decimal places. A value entered with more decimal places is rounded when it's saved, and then won't match exactly at pick. Enter no more than four decimal places.
+- **Value** has no unit or currency. The total is a plain number.
+
+<AccordionGroup>
+<Accordion title="What's not covered yet?">
+The following don't capture or update catch attributes:
+
+- **Negative adjustments.** These don't remove values, so the stock line's values and **Catch Attribute Total** don't go down. Check with Clarus support before adjusting catch-tracked stock down.
+- **Positive adjustments and stock creation on the web app.** The screens have no catch attribute field, so adding **Full Tracking** stock this way can't be completed.
+- **Stock imports.** There's no catch attribute column, so importing **Full Tracking** stock fails the count check.
+- **Works orders and kits.** Picking for works orders, kits and conversions doesn't capture catch attributes.
+- **Cross-docks.** Cross-dock stock is always **No Tracking**.
+- **Handheld receiving.** The standard handheld receipt processes don't include a catch attribute step. Enter the values on the receipt line in the web app first. They're then used when the line is received on the handheld.
+- **Load dispatch notes.** Catch attributes are only available on the dispatch note for an order.
+</Accordion>
+<Accordion title="Why does a stock line show more values than its quantity?">
+The line was split from a larger stock line that hasn't been fully picked yet, so it shares that line's values. See the note in [Where you'll see catch attributes](#where-youll-see-catch-attributes).
+</Accordion>
+<Accordion title="If I part-pack or part-load a picked line, are the values split?">
+No. The parts of a picked line share its values. Dispatching one part marks all of that line's values as dispatched.
+</Accordion>
+<Accordion title="Can I change a product's tracking setting later?">
+Yes. The change applies to new receipts, stock and goods movements only. Existing stock keeps its setting, so stock received as **Full Tracking** still needs values when it's part-picked.
+</Accordion>
+</AccordionGroup>
