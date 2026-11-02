@@ -1,0 +1,93 @@
+---
+title: "EU Product Identifiers"
+description: "Record a manufacturer SKU against a product and send it, with the product barcode, to the carrier on every shipment to an EU country, so EU customs declarations carry the product identifiers they now expect."
+sidebarTitle: "EU Product Identifiers"
+---
+
+EU customs now expects low-value parcels sent into the EU from outside it to identify each item more precisely. Clarus sends three identifiers for each item when a shipment is booked to an EU country:
+
+| Identifier | Taken from |
+|---|---|
+| SKU | The product's **Code** |
+| Manufacturer SKU | The new **Manufacturer SKU** field in the product's **Customs** section |
+| Barcode | The **Barcode** in the product's **Unit** section |
+
+Fill in **Manufacturer SKU** and **Barcode** on the products you ship into the EU, and Clarus passes them to the carrier automatically. Nothing changes for the warehouse team.
+
+<Tip>
+Check with your carrier or customs broker which identifiers your products need. The rules have exemptions that depend on the product's commodity code, so an accurate **Commodity Code** matters too.
+</Tip>
+
+## Before you start
+
+| What you need | How to get it |
+|---|---|
+| A role that can manage products | The Admin and Standard roles can edit products by default. Your administrator sets this on the user's role — see [Creating and implementing user roles](/knowledgebase/users-and-roles/user-roles-guide). |
+| An integrated carrier on the shipment | The identifiers are sent only when the shipment is booked through one of Clarus's integrated carriers. Carriers that use a custom carrier type, where you print your own labels, don't send product details to a carrier. See [Courier & carrier integrations](/knowledgebase/integrations/carrier-integrations). |
+
+There's nothing to switch on. The **Manufacturer SKU** field is available on every product.
+
+## Add the identifiers to a product
+
+<Steps>
+  <Step title="Open the product">
+    From the left-hand menu, click **Products** and open the product.
+  </Step>
+  <Step title="Enter the manufacturer SKU">
+    Expand the **Customs** section and fill in **Manufacturer SKU** — the manufacturer's own code for the item, such as a model or part number. It can be up to 255 characters. Click **Save** on the **Customs** section.
+  </Step>
+  <Step title="Check the barcode">
+    In the **Unit** section, check that **Barcode** holds the product's standard barcode (its GTIN, EAN or UPC). Click **Save** on the **Unit** section if you change it.
+  </Step>
+</Steps>
+
+<Warning>
+Clarus sends whatever is in the **Unit** section's **Barcode**. If you use that field for an internal barcode rather than the product's standard one, the carrier receives the internal barcode. Case, inner and outer barcodes aren't sent.
+</Warning>
+
+### Adding manufacturer SKUs in bulk
+
+The standard product CSV import has a **Manufacturer SKU** column, so you can fill the field for many products at once. See [Product import](/knowledgebase/products-and-stock/product-import).
+
+To find products that still need one, add the **Manufacturer SKU** column to the **Products** data grid and filter on it.
+
+## How the identifiers are sent
+
+When a shipment is booked with the carrier, Clarus checks the country of the shipment's delivery address:
+
+- **Delivery to an EU member state** — every item carries its SKU, manufacturer SKU and barcode.
+- **Delivery anywhere else** — every item carries its SKU, as before. The manufacturer SKU and barcode aren't sent.
+
+This covers the 27 EU member states only. Deliveries to the United Kingdom, including Northern Ireland, and to non-EU European countries such as Norway and Switzerland don't include the manufacturer SKU or barcode.
+
+The identifiers are sent for every item in an EU-bound shipment, whatever its value.
+
+If a product has no manufacturer SKU or no barcode, Clarus leaves that identifier out and still books the shipment. If the carrier rejects it, the error is shown in the same way as any other carrier error.
+
+<Note>
+The identifiers go to the carrier only. Clarus doesn't add them to the commercial invoice.
+</Note>
+
+### With destination customs overrides
+
+If the product has a [destination customs override](/knowledgebase/products-and-stock/destination-customs-overrides) for the delivery country, Clarus applies it as well. The override changes the description and commodity code sent; the SKU, manufacturer SKU and barcode always come from the product.
+
+## Messages you might see
+
+| Message | What it means |
+|---|---|
+| *Manufacturer SKU exceeds maximum length (255)* | Shorten the manufacturer SKU, then save the **Customs** section again. |
+
+## Frequently asked questions
+
+<AccordionGroup>
+<Accordion title="Do I have to fill in Manufacturer SKU on every product?">
+No. Shipments still go to the carrier without it. Whether a particular product needs one depends on the product and the carrier's requirements, so check with your carrier or customs broker.
+</Accordion>
+<Accordion title="Why isn't the manufacturer SKU sent for my Northern Ireland orders?">
+Clarus treats Northern Ireland addresses as United Kingdom addresses, and the identifiers are only sent for deliveries to EU member states.
+</Accordion>
+<Accordion title="My orders to the EU haven't changed. Is it working?">
+The identifiers are sent in the background when the shipment is booked, so nothing looks different in Clarus. Check that the product has a **Manufacturer SKU** and a **Barcode**, and that the shipment was booked with an integrated carrier rather than a custom carrier type.
+</Accordion>
+</AccordionGroup>

@@ -1,0 +1,135 @@
+---
+title: "Destination Customs Overrides"
+description: "Send a different description, commodity code or customs description for a product when it ships to a specific country. Overrides are applied automatically to the carrier booking and the commercial invoice."
+sidebarTitle: "Destination Customs Overrides"
+---
+
+A destination customs override replaces a product's own customs details when that product ships to one particular country. Use it when a destination's customs authority expects different values from the ones you use at home — for example, a market that classifies one of your products under a different commodity code, or that needs different wording in the customs description.
+
+You set overrides on the product, one country at a time. When a shipment is booked to that country, Clarus sends the overridden values to the carrier and prints them on the commercial invoice. Nothing changes for the warehouse team: packing screens keep showing the product's normal description.
+
+<Info>
+An override only applies to the country it's set for. If a product needs different values for the United States and for Japan, add two overrides.
+</Info>
+
+## Before you start
+
+| What you need | How to get it |
+|---|---|
+| A role that can manage products | The Admin and Standard roles can add, edit and delete overrides by default. Users who can view products but not manage them can see overrides but can't change them. Your administrator sets this on the user's role — see [Creating and implementing user roles](/knowledgebase/users-and-roles/user-roles-guide). |
+| The product's own customs details | Complete the product's **Customs** section as usual — see [Commercial invoices and international shipping](/knowledgebase/financial/commercial-invoices). Any field an override leaves blank uses these values. |
+| An integrated carrier on the shipment | Overrides reach the carrier only when the shipment is booked through one of Clarus's integrated carriers. Carriers that use a custom carrier type, where you print your own labels, don't send product details to a carrier, so only the commercial invoice changes. See [Courier & carrier integrations](/knowledgebase/integrations/carrier-integrations). |
+
+There's nothing to switch on. The **Destination Customs Overrides** section is available on every product.
+
+## Add an override
+
+<Steps>
+  <Step title="Open the product">
+    From the left-hand menu, click **Products** and open the product.
+  </Step>
+  <Step title="Expand Destination Customs Overrides">
+    Scroll to the **Destination Customs Overrides** section, just below **Customs**, and expand it.
+  </Step>
+  <Step title="Click Add Line">
+    Click **Add Line**. A new row appears.
+  </Step>
+  <Step title="Choose the country">
+    Select the destination in the **Country** column. Each country can only be used once per product.
+  </Step>
+  <Step title="Enter the values to send instead">
+    Fill in only the fields you want to replace. You must fill in at least one.
+
+    | Field | Maximum length | What it replaces |
+    |---|---|---|
+    | **Description** | 150 characters | The product's description |
+    | **Long Description** | — | The product's long description |
+    | **Commodity Code** | 14 characters | The product's commodity code, sent as the HS code |
+    | **Customs Description** | 255 characters | The product's customs description |
+
+    Any field you leave blank falls back to the product's own value, so you never send an empty value in place of a real one.
+  </Step>
+  <Step title="Save">
+    Click **Save** on the row. The override applies to the next shipment booked to that country.
+  </Step>
+</Steps>
+
+To change an override, edit the values in its row and click **Save**. To remove one, click **Delete** on the row and confirm. Shipments to that country then go back to using the product's own values.
+
+### Choosing the United Kingdom
+
+The **Country** list shows whole countries only — England, Scotland, Wales and Northern Ireland aren't listed separately. An override for **United Kingdom** applies to every UK delivery address, including Northern Ireland.
+
+## How overrides are applied to a shipment
+
+Clarus looks up the override when the shipment is booked with the carrier:
+
+1. It takes the country from the shipment's delivery address. The account the order belongs to, and the warehouse it ships from, make no difference.
+2. If the product has an override for that country, each field the override sets replaces the product's own value. Fields the override leaves blank keep the product's value.
+3. If there's no override for that country, the product's own values are sent exactly as before. The shipment isn't held, and any carrier rejection is shown in the usual way.
+
+Every parcel in the shipment gets the same values.
+
+### What the carrier receives
+
+| Sent to the carrier | Where the value comes from |
+|---|---|
+| HS code | The override's **Commodity Code**, otherwise the product's |
+| Item description | The **Customs Description** — the override's, otherwise the product's. Only if neither exists does Clarus use the **Description** (again, the override's first). The carrier receives the first 50 characters. |
+
+**Long Description** isn't sent to the carrier. Overrides don't change the quantity, value, weight, dimensions or country of manufacture sent for each item.
+
+<Tip>
+If the product already has a customs description, an override that only changes **Description** won't change what the carrier receives. To change the wording the carrier sees, set **Customs Description** on the override.
+</Tip>
+
+### What the commercial invoice shows
+
+The [commercial invoice](/knowledgebase/financial/commercial-invoices) uses the same overrides, worked out from the shipment's delivery country:
+
+- On the standard commercial invoice, the **Product Description** column shows the override's **Description** and the **HS Code** column shows the override's **Commodity Code**, falling back to the product's own values.
+- If you use a customised commercial invoice, it can also show the overridden **Customs Description** and **Long Description**, and the product's original values alongside them. Contact Clarus support to change your template.
+- The invoice is worked out again each time you print it. If you change an override after a shipment was booked, a reprint shows the new values, not the ones sent to the carrier at the time.
+
+<Warning>
+The carrier receives the **Customs Description**, but the standard commercial invoice prints the **Description**. To make the paperwork and the carrier booking match, set both fields on the override, with the same wording.
+</Warning>
+
+### What doesn't change
+
+- Packing screens and handheld prompts show the product's normal description and code, whatever the destination.
+- Shipping labels and custom carrier type templates print exactly as before.
+- How a shipment is rated or cartonised doesn't change.
+
+## Add overrides in bulk
+
+If you have a lot of products or countries to set up, overrides can be loaded from a CSV file instead of keyed in one row at a time. Contact Clarus support to set up the import; they'll agree the file layout with you. A file can add new overrides and update or delete existing ones.
+
+## Messages you might see
+
+| Message | What it means |
+|---|---|
+| *Country is required* | Choose a country before saving the row. |
+| *Description exceeds maximum length (150)* | Shorten the description. The same message appears for **Commodity Code** (14) and **Customs Description** (255). |
+| *A destination customs override must set at least one of description, long description, commodity code or customs description.* | The row has a country but no values. Fill in at least one field, or delete the row. |
+| *The value is not unique. Please provide a unique value.* | The product already has an override for that country. Edit the existing row instead of adding a new one. |
+
+## Frequently asked questions
+
+<AccordionGroup>
+<Accordion title="Can one override cover several countries?">
+No. Each override is for one country. Add a separate override for each destination that needs different values. The exception is the United Kingdom, where one override covers all four nations.
+</Accordion>
+<Accordion title="The product is shared by several accounts. Does each account need its own override?">
+No. Overrides belong to the product, so the same override applies whichever account's order is shipped.
+</Accordion>
+<Accordion title="Which address decides the country — the billing address or the delivery address?">
+The delivery address on the shipment. An order billed to a US customer but delivered to a UK address uses the United Kingdom.
+</Accordion>
+<Accordion title="Can I override other details, such as the value, weight or barcode?">
+No. Only **Description**, **Long Description**, **Commodity Code** and **Customs Description** can be overridden. Value, weight and dimensions also drive how a shipment is rated and packed, so they always come from the product.
+</Accordion>
+<Accordion title="How do overrides work with EU product identifiers?">
+They work side by side. For a delivery to an EU country, Clarus applies any override for that country and also sends the product's manufacturer SKU and barcode. See [EU product identifiers](/knowledgebase/products-and-stock/eu-product-identifiers).
+</Accordion>
+</AccordionGroup>

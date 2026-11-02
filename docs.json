@@ -222,6 +222,8 @@
                   "knowledgebase/products-and-stock/create-a-bill-of-materials-bom",
                   "knowledgebase/products-and-stock/bom-import",
                   "knowledgebase/products-and-stock/hazardous-phrase-assignment",
+                  "knowledgebase/products-and-stock/destination-customs-overrides",
+                  "knowledgebase/products-and-stock/eu-product-identifiers",
                   {
                     "group": "Stock Management",
                     "expanded": false,
@@ -908,6 +910,8 @@
                   "knowledgebase/nl/products-and-stock/create-a-bill-of-materials-bom",
                   "knowledgebase/nl/products-and-stock/bom-import",
                   "knowledgebase/nl/products-and-stock/hazardous-phrase-assignment",
+                  "knowledgebase/nl/products-and-stock/destination-customs-overrides",
+                  "knowledgebase/nl/products-and-stock/eu-product-identifiers",
                   {
                     "group": "Voorraadbeheer",
                     "expanded": false,
