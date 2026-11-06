@@ -5,6 +5,43 @@ rss: true
 public: true
 ---
 
+<Update label="Begin november 2026" description="30 oktober–6 november 2026" rss={{ title: "November 2026: voorraad pre-alloceren, douanegegevens per bestemming, EU-productidentificaties", description: "Reserveer specifieke voorraad voor een verkooporder vóór het picken, stuur landspecifieke douanegegevens naar vervoerders en stuur artikelnummers van de fabrikant en barcodes mee bij EU-zendingen." }}>
+
+  ## Voorraad pre-alloceren aan verkooporders
+
+  U kunt nu specifieke beschikbare voorraad reserveren voor een verkooporderregel voordat de order wordt gepickt. Pre-gealloceerde voorraad kan door geen andere order worden gealloceerd of gepickt. Wanneer u picks verwerkt, pickt Clarus precies de voorraad die u hebt gekozen.
+
+  - Klik op **Pre-Allocate** bij een orderregel en voer hoeveelheden in voor een of meer voorraadrecords. U kunt ook een deel van een record nemen.
+  - Orders tonen **Pre-Allocated** of **Part Pre-Allocated**, en voorraadsaldi tonen pre-gealloceerde voorraad apart van gealloceerde voorraad.
+  - Verlaag of geef pre-allocaties vrij in de sectie **Pre-Allocated Stock** van de verkooporder. Bij annulering van de order worden ze automatisch vrijgegeven.
+  - Toegang regelt u met de nieuwe bevoegdheid **Pre-Allocations** op gebruikersrollen.
+
+  <Note>Pre-allocatie wordt geleidelijk uitgerold. Ziet u de knop **Pre-Allocate** niet, neem dan contact op met Clarus support.</Note>
+
+  <Info>Zie [Voorraad pre-alloceren aan een verkooporder](/knowledgebase/nl/outbound/pre-allocate-stock).</Info>
+
+  ## Douanegegevens per bestemming
+
+  Stuur een andere **Description**, **Long Description**, **Commodity Code** of **Customs Description** voor een product wanneer het naar een specifiek land wordt verzonden. Voeg deze toe in de nieuwe sectie **Destination Customs Overrides** op het product.
+
+  - Clarus past de afwijkende waarden toe op de boeking bij de vervoerder en op de commerciële factuur, op basis van het afleverland.
+  - Lege velden vallen terug op de eigen waarden van het product.
+  - Inpakschermen, handhelds en labels blijven ongewijzigd.
+
+  <Info>Zie [Douanegegevens per bestemming](/knowledgebase/nl/products-and-stock/destination-customs-overrides).</Info>
+
+  ## EU-productidentificaties
+
+  Met het nieuwe veld **Manufacturer SKU** in de sectie **Customs** van het product voldoet u aan de EU-douane-eisen voor pakketten die de EU in gaan. Bij leveringen aan EU-lidstaten stuurt Clarus nu het artikelnummer van de fabrikant en de barcode van de eenheid van elk artikel naar geïntegreerde vervoerders, naast de SKU.
+
+  - Zendingen worden nog steeds geboekt als een product geen artikelnummer van de fabrikant of barcode heeft.
+  - U kunt het veld in bulk vullen met de kolom **Manufacturer SKU** in de productimport.
+
+  <Info>Zie [EU-productidentificaties](/knowledgebase/nl/products-and-stock/eu-product-identifiers) en [Productimport](/knowledgebase/nl/products-and-stock/product-import).</Info>
+
+</Update>
+
+
 <Update label="Eind oktober 2026" description="16–23 oktober 2026" rss={{ title: "Oktober 2026: pickfaces aanvullen in hele dozen, multipart-uploads in de API", description: "Rond aanvullingen van pickfaces af op hele eenheden, dozen, inners of outers, en upload bestanden naar de API als multipart-formulierdata." }}>
 
   ## Pickfaces aanvullen in hele dozen, inners of outers
