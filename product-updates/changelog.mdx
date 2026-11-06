@@ -5,6 +5,43 @@ rss: true
 public: true
 ---
 
+<Update label="Early November 2026" description="30 October–6 November 2026" rss={{ title: "November 2026: pre-allocate stock, destination customs overrides, EU product identifiers", description: "Reserve specific stock for a sales order before picking, send country-specific customs details to carriers, and send manufacturer SKUs and barcodes on EU shipments." }}>
+
+  ## Pre-allocate stock to sales orders
+
+  You can now reserve specific available stock for a sales order line before the order goes to pick. Pre-allocated stock can't be allocated or picked by any other order. When you process picks, Clarus picks from exactly the stock you chose.
+
+  - Click **Pre-Allocate** on an order line and enter quantities against one or more stock records. You can take part of a record.
+  - Orders show **Pre-Allocated** or **Part Pre-Allocated**, and stock balances show pre-allocated stock separately from allocated stock.
+  - Reduce or release pre-allocations from the **Pre-Allocated Stock** section of the sales order. Cancelling the order releases them automatically.
+  - Access is controlled by the new **Pre-Allocations** ability on user roles.
+
+  <Note>Pre-allocation is rolling out gradually. If you can't see the **Pre-Allocate** button, contact Clarus support.</Note>
+
+  <Info>See [Pre-allocate stock to a sales order](/knowledgebase/outbound/pre-allocate-stock).</Info>
+
+  ## Destination customs overrides
+
+  Send a different **Description**, **Long Description**, **Commodity Code** or **Customs Description** for a product when it ships to a specific country. Add overrides in the new **Destination Customs Overrides** section on the product.
+
+  - Clarus applies the override to the carrier booking and the commercial invoice, based on the delivery country.
+  - Blank fields fall back to the product's own values.
+  - Packing screens, handhelds and labels are unchanged.
+
+  <Info>See [Destination customs overrides](/knowledgebase/products-and-stock/destination-customs-overrides).</Info>
+
+  ## EU product identifiers
+
+  A new **Manufacturer SKU** field in the product's **Customs** section helps you meet EU customs requirements for parcels sent into the EU. For deliveries to EU member states, Clarus now sends each item's manufacturer SKU and unit barcode to integrated carriers, alongside its SKU.
+
+  - Shipments still book if a product has no manufacturer SKU or barcode.
+  - You can fill the field in bulk with the **Manufacturer SKU** column in the product import.
+
+  <Info>See [EU product identifiers](/knowledgebase/products-and-stock/eu-product-identifiers) and [Product import](/knowledgebase/products-and-stock/product-import).</Info>
+
+</Update>
+
+
 <Update label="Late October 2026" description="16–23 October 2026" rss={{ title: "October 2026: replenish pickfaces in whole cases, multipart file uploads in the API", description: "Round pickface replenishments to whole units, cases, inners or outers, and upload files to the API as multipart form data." }}>
 
   ## Replenish pickfaces in whole cases, inners or outers
