@@ -449,6 +449,7 @@
                 "icon": "folder-open",
                 "pages": [
                   "knowledgebase/integrations/use-sftp-for-imports",
+                  "knowledgebase/integrations/import-files",
                   {
                     "group": "Imports",
                     "expanded": false,
@@ -1138,6 +1139,7 @@
                 "icon": "folder-open",
                 "pages": [
                   "knowledgebase/nl/integrations/use-sftp-for-imports",
+                  "knowledgebase/nl/integrations/import-files",
                   {
                     "group": "Imports",
                     "expanded": false,
