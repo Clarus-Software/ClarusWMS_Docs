@@ -449,7 +449,6 @@
                 "icon": "folder-open",
                 "pages": [
                   "knowledgebase/integrations/use-sftp-for-imports",
-                  "knowledgebase/integrations/import-files",
                   {
                     "group": "Imports",
                     "expanded": false,
@@ -484,6 +483,7 @@
                     "expanded": false,
                     "pages": [
                       "knowledgebase/troubleshooting/sftp-upload-errors",
+                      "knowledgebase/troubleshooting/imported-files",
                       "knowledgebase/troubleshooting/import-errors"
                     ],
                     "public": true
@@ -1139,7 +1139,6 @@
                 "icon": "folder-open",
                 "pages": [
                   "knowledgebase/nl/integrations/use-sftp-for-imports",
-                  "knowledgebase/nl/integrations/import-files",
                   {
                     "group": "Imports",
                     "expanded": false,
@@ -1174,6 +1173,7 @@
                     "expanded": false,
                     "pages": [
                       "knowledgebase/nl/troubleshooting/sftp-upload-errors",
+                      "knowledgebase/nl/troubleshooting/imported-files",
                       "knowledgebase/nl/troubleshooting/import-errors"
                     ],
                     "public": true

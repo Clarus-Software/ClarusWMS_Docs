@@ -1,18 +1,20 @@
 ---
-title: "Importbestanden"
-description: "Bekijk elk bestand dat voor import naar Clarus is gestuurd, download een kopie, lees waarom een bestand is mislukt en verwerk het opnieuw zodra het probleem is opgelost. U kunt ook direct een bestand uploaden, zonder SFTP."
-sidebarTitle: "Importbestanden"
+title: "Controleren welke bestanden zijn geïmporteerd"
+description: "Zoek een bestand dat u voor import naar Clarus hebt gestuurd, kijk of het is verwerkt, lees waarom het is mislukt en verwerk het opnieuw zodra het probleem is opgelost — zonder het opnieuw te versturen."
+sidebarTitle: "Geïmporteerde bestanden"
 ---
 
-De pagina **Importbestanden** toont elk bestand dat Clarus voor import ontvangt. Bestanden die via SFTP of AS2 worden verstuurd verschijnen hier, net als bestanden die u in de web app uploadt. Voor elk bestand kunt u:
+Wanneer u wilt weten wat er met een import is gebeurd, begin dan op de pagina **Importbestanden**. U vindt deze in het linkermenu onder **Importen** > **Importbestanden**.
 
-- Het bestand **downloaden** precies zoals Clarus het heeft ontvangen, of het nu is verwerkt of mislukt.
+De pagina toont elk bestand dat Clarus voor import heeft ontvangen, of het nu via SFTP of AS2 is verstuurd of in de web app is geüpload. Voor elk bestand kunt u:
+
+- Controleren of Clarus het heeft **ontvangen** en of het is **verwerkt** of **mislukt**.
 - Elke **poging** om het te verwerken bekijken, met het aantal geïmporteerde records.
 - De **fouten** achter een mislukte poging in begrijpelijke taal **bekijken**.
 - Een mislukt bestand **opnieuw verwerken** zodra u de oorzaak hebt opgelost. U hoeft het bestand niet opnieuw te versturen.
-- Een bestand direct **uploaden**, zonder SFTP-software.
+- Het bestand **downloaden** precies zoals Clarus het heeft ontvangen, om te controleren wat de afzender werkelijk heeft verstuurd.
 
-U vindt de pagina in het linkermenu onder **Importen** > **Importbestanden**.
+Als uw bestand helemaal niet in de lijst staat, heeft Clarus het nooit ontvangen. Zie [Wanneer een bestand niet uploadt](/knowledgebase/nl/troubleshooting/sftp-upload-errors).
 
 <Info>Clarus bewaart een kopie van elk bestand **15 dagen** nadat het is binnengekomen. De kolom **Beschikbaar tot** toont wanneer de kopie van een bestand verloopt. Na die datum kunt u het bestand niet meer downloaden of opnieuw verwerken.</Info>
 
@@ -22,7 +24,7 @@ U vindt de pagina in het linkermenu onder **Importen** > **Importbestanden**.
 - Om bestanden te downloaden, te uploaden of opnieuw te verwerken, heeft uw rol ook **Beheren**-toegang nodig. De rol Admin heeft standaard beide. Zie [Gebruikersrollen](/knowledgebase/nl/users-and-roles/user-roles-guide).
 - Uploaden en opnieuw verwerken vereisen een **importconfiguratie**, die Clarus vertelt hoe het bestand gelezen moet worden. Als uw bestanden nog geen importconfiguratie hebben, neem dan contact op met Clarus support. Zie [Maatwerkimports](/knowledgebase/nl/integrations/bespoke-imports).
 
-## De lijst met importbestanden
+## Uw bestand vinden
 
 Elke rij is één bestand. De nieuwste bestanden staan bovenaan.
 
@@ -47,14 +49,6 @@ Gebruik de filters en kolomopties om een bestand te vinden op naam, datum of sta
 | **Verwerkt** | De laatste poging is geslaagd. |
 | **Mislukt** | De laatste poging is mislukt. U kunt de fouten bekijken en het bestand opnieuw verwerken. |
 | **Geüpload** | Het bestand is in de web app geüpload zonder importconfiguratie en is nog niet verwerkt. |
-
-## Een bestand downloaden
-
-Klik op **Downloaden** in de rij van het bestand, of open het bestand en klik bovenaan de pagina op **Downloaden**. U krijgt het bestand precies zoals Clarus het heeft ontvangen.
-
-Gebruik dit om te controleren wat een afzender werkelijk heeft verstuurd wanneer iemand vragen heeft over de gegevens. U kunt het ook gebruiken om tijdens het testen een voorbeeldbestand op te halen.
-
-<Note>Als de knop is uitgeschakeld, is de kopie van het bestand voorbij de datum **Beschikbaar tot**, of heeft uw rol geen **Beheren**-toegang tot **Importbestanden**.</Note>
 
 ## Zien waarom een bestand is mislukt
 
@@ -100,11 +94,19 @@ De meeste mislukkingen worden veroorzaakt door referentiegegevens die nog niet i
   </Step>
 </Steps>
 
-<Warning>Opnieuw proberen verwerkt het bestand precies zoals het is ontvangen. Als het probleem in het bestand zelf zit, zoals een verkeerd getypte productcode, corrigeer dan het bestand en upload in plaats daarvan de gecorrigeerde versie.</Warning>
+<Warning>Opnieuw proberen verwerkt het bestand precies zoals het is ontvangen. Als het probleem in het bestand zelf zit, zoals een verkeerd getypte productcode, corrigeer dan het bestand en [upload in plaats daarvan de gecorrigeerde versie](#een-gecorrigeerd-bestand-uploaden).</Warning>
 
-## Een bestand uploaden
+## Een bestand downloaden
 
-U kunt een bestand in de web app uploaden in plaats van het via SFTP te versturen. Dit is handig voor eenmalige imports en initiële gegevensladingen, of wanneer u nog geen SFTP-verbinding hebt ingesteld.
+Klik op **Downloaden** in de rij van het bestand, of open het bestand en klik bovenaan de pagina op **Downloaden**. U krijgt het bestand precies zoals Clarus het heeft ontvangen.
+
+Gebruik dit om te controleren wat een afzender werkelijk heeft verstuurd wanneer iemand vragen heeft over de gegevens. U kunt het ook gebruiken om tijdens het testen een voorbeeldbestand op te halen.
+
+<Note>Als de knop is uitgeschakeld, is de kopie van het bestand voorbij de datum **Beschikbaar tot**, of heeft uw rol geen **Beheren**-toegang tot **Importbestanden**.</Note>
+
+## Een gecorrigeerd bestand uploaden
+
+U kunt een bestand op dezelfde pagina uploaden in plaats van het via SFTP te versturen. Gebruik dit om na een mislukking een gecorrigeerd bestand te versturen, of voor een eenmalige import of initiële gegevenslading wanneer u nog geen SFTP-verbinding hebt ingesteld.
 
 <Steps>
   <Step title="Klik op Uploaden">

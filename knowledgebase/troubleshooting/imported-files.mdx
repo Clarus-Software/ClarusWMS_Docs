@@ -1,18 +1,20 @@
 ---
-title: "Import Files"
-description: "See every file sent to Clarus for import, download a copy, read why a file failed, and retry it once the problem is fixed. You can also upload a file directly, without SFTP."
-sidebarTitle: "Import Files"
+title: "Check what files were imported"
+description: "Find a file you sent to Clarus for import, see whether it processed, read why it failed, and retry it once the problem is fixed — without resending it."
+sidebarTitle: "Imported files"
 ---
 
-The **Import Files** page lists every file Clarus receives for import. Files sent over SFTP or AS2 appear here, and so do files you upload in the web app. For each file you can:
+When you need to know what happened to an import, start with the **Import Files** page. Find it in the left-hand menu under **Imports** > **Import Files**.
 
-- **Download** the file exactly as Clarus received it, whether it processed or failed.
+It lists every file Clarus has received for import, whether it was sent over SFTP or AS2 or uploaded in the web app. For each file you can:
+
+- Check that Clarus **received** it and whether it **processed** or **failed**.
 - See every **attempt** to process it, with how many records it imported.
 - **View the errors** behind a failed attempt in plain language.
 - **Retry** a failed file once you have fixed the cause. You don't need to send the file again.
-- **Upload** a file directly, without SFTP software.
+- **Download** the file exactly as Clarus received it, to check what the sender actually sent.
 
-Find it in the left-hand menu under **Imports** > **Import Files**.
+If your file isn't listed at all, Clarus never received it. See [When a file won't upload](/knowledgebase/troubleshooting/sftp-upload-errors).
 
 <Info>Clarus keeps a copy of each file for **15 days** after it arrives. The **Available Until** column shows when a file's copy expires. After that date you can no longer download or retry the file.</Info>
 
@@ -22,7 +24,7 @@ Find it in the left-hand menu under **Imports** > **Import Files**.
 - To download, upload or retry files, your role needs **Manage** access as well. The Admin role has both by default. See [User roles](/knowledgebase/users-and-roles/user-roles-guide).
 - Uploading and retrying need an **import configuration**, which tells Clarus how to read the file. If your files have no import configuration yet, contact Clarus support. See [Bespoke Imports](/knowledgebase/integrations/bespoke-imports).
 
-## The import files list
+## Find your file
 
 Each row is one file. The newest files are at the top.
 
@@ -47,14 +49,6 @@ Use the filters and column options to find a file by name, date or status. See [
 | **Processed** | The latest attempt succeeded. |
 | **Failed** | The latest attempt failed. You can view the errors and retry the file. |
 | **Uploaded** | The file was uploaded in the web app without an import configuration and hasn't been processed yet. |
-
-## Download a file
-
-Click **Download** on the file's row, or open the file and click **Download** at the top of the page. You get the file exactly as Clarus received it.
-
-Use it to check what a sender actually sent when someone queries the data. You can also use it to get a sample file during testing.
-
-<Note>If the button is disabled, the file's copy has passed its **Available Until** date, or your role doesn't have **Manage** access to **Import Files**.</Note>
 
 ## See why a file failed
 
@@ -100,11 +94,19 @@ Most failures are caused by reference data that doesn't exist in Clarus yet, suc
   </Step>
 </Steps>
 
-<Warning>Retry processes the file exactly as it was received. If the problem is in the file itself, such as a mistyped product code, correct the file and upload the corrected version instead.</Warning>
+<Warning>Retry processes the file exactly as it was received. If the problem is in the file itself, such as a mistyped product code, correct the file and [upload the corrected version](#upload-a-corrected-file) instead.</Warning>
 
-## Upload a file
+## Download a file
 
-You can upload a file in the web app instead of sending it over SFTP. This is useful for one-off imports and initial data loads, or when you haven't set up an SFTP connection yet.
+Click **Download** on the file's row, or open the file and click **Download** at the top of the page. You get the file exactly as Clarus received it.
+
+Use it to check what a sender actually sent when someone queries the data. You can also use it to get a sample file during testing.
+
+<Note>If the button is disabled, the file's copy has passed its **Available Until** date, or your role doesn't have **Manage** access to **Import Files**.</Note>
+
+## Upload a corrected file
+
+You can upload a file on the same page instead of sending it over SFTP. Use it to send a corrected file after a failure, or for a one-off import or initial data load when you haven't set up an SFTP connection yet.
 
 <Steps>
   <Step title="Click Upload">
