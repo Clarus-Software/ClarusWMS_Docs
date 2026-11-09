@@ -1,0 +1,139 @@
+---
+title: "Importlogs"
+description: "Gebruik de importlogs om een bestand te zoeken dat u voor import naar Clarus hebt gestuurd, kijk of het is verwerkt, lees waarom het is mislukt en verwerk het opnieuw zodra het probleem is opgelost — zonder het opnieuw te versturen."
+sidebarTitle: "Importlogs"
+---
+
+Clarus legt elk bestand dat het voor import ontvangt vast, met elke poging om het te verwerken. Wanneer u wilt weten wat er met een import is gebeurd, begin dan met deze logs. U vindt ze op de pagina **Importbestanden**, in het linkermenu onder **Importen** > **Importbestanden**.
+
+De pagina toont elk bestand dat Clarus voor import heeft ontvangen, of het nu via SFTP of AS2 is verstuurd of in de web app is geüpload. Voor elk bestand kunt u:
+
+- Controleren of Clarus het heeft **ontvangen** en of het is **verwerkt** of **mislukt**.
+- Elke **poging** om het te verwerken bekijken, met het aantal geïmporteerde records.
+- De **fouten** achter een mislukte poging in begrijpelijke taal **bekijken**.
+- Een mislukt bestand **opnieuw verwerken** zodra u de oorzaak hebt opgelost. U hoeft het bestand niet opnieuw te versturen.
+- Het bestand **downloaden** precies zoals Clarus het heeft ontvangen, om te controleren wat de afzender werkelijk heeft verstuurd.
+
+Als uw bestand helemaal niet in de lijst staat, heeft Clarus het nooit ontvangen. Zie [Wanneer een bestand niet uploadt](/knowledgebase/nl/troubleshooting/sftp-upload-errors).
+
+<Info>Clarus bewaart een kopie van elk bestand **15 dagen** nadat het is binnengekomen. De kolom **Beschikbaar tot** toont wanneer de kopie van een bestand verloopt. Na die datum kunt u het bestand niet meer downloaden of opnieuw verwerken.</Info>
+
+## Voordat u begint
+
+- Om de pagina en de bestanden te zien, heeft uw rol de mogelijkheid **Importbestanden** met **Lezen**-toegang nodig. Met alleen **Lezen**-toegang zijn de knoppen **Downloaden**, **Uploaden** en **Opnieuw proberen** uitgeschakeld.
+- Om bestanden te downloaden, te uploaden of opnieuw te verwerken, heeft uw rol ook **Beheren**-toegang nodig. De rol Admin heeft standaard beide. Zie [Gebruikersrollen](/knowledgebase/nl/users-and-roles/user-roles-guide).
+- Uploaden en opnieuw verwerken vereisen een **importconfiguratie**, die Clarus vertelt hoe het bestand gelezen moet worden. Als uw bestanden nog geen importconfiguratie hebben, neem dan contact op met Clarus support. Zie [Maatwerkimports](/knowledgebase/nl/integrations/bespoke-imports).
+
+## Uw bestand vinden
+
+Elke rij is één bestand. De nieuwste bestanden staan bovenaan.
+
+| Kolom | Wat het toont |
+|---|---|
+| **Bestandsnaam** | De naam van het bestand zoals het is verstuurd of geüpload. |
+| **Bron** | Hoe het bestand is binnengekomen: **SFTP**, **AS2** of **UI-upload**. |
+| **Status** | Het resultaat van de laatste poging voor het bestand (zie hieronder). |
+| **Bestandsgrootte (bytes)** | De grootte van het bestand. |
+| **FTP-gebruiker** | Het SFTP-account dat het bestand heeft verstuurd, als het via SFTP is binnengekomen. |
+| **Gebruiker** | De gebruiker die het bestand heeft geüpload, als het in de web app is geüpload. |
+| **Aangemaakt op** | Wanneer Clarus het bestand heeft ontvangen. |
+| **Beschikbaar tot** | Wanneer de bewaarde kopie verloopt. |
+
+Gebruik de filters en kolomopties om een bestand te vinden op naam, datum of status. Zie [Datagrids aanpassen](/knowledgebase/nl/reporting/customise-data-grids).
+
+### Bestandsstatussen
+
+| Status | Betekenis |
+|---|---|
+| **In wachtrij** | Het bestand wacht op verwerking, of wordt nu verwerkt. |
+| **Verwerkt** | De laatste poging is geslaagd. |
+| **Mislukt** | De laatste poging is mislukt. U kunt de fouten bekijken en het bestand opnieuw verwerken. |
+| **Geüpload** | Het bestand is in de web app geüpload zonder importconfiguratie en is nog niet verwerkt. |
+
+## Zien waarom een bestand is mislukt
+
+<Steps>
+  <Step title="Open het bestand">
+    Klik op **Tonen** in de rij van het bestand. Het gedeelte **Algemeen** toont waar het bestand vandaan kwam en hoe lang het wordt bewaard.
+  </Step>
+  <Step title="Zoek de mislukte poging">
+    Het gedeelte **Pogingen** toont elke keer dat Clarus het bestand heeft verwerkt, de nieuwste eerst. Het toont per poging de status, de gebruikte importconfiguratie, het aantal **Geïmporteerde records**, wie de poging heeft uitgevoerd en wanneer.
+  </Step>
+  <Step title="Bekijk de fouten">
+    Klik op **Fouten bekijken** bij de poging. Het venster **Importfouten** toont elk probleem in begrijpelijke taal, bijvoorbeeld *Product niet gevonden (Code: ABC123).* Wanneer hetzelfde probleem meerdere regels treft, wordt het één keer getoond met het aantal keren dat het voorkwam.
+
+    Klap **Details** uit om de volledige technische foutmelding te zien. Dit is handig als u contact moet opnemen met support.
+  </Step>
+</Steps>
+
+Een poging heeft een van deze statussen:
+
+| Status | Betekenis |
+|---|---|
+| **In wachtrij** | De poging wacht om te worden uitgevoerd. |
+| **Succes** | Het bestand is verwerkt en de records zijn geïmporteerd. |
+| **Mislukt** | Clarus heeft een probleem gevonden met de gegevens in het bestand, zoals een product of account dat niet bestaat. |
+| **Fout** | Het bestand kon helemaal niet worden verwerkt, bijvoorbeeld omdat het niet gelezen kon worden. |
+
+## Een mislukt bestand opnieuw verwerken
+
+De meeste mislukkingen worden veroorzaakt door referentiegegevens die nog niet in Clarus bestaan, zoals een nieuw product of een afleveradres dat niet is ingesteld. Corrigeer de gegevens in Clarus en verwerk het bestand daarna opnieuw. U hoeft het niet opnieuw te versturen.
+
+<Steps>
+  <Step title="Los de oorzaak op">
+    Gebruik de fouten om te vinden wat ontbreekt of onjuist is. Maak bijvoorbeeld het ontbrekende product aan.
+  </Step>
+  <Step title="Open het bestand en klik op Opnieuw proberen">
+    **Opnieuw proberen** is beschikbaar wanneer de status van het bestand **Mislukt** of **Geüpload** is en de kopie nog beschikbaar is.
+  </Step>
+  <Step title="Kies de importconfiguratie">
+    De zijbalk selecteert de importconfiguratie die de vorige keer is gebruikt. Wijzig deze indien nodig en klik op **Opnieuw proberen**.
+  </Step>
+  <Step title="Controleer het resultaat">
+    Het bestand wordt in de wachtrij geplaatst voor verwerking en er verschijnt een nieuwe poging in het gedeelte **Pogingen**. Records die bij het opnieuw verwerken worden aangemaakt, worden op uw gebruiker geregistreerd.
+  </Step>
+</Steps>
+
+<Warning>Opnieuw proberen verwerkt het bestand precies zoals het is ontvangen. Als het probleem in het bestand zelf zit, zoals een verkeerd getypte productcode, corrigeer dan het bestand en [upload in plaats daarvan de gecorrigeerde versie](#een-gecorrigeerd-bestand-uploaden).</Warning>
+
+## Een bestand downloaden
+
+Klik op **Downloaden** in de rij van het bestand, of open het bestand en klik bovenaan de pagina op **Downloaden**. U krijgt het bestand precies zoals Clarus het heeft ontvangen.
+
+Gebruik dit om te controleren wat een afzender werkelijk heeft verstuurd wanneer iemand vragen heeft over de gegevens. U kunt het ook gebruiken om tijdens het testen een voorbeeldbestand op te halen.
+
+<Note>Als de knop is uitgeschakeld, is de kopie van het bestand voorbij de datum **Beschikbaar tot**, of heeft uw rol geen **Beheren**-toegang tot **Importbestanden**.</Note>
+
+## Een gecorrigeerd bestand uploaden
+
+U kunt een bestand op dezelfde pagina uploaden in plaats van het via SFTP te versturen. Gebruik dit om na een mislukking een gecorrigeerd bestand te versturen, of voor een eenmalige import of initiële gegevenslading wanneer u nog geen SFTP-verbinding hebt ingesteld.
+
+<Steps>
+  <Step title="Klik op Uploaden">
+    Klik op **Uploaden** onderaan de lijst **Importbestanden**.
+  </Step>
+  <Step title="Kies het bestand">
+    Selecteer een bestand van maximaal **1 MB**.
+  </Step>
+  <Step title="Kies een importconfiguratie (optioneel)">
+    Om het bestand direct te verwerken, selecteert u de **Importconfiguratie** die gebruikt moet worden. Om het bestand voor later te bewaren, laat u dit veld leeg. Het bestand wordt opgeslagen met de status **Geüpload** en u kunt het later verwerken met **Opnieuw proberen**.
+  </Step>
+  <Step title="Klik op Uploaden">
+    Het bestand verschijnt in de lijst met de bron **UI-upload**. Als u een configuratie hebt gekozen, wordt het in de wachtrij geplaatst voor verwerking.
+  </Step>
+</Steps>
+
+<AccordionGroup>
+  <Accordion title="Kan ik een bestand dat succesvol is verwerkt opnieuw verwerken?">
+    Nee. Alleen bestanden met de status **Mislukt** en **Geüpload** kunnen opnieuw worden verwerkt, zodat een succesvol bestand niet per ongeluk twee keer wordt geïmporteerd. U kunt het wel downloaden.
+  </Accordion>
+  <Accordion title="Waarom kan ik een ouder bestand niet vinden?">
+    Clarus bewaart elk bestand 15 dagen. Bestanden die binnenkwamen voordat de pagina **Importbestanden** werd geïntroduceerd, worden niet getoond.
+  </Accordion>
+  <Accordion title="Mijn bestand is groter dan 1 MB. Hoe importeer ik het?">
+    De limiet van 1 MB geldt alleen voor uploads in de web app. Verstuur grotere bestanden via SFTP, of splits het bestand in kleinere bestanden. Zie [SFTP-overzicht](/knowledgebase/nl/integrations/use-sftp-for-imports).
+  </Accordion>
+  <Accordion title="Vervangt uploaden in de web app SFTP?">
+    Nee. Voor regelmatige, geautomatiseerde imports vanuit een ander systeem blijft SFTP de beste optie. Uploaden in de web app is voor bestanden die u handmatig verstuurt. Bestanden via beide routes verschijnen in dezelfde lijst.
+  </Accordion>
+</AccordionGroup>

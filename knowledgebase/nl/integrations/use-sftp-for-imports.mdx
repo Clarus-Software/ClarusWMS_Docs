@@ -52,11 +52,11 @@ U kunt verbinding maken met **elke applicatie die SFTP ondersteunt** — gebruik
     Maak verbinding met uw **upload**-SFTP-account en draag het bestand over zoals hierboven.
   </Step>
   <Step title="Controleer de importstatus">
-    Ga naar **System Logs** in de web app. Een **geslaagde** upload toont een bevestigingsbericht; een **mislukte** import toont een foutmelding met de oorzaak.
+    Ga naar **Importen** > **Importbestanden** in de web app. Elk bestand dat u verstuurt staat in de lijst met zijn status. Bij een **mislukt** bestand kunt u de fouten bekijken, de oorzaak oplossen en het bestand opnieuw verwerken zonder het opnieuw te versturen. Zie [Importlogs](/knowledgebase/nl/troubleshooting/import-logs).
   </Step>
 </Steps>
 
-<Warning>Bekijk foutmeldingen in System Logs altijd zorgvuldig om importproblemen te begrijpen en op te lossen.</Warning>
+<Tip>U kunt een eenmalig bestand ook direct uploaden op de pagina **Importbestanden**, zonder SFTP-client.</Tip>
 
 ## Exports ophalen
 
@@ -73,6 +73,6 @@ Bestanden die Clarus voor u genereert, worden op uw **download**-SFTP-account ge
     Importbestanden zijn **CSV**. De exacte kolommen hangen af van het bestandstype — zie de betreffende import-handleiding.
   </Accordion>
   <Accordion title="Wat moet ik doen als een import mislukt?">
-    Controleer de foutmelding in **System Logs**. De oorzaak is meestal onjuiste opmaak of ontbrekende informatie in uw bestand.
+    Open het bestand op de pagina **Importbestanden** en klik op **Fouten bekijken** bij de mislukte poging. De oorzaak is meestal onjuiste opmaak, ontbrekende informatie in uw bestand, of gegevens die nog niet in Clarus zijn ingesteld. Zodra het is opgelost, kunt u het bestand vanaf dezelfde pagina opnieuw verwerken. Zie [Importlogs](/knowledgebase/nl/troubleshooting/import-logs).
   </Accordion>
 </AccordionGroup>

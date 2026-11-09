@@ -482,6 +482,7 @@
                     "group": "Troubleshooting",
                     "expanded": false,
                     "pages": [
+                      "knowledgebase/troubleshooting/import-logs",
                       "knowledgebase/troubleshooting/sftp-upload-errors",
                       "knowledgebase/troubleshooting/import-errors"
                     ],
@@ -1171,6 +1172,7 @@
                     "group": "Troubleshooting",
                     "expanded": false,
                     "pages": [
+                      "knowledgebase/nl/troubleshooting/import-logs",
                       "knowledgebase/nl/troubleshooting/sftp-upload-errors",
                       "knowledgebase/nl/troubleshooting/import-errors"
                     ],

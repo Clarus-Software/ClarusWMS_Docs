@@ -1,0 +1,139 @@
+---
+title: "Import Logs"
+description: "Use the import logs to find a file you sent to Clarus for import, see whether it processed, read why it failed, and retry it once the problem is fixed — without resending it."
+sidebarTitle: "Import Logs"
+---
+
+Clarus logs every file it receives for import, and every attempt to process it. When you need to know what happened to an import, start with these logs. They are on the **Import Files** page, in the left-hand menu under **Imports** > **Import Files**.
+
+The page lists every file Clarus has received for import, whether it was sent over SFTP or AS2 or uploaded in the web app. For each file you can:
+
+- Check that Clarus **received** it and whether it **processed** or **failed**.
+- See every **attempt** to process it, with how many records it imported.
+- **View the errors** behind a failed attempt in plain language.
+- **Retry** a failed file once you have fixed the cause. You don't need to send the file again.
+- **Download** the file exactly as Clarus received it, to check what the sender actually sent.
+
+If your file isn't listed at all, Clarus never received it. See [When a file won't upload](/knowledgebase/troubleshooting/sftp-upload-errors).
+
+<Info>Clarus keeps a copy of each file for **15 days** after it arrives. The **Available Until** column shows when a file's copy expires. After that date you can no longer download or retry the file.</Info>
+
+## Before you start
+
+- To see the page and its files, your role needs the **Import Files** ability with **Read** access. With **Read** access only, the **Download**, **Upload** and **Retry** buttons are disabled.
+- To download, upload or retry files, your role needs **Manage** access as well. The Admin role has both by default. See [User roles](/knowledgebase/users-and-roles/user-roles-guide).
+- Uploading and retrying need an **import configuration**, which tells Clarus how to read the file. If your files have no import configuration yet, contact Clarus support. See [Bespoke Imports](/knowledgebase/integrations/bespoke-imports).
+
+## Find your file
+
+Each row is one file. The newest files are at the top.
+
+| Column | What it shows |
+|---|---|
+| **File Name** | The name of the file as it was sent or uploaded. |
+| **Source** | How the file arrived: **SFTP**, **AS2** or **UI Upload**. |
+| **Status** | The result of the file's latest attempt (see below). |
+| **File Size (Bytes)** | The size of the file. |
+| **FTP User** | The SFTP account that sent the file, if it came over SFTP. |
+| **User** | The user who uploaded the file, if it was uploaded in the web app. |
+| **Created At** | When Clarus received the file. |
+| **Available Until** | When the retained copy expires. |
+
+Use the filters and column options to find a file by name, date or status. See [Customising Data Grids](/knowledgebase/reporting/customise-data-grids).
+
+### File statuses
+
+| Status | Meaning |
+|---|---|
+| **Queued** | The file is waiting to be processed, or is being processed now. |
+| **Processed** | The latest attempt succeeded. |
+| **Failed** | The latest attempt failed. You can view the errors and retry the file. |
+| **Uploaded** | The file was uploaded in the web app without an import configuration and hasn't been processed yet. |
+
+## See why a file failed
+
+<Steps>
+  <Step title="Open the file">
+    Click **Show** on the file's row. The **General** section shows where the file came from and how long it is kept.
+  </Step>
+  <Step title="Find the failed attempt">
+    The **Attempts** section lists every time Clarus has processed the file, newest first. It shows each attempt's status, the import configuration used, the number of **Imported Records**, who ran it and when.
+  </Step>
+  <Step title="View the errors">
+    Click **View Errors** on the attempt. The **Import Errors** window lists each problem in plain language, for example *Product not found (Code: ABC123).* When the same problem affects several lines, it is listed once with the number of times it happened.
+
+    Expand **Details** to see the full technical error. This is useful if you need to contact support.
+  </Step>
+</Steps>
+
+An attempt has one of these statuses:
+
+| Status | Meaning |
+|---|---|
+| **Queued** | The attempt is waiting to run. |
+| **Success** | The file processed and its records were imported. |
+| **Failure** | Clarus found a problem with the data in the file, such as a product or account that doesn't exist. |
+| **Error** | The file couldn't be processed at all, for example because it couldn't be read. |
+
+## Retry a failed file
+
+Most failures are caused by reference data that doesn't exist in Clarus yet, such as a new product or a delivery address that isn't set up. Fix the data in Clarus, then retry the file. You don't need to resend it.
+
+<Steps>
+  <Step title="Fix the cause">
+    Use the errors to find what is missing or wrong. For example, create the missing product.
+  </Step>
+  <Step title="Open the file and click Retry">
+    **Retry** is available when the file's status is **Failed** or **Uploaded** and its copy is still available.
+  </Step>
+  <Step title="Choose the import configuration">
+    The sidebar selects the import configuration used last time. Change it if you need to, then click **Retry**.
+  </Step>
+  <Step title="Check the result">
+    The file is queued for processing, and a new attempt appears in the **Attempts** section. Records created by the retry are recorded against your user.
+  </Step>
+</Steps>
+
+<Warning>Retry processes the file exactly as it was received. If the problem is in the file itself, such as a mistyped product code, correct the file and [upload the corrected version](#upload-a-corrected-file) instead.</Warning>
+
+## Download a file
+
+Click **Download** on the file's row, or open the file and click **Download** at the top of the page. You get the file exactly as Clarus received it.
+
+Use it to check what a sender actually sent when someone queries the data. You can also use it to get a sample file during testing.
+
+<Note>If the button is disabled, the file's copy has passed its **Available Until** date, or your role doesn't have **Manage** access to **Import Files**.</Note>
+
+## Upload a corrected file
+
+You can upload a file on the same page instead of sending it over SFTP. Use it to send a corrected file after a failure, or for a one-off import or initial data load when you haven't set up an SFTP connection yet.
+
+<Steps>
+  <Step title="Click Upload">
+    Click **Upload** at the bottom of the **Import Files** list.
+  </Step>
+  <Step title="Choose the file">
+    Select a file of up to **1 MB**.
+  </Step>
+  <Step title="Choose an import configuration (optional)">
+    To process the file straight away, select the **Import Configuration** to use. To keep the file for later, leave it empty. The file is saved with the status **Uploaded**, and you can process it later with **Retry**.
+  </Step>
+  <Step title="Click Upload">
+    The file appears in the list with the source **UI Upload**. If you chose a configuration, it is queued for processing.
+  </Step>
+</Steps>
+
+<AccordionGroup>
+  <Accordion title="Can I retry a file that processed successfully?">
+    No. Only **Failed** and **Uploaded** files can be retried, so a successful file can't be imported twice by mistake. You can still download it.
+  </Accordion>
+  <Accordion title="Why can't I find an older file?">
+    Clarus keeps each file for 15 days. Files that arrived before the **Import Files** page was introduced aren't listed.
+  </Accordion>
+  <Accordion title="My file is larger than 1 MB. How do I import it?">
+    The 1 MB limit only applies to uploads in the web app. Send larger files over SFTP, or split the file into smaller files. See [SFTP Overview](/knowledgebase/integrations/use-sftp-for-imports).
+  </Accordion>
+  <Accordion title="Does uploading in the web app replace SFTP?">
+    No. For regular, automated imports from another system, SFTP is still the best option. Uploading in the web app is for files you send by hand. Files from both routes appear in the same list.
+  </Accordion>
+</AccordionGroup>
