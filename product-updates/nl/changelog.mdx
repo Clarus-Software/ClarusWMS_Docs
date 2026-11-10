@@ -41,50 +41,7 @@ public: true
 
 </Update>
 
-
-<Update label="Eind oktober 2026" description="16–23 oktober 2026" rss={{ title: "Oktober 2026: pickfaces aanvullen in hele dozen, multipart-uploads in de API", description: "Rond aanvullingen van pickfaces af op hele eenheden, dozen, inners of outers, en upload bestanden naar de API als multipart-formulierdata." }}>
-
-  ## Pickfaces aanvullen in hele dozen, inners of outers
-
-  Met de nieuwe **Replenishment Configuration** op **Continuous**- en **Order Volume**-pickfaces stelt u de eenheid in waarin elke aanvulling wordt verplaatst. Clarus rondt de hoeveelheid naar boven af op een heel aantal **Units**, **Cases**, **Inners** of **Outers**, zodat dozen heel blijven tussen stelling en pickface.
-
-  - Uw triggers bepalen nog steeds **wanneer** er wordt aangevuld. De configuratie bepaalt alleen **hoeveel** er wordt verplaatst.
-  - Stel het per pickface in, of op een locatiegroepregel om het op elke locatie in de groep toe te passen.
-  - **Full Storage Units Only** moet op **No** staan om de configuratie toe te passen.
-  - Uw HHD-implementatie kan het aantal in dozen, inners of outers tonen. Neem contact op met support om deze stappen toe te voegen.
-
-  <Note>Pickfaces zonder configuratie worden precies zoals voorheen aangevuld.</Note>
-
-  <Info>Zie [Replenishment Configuration](/knowledgebase/nl/warehouse-setup/replenishment/replenishment-configuration) en [Mixed UOM Picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).</Info>
-
-  ## Verbeterd
-
-  - **Multipart-uploads in de API.** De upload-endpoints voor documenten, templates en parameters van automatiseringsacties accepteren `multipart/form-data` met het bestand in een `file`-veld. Clarus haalt de bestandsnaam en het MIME-type uit het geüploade bestand. Het ruwe bestand als request body versturen werkt nog, maar is verouderd en wordt verwijderd. Zie de [API-referentie](/api-reference/introduction).
-
-</Update>
-
-<Update label="Half oktober 2026" description="9–16 oktober 2026" rss={{ title: "Oktober 2026: activiteitsregistratie op handhelds en kostenvensters aan het einde van de maand", description: "Registreer productieve tijd en pauzes op handhelds met rapporten over arbeidsprestaties, en maandelijkse kostenvensters die in kortere maanden op de laatste dag sluiten." }}>
-
-  ## Activiteit en arbeidsprestaties op handhelds bijhouden
-
-  Handheldgebruikers kunnen zich aanmelden bij een **activiteitsmodus** voordat ze aan het werk gaan. Dat kan een productieve activiteit zijn, zoals een trucktype, of een **bijkomende** taak, zoals een pauze of training.
-
-  - Elke modus kan een eigen menu hebben, zodat een Reach Truck-chauffeur alleen de opties ziet die hij nodig heeft.
-  - Een nieuwe activiteit starten beëindigt de vorige, zonder gat of overlap.
-  - Het grid **Gebruikersactiviteit** toont elke registratie met begin- en eindtijd. U kunt het filteren en exporteren.
-  - Vijf rapporten over arbeidsprestaties tonen productieve en bijkomende tijd naast elkaar, per gebruiker, activiteitsmodus of magazijn.
-
-  <Note>Er verandert niets op een apparaat totdat u activiteitsmodusknoppen aan uw HHD-implementatie toevoegt.</Note>
-
-  <Info>Zie [Activiteitsmodi en bijkomende taken](/knowledgebase/nl/hardware/hhd-activity-modes) en [Gebruikersactiviteit](/knowledgebase/nl/reporting/user-activity).</Info>
-
-  ## Verbeterd
-
-  - **Kostenvensters aan het einde van de maand.** Een maandelijks kostenvenster dat op de 29e, 30e of 31e staat, sluit in kortere maanden nu op de laatste kalenderdag. Kies de **31e** om op de laatste dag van elke maand te factureren. Het kostenvensterscherm toont een herinnering wanneer u een van deze dagen kiest. Zie [Kostenvensters](/knowledgebase/nl/financial/charge-window-and-create-one).
-
-</Update>
-
-<Update label="Oktober 2026" description="2–9 oktober 2026" rss={{ title: "Oktober 2026: zendingsstrategieën en automatisch voltooide verzendtaken", description: "Kies of zendingen automatisch of handmatig worden ingediend, en laat verzendtaken vanzelf voltooien zodra de vervoerder de zending aanmaakt." }}>
+<Update label="Oktober 2026" description="2–30 oktober 2026" rss={{ title: "Oktober 2026: zendingsstrategieën, pickfaces aanvullen in hele dozen, activiteitsregistratie op handhelds, positieve voorraadcorrecties in de API", description: "Dien zendingen in en voltooi verzendtaken automatisch, vul pickfaces aan in hele dozen, registreer activiteit en arbeidsprestaties op handhelds, voeg voorraad toe via de API, en meer." }}>
 
   ## Zendingsstrategieën en automatisch voltooide verzendtaken
 
@@ -99,6 +56,52 @@ public: true
   <Note>Uw bestaande instellingen veranderen niet. **Zending** werkt als **Zending** met **Handmatig**, en **Auto zending** werkt als **Auto zending** met **Auto**.</Note>
 
   <Info>Zie [Verzend- en zendingsstrategieën](/knowledgebase/nl/accounts/dispatch-strategies) en [Verpakkingsbalie](/knowledgebase/nl/outbound/packing-desk).</Info>
+
+  ## Pickfaces aanvullen in hele dozen, inners of outers
+
+  Met de nieuwe **Replenishment Configuration** op **Continuous**- en **Order Volume**-pickfaces stelt u de eenheid in waarin elke aanvulling wordt verplaatst. Clarus rondt de hoeveelheid naar boven af op een heel aantal **Units**, **Cases**, **Inners** of **Outers**, zodat dozen heel blijven tussen stelling en pickface.
+
+  - Uw triggers bepalen nog steeds **wanneer** er wordt aangevuld. De configuratie bepaalt alleen **hoeveel** er wordt verplaatst.
+  - Stel het per pickface in, of op een locatiegroepregel om het op elke locatie in de groep toe te passen.
+  - **Full Storage Units Only** moet op **No** staan om de configuratie toe te passen.
+  - Uw HHD-implementatie kan het aantal in dozen, inners of outers tonen. Neem contact op met support om deze stappen toe te voegen.
+
+  <Note>Pickfaces zonder configuratie worden precies zoals voorheen aangevuld.</Note>
+
+  <Info>Zie [Replenishment Configuration](/knowledgebase/nl/warehouse-setup/replenishment/replenishment-configuration) en [Mixed UOM Picking](/knowledgebase/nl/warehouse-setup/mixed-uom-picking).</Info>
+
+  ## Activiteit en arbeidsprestaties op handhelds bijhouden
+
+  Handheldgebruikers kunnen zich aanmelden bij een **activiteitsmodus** voordat ze aan het werk gaan. Dat kan een productieve activiteit zijn, zoals een trucktype, of een **bijkomende** taak, zoals een pauze of training.
+
+  - Elke modus kan een eigen menu hebben, zodat een Reach Truck-chauffeur alleen de opties ziet die hij nodig heeft.
+  - Een nieuwe activiteit starten beëindigt de vorige, zonder gat of overlap.
+  - Het grid **Gebruikersactiviteit** toont elke registratie met begin- en eindtijd. U kunt het filteren en exporteren.
+  - Vijf rapporten over arbeidsprestaties tonen productieve en bijkomende tijd naast elkaar, per gebruiker, activiteitsmodus of magazijn.
+
+  <Note>Er verandert niets op een apparaat totdat u activiteitsmodusknoppen aan uw HHD-implementatie toevoegt.</Note>
+
+  <Info>Zie [Activiteitsmodi en bijkomende taken](/knowledgebase/nl/hardware/hhd-activity-modes) en [Gebruikersactiviteit](/knowledgebase/nl/reporting/user-activity).</Info>
+
+  ## Positieve voorraadcorrecties in de API
+
+  U kunt nu voorraad toevoegen via de API, net als op het scherm **Stock Adjustments**.
+
+  - **Create stock** voegt nieuwe voorraadregels toe, zoals voorraad die bij een telling is gevonden of beginvoorraad voor een nieuw magazijn. Elke regel kan los zijn, op één storage unit staan of over meerdere nieuwe storage units worden verdeeld.
+  - **Increase stock quantity** voegt eenheden toe aan een bestaand voorraadrecord. Het record behoudt zijn ID, locatie, storage unit en FIFO-datum.
+  - Elke wijziging wordt vastgelegd als positieve correctietransactie. Als het account redencodes voor positieve correcties verplicht stelt, moet u er een meesturen.
+
+  <Info>Zie [Voorraadcorrecties](/knowledgebase/nl/products-and-stock/stock-adjustments) en de [API-referentie](/api-reference/introduction).</Info>
+
+  ## Nieuw
+
+  - **Cross-dock-labels afdrukken via de API.** Een nieuw storage unit-endpoint genereert het cross-dock-label (LPN) voor een storage unit. Clarus kiest de template op basis van uw klant- of accountinstellingen. U ontvangt het label als pdf of stuurt het direct naar een cloudprinter. De ontvangsttaak van de storage unit moet zijn afgerond voordat u het label afdrukt. Zie de [API-referentie](/api-reference/introduction).
+
+  ## Verbeterd
+
+  - **Multipart-uploads in de API.** De upload-endpoints voor documenten, templates en parameters van automatiseringsacties accepteren `multipart/form-data` met het bestand in een `file`-veld. Clarus haalt de bestandsnaam en het MIME-type uit het geüploade bestand. Het ruwe bestand als request body versturen werkt nog, maar is verouderd en wordt verwijderd. Zie de [API-referentie](/api-reference/introduction).
+  - **Kostenvensters aan het einde van de maand.** Een maandelijks kostenvenster dat op de 29e, 30e of 31e staat, sluit in kortere maanden nu op de laatste kalenderdag. Kies de **31e** om op de laatste dag van elke maand te factureren. Het kostenvensterscherm toont een herinnering wanneer u een van deze dagen kiest. Zie [Kostenvensters](/knowledgebase/nl/financial/charge-window-and-create-one).
+  - **Afwijkend valutasymbool.** Stel een symbool van maximaal 5 tekens in, zoals `GB£`, dat op facturen wordt afgedrukt in plaats van het eigen symbool van de valuta. Zie [Factuurvaluta's](/knowledgebase/nl/financial/invoice-currencies).
 
 </Update>
 

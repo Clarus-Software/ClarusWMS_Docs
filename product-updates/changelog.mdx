@@ -41,50 +41,7 @@ public: true
 
 </Update>
 
-
-<Update label="Late October 2026" description="16–23 October 2026" rss={{ title: "October 2026: replenish pickfaces in whole cases, multipart file uploads in the API", description: "Round pickface replenishments to whole units, cases, inners or outers, and upload files to the API as multipart form data." }}>
-
-  ## Replenish pickfaces in whole cases, inners or outers
-
-  A new **Replenishment Configuration** on **Continuous** and **Order Volume** pickfaces sets the unit of measure each replenishment is moved in. Clarus rounds the quantity up to a whole number of **Units**, **Cases**, **Inners** or **Outers**, so cases stay intact on the way from racking to the pickface.
-
-  - Your triggers still decide **when** to replenish. The configuration only changes **how much** is moved.
-  - Set it per pickface, or on a location group line to apply it to every location in the group.
-  - **Full Storage Units Only** must be **No** for the configuration to apply.
-  - Your HHD implementation can show the count in cases, inners or outers. Contact support to add these steps.
-
-  <Note>Pickfaces without a configuration replenish exactly as before.</Note>
-
-  <Info>See [Replenishment Configuration](/knowledgebase/warehouse-setup/replenishment/replenishment-configuration) and [Mixed UOM Picking](/knowledgebase/warehouse-setup/mixed-uom-picking).</Info>
-
-  ## Improved
-
-  - **Multipart file uploads in the API.** The document, template and automation action parameter upload endpoints accept `multipart/form-data` with the file in a `file` field. Clarus takes the file name and MIME type from the uploaded file. Sending the raw file as the request body still works, but it is deprecated and will be removed. See the [API reference](/api-reference/introduction).
-
-</Update>
-
-<Update label="Mid-October 2026" description="9–16 October 2026" rss={{ title: "October 2026: handheld activity tracking and month-end charge windows", description: "Track productive and break time on handhelds with labour performance reports, and monthly charge windows that close on the last day of shorter months." }}>
-
-  ## Track handheld activity and labour performance
-
-  Handheld users can log in to an **activity mode** before they start work. This can be a productive activity, such as a truck type, or an **ancillary** task, such as a break or training.
-
-  - Each mode can have its own menu, so a Reach Truck driver sees only the options they need.
-  - Starting a new activity ends the previous one, with no gap or overlap.
-  - The **User Activity** grid shows every entry with its start and end time. You can filter and export it.
-  - Five labour performance reports show productive and ancillary time side by side, by user, activity mode or warehouse.
-
-  <Note>Nothing changes on a device until you add activity mode buttons to your HHD implementation.</Note>
-
-  <Info>See [Activity modes and ancillary tasks](/knowledgebase/hardware/hhd-activity-modes) and [User Activity](/knowledgebase/reporting/user-activity).</Info>
-
-  ## Improved
-
-  - **Month-end charge windows.** A monthly charge window set to the 29th, 30th or 31st now closes on the last calendar day of shorter months. Select the **31st** to bill on the last day of every month. The charge window screen shows a reminder when you pick one of these days. See [Charge windows](/knowledgebase/financial/charge-window-and-create-one).
-
-</Update>
-
-<Update label="October 2026" description="2–9 October 2026" rss={{ title: "October 2026: shipment strategies and auto-completing dispatch tasks", description: "Choose whether shipments are submitted automatically or manually, and let dispatch tasks complete themselves once the carrier creates the shipment." }}>
+<Update label="October 2026" description="2–30 October 2026" rss={{ title: "October 2026: shipment strategies, whole-case pickface replenishment, handheld activity tracking, positive stock adjustments in the API", description: "Submit shipments and complete dispatch tasks automatically, replenish pickfaces in whole cases, track handheld activity and labour performance, add stock through the API, and more." }}>
 
   ## Shipment strategies and auto-completing dispatch tasks
 
@@ -99,6 +56,52 @@ public: true
   <Note>Your existing setup is unchanged. **Shipment** behaves as **Shipment** with **Manual**, and **Auto Shipment** behaves as **Auto Shipment** with **Auto**.</Note>
 
   <Info>See [Dispatch and shipment strategies](/knowledgebase/accounts/dispatch-strategies) and [Packing desk](/knowledgebase/outbound/packing-desk).</Info>
+
+  ## Replenish pickfaces in whole cases, inners or outers
+
+  A new **Replenishment Configuration** on **Continuous** and **Order Volume** pickfaces sets the unit of measure each replenishment is moved in. Clarus rounds the quantity up to a whole number of **Units**, **Cases**, **Inners** or **Outers**, so cases stay intact on the way from racking to the pickface.
+
+  - Your triggers still decide **when** to replenish. The configuration only changes **how much** is moved.
+  - Set it per pickface, or on a location group line to apply it to every location in the group.
+  - **Full Storage Units Only** must be **No** for the configuration to apply.
+  - Your HHD implementation can show the count in cases, inners or outers. Contact support to add these steps.
+
+  <Note>Pickfaces without a configuration replenish exactly as before.</Note>
+
+  <Info>See [Replenishment Configuration](/knowledgebase/warehouse-setup/replenishment/replenishment-configuration) and [Mixed UOM Picking](/knowledgebase/warehouse-setup/mixed-uom-picking).</Info>
+
+  ## Track handheld activity and labour performance
+
+  Handheld users can log in to an **activity mode** before they start work. This can be a productive activity, such as a truck type, or an **ancillary** task, such as a break or training.
+
+  - Each mode can have its own menu, so a Reach Truck driver sees only the options they need.
+  - Starting a new activity ends the previous one, with no gap or overlap.
+  - The **User Activity** grid shows every entry with its start and end time. You can filter and export it.
+  - Five labour performance reports show productive and ancillary time side by side, by user, activity mode or warehouse.
+
+  <Note>Nothing changes on a device until you add activity mode buttons to your HHD implementation.</Note>
+
+  <Info>See [Activity modes and ancillary tasks](/knowledgebase/hardware/hhd-activity-modes) and [User Activity](/knowledgebase/reporting/user-activity).</Info>
+
+  ## Positive stock adjustments in the API
+
+  You can now add stock through the API, as you can on the **Stock Adjustments** screen.
+
+  - **Create stock** adds new stock lines, such as stock found during a count or opening stock for a new warehouse. Each line can be loose, on one storage unit or split across several new storage units.
+  - **Increase stock quantity** adds units to an existing stock record. The record keeps its ID, location, storage unit and FIFO date.
+  - Each change is recorded as a positive adjustment transaction. If the account enforces positive adjustment reason codes, you must send one.
+
+  <Info>See [Stock adjustments](/knowledgebase/products-and-stock/stock-adjustments) and the [API reference](/api-reference/introduction).</Info>
+
+  ## New
+
+  - **Print cross-dock labels through the API.** A new storage unit endpoint generates the cross-dock storage unit (LPN) label. Clarus picks the template from your customer or account settings. You can get the label back as a PDF or send it straight to a cloud printer. The storage unit's receive task must be complete before you print the label. See the [API reference](/api-reference/introduction).
+
+  ## Improved
+
+  - **Multipart file uploads in the API.** The document, template and automation action parameter upload endpoints accept `multipart/form-data` with the file in a `file` field. Clarus takes the file name and MIME type from the uploaded file. Sending the raw file as the request body still works, but it is deprecated and will be removed. See the [API reference](/api-reference/introduction).
+  - **Month-end charge windows.** A monthly charge window set to the 29th, 30th or 31st now closes on the last calendar day of shorter months. Select the **31st** to bill on the last day of every month. The charge window screen shows a reminder when you pick one of these days. See [Charge windows](/knowledgebase/financial/charge-window-and-create-one).
+  - **Currency symbol override.** Set a symbol of up to 5 characters, such as `GB£`, to print on invoices in place of the currency's own symbol. See [Invoice currencies](/knowledgebase/financial/invoice-currencies).
 
 </Update>
 
