@@ -5,6 +5,24 @@ rss: true
 public: true
 ---
 
+<Update label="Mid-November 2026" description="6–13 November 2026" rss={{ title: "November 2026: import logs, retry failed imports, upload import files", description: "See every file sent to Clarus for import, read why an import failed, retry it without resending, and upload files in the web app." }}>
+
+  ## Import logs: check, retry and upload import files
+
+  The new **Import Files** page, under **Imports** > **Import Files**, lists every file Clarus receives for import, whether it arrived over SFTP or AS2 or was uploaded in the web app.
+
+  - See whether each file **processed** or **failed**, with every attempt and the number of records imported.
+  - Click **View Errors** to read why an attempt failed in plain language, for example *Product not found (Code: ABC123).*
+  - Fix the cause, then **Retry** the file. You don't need to send it again.
+  - **Download** a file exactly as Clarus received it.
+  - **Upload** a file of up to 1 MB in the web app, for a corrected file or a one-off import.
+
+  Clarus keeps a copy of each file for 15 days. Access is controlled by the **Import Files** ability on user roles.
+
+  <Info>See [Import Logs](/knowledgebase/troubleshooting/import-logs) and [SFTP Overview](/knowledgebase/integrations/use-sftp-for-imports).</Info>
+
+</Update>
+
 <Update label="Early November 2026" description="30 October–6 November 2026" rss={{ title: "November 2026: pre-allocate stock, destination customs overrides, EU product identifiers", description: "Reserve specific stock for a sales order before picking, send country-specific customs details to carriers, and send manufacturer SKUs and barcodes on EU shipments." }}>
 
   ## Pre-allocate stock to sales orders
