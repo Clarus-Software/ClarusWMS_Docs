@@ -1,12 +1,22 @@
 ---
 title: "Pre-Allocate Stock to a Sales Order"
-description: "Reserve specific available stock against a sales order before picking, then edit or release it when plans change. Pre-allocated stock is reserved for that order and is picked from exactly."
+description: "Reserve available stock against a sales order before picking, by hand, for the whole order in one click, or automatically when the order is created. Edit or release it when plans change; pre-allocated stock is picked from exactly."
 sidebarTitle: "Pre-Allocate Stock"
 ---
 
 Pre-allocation lets you select available stock and pre-allocate it to a sales order before the order is sent to pick. Pre-allocated stock moves to a **Pre-Allocated** status, so no other order can allocate or pick it, and when you process picks the order is picked from exactly the stock you reserved.
 
 Use it when you need to guarantee stock for an order that will be picked later, for example a key customer's delivery, while other orders keep flowing through the warehouse.
+
+There are three ways to pre-allocate:
+
+| Method | What it does | Stock rules |
+|--------|--------------|-------------|
+| [Pre-allocate an order line](#pre-allocate-stock-to-an-order-line) | You choose the exact stock records for one line. | None — you're overriding them. |
+| [Auto pre-allocate an order](#auto-pre-allocate-a-whole-order) | Clarus chooses stock for every line on the order in one click. | Your normal pick rules. |
+| [Pre-allocate new orders automatically](#pre-allocate-new-orders-automatically) | An automation auto pre-allocates each new sales order as it's created. | Your normal pick rules. |
+
+All three produce the same result: the same statuses, balances, transactions and audit entries, and the same options to edit or release the stock afterwards. You can mix them on one order — for example, pre-allocate one line by hand and let Auto Pre-Allocate fill the rest.
 
 <Info>
 Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocate** button on your sales order lines, contact Clarus support.
@@ -15,7 +25,7 @@ Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocat
 ## Before you start
 
 - You need the **Pre-Allocations** ability with **Manage** access to pre-allocate, edit or release stock. With **Read** access only, you can see pre-allocations but the buttons are disabled. See [Permissions](#permissions).
-- The sales order must be saved and have a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**.
+- The sales order must be saved and have a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**. **Auto Pre-Allocate** only runs on **Pending** and **Part Pre-Allocated** orders.
 
 ## Pre-allocate stock to an order line
 
@@ -66,6 +76,94 @@ Repeat for each order line you want to pre-allocate stock to.
 - Batch, sell-by date and storage unit rules are **not** applied — you're choosing the stock manually, so you can pick any available stock record for the product.
 - If the order's account is set up to order from linked accounts, stock from those linked accounts is also shown. When you pre-allocate linked-account stock, it's transferred into the order's account with a **LINKED ACCOUNT TRANSFER** reason code.
 - The total pre-allocated on a line can't exceed the line's ordered quantity.
+
+## Auto pre-allocate a whole order
+
+**Auto Pre-Allocate** pre-allocates stock to every line on the order in one action. Instead of you choosing the stock, Clarus chooses it the same way it does when you process picks — but it only reserves the stock, and no pick list or pick tasks are created.
+
+<Steps>
+  <Step title="Open the sales order">
+    Open a saved sales order with a status of **Pending** or **Part Pre-Allocated**.
+  </Step>
+  <Step title="Click Auto Pre-Allocate">
+    Click **Auto Pre-Allocate** at the top of the **Order Lines** section. You'll see *The sales order has been sent for auto pre-allocation. You will be notified when it finishes.*
+
+    Auto pre-allocation runs in the background, so you can carry on working. The button is disabled until the run finishes.
+  </Step>
+  <Step title="Check the result">
+    When the run finishes you get a notification (see [Auto Pre-Allocate messages](#auto-pre-allocate-messages)) and the order refreshes to show the new **Pre-Allocated** quantities, the order status and the **Pre-Allocated Stock** section.
+  </Step>
+</Steps>
+
+The **Auto Pre-Allocate** button only appears when your role has **Manage** access to **Pre-Allocations** and the order is **Pending** or **Part Pre-Allocated**. It's disabled while the order has unsaved changes, while picks are being processed for it, and while an auto pre-allocation is already running.
+
+### What Auto Pre-Allocate fills
+
+- **Only what's outstanding.** Each line is filled up to its ordered quantity, minus anything already pre-allocated. Existing pre-allocations — including ones you made by hand — are kept, not replaced. For example, if you've pre-allocated 5 of 10 by hand, Auto Pre-Allocate tries to pre-allocate the remaining 5.
+- **As much as it can.** If there isn't enough matching stock for a line, it pre-allocates what's available and leaves the rest open. The order becomes **Part Pre-Allocated**, and you can run Auto Pre-Allocate again later — for example, once more stock has been received — to fill the gap.
+- **Bill of Materials lines set to Assemble On Pick are skipped.** They're assembled at pick time, so there's no stock to reserve for them. The order's other lines are still pre-allocated, but because the skipped line isn't covered, the order stays **Part Pre-Allocated**.
+
+### How Auto Pre-Allocate chooses stock
+
+Auto Pre-Allocate follows the same rules as [processing picks](/knowledgebase/outbound/create-and-process-a-pick-list), unlike pre-allocating a line by hand, where you override them:
+
+- Only **Available** stock in the order's warehouse, outside pickface locations. A product that has a pickface is pre-allocated from its stock elsewhere in the warehouse, never from the pickface itself.
+- The account's pick rule decides the order in which stock is used — for example FIFO, LIFO, sell-by date or best-before date.
+- Anything the line asks for is respected: **Batch**, **Storage Unit Reference**, **Description**, and sell-by and best-before date ranges.
+- Shelf life is checked against the order's expected dispatch date, using the customer's shelf life for the product if one is set, otherwise the product's.
+- Whole stock records are used where they fit. A record is only split when the line needs less than the smallest suitable record — the remainder stays **Available**.
+
+It looks for stock in this order:
+
+1. **Stock already chosen for a line.** If you've chosen a specific stock record for a line in the **Select Stock** panel, Auto Pre-Allocate takes that record first, as long as it's still available, isn't in a pickface and matches the line. These are taken before any other line is filled, so another line can't use them up.
+2. **The order's own account.** Lines that ask for a specific batch, storage unit or description are filled before lines that will take any stock of the product, so an unrestricted line can't take the only stock a restricted line could use.
+3. **Linked accounts**, if the order's account has **Pick From Linked Accounts If Stock is Unavailable** turned on. As with manual pre-allocation, linked-account stock is transferred into the order's account with the **LINKED ACCOUNT TRANSFER** reason code.
+
+<Warning>
+Auto Pre-Allocate chooses stock based on the order as it stands when it runs. If you later change something that affects which stock should be used — such as a line's batch or date range — the stock already pre-allocated isn't swapped. Review the **Pre-Allocated Stock** section and release or change it yourself.
+</Warning>
+
+### Auto Pre-Allocate messages
+
+| Message | What it means |
+|---------|---------------|
+| *All lines on the sales order have been pre-allocated.* | Every line is now fully covered. The order is **Pre-Allocated**. |
+| *Not all of the sales order could be pre-allocated. 1 line has not been fully pre-allocated.* | Some stock was pre-allocated, but at least one line is short — or was skipped, such as an Assemble On Pick line. The order is **Part Pre-Allocated**. |
+| *No matching stock is available, so nothing has been pre-allocated.* | No stock matched any line. Nothing changed. |
+| *None of the lines on the sales order can be auto pre-allocated, so no changes were made.* | Every line still outstanding is one Auto Pre-Allocate skips, such as an Assemble On Pick line. |
+| *The sales order is already fully pre-allocated, so no changes were made.* | There was nothing left to fill. |
+| *The sales order could not be auto pre-allocated because its stock is being processed. Please try again shortly.* | Picks were being processed for the same stock at the time. Try again in a moment. |
+| *The stock changed while it was being pre-allocated. Please try again.* | Someone moved, adjusted or allocated a chosen stock record while the run was in progress. Nothing was pre-allocated; run it again. |
+| *Auto pre-allocation is only available once pick processing pooling is enabled. Please contact support.* | Auto Pre-Allocate isn't enabled for your system yet. Contact Clarus support. |
+
+When Auto Pre-Allocate reserves stock, it's recorded in the order's audit log with the action **Auto Pre-Allocation**, along with who ran it and when. One entry is recorded per run, covering every line it filled.
+
+## Pre-allocate new orders automatically
+
+To pre-allocate sales orders as soon as they're created — whether they're entered on screen, imported or created through the API — set up an automation that runs Auto Pre-Allocate on each new order.
+
+<Steps>
+  <Step title="Create an automation">
+    Go to **Automations** and click **New**.
+  </Step>
+  <Step title="Set the trigger">
+    Under **When this happens**, choose **Sales Order** and **is Created**. Add conditions to narrow it down if you need to — for example, **Account ID** to pre-allocate one client's orders only. All the usual sales order conditions are available.
+  </Step>
+  <Step title="Set the action">
+    Under **Do this...**, choose **Pre Allocate Sales Order**. It has no settings of its own.
+  </Step>
+  <Step title="Save">
+    Click **Save**. From now on, each matching sales order is auto pre-allocated shortly after it's created.
+  </Step>
+</Steps>
+
+The automation behaves exactly like clicking **Auto Pre-Allocate**: it uses your pick rules, fills what it can, goes **Part Pre-Allocated** if stock is short, and makes no changes if there's nothing to pre-allocate. The result shows on the order and in the Sales Orders data grid, and you can edit or release it in the usual way. Each run is recorded in the order's audit log with the action **Auto Pre-Allocation**.
+
+Nobody is notified of the result, so use the **Pre-Allocated** column on the Sales Orders data grid to spot orders that were only partly covered, then click **Auto Pre-Allocate** on them once more stock is available.
+
+<Note>
+The automation runs once, when the order is created. An order created as a **Draft** isn't pre-allocated, and it isn't pre-allocated later when the draft is saved and becomes **Pending** — use **Auto Pre-Allocate** on it instead.
+</Note>
 
 ## What happens when stock is pre-allocated
 
@@ -120,6 +218,8 @@ You can make changes while the order is **Pre-Allocated** or **Part Pre-Allocate
   </Tab>
 </Tabs>
 
+If the released stock was transferred in from a linked account when it was pre-allocated, it stays on the order's account — it isn't transferred back. This is the same as when you cancel a pick list that used linked-account stock.
+
 Each change updates the order's status and balances, and records an **Un-Pre-Allocated** transaction for the released quantity:
 
 - Some stock still pre-allocated → **Part Pre-Allocated**
@@ -145,6 +245,8 @@ When you [process picks](/knowledgebase/outbound/create-and-process-a-pick-list)
 - Pick tasks are created from exactly the stock you pre-allocated — the system doesn't look for different stock.
 - Any quantity on a line that wasn't pre-allocated is matched from available stock using your normal pick rules.
 - The quantity moves out of the **Pre-Allocated** balance as the stock is allocated to the pick.
+
+The same applies when picks are processed by a scheduled automation with the **Process Picks** action: **Pre-Allocated** and **Part Pre-Allocated** orders are processed along with your **Pending** orders. So you can pre-allocate new orders as they're created and still have them processed on your usual schedule.
 
 ## Cancelling orders, pick lists and pick tasks
 
@@ -172,7 +274,7 @@ Pre-allocation has its own **Pre-Allocations** ability, set on the user's role. 
 | Access | What the user can do |
 |--------|----------------------|
 | **Read** | See the **Pre-Allocated** count on the Sales Orders data grid and the **Pre-Allocated Stock** grid on the sales order page. The **Pre-Allocate**, **Save** and **Release** buttons are shown but disabled. |
-| **Manage** | Pre-allocate, edit and release stock. Manage also requires Read. |
+| **Manage** | Pre-allocate, auto pre-allocate, edit and release stock. Manage also requires Read. |
 
 The Admin role has both **Read** and **Manage** by default. Other roles need the ability added.
 
@@ -187,8 +289,17 @@ Check that the order is saved and has a status of **Pending**, **Pre-Allocated**
 <Accordion title="Why can't I see some of my stock in the Pre-Allocate Stock window?">
 Only **Available** stock in the order's warehouse is listed. Stock that's on hold, allocated, already pre-allocated, or in a pickface location isn't shown.
 </Accordion>
+<Accordion title="Why can't I see the Auto Pre-Allocate button?">
+It only appears on **Pending** and **Part Pre-Allocated** orders, and only if your role has **Manage** access to **Pre-Allocations**. A fully **Pre-Allocated** order has nothing left to fill — release some stock first if you want Auto Pre-Allocate to choose it again.
+</Accordion>
+<Accordion title="Why did Auto Pre-Allocate leave a line short when there's stock in the warehouse?">
+Auto Pre-Allocate only uses stock your pick rules would pick for that line. Stock is left out if it's in a pickface location, isn't **Available**, doesn't match the line's batch, storage unit, description or date ranges, or falls outside the shelf life for the order's dispatch date. Linked-account stock is only used when **Pick From Linked Accounts If Stock is Unavailable** is on. If you need specific stock that the rules exclude, pre-allocate it to the line by hand.
+</Accordion>
+<Accordion title="Auto Pre-Allocate says &quot;Stock account doesn't match selected reason code.&quot;">
+The order needed stock from a linked account, and that linked account isn't allowed on the **LINKED ACCOUNT TRANSFER** reason code. Open **Reason Codes** under the **Settings** tab, open **LINKED ACCOUNT TRANSFER** and either tick **Generic For All Accounts?** or assign the code to the linked account, then run Auto Pre-Allocate again. Process Picks and manual pre-allocation use the same reason code, so the same fix applies there. See [Account reason codes](/knowledgebase/accounts/reason-codes).
+</Accordion>
 <Accordion title="Can I pre-allocate serial-numbered, kitted or cross-dock orders?">
-No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows.
+No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows. Auto Pre-Allocate skips Bill of Materials lines set to **Assemble On Pick** and pre-allocates the order's other lines.
 </Accordion>
 <Accordion title="Do automations still run when I pre-allocate?">
 Yes. Pre-allocating, editing and releasing stock trigger the existing sales order updated and stock balances updated automations.

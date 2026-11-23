@@ -1,12 +1,22 @@
 ---
 title: "Voorraad pre-alloceren aan een verkooporder"
-description: "Reserveer specifieke beschikbare voorraad voor een verkooporder voordat er wordt gepickt, en wijzig of geef deze vrij wanneer plannen veranderen. Pre-gealloceerde voorraad wordt voor die order gereserveerd en precies zo gepickt."
+description: "Reserveer beschikbare voorraad voor een verkooporder voordat er wordt gepickt: handmatig, voor de hele order met één klik, of automatisch wanneer de order wordt aangemaakt. Wijzig of geef deze vrij wanneer plannen veranderen; pre-gealloceerde voorraad wordt precies zo gepickt."
 sidebarTitle: "Voorraad pre-alloceren"
 ---
 
 Met pre-allocatie selecteert u beschikbare voorraad en pre-alloceert u deze aan een verkooporder voordat de order naar het picken gaat. Pre-gealloceerde voorraad krijgt de status **Pre-gealloceerd**, zodat geen andere order deze kan alloceren of picken. Wanneer u de picks verwerkt, wordt de order gepickt van precies de voorraad die u hebt gereserveerd.
 
 Gebruik dit wanneer u voorraad moet garanderen voor een order die later wordt gepickt, bijvoorbeeld de levering van een belangrijke klant, terwijl andere orders gewoon door het magazijn blijven gaan.
+
+Er zijn drie manieren om te pre-alloceren:
+
+| Methode | Wat het doet | Voorraadregels |
+|---------|--------------|----------------|
+| [Een orderregel pre-alloceren](#voorraad-pre-alloceren-aan-een-orderregel) | U kiest de exacte voorraadrecords voor één regel. | Geen — u overschrijft ze. |
+| [Een order automatisch pre-alloceren](#een-hele-order-automatisch-pre-alloceren) | Clarus kiest met één klik voorraad voor elke regel van de order. | Uw normale pickregels. |
+| [Nieuwe orders automatisch pre-alloceren](#nieuwe-orders-automatisch-pre-alloceren) | Een automatisering pre-alloceert elke nieuwe verkooporder automatisch zodra deze wordt aangemaakt. | Uw normale pickregels. |
+
+Alle drie geven hetzelfde resultaat: dezelfde statussen, saldi, transacties en auditlogregels, en dezelfde mogelijkheden om de voorraad daarna te wijzigen of vrij te geven. U kunt ze op één order combineren — bijvoorbeeld één regel handmatig pre-alloceren en de rest laten aanvullen met **Automatisch pre-alloceren**.
 
 <Info>
 Pre-allocatie wordt geleidelijk uitgerold. Als u de knop **Pre-alloceren** niet ziet op uw verkooporderregels, neem dan contact op met Clarus support.
@@ -15,7 +25,7 @@ Pre-allocatie wordt geleidelijk uitgerold. Als u de knop **Pre-alloceren** niet 
 ## Voordat u begint
 
 - U hebt de mogelijkheid **Pre-allocaties** met **Beheren**-toegang nodig om voorraad te pre-alloceren, te wijzigen of vrij te geven. Met alleen **Lezen**-toegang ziet u de pre-allocaties, maar zijn de knoppen uitgeschakeld. Zie [Rechten](#rechten).
-- De verkooporder moet zijn opgeslagen en de status **In behandeling**, **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** hebben.
+- De verkooporder moet zijn opgeslagen en de status **In behandeling**, **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** hebben. **Automatisch pre-alloceren** werkt alleen op orders met de status **In behandeling** of **Gedeeltelijk pre-gealloceerd**.
 
 ## Voorraad pre-alloceren aan een orderregel
 
@@ -66,6 +76,94 @@ Herhaal dit voor elke orderregel waaraan u voorraad wilt pre-alloceren.
 - Regels voor batch, houdbaarheidsdatum en storage unit worden **niet** toegepast — u kiest de voorraad handmatig, dus u kunt elk beschikbaar voorraadrecord voor het product kiezen.
 - Als het account van de order is ingesteld om te bestellen vanuit gekoppelde accounts, wordt ook voorraad van die gekoppelde accounts getoond. Wanneer u voorraad van een gekoppeld account pre-alloceert, wordt deze overgezet naar het account van de order met de redencode **LINKED ACCOUNT TRANSFER**.
 - Het totaal pre-gealloceerd op een regel mag de bestelde hoeveelheid van de regel niet overschrijden.
+
+## Een hele order automatisch pre-alloceren
+
+**Automatisch pre-alloceren** pre-alloceert in één handeling voorraad aan elke regel van de order. In plaats van dat u de voorraad kiest, kiest Clarus deze op dezelfde manier als bij het verwerken van picks — maar de voorraad wordt alleen gereserveerd en er worden geen picklijst of picktaken aangemaakt.
+
+<Steps>
+  <Step title="Open de verkooporder">
+    Open een opgeslagen verkooporder met de status **In behandeling** of **Gedeeltelijk pre-gealloceerd**.
+  </Step>
+  <Step title="Klik op Automatisch pre-alloceren">
+    Klik op **Automatisch pre-alloceren** bovenaan de sectie **Orderregels**. U ziet *De verkooporder is verzonden voor automatische pre-allocatie. U ontvangt een melding zodra deze is voltooid.*
+
+    Automatische pre-allocatie draait op de achtergrond, dus u kunt doorwerken. De knop is uitgeschakeld totdat de run klaar is.
+  </Step>
+  <Step title="Controleer het resultaat">
+    Wanneer de run klaar is, krijgt u een melding (zie [Meldingen van Automatisch pre-alloceren](#meldingen-van-automatisch-pre-alloceren)) en wordt de order vernieuwd met de nieuwe hoeveelheden **Pre-gealloceerd**, de orderstatus en de sectie **Pre-gealloceerde voorraad**.
+  </Step>
+</Steps>
+
+De knop **Automatisch pre-alloceren** verschijnt alleen als uw rol **Beheren**-toegang heeft tot **Pre-allocaties** en de order de status **In behandeling** of **Gedeeltelijk pre-gealloceerd** heeft. De knop is uitgeschakeld zolang de order niet-opgeslagen wijzigingen heeft, terwijl er picks voor worden verwerkt en terwijl er al een automatische pre-allocatie loopt.
+
+### Wat Automatisch pre-alloceren aanvult
+
+- **Alleen wat openstaat.** Elke regel wordt aangevuld tot de bestelde hoeveelheid, min wat al is pre-gealloceerd. Bestaande pre-allocaties — ook die u handmatig hebt gemaakt — blijven behouden en worden niet vervangen. Als u bijvoorbeeld handmatig 5 van 10 hebt pre-gealloceerd, probeert Automatisch pre-alloceren de resterende 5 te pre-alloceren.
+- **Zoveel als mogelijk is.** Als er niet genoeg passende voorraad is voor een regel, wordt pre-gealloceerd wat beschikbaar is en blijft de rest open. De order wordt **Gedeeltelijk pre-gealloceerd**, en u kunt Automatisch pre-alloceren later opnieuw uitvoeren — bijvoorbeeld nadat er meer voorraad is ontvangen — om het verschil aan te vullen.
+- **Regels met een stuklijst die is ingesteld op Monteren bij pick worden overgeslagen.** Die worden pas bij het picken samengesteld, dus er is geen voorraad om voor te reserveren. De andere regels van de order worden wel pre-gealloceerd, maar omdat de overgeslagen regel niet is gedekt, blijft de order **Gedeeltelijk pre-gealloceerd**.
+
+### Hoe Automatisch pre-alloceren voorraad kiest
+
+Automatisch pre-alloceren volgt dezelfde regels als [het verwerken van picks](/knowledgebase/nl/outbound/create-and-process-a-pick-list), anders dan bij het handmatig pre-alloceren van een regel, waarbij u ze overschrijft:
+
+- Alleen **Beschikbare** voorraad in het magazijn van de order, buiten pickface-locaties. Een product met een pickface wordt pre-gealloceerd vanuit zijn voorraad elders in het magazijn, nooit vanuit de pickface zelf.
+- De pickregel van het account bepaalt in welke volgorde voorraad wordt gebruikt — bijvoorbeeld FIFO, LIFO, houdbaarheidsdatum of tenminste-houdbaar-tot-datum.
+- Alles wat de regel vraagt, wordt gerespecteerd: **Batch**, **Opslageenheid referentie**, **Omschrijving**, en datumbereiken voor houdbaarheid en tenminste-houdbaar-tot.
+- De houdbaarheid wordt gecontroleerd ten opzichte van de verwachte verzenddatum van de order, met de houdbaarheid van de klant voor het product als die is ingesteld, en anders die van het product.
+- Waar ze passen, worden hele voorraadrecords gebruikt. Een record wordt alleen gesplitst wanneer de regel minder nodig heeft dan het kleinste geschikte record — de rest blijft **Beschikbaar**.
+
+Er wordt in deze volgorde naar voorraad gezocht:
+
+1. **Voorraad die al voor een regel is gekozen.** Als u in het paneel **Voorraad selecteren** een specifiek voorraadrecord voor een regel hebt gekozen, neemt Automatisch pre-alloceren dat record eerst, zolang het nog beschikbaar is, niet op een pickface staat en bij de regel past. Deze records worden genomen voordat een andere regel wordt aangevuld, zodat een andere regel ze niet kan opgebruiken.
+2. **Het eigen account van de order.** Regels die om een specifieke batch, opslageenheid of omschrijving vragen, worden aangevuld vóór regels die elke voorraad van het product accepteren, zodat een onbeperkte regel niet de enige voorraad kan nemen die een beperkte regel kan gebruiken.
+3. **Gekoppelde accounts**, als **Picken van gekoppelde accounts als voorraad niet beschikbaar is** aanstaat op het account van de order. Net als bij handmatige pre-allocatie wordt voorraad van een gekoppeld account overgezet naar het account van de order met de redencode **LINKED ACCOUNT TRANSFER**.
+
+<Warning>
+Automatisch pre-alloceren kiest voorraad op basis van de order zoals die is op het moment van de run. Als u later iets wijzigt dat bepaalt welke voorraad moet worden gebruikt — zoals de batch of een datumbereik van een regel — wordt de al pre-gealloceerde voorraad niet omgewisseld. Controleer de sectie **Pre-gealloceerde voorraad** en geef de voorraad zelf vrij of wijzig deze.
+</Warning>
+
+### Meldingen van Automatisch pre-alloceren
+
+| Melding | Wat het betekent |
+|---------|------------------|
+| *Alle regels van de verkooporder zijn pre-gealloceerd.* | Elke regel is nu volledig gedekt. De order is **Pre-gealloceerd**. |
+| *Niet de hele verkooporder kon worden pre-gealloceerd. 1 regel is niet volledig pre-gealloceerd.* | Er is voorraad pre-gealloceerd, maar minstens één regel komt tekort — of is overgeslagen, zoals een regel met Monteren bij pick. De order is **Gedeeltelijk pre-gealloceerd**. |
+| *Er is geen passende voorraad beschikbaar, er is niets pre-gealloceerd.* | Er paste geen voorraad bij een regel. Er is niets gewijzigd. |
+| *Geen van de regels van de verkooporder kan automatisch worden pre-gealloceerd, er zijn geen wijzigingen aangebracht.* | Elke regel die nog openstaat, is een regel die Automatisch pre-alloceren overslaat, zoals een regel met Monteren bij pick. |
+| *De verkooporder is al volledig pre-gealloceerd, er zijn geen wijzigingen aangebracht.* | Er viel niets meer aan te vullen. |
+| *De verkooporder kon niet automatisch worden pre-gealloceerd omdat de voorraad wordt verwerkt. Probeer het zo meteen opnieuw.* | Op dat moment werden er picks verwerkt voor dezelfde voorraad. Probeer het zo meteen opnieuw. |
+| *De voorraad is gewijzigd tijdens het pre-alloceren. Probeer het opnieuw.* | Iemand heeft een gekozen voorraadrecord verplaatst, gecorrigeerd of gealloceerd terwijl de run liep. Er is niets pre-gealloceerd; voer het opnieuw uit. |
+| *Automatische pre-allocatie is alleen beschikbaar als pooling van pickverwerking is ingeschakeld. Neem contact op met de ondersteuning.* | Automatisch pre-alloceren is nog niet ingeschakeld voor uw systeem. Neem contact op met Clarus support. |
+
+Wanneer Automatisch pre-alloceren voorraad reserveert, wordt dit vastgelegd in de auditlog van de order met de actie **Automatische pre-allocatie**, samen met wie het heeft uitgevoerd en wanneer. Er wordt één regel per run vastgelegd, voor alle regels die zijn aangevuld.
+
+## Nieuwe orders automatisch pre-alloceren
+
+Om verkooporders te pre-alloceren zodra ze worden aangemaakt — of ze nu op het scherm worden ingevoerd, worden geïmporteerd of via de API worden aangemaakt — stelt u een automatisering in die Automatisch pre-alloceren uitvoert op elke nieuwe order.
+
+<Steps>
+  <Step title="Maak een automatisering aan">
+    Ga naar **Automatiseringen** en klik op **Nieuw**.
+  </Step>
+  <Step title="Stel de trigger in">
+    Kies onder **Wanneer dit gebeurt** voor **Goederenafgifte** en **is aangemaakt**. Voeg zo nodig voorwaarden toe om het te beperken — bijvoorbeeld **Account-ID** om alleen de orders van één klant te pre-alloceren. Alle gebruikelijke voorwaarden voor verkooporders zijn beschikbaar.
+  </Step>
+  <Step title="Stel de actie in">
+    Kies onder **Doe dit...** voor **Pre Allocate Sales Order**. Deze actie heeft geen eigen instellingen.
+  </Step>
+  <Step title="Opslaan">
+    Klik op **Opslaan**. Vanaf nu wordt elke passende verkooporder kort nadat deze is aangemaakt automatisch pre-gealloceerd.
+  </Step>
+</Steps>
+
+De automatisering werkt precies zoals klikken op **Automatisch pre-alloceren**: ze gebruikt uw pickregels, vult aan wat mogelijk is, wordt **Gedeeltelijk pre-gealloceerd** als er te weinig voorraad is, en wijzigt niets als er niets te pre-alloceren valt. Het resultaat is zichtbaar op de order en in de datagrid Verkooporders, en u kunt het op de gebruikelijke manier wijzigen of vrijgeven. Elke run wordt vastgelegd in de auditlog van de order met de actie **Automatische pre-allocatie**.
+
+Niemand krijgt een melding van het resultaat. Gebruik daarom de kolom **Pre-gealloceerd** in de datagrid Verkooporders om orders te vinden die maar gedeeltelijk zijn gedekt, en klik daarop op **Automatisch pre-alloceren** zodra er meer voorraad beschikbaar is.
+
+<Note>
+De automatisering draait één keer, wanneer de order wordt aangemaakt. Een order die als **Concept** is aangemaakt, wordt niet pre-gealloceerd, ook niet later wanneer het concept wordt opgeslagen en **In behandeling** wordt — gebruik daarvoor **Automatisch pre-alloceren**.
+</Note>
 
 ## Wat er gebeurt wanneer voorraad is pre-gealloceerd
 
@@ -120,6 +218,8 @@ U kunt wijzigingen maken zolang de order **Pre-gealloceerd** of **Gedeeltelijk p
   </Tab>
 </Tabs>
 
+Als de vrijgegeven voorraad bij het pre-alloceren is overgezet vanuit een gekoppeld account, blijft deze op het account van de order — ze wordt niet teruggezet. Dit is hetzelfde als wanneer u een picklijst annuleert die voorraad van een gekoppeld account gebruikte.
+
 Elke wijziging werkt de status en saldi van de order bij en legt een transactie **Pre-allocatie ongedaan gemaakt** vast voor de vrijgegeven hoeveelheid:
 
 - Er is nog voorraad pre-gealloceerd → **Gedeeltelijk pre-gealloceerd**
@@ -145,6 +245,8 @@ Wanneer u [picks verwerkt](/knowledgebase/nl/outbound/create-and-process-a-pick-
 - Picktaken worden aangemaakt van precies de voorraad die u hebt pre-gealloceerd — het systeem zoekt geen andere voorraad.
 - Een hoeveelheid op een regel die niet is pre-gealloceerd, wordt aangevuld uit beschikbare voorraad volgens uw normale pickregels.
 - De hoeveelheid verlaat het saldo **Pre-gealloceerd** zodra de voorraad aan de pick wordt gealloceerd.
+
+Hetzelfde geldt wanneer picks worden verwerkt door een geplande automatisering met de actie **Picks verwerken**: orders met de status **Pre-gealloceerd** en **Gedeeltelijk pre-gealloceerd** worden samen met uw orders **In behandeling** verwerkt. Zo kunt u nieuwe orders pre-alloceren zodra ze worden aangemaakt en ze toch volgens uw gebruikelijke schema laten verwerken.
 
 ## Orders, picklijsten en picktaken annuleren
 
@@ -172,7 +274,7 @@ Pre-allocatie heeft een eigen mogelijkheid **Pre-allocaties**, die u instelt op 
 | Toegang | Wat de gebruiker kan doen |
 |---------|---------------------------|
 | **Lezen** | Het aantal **Pre-gealloceerd** zien in de datagrid Verkooporders en de grid **Pre-gealloceerde voorraad** op de verkooporderpagina. De knoppen **Pre-alloceren**, **Opslaan** en **Vrijgeven** worden getoond maar zijn uitgeschakeld. |
-| **Beheren** | Voorraad pre-alloceren, wijzigen en vrijgeven. Beheren vereist ook Lezen. |
+| **Beheren** | Voorraad pre-alloceren, automatisch pre-alloceren, wijzigen en vrijgeven. Beheren vereist ook Lezen. |
 
 De rol Admin heeft standaard zowel **Lezen** als **Beheren**. Bij andere rollen moet de mogelijkheid worden toegevoegd.
 
@@ -187,8 +289,17 @@ Controleer of de order is opgeslagen en de status **In behandeling**, **Pre-geal
 <Accordion title="Waarom zie ik een deel van mijn voorraad niet in het venster Voorraad pre-alloceren?">
 Alleen **Beschikbare** voorraad in het magazijn van de order wordt getoond. Voorraad die geblokkeerd, gealloceerd, al pre-gealloceerd of op een pickface-locatie is, wordt niet getoond.
 </Accordion>
+<Accordion title="Waarom zie ik de knop Automatisch pre-alloceren niet?">
+De knop verschijnt alleen op orders met de status **In behandeling** of **Gedeeltelijk pre-gealloceerd**, en alleen als uw rol **Beheren**-toegang heeft tot **Pre-allocaties**. Een volledig **Pre-gealloceerde** order heeft niets meer aan te vullen — geef eerst voorraad vrij als u wilt dat Automatisch pre-alloceren die opnieuw kiest.
+</Accordion>
+<Accordion title="Waarom liet Automatisch pre-alloceren een regel tekortkomen terwijl er voorraad in het magazijn is?">
+Automatisch pre-alloceren gebruikt alleen voorraad die uw pickregels voor die regel zouden picken. Voorraad wordt overgeslagen als deze op een pickface-locatie staat, niet **Beschikbaar** is, niet past bij de batch, opslageenheid, omschrijving of datumbereiken van de regel, of buiten de houdbaarheid valt voor de verzenddatum van de order. Voorraad van gekoppelde accounts wordt alleen gebruikt als **Picken van gekoppelde accounts als voorraad niet beschikbaar is** aanstaat. Als u specifieke voorraad nodig hebt die de regels uitsluiten, pre-alloceer die dan handmatig aan de regel.
+</Accordion>
+<Accordion title="Automatisch pre-alloceren meldt &quot;Stock account doesn't match selected reason code.&quot;">
+De order had voorraad van een gekoppeld account nodig, en dat gekoppelde account is niet toegestaan op de redencode **LINKED ACCOUNT TRANSFER**. Open **Redencodes** onder het tabblad **Instellingen**, open **LINKED ACCOUNT TRANSFER** en vink **Generiek voor alle accounts?** aan of wijs de code toe aan het gekoppelde account. Voer daarna Automatisch pre-alloceren opnieuw uit. Picks verwerken en handmatige pre-allocatie gebruiken dezelfde redencode, dus daar geldt dezelfde oplossing. Zie [Redencodes voor accounts](/knowledgebase/nl/accounts/reason-codes).
+</Accordion>
 <Accordion title="Kan ik orders met serienummers, kits of cross-dock pre-alloceren?">
-Nee. Pre-allocatie ondersteunt geen selectie van serienummers, gekitte producten of cross-dock-stromen.
+Nee. Pre-allocatie ondersteunt geen selectie van serienummers, gekitte producten of cross-dock-stromen. Automatisch pre-alloceren slaat regels met een stuklijst die is ingesteld op **Monteren bij pick** over en pre-alloceert de andere regels van de order.
 </Accordion>
 <Accordion title="Worden automatiseringen nog steeds uitgevoerd wanneer ik pre-alloceer?">
 Ja. Voorraad pre-alloceren, wijzigen en vrijgeven activeert de bestaande automatiseringen voor een bijgewerkte verkooporder en bijgewerkte voorraadsaldi.
