@@ -300,10 +300,8 @@ De order had voorraad van een gekoppeld account nodig, en dat gekoppelde account
 <Accordion title="Kan ik orders met serienummers, kits of cross-dock pre-alloceren?">
 Nee. Pre-allocatie ondersteunt geen selectie van serienummers, gekitte producten of cross-dock-stromen.
 </Accordion>
-<Accordion title="Waarom is mijn order na Automatisch pre-alloceren nog Gedeeltelijk pre-gealloceerd?">
-Controleer of er een regel met een stuklijst is die is ingesteld op **Monteren bij pick**. Automatisch pre-alloceren slaat deze regels over, omdat ze pas bij het picken worden samengesteld en er geen voorraad is om voor te reserveren. De andere regels van de order worden wel pre-gealloceerd, maar omdat de overgeslagen regel niet is gedekt, blijft de order **Gedeeltelijk pre-gealloceerd**. Automatisch pre-alloceren opnieuw uitvoeren verandert dit niet.
-
-Anders komt een regel passende voorraad tekort — zie *Waarom liet Automatisch pre-alloceren een regel tekortkomen terwijl er voorraad in het magazijn is?* hierboven.
+<Accordion title="Waarom wordt een stuklijstregel met Monteren bij pick niet pre-gealloceerd?">
+Automatisch pre-alloceren slaat regels met een stuklijst die is ingesteld op **Monteren bij pick** over, omdat ze pas bij het picken worden samengesteld en er geen voorraad is om voor te reserveren. De andere regels van de order worden wel pre-gealloceerd, maar omdat de overgeslagen regel niet is gedekt, blijft de order **Gedeeltelijk pre-gealloceerd**. Automatisch pre-alloceren opnieuw uitvoeren verandert dit niet.
 </Accordion>
 <Accordion title="Worden automatiseringen nog steeds uitgevoerd wanneer ik pre-alloceer?">
 Ja. Voorraad pre-alloceren, wijzigen en vrijgeven activeert de bestaande automatiseringen voor een bijgewerkte verkooporder en bijgewerkte voorraadsaldi.
