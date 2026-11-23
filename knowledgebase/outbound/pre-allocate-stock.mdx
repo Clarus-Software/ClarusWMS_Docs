@@ -101,7 +101,6 @@ The **Auto Pre-Allocate** button only appears when your role has **Manage** acce
 
 - **Only what's outstanding.** Each line is filled up to its ordered quantity, minus anything already pre-allocated. Existing pre-allocations — including ones you made by hand — are kept, not replaced. For example, if you've pre-allocated 5 of 10 by hand, Auto Pre-Allocate tries to pre-allocate the remaining 5.
 - **As much as it can.** If there isn't enough matching stock for a line, it pre-allocates what's available and leaves the rest open. The order becomes **Part Pre-Allocated**, and you can run Auto Pre-Allocate again later — for example, once more stock has been received — to fill the gap.
-- **Bill of Materials lines set to Assemble On Pick are skipped.** They're assembled at pick time, so there's no stock to reserve for them. The order's other lines are still pre-allocated, but because the skipped line isn't covered, the order stays **Part Pre-Allocated**.
 
 ### How Auto Pre-Allocate chooses stock
 
@@ -299,7 +298,12 @@ Auto Pre-Allocate only uses stock your pick rules would pick for that line. Stoc
 The order needed stock from a linked account, and that linked account isn't allowed on the **LINKED ACCOUNT TRANSFER** reason code. Open **Reason Codes** under the **Settings** tab, open **LINKED ACCOUNT TRANSFER** and either tick **Generic For All Accounts?** or assign the code to the linked account, then run Auto Pre-Allocate again. Process Picks and manual pre-allocation use the same reason code, so the same fix applies there. See [Account reason codes](/knowledgebase/accounts/reason-codes).
 </Accordion>
 <Accordion title="Can I pre-allocate serial-numbered, kitted or cross-dock orders?">
-No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows. Auto Pre-Allocate skips Bill of Materials lines set to **Assemble On Pick** and pre-allocates the order's other lines.
+No. Pre-allocation doesn't support serial number selection, kitted products or cross-dock flows.
+</Accordion>
+<Accordion title="Why is my order still Part Pre-Allocated after Auto Pre-Allocate?">
+Check for a Bill of Materials line set to **Assemble On Pick**. Auto Pre-Allocate skips these lines, because they're assembled at pick time and there's no stock to reserve for them. The order's other lines are still pre-allocated, but because the skipped line isn't covered, the order stays **Part Pre-Allocated**. Running Auto Pre-Allocate again won't change this.
+
+Otherwise, a line is short of matching stock — see *Why did Auto Pre-Allocate leave a line short when there's stock in the warehouse?* above.
 </Accordion>
 <Accordion title="Do automations still run when I pre-allocate?">
 Yes. Pre-allocating, editing and releasing stock trigger the existing sales order updated and stock balances updated automations.

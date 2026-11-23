@@ -101,7 +101,6 @@ De knop **Automatisch pre-alloceren** verschijnt alleen als uw rol **Beheren**-t
 
 - **Alleen wat openstaat.** Elke regel wordt aangevuld tot de bestelde hoeveelheid, min wat al is pre-gealloceerd. Bestaande pre-allocaties — ook die u handmatig hebt gemaakt — blijven behouden en worden niet vervangen. Als u bijvoorbeeld handmatig 5 van 10 hebt pre-gealloceerd, probeert Automatisch pre-alloceren de resterende 5 te pre-alloceren.
 - **Zoveel als mogelijk is.** Als er niet genoeg passende voorraad is voor een regel, wordt pre-gealloceerd wat beschikbaar is en blijft de rest open. De order wordt **Gedeeltelijk pre-gealloceerd**, en u kunt Automatisch pre-alloceren later opnieuw uitvoeren — bijvoorbeeld nadat er meer voorraad is ontvangen — om het verschil aan te vullen.
-- **Regels met een stuklijst die is ingesteld op Monteren bij pick worden overgeslagen.** Die worden pas bij het picken samengesteld, dus er is geen voorraad om voor te reserveren. De andere regels van de order worden wel pre-gealloceerd, maar omdat de overgeslagen regel niet is gedekt, blijft de order **Gedeeltelijk pre-gealloceerd**.
 
 ### Hoe Automatisch pre-alloceren voorraad kiest
 
@@ -299,7 +298,12 @@ Automatisch pre-alloceren gebruikt alleen voorraad die uw pickregels voor die re
 De order had voorraad van een gekoppeld account nodig, en dat gekoppelde account is niet toegestaan op de redencode **LINKED ACCOUNT TRANSFER**. Open **Redencodes** onder het tabblad **Instellingen**, open **LINKED ACCOUNT TRANSFER** en vink **Generiek voor alle accounts?** aan of wijs de code toe aan het gekoppelde account. Voer daarna Automatisch pre-alloceren opnieuw uit. Picks verwerken en handmatige pre-allocatie gebruiken dezelfde redencode, dus daar geldt dezelfde oplossing. Zie [Redencodes voor accounts](/knowledgebase/nl/accounts/reason-codes).
 </Accordion>
 <Accordion title="Kan ik orders met serienummers, kits of cross-dock pre-alloceren?">
-Nee. Pre-allocatie ondersteunt geen selectie van serienummers, gekitte producten of cross-dock-stromen. Automatisch pre-alloceren slaat regels met een stuklijst die is ingesteld op **Monteren bij pick** over en pre-alloceert de andere regels van de order.
+Nee. Pre-allocatie ondersteunt geen selectie van serienummers, gekitte producten of cross-dock-stromen.
+</Accordion>
+<Accordion title="Waarom is mijn order na Automatisch pre-alloceren nog Gedeeltelijk pre-gealloceerd?">
+Controleer of er een regel met een stuklijst is die is ingesteld op **Monteren bij pick**. Automatisch pre-alloceren slaat deze regels over, omdat ze pas bij het picken worden samengesteld en er geen voorraad is om voor te reserveren. De andere regels van de order worden wel pre-gealloceerd, maar omdat de overgeslagen regel niet is gedekt, blijft de order **Gedeeltelijk pre-gealloceerd**. Automatisch pre-alloceren opnieuw uitvoeren verandert dit niet.
+
+Anders komt een regel passende voorraad tekort — zie *Waarom liet Automatisch pre-alloceren een regel tekortkomen terwijl er voorraad in het magazijn is?* hierboven.
 </Accordion>
 <Accordion title="Worden automatiseringen nog steeds uitgevoerd wanneer ik pre-alloceer?">
 Ja. Voorraad pre-alloceren, wijzigen en vrijgeven activeert de bestaande automatiseringen voor een bijgewerkte verkooporder en bijgewerkte voorraadsaldi.
