@@ -1,10 +1,10 @@
 ---
 title: "Een picklist annuleren of wijzigen"
-description: "In deze handleiding wordt uitgelegd hoe u een picklijst annuleert of wijzigt wanneer u een verkooporder moet wijzigen."
+description: "In deze handleiding wordt uitgelegd hoe u een picklijst annuleert of wijzigt wanneer u een verkooporder moet wijzigen, of hoe u één inpaktaak annuleert om één order uit een geconsolideerde pick te halen."
 sidebarTitle: "Picklist annuleren/wijzigen"
 ---
 
-In deze handleiding wordt uitgelegd hoe u een picklijst annuleert of wijzigt wanneer u een verkooporder moet wijzigen. Of u nu producten toevoegt of verwijdert, u kunt de picklijst annuleren of de status ervan wijzigen om aanpassingen aan te brengen.
+In deze handleiding wordt uitgelegd hoe u een picklijst annuleert of wijzigt wanneer u een verkooporder moet wijzigen. Of u nu producten toevoegt of verwijdert, u kunt de picklijst annuleren of de status ervan wijzigen om aanpassingen aan te brengen. Als slechts één order op een picklijst niet verzonden kan worden, kunt u in plaats daarvan [de inpaktaak annuleren](#een-enkele-inpaktaak-annuleren), zodat de rest van de picklijst ongewijzigd blijft.
 
 ## Een picklist annuleren
 
@@ -37,6 +37,44 @@ In deze handleiding wordt uitgelegd hoe u een picklijst annuleert of wijzigt wan
   </Step>
 </Steps>
 
+## Een enkele inpaktaak annuleren
+
+Wanneer één order op een picklijst niet verzonden kan worden — het artikel raakt beschadigd tijdens het inpakken, of de klant annuleert vóór verzending — kunt u alleen de inpaktaak van die order annuleren. Dit is bedoeld voor [geconsolideerde picks](/knowledgebase/nl/outbound/consolidated-picking), waarbij veel orders één voltooide picktaak delen en het onbevestigen van de pick zou betekenen dat elke order erop wordt teruggedraaid.
+
+Het annuleren van een inpaktaak:
+
+- Zet de voorraad van die eenheid terug naar **Beschikbaar**, op de huidige opslageenheid en locatie. De voorraad wordt niet automatisch verplaatst.
+- Zet de verkooporder terug naar **In behandeling**. Een order met andere regels die nog op de picklijst staan, gaat naar **Deel**.
+- Registreert een unpick- en een unallocate-transactie voor de voorraad, net als bij het annuleren van een picktaak.
+- Laat de voltooide picktaak, de pickkosten en alle andere orders op de picklijst ongewijzigd.
+
+<Warning>Het annuleren van een inpaktaak is definitief. De taak wordt getoond als **Geannuleerd** en kan niet worden hersteld. Verwerk de picks opnieuw vanuit de verkooporder om een nieuwe picklijst te maken en de order alsnog te vervullen.</Warning>
+
+<Steps>
+  <Step title="Open de picklijst">
+    Klik in het linkermenu op **Goederenafgifte** en vervolgens op **Picklijsten**, en open de picklijst met de order.
+  </Step>
+  <Step title="Zoek de inpaktaak">
+    Ga naar het tabblad **Verpakken** en zoek de regel van de order die u wilt terugnemen.
+  </Step>
+  <Step title="Annuleer de inpaktaak">
+    Klik op **Annuleren** op die regel. Een bevestigingsvenster legt uit dat de actie niet ongedaan kan worden gemaakt, dat de voorraad weer beschikbaar wordt en dat de verkooporder wordt teruggezet naar in behandeling. Klik op **Inpaktaak annuleren** om te bevestigen.
+  </Step>
+  <Step title="Handel de voorraad af">
+    De voorraad blijft waar hij is, vaak in het goederenafgiftegebied. Verplaats hem terug naar de opslag met een transfer, of registreer een voorraadaanpassing als hij beschadigd is — een eventuele redencode legt u vast bij de aanpassing, niet bij het annuleren van de inpaktaak.
+  </Step>
+</Steps>
+
+Als na het annuleren alle resterende inpak- en verzendtaken op de picklijst voltooid zijn, wordt de picklijst gemarkeerd als **Voltooid**.
+
+<Info>U kunt alleen een inpaktaak annuleren die nog niet is voltooid. Annuleren wordt geblokkeerd als een deel van de order al is ingepakt, als de voorraad al aan een zending is toegewezen, of als er al andere voorraad in dezelfde opslageenheid is ingepakt — pak eerst uit en annuleer daarna.</Info>
+
+<Note>De knop **Annuleren** is alleen zichtbaar voor gebruikers van wie de rol de bevoegdheid **Inpaktaken annuleren** bevat. Hij staat op het picklijstscherm, niet op de inpaktafel.</Note>
+
+<Warning>Als de geannuleerde eenheid op een verzendcontainer staat, verplaats hem dan van de container voordat u die verzendt. Een verzendcontainer met nog beschikbare voorraad kan niet worden verzonden.</Warning>
+
+Dezelfde actie werkt ook op een gewone, niet-geconsolideerde picklijst, maar daar is het meestal eenvoudiger om de picklijst te annuleren of te wijzigen zoals hierboven beschreven.
+
 ## Veelgestelde vragen
 
 <AccordionGroup>
@@ -48,5 +86,8 @@ De status van de verkooporder keert terug naar **In afwachting** zodat u de best
 </Accordion>
 <Accordion title="Heeft het annuleren van een picklijst invloed op de voorraadniveaus?">
 Nee, het annuleren van een picklijst heeft geen invloed op voorraadniveaus, tenzij de producten al zijn verzonden.
+</Accordion>
+<Accordion title="Waarom kan ik een picktaak niet meer onbevestigen nadat ik een inpaktaak heb geannuleerd?">
+Zodra een inpaktaak die uit een picktaak is gegenereerd geannuleerd is, kan die picktaak niet meer worden onbevestigd. Annuleren is definitief; verwerk de order opnieuw vanuit de verkooporder om deze alsnog te vervullen.
 </Accordion>
 </AccordionGroup>
