@@ -1,0 +1,76 @@
+---
+title: "Cancel a Pack Task"
+description: "Cancel a single pack task from a pick list to release one order's stock back to available, without reversing the rest of a consolidated or batch pick."
+---
+
+When one order on a pick list can't be shipped (the item was damaged during packing, the stock can't be sold, or the customer cancelled before dispatch), you can cancel the pack task for just that order. The rest of the pick list, including every other order on a consolidated pick, is left as it is.
+
+This is most useful on [consolidated picks](/knowledgebase/outbound/consolidated-picking), where many orders are picked in one go and then packed and shipped one by one. Unconfirming the pick task would affect every order in the batch. Cancelling a pack task affects only the order you choose.
+
+<Warning>Cancelling a pack task is permanent. You can't undo it. To fulfil the order again, reprocess picks from the sales order.</Warning>
+
+## What cancelling a pack task does
+
+- **The stock returns to available.** It stays on its current storage unit and location (for example, the goods out bay). It isn't moved for you.
+- **The sales order is reset.** A single-line order goes back to **Pending**. If other lines on the order are still allocated, it goes to **Part**.
+- **The pick task stays complete.** Everything already picked, packed and dispatched for the other orders on the pick list is unchanged.
+- **Unpick and unallocate transactions are created**, so stock balances stay correct: picked stock decreases and available stock increases.
+- **The pack task shows as cancelled** on the pick list and no longer appears on the [packing desk](/knowledgebase/outbound/packing-desk).
+- **The pick list completes** if every remaining pack and dispatch task on it is already complete.
+
+Picking charges stay on the pick list.
+
+## Before you start
+
+- You need the **Cancel Pack Tasks** ability. The Admin and Standard role types include it by default. See [user roles](/knowledgebase/users-and-roles/user-roles-guide) for how abilities are assigned.
+- The pack task must not be completed. You can cancel a pack task that is **Available** or **Allocated**.
+- You can only cancel pack tasks from the pick list screen, not from the packing desk.
+
+## Cancel a pack task
+
+<Steps>
+  <Step title="Open the pick list">
+    On the left-hand menu, click **Goods Out** then **Picking Lists**, and open the pick list that contains the order.
+  </Step>
+  <Step title="Find the pack task">
+    Scroll to the **Pack** panel and find the pack task for the order you want to remove. On a consolidated pick, expand the row to check the order reference, so you cancel the right order.
+  </Step>
+  <Step title="Click Cancel">
+    Click **Cancel** on that row. A confirmation dialog explains that the action can't be undone, that the stock returns to available on its current storage unit and location, and that the sales order is reset.
+  </Step>
+  <Step title="Confirm">
+    Click **Cancel pack task** to confirm. The task is marked as cancelled and a confirmation message appears.
+  </Step>
+</Steps>
+
+## After cancelling
+
+<Steps>
+  <Step title="Deal with the stock">
+    The stock is now available but still sits where it was, usually in the goods out bay. Transfer it back to a storage location, or adjust it out if it's damaged. If you need to record a reason, record it on the stock adjustment. No reason is captured when you cancel the pack task.
+  </Step>
+  <Step title="Fulfil or cancel the order">
+    To ship the order again, open the sales order and process picks to create a new pick list. If the order is no longer needed, cancel the sales order instead.
+  </Step>
+</Steps>
+
+<Warning>If the cancelled stock is on a dispatch container, move it off before you dispatch the container. A dispatch container that still holds available stock can't be dispatched. You can transfer the stock on a handheld, which can also create a new storage unit for it.</Warning>
+
+## When a pack task can't be cancelled
+
+The **Cancel** button is unavailable, or the system shows an error, when:
+
+- **The pack task is already completed.**
+- **The stock is already assigned to a shipment.** Some handheld flows create the shipment before the pack task is completed; once that happens, the pack task can't be cancelled.
+- **Part of the order has already been packed.** Unpack the original pack task first.
+- **Other stock has already been packed into the same storage unit.** Unpack it first.
+- **You don't have the Cancel Pack Tasks ability.**
+
+<AccordionGroup>
+  <Accordion title="Can I unconfirm the pick task after cancelling a pack task?">
+    No. Once a pack task generated from a pick task has been cancelled, that pick task can't be unconfirmed. Reprocess the order from the sales order instead. To change a pick list where no pack task has been cancelled, see [cancel or amend a pick list](/knowledgebase/outbound/cancel-or-amend-a-pick-list).
+  </Accordion>
+  <Accordion title="Can I cancel pack tasks on a pick list that isn't consolidated?">
+    Yes. It works the same way. For a regular pick list, though, it's usually simpler to [cancel or amend the pick list](/knowledgebase/outbound/cancel-or-amend-a-pick-list) and reprocess the order.
+  </Accordion>
+</AccordionGroup>
