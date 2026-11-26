@@ -342,6 +342,7 @@
                         "expanded": false,
                         "pages": [
                           "knowledgebase/outbound/packing-desk",
+                          "knowledgebase/outbound/cancel-a-pack-task",
                           "knowledgebase/outbound/pre-requisites-for-shipments",
                           "knowledgebase/outbound/dispatching-loads",
                           "knowledgebase/outbound/delivery-addresses",
@@ -1032,6 +1033,7 @@
                         "expanded": false,
                         "pages": [
                           "knowledgebase/nl/outbound/packing-desk",
+                          "knowledgebase/nl/outbound/cancel-a-pack-task",
                           "knowledgebase/nl/outbound/pre-requisites-for-shipments",
                           "knowledgebase/nl/outbound/dispatching-loads",
                           "knowledgebase/nl/outbound/delivery-addresses",
