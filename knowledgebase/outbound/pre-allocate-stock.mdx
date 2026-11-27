@@ -26,6 +26,11 @@ Pre-allocation is being rolled out gradually. If you can't see the **Pre-Allocat
 
 - You need the **Pre-Allocations** ability with **Manage** access to pre-allocate, edit or release stock. With **Read** access only, you can see pre-allocations but the buttons are disabled. See [Permissions](#permissions).
 - The sales order must be saved and have a status of **Pending**, **Pre-Allocated** or **Part Pre-Allocated**. **Auto Pre-Allocate** only runs on **Pending** and **Part Pre-Allocated** orders.
+- Add the pre-allocation columns to the **Order Lines** data grid on the sales order. They aren't shown by default, so use the Column Manager to add:
+  - **Pre-Allocate** — a button on each order line that opens the stock selection for that line.
+  - **Pre-Allocated** — how much of each line is pre-allocated, against its ordered quantity.
+
+  Save the view so the columns stay in place next time. See [Adding and removing data grid columns](/knowledgebase/reporting/data-grid-columns).
 
 ## Pre-allocate stock to an order line
 
@@ -35,16 +40,8 @@ You pre-allocate stock one order line at a time, from that line's **Pre-Allocate
   <Step title="Open the sales order">
     Open the sales order from the **Sales Orders** data grid. If it's a new order, save it first — the **Pre-Allocate** button is disabled until the order is saved.
   </Step>
-  <Step title="Add the pre-allocation columns to the order lines">
-    The **Order Lines** grid doesn't show the pre-allocation columns by default. Use the Column Manager to add:
-
-    - **Pre-Allocate** — a button on each order line that opens the stock selection for that line.
-    - **Pre-Allocated** — how much of each line is pre-allocated, against its ordered quantity.
-
-    Save the view so the columns stay in place next time. See [Adding and removing data grid columns](/knowledgebase/reporting/data-grid-columns).
-  </Step>
   <Step title="Click Pre-Allocate on the order line">
-    Find the order line you want to pre-allocate stock to and click its **Pre-Allocate** button. The **Pre-Allocate Stock** window opens for that line's product, with a summary such as *0 of 10 pre-allocated, 10 remaining*.
+    Find the order line you want to pre-allocate stock to and click its **Pre-Allocate** button. If the button isn't there, add the column first — see [Before you start](#before-you-start). The **Pre-Allocate Stock** window opens for that line's product, with a summary such as *0 of 10 pre-allocated, 10 remaining*.
   </Step>
   <Step title="Select the stock to pre-allocate">
     The **Available Stock** grid lists the stock records you can pre-allocate. For each one you want to use, type the quantity into its **Quantity To Pre-Allocate** field.
