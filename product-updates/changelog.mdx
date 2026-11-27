@@ -5,6 +5,42 @@ rss: true
 public: true
 ---
 
+<Update label="Late November 2026" description="20–27 November 2026" rss={{ title: "November 2026: Auto Pre-Allocate, pre-allocate new orders automatically, cancel a single pack task", description: "Pre-allocate a whole order in one click using your pick rules, pre-allocate new orders as they're created, and cancel one order's pack task without reversing the rest of a pick." }}>
+
+  ## Auto Pre-Allocate a whole order
+
+  Click **Auto Pre-Allocate** on a sales order and Clarus reserves stock for every line in one action. It chooses stock with your normal pick rules but only reserves it. No pick list or pick tasks are created.
+
+  - It fills only what's outstanding and keeps any stock you've already pre-allocated by hand.
+  - If stock is short, it reserves what it can and the order becomes **Part Pre-Allocated**. Run it again once more stock arrives.
+  - It respects the line's batch, storage unit, description, date ranges and shelf life, and uses linked-account stock if your account allows it.
+  - It runs in the background, and you're notified when it finishes.
+
+  <Info>See [Auto pre-allocate a whole order](/knowledgebase/outbound/pre-allocate-stock#auto-pre-allocate-a-whole-order).</Info>
+
+  ## Pre-allocate new orders automatically
+
+  A new **Pre Allocate Sales Order** automation action auto pre-allocates each sales order as it's created, whether it's entered on screen, imported or created through the API. Add conditions, such as **Account ID**, to limit it to specific clients.
+
+  <Info>See [Pre-allocate new orders automatically](/knowledgebase/outbound/pre-allocate-stock#pre-allocate-new-orders-automatically).</Info>
+
+  ## Cancel a single pack task
+
+  You can now cancel the pack task for one order on a pick list without affecting the rest of the pick. This is useful on consolidated picks when one order can't ship, for example because an item was damaged during packing.
+
+  - The stock returns to available on its current storage unit and location.
+  - The sales order resets so you can reprocess picks or cancel it.
+  - Every other order on the pick list is unchanged.
+  - Access is controlled by the **Cancel Pack Tasks** ability, included in the Admin and Standard role types by default.
+
+  <Info>See [Cancel a pack task](/knowledgebase/outbound/cancel-a-pack-task).</Info>
+
+  ## Updates
+
+  - **Scheduled Process Picks automations** now include **Pre-Allocated** and **Part Pre-Allocated** orders alongside **Pending** orders. Orders pre-allocated on creation are still processed on your usual schedule. See [Processing picks on a pre-allocated order](/knowledgebase/outbound/pre-allocate-stock#processing-picks-on-a-pre-allocated-order).
+
+</Update>
+
 <Update label="Early November 2026" description="30 October–6 November 2026" rss={{ title: "November 2026: pre-allocate stock, destination customs overrides, EU product identifiers", description: "Reserve specific stock for a sales order before picking, send country-specific customs details to carriers, and send manufacturer SKUs and barcodes on EU shipments." }}>
 
   ## Pre-allocate stock to sales orders

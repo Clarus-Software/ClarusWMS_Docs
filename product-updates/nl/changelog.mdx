@@ -5,6 +5,42 @@ rss: true
 public: true
 ---
 
+<Update label="Eind november 2026" description="20–27 november 2026" rss={{ title: "November 2026: Auto Pre-Allocate, nieuwe orders automatisch pre-alloceren, één inpaktaak annuleren", description: "Pre-alloceer een hele order in één klik volgens uw pickregels, pre-alloceer nieuwe orders zodra ze worden aangemaakt, en annuleer de inpaktaak van één order zonder de rest van de pick terug te draaien." }}>
+
+  ## Een hele order automatisch pre-alloceren
+
+  Klik op **Auto Pre-Allocate** op een verkooporder en Clarus reserveert in één handeling voorraad voor elke regel. Clarus kiest de voorraad volgens uw normale pickregels, maar reserveert deze alleen. Er worden geen picklijst of picktaken aangemaakt.
+
+  - Alleen wat nog openstaat wordt aangevuld. Voorraad die u al handmatig hebt pre-gealloceerd, blijft behouden.
+  - Is er te weinig voorraad, dan reserveert Clarus wat mogelijk is en wordt de order **Part Pre-Allocated**. Voer het opnieuw uit zodra er meer voorraad binnenkomt.
+  - Batch, opslageenheid, omschrijving, datumbereiken en houdbaarheid van de regel worden gerespecteerd. Voorraad van gekoppelde accounts wordt gebruikt als uw account dat toestaat.
+  - Het draait op de achtergrond en u krijgt een melding zodra het klaar is.
+
+  <Info>Zie [Een hele order automatisch pre-alloceren](/knowledgebase/nl/outbound/pre-allocate-stock#een-hele-order-automatisch-pre-alloceren).</Info>
+
+  ## Nieuwe orders automatisch pre-alloceren
+
+  Met de nieuwe automatiseringsactie **Pre Allocate Sales Order** wordt elke verkooporder automatisch pre-gealloceerd zodra deze wordt aangemaakt, of de order nu op het scherm wordt ingevoerd, wordt geïmporteerd of via de API binnenkomt. Voeg voorwaarden toe, zoals **Account ID**, om het te beperken tot specifieke klanten.
+
+  <Info>Zie [Nieuwe orders automatisch pre-alloceren](/knowledgebase/nl/outbound/pre-allocate-stock#nieuwe-orders-automatisch-pre-alloceren).</Info>
+
+  ## Eén inpaktaak annuleren
+
+  U kunt nu de inpaktaak van één order op een picklijst annuleren zonder de rest van de pick te raken. Dit is handig bij geconsolideerde picks wanneer één order niet verzonden kan worden, bijvoorbeeld omdat een artikel tijdens het inpakken is beschadigd.
+
+  - De voorraad wordt weer beschikbaar op de huidige opslageenheid en locatie.
+  - De verkooporder wordt teruggezet, zodat u de picks opnieuw kunt verwerken of de order kunt annuleren.
+  - Alle andere orders op de picklijst blijven ongewijzigd.
+  - Toegang regelt u met de bevoegdheid **Cancel Pack Tasks**. De roltypen Admin en Standard hebben deze standaard.
+
+  <Info>Zie [Een inpaktaak annuleren](/knowledgebase/nl/outbound/cancel-a-pack-task).</Info>
+
+  ## Verbeteringen
+
+  - **Geplande Process Picks-automatiseringen** verwerken nu ook orders met de status **Pre-Allocated** en **Part Pre-Allocated**, samen met orders die **Pending** zijn. Orders die bij het aanmaken zijn pre-gealloceerd, worden dus nog steeds volgens uw gebruikelijke schema verwerkt. Zie [Picks verwerken op een pre-gealloceerde order](/knowledgebase/nl/outbound/pre-allocate-stock#picks-verwerken-op-een-pre-gealloceerde-order).
+
+</Update>
+
 <Update label="Begin november 2026" description="30 oktober–6 november 2026" rss={{ title: "November 2026: voorraad pre-alloceren, douanegegevens per bestemming, EU-productidentificaties", description: "Reserveer specifieke voorraad voor een verkooporder vóór het picken, stuur landspecifieke douanegegevens naar vervoerders en stuur artikelnummers van de fabrikant en barcodes mee bij EU-zendingen." }}>
 
   ## Voorraad pre-alloceren aan verkooporders
