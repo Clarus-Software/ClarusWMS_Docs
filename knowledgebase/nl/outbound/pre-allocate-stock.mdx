@@ -26,6 +26,11 @@ Pre-allocatie wordt geleidelijk uitgerold. Als u de knop **Pre-alloceren** niet 
 
 - U hebt de mogelijkheid **Pre-allocaties** met **Beheren**-toegang nodig om voorraad te pre-alloceren, te wijzigen of vrij te geven. Met alleen **Lezen**-toegang ziet u de pre-allocaties, maar zijn de knoppen uitgeschakeld. Zie [Rechten](#rechten).
 - De verkooporder moet zijn opgeslagen en de status **In behandeling**, **Pre-gealloceerd** of **Gedeeltelijk pre-gealloceerd** hebben. **Automatisch pre-alloceren** werkt alleen op orders met de status **In behandeling** of **Gedeeltelijk pre-gealloceerd**.
+- Voeg de pre-allocatiekolommen toe aan de datagrid **Orderregels** op de verkooporder. Ze worden niet standaard getoond, dus voeg via de **Kolommanager** toe:
+  - **Pre-alloceren** — een knop op elke orderregel die de voorraadselectie voor die regel opent.
+  - **Pre-gealloceerd** — hoeveel van elke regel is pre-gealloceerd, ten opzichte van de bestelde hoeveelheid.
+
+  Sla de weergave op zodat de kolommen de volgende keer blijven staan. Zie [Kolommen toevoegen en verwijderen](/knowledgebase/nl/reporting/data-grid-columns).
 
 ## Voorraad pre-alloceren aan een orderregel
 
@@ -35,16 +40,8 @@ U pre-alloceert voorraad per orderregel, via de knop **Pre-alloceren** van die r
   <Step title="Open de verkooporder">
     Open de verkooporder vanuit de datagrid **Verkooporders**. Is het een nieuwe order, sla deze dan eerst op — de knop **Pre-alloceren** is uitgeschakeld totdat de order is opgeslagen.
   </Step>
-  <Step title="Voeg de pre-allocatiekolommen toe aan de orderregels">
-    De grid **Orderregels** toont de pre-allocatiekolommen niet standaard. Voeg via de **Kolommanager** toe:
-
-    - **Pre-alloceren** — een knop op elke orderregel die de voorraadselectie voor die regel opent.
-    - **Pre-gealloceerd** — hoeveel van elke regel is pre-gealloceerd, ten opzichte van de bestelde hoeveelheid.
-
-    Sla de weergave op zodat de kolommen de volgende keer blijven staan. Zie [Kolommen toevoegen en verwijderen](/knowledgebase/nl/reporting/data-grid-columns).
-  </Step>
   <Step title="Klik op Pre-alloceren bij de orderregel">
-    Zoek de orderregel waaraan u voorraad wilt pre-alloceren en klik op de knop **Pre-alloceren** van die regel. Het venster **Voorraad pre-alloceren** opent voor het product van die regel, met een samenvatting zoals *0 van 10 pre-gealloceerd, 10 resterend*.
+    Zoek de orderregel waaraan u voorraad wilt pre-alloceren en klik op de knop **Pre-alloceren** van die regel. Staat de knop er niet, voeg dan eerst de kolom toe — zie [Voordat u begint](#voordat-u-begint). Het venster **Voorraad pre-alloceren** opent voor het product van die regel, met een samenvatting zoals *0 van 10 pre-gealloceerd, 10 resterend*.
   </Step>
   <Step title="Selecteer de voorraad om te pre-alloceren">
     De grid **Beschikbare voorraad** toont de voorraadrecords die u kunt pre-alloceren. Typ voor elk record dat u wilt gebruiken de hoeveelheid in het veld **Aantal te pre-alloceren**.
